@@ -6,7 +6,6 @@ export interface IUser {
   createdAt: string;
   lastAccess: string;
   isBlocked: boolean;
-  isDeleted?: boolean;
   Permissions?: [
     {
       Permission: {

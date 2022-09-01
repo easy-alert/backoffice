@@ -17,37 +17,39 @@ import { theme } from '../../../styles/theme';
 import { icon } from '../../../assets/icons/index';
 
 // TYPES
-import { IUser } from '../../../types/types';
+import { ICompany } from '../types';
 
 // MODAIS
-import { modalEditUser } from './utils/modals/ModalEditUser';
+import { modalEditCompany } from './utils/modals/ModalEditCompany';
 
 // FUNCTIONS
 import { DateFormatter } from '../../../utils/functions';
 import {
   requestChangeIsBlocked,
-  requestChangeIsDeleted,
+  requestDeleteCompany,
 } from './utils/functions';
 
-export const UsersDetails = () => {
+export const CompanyDetails = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [user, setUser] = useState<IUser>(state as IUser);
+  const [company, setCompany] = useState<ICompany>(state as ICompany);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const { ModalEditUser, toggleModalEditUser, modalEditIsOpen } =
-    modalEditUser();
+  const { ModalEditCompany, modalCompanyIsOpen, toggleModalEditCompany } =
+    modalEditCompany();
 
   useEffect(() => {
     if (!state) {
-      navigate('/users');
+      navigate('/companies');
     }
     setLoading(false);
   }, []);
 
   return (
     <>
-      {modalEditIsOpen && <ModalEditUser user={user} setUser={setUser} />}
+      {modalCompanyIsOpen && (
+        <ModalEditCompany company={company} setCompany={setCompany} />
+      )}
 
       {!loading && (
         <>
@@ -55,37 +57,63 @@ export const UsersDetails = () => {
             <h2>Detalhes de usuário</h2>
           </Style.Header>
 
-          <ReturnButton path="/users" />
+          <ReturnButton path="/companies" />
           <Style.CardSection>
             <Style.Card>
               <h6>Foto de perfil</h6>
-              <Image img={user.image} size="80px" />
+              <Image img={company.image} size="80px" />
             </Style.Card>
 
             <Style.Card>
-              <h6>Nome completo</h6>
-              <p className="p2">{user?.name}</p>
-            </Style.Card>
-
-            <Style.Card>
-              <h6>Status</h6>
-              <Tag isInvalid={user.isBlocked} />
+              <h6>Nome do responsável</h6>
+              <p className="p2">{company.UserCompanies[0].User.name}</p>
             </Style.Card>
 
             <Style.Card>
               <h6>E-mail</h6>
-              <p className="p2">{user?.email}</p>
+              <p className="p2">{company.UserCompanies[0].User.email}</p>
+            </Style.Card>
+
+            <Style.Card>
+              <h6>Nome da empresa</h6>
+              <p className="p2">{company.name}</p>
+            </Style.Card>
+
+            <Style.Card>
+              <h6>Telefone</h6>
+              <p className="p2">{company.contactNumber}</p>
+            </Style.Card>
+
+            {company.CPF && (
+              <Style.Card>
+                <h6>CPF</h6>
+                <p className="p2">{company.CPF}</p>
+              </Style.Card>
+            )}
+
+            {company.CNPJ && (
+              <Style.Card>
+                <h6>CNPJ</h6>
+                <p className="p2">{company.CNPJ}</p>
+              </Style.Card>
+            )}
+
+            <Style.Card>
+              <h6>Status</h6>
+              <Tag isInvalid={company.isBlocked} />
             </Style.Card>
 
             <Style.Card>
               <h6>Data de cadastro</h6>
-              <p className="p2">{DateFormatter(user?.createdAt)}</p>
+              <p className="p2">{DateFormatter(company.createdAt)}</p>
             </Style.Card>
 
             <Style.Card>
               <h6>Último acesso</h6>
               <p className="p2">
-                {user.lastAccess ? DateFormatter(user.lastAccess) : '-'}
+                {company.UserCompanies[0].User.lastAccess
+                  ? DateFormatter(company.UserCompanies[0].User.lastAccess)
+                  : '-'}
               </p>
             </Style.Card>
           </Style.CardSection>
@@ -93,22 +121,22 @@ export const UsersDetails = () => {
           <Style.Footer>
             <PopoverButton
               actionButtonBgColor={
-                user.isBlocked ? theme.color.success : theme.color.danger
+                company.isBlocked ? theme.color.success : theme.color.danger
               }
               type="IconButton"
-              label={user.isBlocked ? 'Ativar' : 'Desativar'}
-              buttonIcon={user.isBlocked ? icon.checked : icon.block}
+              label={company.isBlocked ? 'Ativar' : 'Desativar'}
+              buttonIcon={company.isBlocked ? icon.checked : icon.block}
               message={{
                 title: `Deseja ${
-                  user.isBlocked ? 'ativar' : 'desativar'
+                  company.isBlocked ? 'ativar' : 'desativar'
                 } o acesso deste usuário?`,
                 content: 'Esta ação poderá ser desfeita posteriormente.',
                 contentColor: theme.color.danger,
               }}
               actionButtonClick={() => {
                 requestChangeIsBlocked({
-                  user,
-                  setUser,
+                  company,
+                  setCompany,
                   navigate,
                 });
               }}
@@ -125,8 +153,8 @@ export const UsersDetails = () => {
                 contentColor: theme.color.danger,
               }}
               actionButtonClick={() => {
-                requestChangeIsDeleted({
-                  user,
+                requestDeleteCompany({
+                  company,
                   navigate,
                 });
               }}
@@ -137,7 +165,7 @@ export const UsersDetails = () => {
               icon={icon.editWithBg}
               label="Editar"
               onClick={() => {
-                toggleModalEditUser();
+                toggleModalEditCompany();
               }}
             />
           </Style.Footer>

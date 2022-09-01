@@ -12,19 +12,19 @@ import { Button } from '../../../../../../components/Buttons/Button';
 import { Uploader } from '../../../../../../components/Uploader';
 
 // FUNCTIONS
-import { requestEditUser, schemaModalEditUser } from '../../functions';
+import { requestEditUser, schemaModalEditCompany } from '../../functions';
 
 // TYPES
-import { IModalEditUser, IFormDataUser } from '../../../../types';
+import { IModalEditCompany, IFormDataCompany } from '../../../../types';
 
-export const modalEditUser = () => {
+export const modalEditCompany = () => {
   const {
     Modal,
-    toggleModal: toggleModalEditUser,
-    modalIsOpen: modalEditIsOpen,
+    toggleModal: toggleModalEditCompany,
+    modalIsOpen: modalCompanyIsOpen,
   } = ModalComponent();
 
-  const ModalEditUser = ({ setUser, user }: IModalEditUser) => {
+  const ModalEditCompany = ({ setCompany, company }: IModalEditCompany) => {
     const navigate = useNavigate();
     const [onQuery, setOnQuery] = useState<boolean>(false);
 
@@ -33,18 +33,26 @@ export const modalEditUser = () => {
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm<IFormDataUser>({
-      resolver: yupResolver(schemaModalEditUser),
-      defaultValues: { name: user.name, email: user.email },
+    } = useForm<IFormDataCompany>({
+      resolver: yupResolver(schemaModalEditCompany),
+      defaultValues: {
+        name: company.name,
+        email: company.UserCompanies[0].User.email,
+        companyName: company.name,
+        CNPJ: company.CNPJ,
+        CPF: company.CPF,
+        contactNumber: company.contactNumber,
+      },
     });
 
     // SUBMITED FORM
     const onSubmit = handleSubmit(async (data) => {
+      console.log(data);
       await requestEditUser({
         data,
-        toggleModal: toggleModalEditUser,
-        user,
-        setUser,
+        toggleModal: toggleModalEditCompany,
+        company,
+        setCompany,
         navigate,
         setOnQuery,
       });
@@ -54,24 +62,62 @@ export const modalEditUser = () => {
       <Modal title="Editar usuário">
         <Style.FormContainer as="form" onSubmit={onSubmit}>
           <Uploader
-            label="Foto de perfil"
+            label="Logo"
             error={errors.image}
             register={{ ...register('image') }}
-            defaultImage={user.image}
+            defaultImage={company.image}
           />
           <Input
-            maxLength={40}
-            label="Nome completo"
+            label="Nome do responsável"
+            placeholder="Ex: João Silva"
             error={errors.name}
             {...register('name')}
+            maxLength={40}
           />
 
           <Input
-            maxLength={50}
             label="E-mail"
+            placeholder="Ex: joao.silva@ada.com.br"
             error={errors.email}
             {...register('email')}
+            maxLength={50}
           />
+
+          <Input
+            label="Nome da empresa"
+            placeholder="Ex: SATC"
+            error={errors.companyName}
+            {...register('companyName')}
+            maxLength={40}
+          />
+
+          <Input
+            label="Telefone"
+            placeholder="Ex: 48 99000-0000"
+            error={errors.contactNumber}
+            {...register('contactNumber')}
+            maxLength={40}
+          />
+
+          {company.CPF && (
+            <Input
+              label="CPF"
+              placeholder="Ex: 000.000.000.00"
+              error={errors.CPF}
+              {...register('CPF')}
+              maxLength={40}
+            />
+          )}
+
+          {company.CNPJ && (
+            <Input
+              label="CNPJ"
+              placeholder="Ex: 00.000.000/0000-00"
+              error={errors.CNPJ}
+              {...register('CNPJ')}
+              maxLength={40}
+            />
+          )}
 
           <Input
             type="password"
@@ -98,5 +144,5 @@ export const modalEditUser = () => {
     );
   };
 
-  return { ModalEditUser, toggleModalEditUser, modalEditIsOpen };
+  return { ModalEditCompany, toggleModalEditCompany, modalCompanyIsOpen };
 };

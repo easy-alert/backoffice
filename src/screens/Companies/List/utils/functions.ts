@@ -11,7 +11,7 @@ import { IRequestCreateUser, IRequestUsersList } from '../../types';
 
 // REQUESTS
 export const requestUsersList = async ({
-  setUsers,
+  setCompanies,
   setLoading,
   page,
   setCount,
@@ -20,9 +20,8 @@ export const requestUsersList = async ({
 }: IRequestUsersList) => {
   await Api.get(`/backoffice/companies/list?page=${page}&search=${filter}`)
     .then((res) => {
-      console.log(res.data);
-      setUsers(res.data.users);
-      setCount(res.data.usersCount);
+      setCompanies(res.data.companiesAndOwners);
+      setCount(res.data.CompaniesCount);
       if (setLoading) setLoading(false);
       if (setPage) setPage(1);
     })
@@ -38,7 +37,7 @@ export const requestUsersList = async ({
 export const requestCreateUser = async ({
   data,
   toggleModal,
-  setUsers,
+  setCompanies,
   page,
   setCount,
   setOnQuery,
@@ -68,7 +67,7 @@ export const requestCreateUser = async ({
   })
     .then((res) => {
       requestUsersList({
-        setUsers,
+        setCompanies,
         page,
         setCount,
       });

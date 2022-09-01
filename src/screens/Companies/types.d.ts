@@ -1,37 +1,43 @@
-import { IUser } from '../../types/types';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export interface IUserCompanies {
+  User: {
+    id: string;
+    name: string;
+    email: string;
+    lastAccess: string | null;
+  };
+}
+
+export interface ICompany {
+  id: string;
+  image: string;
+  name: string;
+  contactNumber: string;
+  CNPJ: string;
+  CPF: string;
+  isBlocked: boolean;
+  createdAt: string;
+  UserCompanies: IUserCompanies[];
+}
 
 // MODALS
-export interface IModalEditUser {
-  user: IUser;
-  setUser: (setUser: IUser) => void;
+export interface IModalEditCompany {
+  company: ICompany;
+  setCompany: (setCompany: ICompany) => void;
 }
 
 export interface IModalCreateUser {
-  setUsers: (setUsers: IUser[]) => void;
+  setCompanies: (setCompanies: ICompany[]) => void;
   page: number;
   setCount: (setCount: number) => void;
-}
-
-// YUP
-export interface IFormDataComapany {
-  image: string;
-  name: string;
-  email: string;
-  companyName: string;
-  contactNumber: string;
-  CPF: string;
-  CNPJ: string;
-
-  password: string;
-  confirmPassword: string;
 }
 
 // REQUESTS
 export interface IRequestEditUser extends IModal {
   toggleModal: () => void;
   data: IFormDataUser;
-  user: IUser;
-  setUser: (setUser: IUser) => void;
+  company: ICompany;
+  setCompany: (setCompany: ICompany) => void;
   setOnQuery: (setOnQuery: boolean) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navigate: any;
@@ -44,7 +50,7 @@ export interface IRequestCreateUser extends IModalCreateUser {
 }
 
 export interface IRequestUsersList {
-  setUsers: (setUsers: IUser[]) => void;
+  setCompanies: (setCompanies: ICompany[]) => void;
   setLoading?: (setLoading: boolean) => void;
   page: number;
   setCount: (setCount: number) => void;
@@ -53,8 +59,21 @@ export interface IRequestUsersList {
 }
 
 export interface IRequestChangeIsActiveAndIsDeleted {
-  user: IUser;
-  setUser?: (setUser: IUser) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  company: ICompany;
+  setCompany: (setCompany: ICompany) => void;
   navigate: any;
+}
+
+// YUP
+export interface IFormDataCompany {
+  image: string;
+  name: string;
+  email: string;
+  companyName: string;
+  contactNumber: string;
+  CPF: string;
+  CNPJ: string;
+
+  password: string;
+  confirmPassword: string;
 }

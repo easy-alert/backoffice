@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 // LIBS
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -13,7 +14,7 @@ import { Pagination } from '../../../components/Pagination';
 import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
 
 // TYPES
-import { IUser } from '../../../types/types';
+import { ICompany } from '../types';
 
 // MODALS
 import { modalCreateCompanie } from './utils/modals/ModalCreateUser';
@@ -29,7 +30,7 @@ export const CompaniesList = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const [users, setUsers] = useState<IUser[] | null>(null);
+  const [companies, setCompanies] = useState<ICompany[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [filter, setFilter] = useState<string>('');
 
@@ -39,7 +40,7 @@ export const CompaniesList = () => {
 
   useEffect(() => {
     requestUsersList({
-      setUsers,
+      setCompanies,
       setLoading,
       page,
       setCount,
@@ -56,7 +57,7 @@ export const CompaniesList = () => {
     <>
       {modalCreateCompanieIsOpen && (
         <ModalCreateCompanie
-          setUsers={setUsers}
+          setCompanies={setCompanies}
           page={page}
           setCount={setCount}
         />
@@ -76,7 +77,7 @@ export const CompaniesList = () => {
                   size="16px"
                   onClick={() => {
                     requestUsersList({
-                      setUsers,
+                      setCompanies,
                       page: 1,
                       setCount,
                       filter,
@@ -93,7 +94,7 @@ export const CompaniesList = () => {
                     setFilter(evt.target.value);
                     if (evt.target.value === '') {
                       requestUsersList({
-                        setUsers,
+                        setCompanies,
                         page: 1,
                         setCount,
                         filter: '',
@@ -104,7 +105,7 @@ export const CompaniesList = () => {
                   onKeyUp={(evt) => {
                     if (evt.key === 'Enter') {
                       requestUsersList({
-                        setUsers,
+                        setCompanies,
                         page: 1,
                         setCount,
                         filter,
@@ -127,7 +128,7 @@ export const CompaniesList = () => {
             />
           </Style.Header>
 
-          {users?.length ? (
+          {companies?.length ? (
             <>
               <Table
                 colsHeader={[
@@ -136,25 +137,34 @@ export const CompaniesList = () => {
                     label: 'Nome',
                     cssProps: { paddingLeft: theme.size.xsm },
                   },
+                  {
+                    label: 'Responsável',
+                  },
                   { label: 'Último acesso' },
                   { label: 'Status' },
                 ]}
               >
-                {users.map((user) => (
+                {companies.map((companie) => (
                   <TableContent
                     onClick={() => {
-                      navigate(`/users/${user.id}`, { state: user });
+                      navigate(`/companies/${companie.id}`, {
+                        state: companie,
+                      });
                     }}
-                    key={user.id}
+                    key={companie.id}
                     colsBody={[
                       {
                         cell: (
-                          <Image size="32px" img={user.image} key={user.id} />
+                          <Image
+                            size="32px"
+                            img={companie.image}
+                            key={companie.id}
+                          />
                         ),
                         cssProps: { width: '1%' },
                       },
                       {
-                        cell: user.name,
+                        cell: companie.name,
                         cssProps: {
                           width: '30%',
                           paddingLeft: theme.size.xsm,
@@ -165,15 +175,31 @@ export const CompaniesList = () => {
                           maxWidth: '150px',
                         },
                       },
-
                       {
-                        cell: user.lastAccess
-                          ? DateFormatter(user.lastAccess)
+                        cell: companie.UserCompanies[0].User.name,
+                        cssProps: {
+                          width: '30%',
+                          overflow: 'hidden',
+                          whiteSpace: 'nowrap',
+                          textOverflow: 'ellipsis',
+                          maxWidth: '150px',
+                        },
+                      },
+                      {
+                        cell: companie.UserCompanies[0].User.lastAccess
+                          ? DateFormatter(
+                              companie.UserCompanies[0].User.lastAccess,
+                            )
                           : '-',
                         cssProps: { width: '25%' },
                       },
                       {
-                        cell: <Tag isInvalid={user.isBlocked} key={user.id} />,
+                        cell: (
+                          <Tag
+                            isInvalid={companie.isBlocked}
+                            key={companie.id}
+                          />
+                        ),
                         cssProps: { width: '30%' },
                       },
                       {
@@ -197,11 +223,10 @@ export const CompaniesList = () => {
                   totalCountOfRegister={count}
                   currentPage={page}
                   registerPerPage={offset}
-                  // eslint-disable-next-line no-shadow
                   onPageChange={(page) => {
                     setPage(page);
                     requestUsersList({
-                      setUsers,
+                      setCompanies,
                       setLoading,
                       page,
                       setCount,

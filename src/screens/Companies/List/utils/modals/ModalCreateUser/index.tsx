@@ -14,7 +14,7 @@ import { Uploader } from '../../../../../../components/Uploader';
 import { requestCreateUser, schemaModalCreateCompany } from '../../functions';
 
 // TYPES
-import { IFormDataComapany, IModalCreateUser } from '../../../../types';
+import { IFormDataCompany, IModalCreateUser } from '../../../../types';
 
 export const modalCreateCompanie = () => {
   const {
@@ -24,7 +24,7 @@ export const modalCreateCompanie = () => {
   } = ModalComponent();
 
   const ModalCreateCompanie = ({
-    setUsers,
+    setCompanies,
     page,
     setCount,
   }: IModalCreateUser) => {
@@ -35,17 +35,16 @@ export const modalCreateCompanie = () => {
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm<IFormDataComapany>({
+    } = useForm<IFormDataCompany>({
       resolver: yupResolver(schemaModalCreateCompany),
     });
 
     // SUBMITED FORM
     const onSubmit = handleSubmit(async (data) => {
-      console.log(data);
       await requestCreateUser({
         data,
         toggleModal: toggleModalCreateCompanie,
-        setUsers,
+        setCompanies,
         page,
         setCount,
         setOnQuery,

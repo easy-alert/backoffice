@@ -49,7 +49,7 @@ export const Login = () => {
     })
       .then((res) => {
         signin(res.data);
-        navigate('/users');
+        navigate('/companies');
       })
       .catch((err) => {
         setOnQuery(false);
