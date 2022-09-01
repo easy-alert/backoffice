@@ -8,8 +8,8 @@ import { Sidebar } from './components/Sidebar';
 import { Login } from './screens/Authentication/Login';
 
 // USER
-import { UsersList } from './screens/User/List/index';
-import { UsersDetails } from './screens/User/Details';
+import { CompaniesList } from './screens/Companies/List';
+// import { UsersDetails } from './screens/User/Details';
 
 const AppRoutes = () => (
   <AuthProvider>
@@ -27,9 +27,9 @@ const AppRoutes = () => (
             </Sidebar>
           }
         >
-          <Route path="/users" element={<Outlet />}>
-            <Route index element={<UsersList />} />
-            <Route path=":user_id" element={<UsersDetails />} />
+          <Route path="/companies" element={<Outlet />}>
+            <Route index element={<CompaniesList />} />
+            {/* <Route path=":user_id" element={<UsersDetails />} /> */}
           </Route>
         </Route>
       </Routes>

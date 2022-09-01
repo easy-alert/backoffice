@@ -25,6 +25,7 @@ import { useAuthContext } from '../../../contexts/Auth/UseAuthContext';
 
 // TYPES
 import { IFormData } from './types';
+import { theme } from '../../../styles/theme';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -62,21 +63,23 @@ export const Login = () => {
 
   return (
     <Style.Background>
-      <Image img={icon.logoada} width="180px" height="180px" radius="0" />
+      <Image img={icon.logoTextWhite} width="290px" height="65px" radius="0" />
       <Style.FormContainter as="form" onSubmit={onSubmit}>
         <Style.LoginContainer>
           <h2>Login/Backoffice</h2>
           <Input
             label="E-mail"
+            labelColor={theme.color.white}
             placeholder="Ex: joao.silva@ada.com.br"
             error={errors.email}
             {...register('email')}
           />
 
           <Input
-            type="password"
-            placeholder="Insira sua senha"
             label="Senha"
+            type="password"
+            labelColor={theme.color.white}
+            placeholder="Insira sua senha"
             error={errors.password}
             {...register('password')}
           />

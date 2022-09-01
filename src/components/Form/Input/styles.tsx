@@ -2,12 +2,14 @@ import styled from 'styled-components';
 import { theme } from '../../../styles/theme';
 
 export const InputContainer = styled.div<{
+  labelColor: string;
   error: boolean;
   passwordPlaceholder?: boolean;
 }>`
   display: flex;
   flex-direction: column;
   > h6 {
+    color: ${({ labelColor }) => labelColor};
     margin-bottom: ${theme.size.xxsm};
   }
   width: 100%;

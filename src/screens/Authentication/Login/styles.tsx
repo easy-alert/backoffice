@@ -8,6 +8,7 @@ export const Background = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: ${theme.size.sm} ${theme.size.md};
+  background-color: ${theme.color.gray5};
 `;
 
 export const FormContainter = styled.div`
@@ -21,7 +22,7 @@ export const FormContainter = styled.div`
 `;
 
 export const LoginContainer = styled.div`
-  background-color: ${theme.color.white};
+  background-color: ${theme.color.primary};
   border-radius: ${theme.size.xxsm};
 
   width: 100%;
@@ -35,7 +36,7 @@ export const LoginContainer = styled.div`
 
   > h2 {
     margin-bottom: ${theme.size.sm};
-    color: ${theme.color.primary};
+    color: ${theme.color.white};
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

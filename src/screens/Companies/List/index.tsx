@@ -16,7 +16,7 @@ import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
 import { IUser } from '../../../types/types';
 
 // MODALS
-import { modalCreateUser } from './utils/modals/ModalCreateUser';
+import { modalCreateCompanie } from './utils/modals/ModalCreateUser';
 
 // FUNCTIONS
 import { requestUsersList } from './utils/functions';
@@ -25,7 +25,7 @@ import { DateFormatter } from '../../../utils/functions';
 // THEMES
 import { theme } from '../../../styles/theme';
 
-export const UsersList = () => {
+export const CompaniesList = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -46,13 +46,20 @@ export const UsersList = () => {
     });
   }, [state]);
 
-  const { ModalCreateUser, toggleModalCreateUser, modalCreateUserIsOpen } =
-    modalCreateUser();
+  const {
+    ModalCreateCompanie,
+    modalCreateCompanieIsOpen,
+    toggleModalCreateCompanie,
+  } = modalCreateCompanie();
 
   return (
     <>
-      {modalCreateUserIsOpen && (
-        <ModalCreateUser setUsers={setUsers} page={page} setCount={setCount} />
+      {modalCreateCompanieIsOpen && (
+        <ModalCreateCompanie
+          setUsers={setUsers}
+          page={page}
+          setCount={setCount}
+        />
       )}
 
       {loading ? (
@@ -115,7 +122,7 @@ export const UsersList = () => {
               className="p2"
               icon={icon.plusWithBg}
               onClick={() => {
-                toggleModalCreateUser();
+                toggleModalCreateCompanie();
               }}
             />
           </Style.Header>

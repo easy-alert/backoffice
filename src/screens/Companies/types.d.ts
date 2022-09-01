@@ -13,10 +13,15 @@ export interface IModalCreateUser {
 }
 
 // YUP
-export interface IFormDataUser {
+export interface IFormDataComapany {
+  image: string;
   name: string;
   email: string;
-  image: string;
+  companyName: string;
+  contactNumber: string;
+  CPF: string;
+  CNPJ: string;
+
   password: string;
   confirmPassword: string;
 }

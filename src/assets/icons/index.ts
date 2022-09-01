@@ -14,7 +14,10 @@ import rightArrow from './rightArrow.svg';
 import search from './search.svg';
 import imageBackplate from './imageBackplate.svg';
 import downArrow from './downArrow.svg';
-import logoada from './logoada.png';
+import logoWhite from './logoWhite.svg';
+import logoTextWhite from './logoTextWhite.svg';
+import logoRed from './logoRed.svg';
+import logoTextBlack from './logoTextBlack.svg';
 
 export const icon = {
   leftArrow,
@@ -33,5 +36,8 @@ export const icon = {
   search,
   imageBackplate,
   downArrow,
-  logoada,
+  logoWhite,
+  logoRed,
+  logoTextBlack,
+  logoTextWhite,
 };

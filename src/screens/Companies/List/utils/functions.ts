@@ -18,8 +18,9 @@ export const requestUsersList = async ({
   filter = '',
   setPage,
 }: IRequestUsersList) => {
-  await Api.get(`/backoffice/users/list?page=${page}&search=${filter}`)
+  await Api.get(`/backoffice/companies/list?page=${page}&search=${filter}`)
     .then((res) => {
+      console.log(res.data);
       setUsers(res.data.users);
       setCount(res.data.usersCount);
       if (setLoading) setLoading(false);
@@ -55,11 +56,15 @@ export const requestCreateUser = async ({
     )}.svg`;
   }
 
-  await Api.post('/backoffice/users/create', {
+  await Api.post('/backoffice/companies/create', {
+    image: imageUrl,
     name: data.name,
     email: data.email,
-    image: imageUrl,
     password: data.password,
+    companyName: data.companyName,
+    CNPJ: data.CNPJ,
+    CPF: data.CPF,
+    contactNumber: data.contactNumber,
   })
     .then((res) => {
       requestUsersList({
@@ -81,7 +86,7 @@ export const requestCreateUser = async ({
 };
 
 // YUP
-export const schemaModalCreateUser = yup
+export const schemaModalCreateCompany = yup
   .object({
     image: yup
       .mixed()
@@ -106,7 +111,27 @@ export const schemaModalCreateUser = yup
     email: yup
       .string()
       .email('Informe um e-mail válido.')
-      .required('E-mail obrigatório.'),
+      .required('O E-mail deve ser preenchido.'),
+
+    companyName: yup
+      .string()
+      .required('O nome da empresa deve ser preenchido.')
+      .min(3, 'O nome da empresa deve conter 3 ou mais caracteres.'),
+
+    contactNumber: yup
+      .string()
+      .required('O número de telefone deve ser preenchido.')
+      .min(11, 'O número de telefone deve conter 11 caracteres.'),
+
+    CPF: yup
+      .string()
+      .required('O CPF deve ser preenchido.')
+      .min(11, 'O CPF deve ser válido.'),
+
+    CNPJ: yup
+      .string()
+      .required('O CNPJ deve ser preenchido.')
+      .min(11, 'O CNPJ deve ser válido.'),
 
     password: yup
       .string()

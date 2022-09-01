@@ -11,19 +11,23 @@ import { Button } from '../../../../../../components/Buttons/Button';
 import { Uploader } from '../../../../../../components/Uploader';
 
 // FUNCTIONS
-import { requestCreateUser, schemaModalCreateUser } from '../../functions';
+import { requestCreateUser, schemaModalCreateCompany } from '../../functions';
 
 // TYPES
-import { IFormDataUser, IModalCreateUser } from '../../../../types';
+import { IFormDataComapany, IModalCreateUser } from '../../../../types';
 
-export const modalCreateUser = () => {
+export const modalCreateCompanie = () => {
   const {
     Modal,
-    toggleModal: toggleModalCreateUser,
-    modalIsOpen: modalCreateUserIsOpen,
+    toggleModal: toggleModalCreateCompanie,
+    modalIsOpen: modalCreateCompanieIsOpen,
   } = ModalComponent();
 
-  const ModalCreateUser = ({ setUsers, page, setCount }: IModalCreateUser) => {
+  const ModalCreateCompanie = ({
+    setUsers,
+    page,
+    setCount,
+  }: IModalCreateUser) => {
     const [onQuery, setOnQuery] = useState<boolean>(false);
 
     // YUP VALIDATION
@@ -31,15 +35,16 @@ export const modalCreateUser = () => {
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm<IFormDataUser>({
-      resolver: yupResolver(schemaModalCreateUser),
+    } = useForm<IFormDataComapany>({
+      resolver: yupResolver(schemaModalCreateCompany),
     });
 
     // SUBMITED FORM
     const onSubmit = handleSubmit(async (data) => {
+      console.log(data);
       await requestCreateUser({
         data,
-        toggleModal: toggleModalCreateUser,
+        toggleModal: toggleModalCreateCompanie,
         setUsers,
         page,
         setCount,
@@ -51,13 +56,13 @@ export const modalCreateUser = () => {
       <Modal title="Cadastrar usuário">
         <Style.FormContainer as="form" onSubmit={onSubmit}>
           <Uploader
-            label="Foto de perfil"
+            label="Logo"
             error={errors.image}
             register={{ ...register('image') }}
           />
 
           <Input
-            label="Nome completo"
+            label="Nome do responsável"
             placeholder="Ex: João Silva"
             error={errors.name}
             {...register('name')}
@@ -70,6 +75,36 @@ export const modalCreateUser = () => {
             error={errors.email}
             {...register('email')}
             maxLength={50}
+          />
+
+          <Input
+            label="Nome da empresa"
+            placeholder="Ex: SATC"
+            error={errors.companyName}
+            {...register('companyName')}
+            maxLength={40}
+          />
+
+          <Input
+            label="Telefone"
+            placeholder="Ex: 48 99000-0000"
+            error={errors.contactNumber}
+            {...register('contactNumber')}
+            maxLength={40}
+          />
+          <Input
+            label="CPF"
+            placeholder="Ex: 000.000.000.00"
+            error={errors.CPF}
+            {...register('CPF')}
+            maxLength={40}
+          />
+          <Input
+            label="CNPJ"
+            placeholder="Ex: 00.000.000/0000-00"
+            error={errors.CNPJ}
+            {...register('CNPJ')}
+            maxLength={40}
           />
 
           <Input
@@ -95,5 +130,9 @@ export const modalCreateUser = () => {
     );
   };
 
-  return { ModalCreateUser, toggleModalCreateUser, modalCreateUserIsOpen };
+  return {
+    ModalCreateCompanie,
+    toggleModalCreateCompanie,
+    modalCreateCompanieIsOpen,
+  };
 };

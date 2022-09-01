@@ -33,7 +33,7 @@ export const SidebarBody = styled.div<{ openSidebar: boolean }>`
   min-width: 80px;
   height: 100vh;
   border-radius: 0 ${theme.size.sm} ${theme.size.sm} 0;
-  background-color: ${theme.color.white};
+  background-color: ${theme.color.primary};
   text-align: center;
   overflow: hidden;
   @media (max-width: 900px) {
@@ -56,7 +56,7 @@ export const SidebarBodyMobile = styled.div`
   width: 100%;
   min-height: 80px;
   border-radius: 0rem 0rem ${theme.size.sm} ${theme.size.sm};
-  background-color: white;
+  background-color: ${theme.color.primary};
   overflow: hidden;
   @media (min-width: 900px) {
     display: none;
@@ -92,7 +92,7 @@ export const Spacer = styled.div`
 export const Hr = styled.div`
   height: 1px;
   width: 100%;
-  background-color: ${theme.color.gray3};
+  background-color: ${theme.color.white};
 `;
 export const AppContent = styled.div`
   width: 100%;

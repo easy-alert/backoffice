@@ -23,13 +23,13 @@ export const Sidebar = ({ children }: ISidebar) => {
   const [animate, setAnimate] = useState<boolean>(true);
 
   const SidebarContent: SidebarContentProps[] = [
-    { icon: icon.user, label: 'Usuários', url: '/users' },
+    { icon: icon.user, label: 'Usuários', url: '/companies' },
     { icon: icon.power, label: 'Sair', url: '/login' },
   ];
 
   useEffect(() => {
     if (window.location.href.endsWith('/')) {
-      navigate('/users');
+      navigate('/companies');
     }
   }, []);
 
@@ -45,7 +45,7 @@ export const Sidebar = ({ children }: ISidebar) => {
           }}
         />
         <Style.ImageMobile>
-          <Image width="48px" height="48px" radius="0px" img={icon.logoada} />
+          <Image width="44px" height="48px" radius="0px" img={icon.logoWhite} />
         </Style.ImageMobile>
       </Style.SidebarBodyMobile>
 
@@ -64,7 +64,7 @@ export const Sidebar = ({ children }: ISidebar) => {
         </Style.CloseButtonMobile>
 
         <Style.ImageContainer>
-          <Image width="48px" height="48px" radius="0px" img={icon.logoada} />
+          <Image width="44px" height="48px" radius="0px" img={icon.logoWhite} />
         </Style.ImageContainer>
 
         <Style.Hr />
@@ -78,7 +78,7 @@ export const Sidebar = ({ children }: ISidebar) => {
               opacity="0.5"
               label={element.label}
               icon={element.icon}
-              color={theme.color.primary}
+              color={theme.color.white}
               gap="0px"
               onClick={() => {
                 navigate(element.url);
