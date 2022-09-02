@@ -1,5 +1,6 @@
 // LIBS
 import { forwardRef, ForwardRefRenderFunction } from 'react';
+
 // TYPES
 import { IInput } from './utils/types';
 // COMPONENTS

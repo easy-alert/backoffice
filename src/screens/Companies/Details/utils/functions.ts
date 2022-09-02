@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { Api } from '../../../../services/api';
 
 // FUNCTIONS
-import { uploadFile } from '../../../../utils/functions';
+import { unMask, uploadFile } from '../../../../utils/functions';
 
 // TYPES
 import {
@@ -40,9 +40,9 @@ export const requestEditUser = async ({
     name: data.name,
     email: data.email,
     companyName: data.companyName,
-    contactNumber: data.contactNumber,
-    CNPJ: data.CNPJ,
-    CPF: data.CPF,
+    contactNumber: unMask(data.contactNumber),
+    CNPJ: unMask(data.CNPJ),
+    CPF: unMask(data.CPF),
     password: data.password,
   })
     .then((res) => {
@@ -163,7 +163,7 @@ export const schemaModalEditCompany = yup
     email: yup
       .string()
       .email('Informe um e-mail válido.')
-      .required('O nome deve ser preenchido.'),
+      .required('O E-mail deve ser preenchido.'),
 
     companyName: yup
       .string()
@@ -172,26 +172,22 @@ export const schemaModalEditCompany = yup
 
     contactNumber: yup
       .string()
-      .min(11, 'O número de telefone deve conter 11 caracteres.')
-      .required('O nome deve ser preenchido.'),
+      .required('O número de telefone deve ser preenchido.')
+      .min(15, 'O número de telefone deve conter  no mínimo 15 caracteres.'),
 
-    // CPF: yup
-    //   .string()
-    //   .min(11, 'O CPF deve ser válido.')
-    //   .required('O nome deve ser preenchido.'),
+    // CPF: yup.string().min(14, 'O CPF deve ser válido.'),
+    //  .required('O CPF deve ser preenchido.')
 
-    // CNPJ: yup
-    //   .string()
-    //   .min(11, 'O CNPJ deve ser válido.')
-    //   .required('O nome deve ser preenchido.'),
+    // CNPJ: yup.string().min(18, 'O CNPJ deve ser válido.'),
+    //  .min(11, 'O CNPJ deve ser válido.'),
 
     password: yup
       .string()
-      .matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres.'),
+      .matches(/^(|.{8,})$/, 'Sua senha deve possuir 8 ou mais caracteres.'),
 
     confirmPassword: yup
       .string()
-      .matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres;')
+      .matches(/^(|.{8,})$/, 'Sua senha deve possuir 8 ou mais caracteres.')
       .oneOf([yup.ref('password'), null], 'As senhas não coincidem.'),
   })
   .required();

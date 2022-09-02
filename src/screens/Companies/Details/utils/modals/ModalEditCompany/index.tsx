@@ -16,6 +16,7 @@ import { requestEditUser, schemaModalEditCompany } from '../../functions';
 
 // TYPES
 import { IModalEditCompany, IFormDataCompany } from '../../../../types';
+import { applyMask } from '../../../../../../utils/functions';
 
 export const modalEditCompany = () => {
   const {
@@ -28,10 +29,17 @@ export const modalEditCompany = () => {
     const navigate = useNavigate();
     const [onQuery, setOnQuery] = useState<boolean>(false);
 
+    const [masksInput, setMasksInput] = useState({
+      CNPJ: applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value,
+      CPF: applyMask({ value: company.CPF, mask: 'CPF' }).value,
+      TEL: applyMask({ value: company.contactNumber, mask: 'TEL' }).value,
+    });
+
     // YUP VALIDATION
     const {
       register,
       handleSubmit,
+
       formState: { errors },
     } = useForm<IFormDataCompany>({
       resolver: yupResolver(schemaModalEditCompany),
@@ -39,9 +47,10 @@ export const modalEditCompany = () => {
         name: company.name,
         email: company.UserCompanies[0].User.email,
         companyName: company.name,
-        CNPJ: company.CNPJ,
-        CPF: company.CPF,
-        contactNumber: company.contactNumber,
+        // CNPJ: applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value,
+        // CPF: applyMask({ value: company.CPF, mask: 'CPF' }).value,
+        // contactNumber: applyMask({ value: company.contactNumber, mask: 'TEL' })
+        //   .value,
       },
     });
 
@@ -93,10 +102,14 @@ export const modalEditCompany = () => {
 
           <Input
             label="Telefone"
-            placeholder="Ex: 48 99000-0000"
+            placeholder="Ex: (48) 9 9000-0000"
             error={errors.contactNumber}
             {...register('contactNumber')}
-            maxLength={40}
+            maxLength={applyMask({ value: masksInput.TEL, mask: 'TEL' }).length}
+            value={applyMask({ value: masksInput.TEL, mask: 'TEL' }).value}
+            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+              setMasksInput({ ...masksInput, TEL: evt.target.value });
+            }}
           />
 
           {company.CPF && (
@@ -105,7 +118,13 @@ export const modalEditCompany = () => {
               placeholder="Ex: 000.000.000.00"
               error={errors.CPF}
               {...register('CPF')}
-              maxLength={40}
+              maxLength={
+                applyMask({ value: masksInput.CPF, mask: 'CPF' }).length
+              }
+              value={applyMask({ value: masksInput.CPF, mask: 'CPF' }).value}
+              onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+                setMasksInput({ ...masksInput, CPF: evt.target.value });
+              }}
             />
           )}
 
@@ -115,7 +134,13 @@ export const modalEditCompany = () => {
               placeholder="Ex: 00.000.000/0000-00"
               error={errors.CNPJ}
               {...register('CNPJ')}
-              maxLength={40}
+              maxLength={
+                applyMask({ value: masksInput.CNPJ, mask: 'CNPJ' }).length
+              }
+              value={applyMask({ value: masksInput.CNPJ, mask: 'CNPJ' }).value}
+              onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+                setMasksInput({ ...masksInput, CNPJ: evt.target.value });
+              }}
             />
           )}
 

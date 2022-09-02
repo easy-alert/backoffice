@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { Api } from '../../../../services/api';
 
 // FUNCTIONS
-import { uploadFile } from '../../../../utils/functions';
+import { unMask, uploadFile } from '../../../../utils/functions';
 
 // TYPES
 import { IRequestCreateUser, IRequestUsersList } from '../../types';
@@ -61,9 +61,9 @@ export const requestCreateUser = async ({
     email: data.email,
     password: data.password,
     companyName: data.companyName,
-    CNPJ: data.CNPJ,
-    CPF: data.CPF,
-    contactNumber: data.contactNumber,
+    CNPJ: unMask(data.CNPJ),
+    CPF: unMask(data.CPF),
+    contactNumber: unMask(data.contactNumber),
   })
     .then((res) => {
       requestUsersList({
@@ -120,17 +120,17 @@ export const schemaModalCreateCompany = yup
     contactNumber: yup
       .string()
       .required('O número de telefone deve ser preenchido.')
-      .min(11, 'O número de telefone deve conter 11 caracteres.'),
+      .min(15, 'O número de telefone deve conter  no mínimo 15 caracteres.'),
 
-    CPF: yup
-      .string()
-      .required('O CPF deve ser preenchido.')
-      .min(11, 'O CPF deve ser válido.'),
+    // CPF: yup
+    //   .string()
+    //   .required('O CPF deve ser preenchido.')
+    //   .min(14, 'O CPF deve ser válido.'),
 
-    CNPJ: yup
-      .string()
-      .required('O CNPJ deve ser preenchido.')
-      .min(11, 'O CNPJ deve ser válido.'),
+    // CNPJ: yup
+    //   .string()
+    //   .required('O CNPJ deve ser preenchido.')
+    //   .min(18, 'O CNPJ deve ser válido.'),
 
     password: yup
       .string()

@@ -12,6 +12,7 @@ import { Uploader } from '../../../../../../components/Uploader';
 
 // FUNCTIONS
 import { requestCreateUser, schemaModalCreateCompany } from '../../functions';
+import { applyMask } from '../../../../../../utils/functions';
 
 // TYPES
 import { IFormDataCompany, IModalCreateUser } from '../../../../types';
@@ -29,6 +30,11 @@ export const modalCreateCompanie = () => {
     setCount,
   }: IModalCreateUser) => {
     const [onQuery, setOnQuery] = useState<boolean>(false);
+    const [masksInput, setMasksInput] = useState({
+      CNPJ: '',
+      CPF: '',
+      TEL: '',
+    });
 
     // YUP VALIDATION
     const {
@@ -89,21 +95,35 @@ export const modalCreateCompanie = () => {
             placeholder="Ex: 48 99000-0000"
             error={errors.contactNumber}
             {...register('contactNumber')}
-            maxLength={40}
+            maxLength={applyMask({ value: masksInput.TEL, mask: 'TEL' }).length}
+            value={applyMask({ value: masksInput.TEL, mask: 'TEL' }).value}
+            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+              setMasksInput({ ...masksInput, TEL: evt.target.value });
+            }}
           />
           <Input
             label="CPF"
             placeholder="Ex: 000.000.000.00"
             error={errors.CPF}
             {...register('CPF')}
-            maxLength={40}
+            maxLength={applyMask({ value: masksInput.CPF, mask: 'CPF' }).length}
+            value={applyMask({ value: masksInput.CPF, mask: 'CPF' }).value}
+            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+              setMasksInput({ ...masksInput, CPF: evt.target.value });
+            }}
           />
           <Input
             label="CNPJ"
             placeholder="Ex: 00.000.000/0000-00"
             error={errors.CNPJ}
             {...register('CNPJ')}
-            maxLength={40}
+            maxLength={
+              applyMask({ value: masksInput.CNPJ, mask: 'CNPJ' }).length
+            }
+            value={applyMask({ value: masksInput.CNPJ, mask: 'CNPJ' }).value}
+            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+              setMasksInput({ ...masksInput, CNPJ: evt.target.value });
+            }}
           />
 
           <Input

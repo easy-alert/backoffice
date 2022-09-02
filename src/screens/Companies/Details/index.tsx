@@ -23,7 +23,7 @@ import { ICompany } from '../types';
 import { modalEditCompany } from './utils/modals/ModalEditCompany';
 
 // FUNCTIONS
-import { DateFormatter } from '../../../utils/functions';
+import { applyMask, DateFormatter } from '../../../utils/functions';
 import {
   requestChangeIsBlocked,
   requestDeleteCompany,
@@ -81,20 +81,26 @@ export const CompanyDetails = () => {
 
             <Style.Card>
               <h6>Telefone</h6>
-              <p className="p2">{company.contactNumber}</p>
+              <p className="p2">
+                {applyMask({ value: company.contactNumber, mask: 'TEL' }).value}
+              </p>
             </Style.Card>
 
             {company.CPF && (
               <Style.Card>
                 <h6>CPF</h6>
-                <p className="p2">{company.CPF}</p>
+                <p className="p2">
+                  {applyMask({ value: company.CPF, mask: 'CPF' }).value}
+                </p>
               </Style.Card>
             )}
 
             {company.CNPJ && (
               <Style.Card>
                 <h6>CNPJ</h6>
-                <p className="p2">{company.CNPJ}</p>
+                <p className="p2">
+                  {applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value}
+                </p>
               </Style.Card>
             )}
 
