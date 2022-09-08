@@ -15,9 +15,9 @@ export const IconButton = ({
   color = theme.color.gray4,
   selected,
   onClick,
-  className,
+  className = 'p2',
   hideLabelOnMedia,
-  fontWeight,
+  fontWeight = '500',
   size = '24px;',
 }: IIconButton) => (
   <ContainerButton

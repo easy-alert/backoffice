@@ -18,4 +18,5 @@ export interface IPopoverButton
   buttonIcon?: string;
   buttonIconSize?: string;
   borderless?: boolean;
+  iconButtonClassName?: string;
 }

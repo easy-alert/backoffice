@@ -32,6 +32,7 @@ export const PopoverButton = ({
   actionButtonClick,
   borderless,
   loading,
+  iconButtonClassName,
 }: IPopoverButton) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const [animate, setAnimate] = useState<boolean>(false);
@@ -42,6 +43,18 @@ export const PopoverButton = ({
         return {
           bottom: 3,
           borderTop: `${arrowSize}px solid white`,
+          zIndex: 1,
+        };
+      case 'bottom':
+        return {
+          top: 3,
+          borderBottom: `${arrowSize}px solid white`,
+          zIndex: 1,
+        };
+      case 'right':
+        return {
+          left: 3,
+          borderRight: `${arrowSize}px solid white`,
           zIndex: 1,
         };
       default:
@@ -68,7 +81,7 @@ export const PopoverButton = ({
   return (
     <Popover
       isOpen={isPopoverOpen}
-      positions={['left', 'top']}
+      positions={['left', 'top', 'bottom', 'right']}
       padding={1}
       onClickOutside={() => {
         setAnimate(false);
@@ -76,6 +89,7 @@ export const PopoverButton = ({
           setIsPopoverOpen(false);
         }, 250);
       }}
+      containerStyle={{ zIndex: '10' }}
       // eslint-disable-next-line react/no-unstable-nested-components
       content={({ position, childRect, popoverRect }) => {
         const arrowSize = 10;
@@ -127,8 +141,8 @@ export const PopoverButton = ({
                         label={label}
                         bgColor={actionButtonBgColor}
                         onClick={() => {
-                          togglePopOver();
                           actionButtonClick();
+                          togglePopOver();
                         }}
                       />
                     </Style.ActionButtonContainer>
@@ -143,6 +157,7 @@ export const PopoverButton = ({
       <Style.ButtonContainer>
         {type === 'Button' && (
           <Button
+            type="button"
             borderless={borderless}
             bgColor={bgColor}
             loading={loading}
@@ -154,6 +169,7 @@ export const PopoverButton = ({
         {type === 'IconButton' && (
           <IconButton
             hideLabelOnMedia
+            className={iconButtonClassName}
             label={label}
             color={iconButtonColor}
             icon={buttonIcon}

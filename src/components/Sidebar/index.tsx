@@ -73,6 +73,7 @@ export const Sidebar = ({ children }: ISidebar) => {
           <React.Fragment key={element.url}>
             {i === SidebarContent.length - 1 && <Style.Spacer />}
             <IconButton
+              fontWeight="400"
               className="p5"
               labelPos="bottom"
               opacity="0.5"
