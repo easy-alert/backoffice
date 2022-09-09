@@ -16,15 +16,15 @@ import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
 // TYPES
 import { ICompany } from '../types';
 
-// MODALS
-import { modalCreateCompanie } from './utils/modals/ModalCreateUser';
-
 // FUNCTIONS
 import { requestUsersList } from './utils/functions';
 import { DateFormatter } from '../../../utils/functions';
 
 // THEMES
 import { theme } from '../../../styles/theme';
+import { modalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
+
+// MODALS
 
 export const CompaniesList = () => {
   const navigate = useNavigate();
@@ -48,15 +48,15 @@ export const CompaniesList = () => {
   }, [state]);
 
   const {
-    ModalCreateCompanie,
-    modalCreateCompanieIsOpen,
-    toggleModalCreateCompanie,
-  } = modalCreateCompanie();
+    ModalCreateCompanyAndOwner,
+    modalCreateCompanyAndOwnerIsOpen,
+    togleModalCreateCompanyAndOwner,
+  } = modalCreateCompanyAndOwner();
 
   return (
     <>
-      {modalCreateCompanieIsOpen && (
-        <ModalCreateCompanie
+      {modalCreateCompanyAndOwnerIsOpen && (
+        <ModalCreateCompanyAndOwner
           setCompanies={setCompanies}
           page={page}
           setCount={setCount}
@@ -123,7 +123,7 @@ export const CompaniesList = () => {
               className="p2"
               icon={icon.plusWithBg}
               onClick={() => {
-                toggleModalCreateCompanie();
+                togleModalCreateCompanyAndOwner();
               }}
             />
           </Style.Header>

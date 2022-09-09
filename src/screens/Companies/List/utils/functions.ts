@@ -21,7 +21,7 @@ export const requestUsersList = async ({
   await Api.get(`/backoffice/companies/list?page=${page}&search=${filter}`)
     .then((res) => {
       setCompanies(res.data.companiesAndOwners);
-      setCount(res.data.CompaniesCount);
+      setCount(res.data.companiesCount);
       if (setLoading) setLoading(false);
       if (setPage) setPage(1);
     })
@@ -42,6 +42,7 @@ export const requestCreateUser = async ({
   setCount,
   setOnQuery,
 }: IRequestCreateUser) => {
+  // CHAGE HERE
   setOnQuery(true);
   let imageUrl;
 
@@ -85,7 +86,7 @@ export const requestCreateUser = async ({
 };
 
 // YUP
-export const schemaModalCreateCompany = yup
+export const schemaModalCreateCompanyAndOwner = yup
   .object({
     image: yup
       .mixed()

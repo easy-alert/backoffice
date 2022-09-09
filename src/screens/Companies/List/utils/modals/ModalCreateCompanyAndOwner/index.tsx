@@ -10,21 +10,24 @@ import { Input } from '../../../../../../components/Form/Input';
 import { Button } from '../../../../../../components/Buttons/Button';
 import { Uploader } from '../../../../../../components/Uploader';
 
-// FUNCTIONS
-import { requestCreateUser, schemaModalCreateCompany } from '../../functions';
-import { applyMask } from '../../../../../../utils/functions';
-
 // TYPES
 import { IFormDataCompany, IModalCreateUser } from '../../../../types';
 
-export const modalCreateCompanie = () => {
+// FUNCTIONS
+import {
+  requestCreateUser,
+  schemaModalCreateCompanyAndOwner,
+} from '../../functions';
+import { applyMask } from '../../../../../../utils/functions';
+
+export const modalCreateCompanyAndOwner = () => {
   const {
     Modal,
-    toggleModal: toggleModalCreateCompanie,
-    modalIsOpen: modalCreateCompanieIsOpen,
+    modalIsOpen: modalCreateCompanyAndOwnerIsOpen,
+    toggleModal: togleModalCreateCompanyAndOwner,
   } = ModalComponent();
 
-  const ModalCreateCompanie = ({
+  const ModalCreateCompanyAndOwner = ({
     setCompanies,
     page,
     setCount,
@@ -42,18 +45,18 @@ export const modalCreateCompanie = () => {
       handleSubmit,
       formState: { errors },
     } = useForm<IFormDataCompany>({
-      resolver: yupResolver(schemaModalCreateCompany),
+      resolver: yupResolver(schemaModalCreateCompanyAndOwner),
     });
 
     // SUBMITED FORM
     const onSubmit = handleSubmit(async (data) => {
       await requestCreateUser({
         data,
-        toggleModal: toggleModalCreateCompanie,
+        toggleModal: togleModalCreateCompanyAndOwner,
+        setOnQuery,
         setCompanies,
         page,
         setCount,
-        setOnQuery,
       });
     });
 
@@ -150,8 +153,8 @@ export const modalCreateCompanie = () => {
   };
 
   return {
-    ModalCreateCompanie,
-    toggleModalCreateCompanie,
-    modalCreateCompanieIsOpen,
+    togleModalCreateCompanyAndOwner,
+    modalCreateCompanyAndOwnerIsOpen,
+    ModalCreateCompanyAndOwner,
   };
 };

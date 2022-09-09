@@ -10,14 +10,14 @@ export const ContainerButton = styled.div<{
   fontWeight?: string;
 }>`
   display: flex;
-  width: fit-content;
+  min-width: fit-content;
   align-items: center;
   cursor: pointer;
   transition: 0.25s cubic-bezier(0.39, 0.575, 0.565, 1);
-
   > p {
     ${({ color }) => color && `color: ${color};`}
     ${({ fontWeight }) => fontWeight && `font-weight: ${fontWeight};`}
+
 
     @media (max-width: 900px) {
       ${({ hideLabelOnMedia }) => hideLabelOnMedia && `display: none;`}

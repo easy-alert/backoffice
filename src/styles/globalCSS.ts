@@ -212,9 +212,9 @@ export default createGlobalStyle`
     flex-direction: column;
     gap: ${theme.size.xsm};
 
-    > :last-child {
+    /* > :last-child {
       margin-top: ${theme.size.xsm}
-    }
+    } */
   }
 
 

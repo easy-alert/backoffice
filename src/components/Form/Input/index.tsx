@@ -23,7 +23,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, IInput> = (
     passwordPlaceholder={passwordPlaceholder}
     labelColor={labelColor}
   >
-    <h6>{label}</h6>
+    {label && <h6>{label}</h6>}
     <input id={name} name={name} ref={ref} {...rest} />
     <ErrorMessage>
       {!!error && <p className="p3">{error.message}</p>}
