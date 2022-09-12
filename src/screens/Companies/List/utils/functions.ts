@@ -62,8 +62,8 @@ export const requestCreateUser = async ({
     email: data.email,
     password: data.password,
     companyName: data.companyName,
-    CNPJ: unMask(data.CNPJ),
-    CPF: unMask(data.CPF),
+    CNPJ: data.CNPJ ? unMask(data.CNPJ) : null,
+    CPF: data.CPF ? unMask(data.CPF) : null,
     contactNumber: unMask(data.contactNumber),
   })
     .then((res) => {
@@ -86,22 +86,22 @@ export const requestCreateUser = async ({
 };
 
 // YUP
-export const schemaModalCreateCompanyAndOwner = yup
+export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
   .object({
-    image: yup
-      .mixed()
-      .test('fileSize', 'O tamanho da imagem excede o limite.', (value) => {
-        if (!value.length) return true; // attachment is optional
-        return value[0].size <= 5000000;
-      })
-      .test('type', 'Formato inválido.', (value) => {
-        if (!value.length) return true;
-        return (
-          value[0].type === 'image/jpeg' ||
-          value[0].type === 'image/png' ||
-          value[0].type === 'image/jpg'
-        );
-      }),
+    // image: yup
+    //   .mixed()
+    //   .test('fileSize', 'O tamanho da imagem excede o limite.', (value) => {
+    //     if (!value.length) return true; // attachment is optional
+    //     return value[0].size <= 5000000;
+    //   })
+    //   .test('type', 'Formato inválido.', (value) => {
+    //     if (!value.length) return true;
+    //     return (
+    //       value[0].type === 'image/jpeg' ||
+    //       value[0].type === 'image/png' ||
+    //       value[0].type === 'image/jpg'
+    //     );
+    //   }),
 
     name: yup
       .string()
@@ -111,7 +111,7 @@ export const schemaModalCreateCompanyAndOwner = yup
     email: yup
       .string()
       .email('Informe um e-mail válido.')
-      .required('O E-mail deve ser preenchido.'),
+      .required('O e-mail deve ser preenchido.'),
 
     companyName: yup
       .string()
@@ -123,15 +123,66 @@ export const schemaModalCreateCompanyAndOwner = yup
       .required('O número de telefone deve ser preenchido.')
       .min(15, 'O número de telefone deve conter  no mínimo 15 caracteres.'),
 
-    // CPF: yup
-    //   .string()
-    //   .required('O CPF deve ser preenchido.')
-    //   .min(14, 'O CPF deve ser válido.'),
+    CNPJ: yup
+      .string()
+      .required('O CNPJ deve ser preenchido.')
+      .min(18, 'O CNPJ deve ser válido.'),
 
-    // CNPJ: yup
-    //   .string()
-    //   .required('O CNPJ deve ser preenchido.')
-    //   .min(18, 'O CNPJ deve ser válido.'),
+    password: yup
+      .string()
+      .required('Informe a senha.')
+      .min(8, 'Sua senha deve possuir 8 ou mais caracteres.'),
+
+    confirmPassword: yup
+      .string()
+      .required('Informe a senha.')
+      .min(8, 'Sua senha deve possuir 8 ou mais caracteres.')
+      .oneOf([yup.ref('password'), null], 'As senhas não coincidem.'),
+  })
+  .required();
+
+// YUP
+export const schemaModalCreateCompanyAndOwnerWithCPF = yup
+  .object({
+    // image: yup
+    //   .mixed()
+    //   .test('fileSize', 'O tamanho da imagem excede o limite.', (value) => {
+    //     if (!value.length) return true; // attachment is optional
+    //     return value[0].size <= 5000000;
+    //   })
+    //   .test('type', 'Formato inválido.', (value) => {
+    //     if (!value.length) return true;
+    //     return (
+    //       value[0].type === 'image/jpeg' ||
+    //       value[0].type === 'image/png' ||
+    //       value[0].type === 'image/jpg'
+    //     );
+    //   }),
+
+    name: yup
+      .string()
+      .required('O nome deve ser preenchido.')
+      .min(3, 'O nome deve conter 3 ou mais caracteres.'),
+
+    email: yup
+      .string()
+      .email('Informe um e-mail válido.')
+      .required('O e-mail deve ser preenchido.'),
+
+    companyName: yup
+      .string()
+      .required('O nome da empresa deve ser preenchido.')
+      .min(3, 'O nome da empresa deve conter 3 ou mais caracteres.'),
+
+    contactNumber: yup
+      .string()
+      .required('O número de telefone deve ser preenchido.')
+      .min(15, 'O número de telefone deve conter  no mínimo 15 caracteres.'),
+
+    CPF: yup
+      .string()
+      .required('O CPF deve ser preenchido.')
+      .min(14, 'O CPF deve ser válido.'),
 
     password: yup
       .string()

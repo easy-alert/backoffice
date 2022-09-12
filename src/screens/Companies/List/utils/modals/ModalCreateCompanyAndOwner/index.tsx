@@ -1,14 +1,12 @@
 // LIBS
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { Form, Formik } from 'formik';
 
 // COMPONENTS
-import * as Style from './styles';
 import { ModalComponent } from '../../../../../../components/Modal';
-import { Input } from '../../../../../../components/Form/Input';
 import { Button } from '../../../../../../components/Buttons/Button';
-import { Uploader } from '../../../../../../components/Uploader';
+// import { Uploader } from '../../../../../../components/Uploader';
+import * as Style from './styles';
 
 // TYPES
 import { IFormDataCompany, IModalCreateUser } from '../../../../types';
@@ -16,9 +14,12 @@ import { IFormDataCompany, IModalCreateUser } from '../../../../types';
 // FUNCTIONS
 import {
   requestCreateUser,
-  schemaModalCreateCompanyAndOwner,
+  schemaModalCreateCompanyAndOwnerWithCNPJ,
+  schemaModalCreateCompanyAndOwnerWithCPF,
 } from '../../functions';
+import { FormikInput } from '../../../../../../components/Form/FormikInput';
 import { applyMask } from '../../../../../../utils/functions';
+import { Switch } from '../../../../../../components/Buttons/SwitchButton';
 
 export const modalCreateCompanyAndOwner = () => {
   const {
@@ -33,42 +34,162 @@ export const modalCreateCompanyAndOwner = () => {
     setCount,
   }: IModalCreateUser) => {
     const [onQuery, setOnQuery] = useState<boolean>(false);
-    const [masksInput, setMasksInput] = useState({
-      CNPJ: '',
-      CPF: '',
-      TEL: '',
-    });
-
-    // YUP VALIDATION
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<IFormDataCompany>({
-      resolver: yupResolver(schemaModalCreateCompanyAndOwner),
-    });
-
-    // SUBMITED FORM
-    const onSubmit = handleSubmit(async (data) => {
-      await requestCreateUser({
-        data,
-        toggleModal: togleModalCreateCompanyAndOwner,
-        setOnQuery,
-        setCompanies,
-        page,
-        setCount,
-      });
-    });
+    const [isCPF, setIsCPF] = useState<boolean>(false);
 
     return (
       <Modal title="Cadastrar usuário">
-        <Style.FormContainer as="form" onSubmit={onSubmit}>
-          <Uploader
+        <Formik
+          initialValues={{
+            image: '',
+            name: '',
+            email: '',
+            companyName: '',
+            contactNumber: '',
+            CPF: '',
+            CNPJ: '',
+            password: '',
+            confirmPassword: '',
+          }}
+          validationSchema={
+            isCPF
+              ? schemaModalCreateCompanyAndOwnerWithCPF
+              : schemaModalCreateCompanyAndOwnerWithCNPJ
+          }
+          onSubmit={async (data: IFormDataCompany) => {
+            await requestCreateUser({
+              data,
+              toggleModal: togleModalCreateCompanyAndOwner,
+              setOnQuery,
+              setCompanies,
+              page,
+              setCount,
+            });
+          }}
+        >
+          {({ errors, values, touched }) => (
+            <Style.FormContainer>
+              <Form>
+                <FormikInput
+                  label="Nome do responsável"
+                  name="name"
+                  value={values.name}
+                  error={touched.name && errors.name ? errors.name : null}
+                  placeholder="Ex: João Silva"
+                />
+                <FormikInput
+                  label="E-mail"
+                  name="email"
+                  value={values.email}
+                  error={touched.email && errors.email ? errors.email : null}
+                  placeholder="Ex:  joao.silva@easyalert.com"
+                />
+                <FormikInput
+                  label="Nome da empresa"
+                  name="companyName"
+                  value={values.companyName}
+                  error={
+                    touched.companyName && errors.companyName
+                      ? errors.companyName
+                      : null
+                  }
+                  placeholder="Ex: SATC"
+                />
+
+                <FormikInput
+                  label="Telefone"
+                  name="contactNumber"
+                  maxLength={
+                    applyMask({
+                      value: values.contactNumber,
+                      mask: 'TEL',
+                    }).length
+                  }
+                  value={
+                    applyMask({
+                      value: values.contactNumber,
+                      mask: 'TEL',
+                    }).value
+                  }
+                  error={
+                    touched.contactNumber && errors.contactNumber
+                      ? errors.contactNumber
+                      : null
+                  }
+                  placeholder="Ex: (00) 0 0000-0000"
+                />
+
+                <Style.SwitchWrapper>
+                  <h6>{!isCPF ? 'CPF' : 'CNPJ'}</h6>
+                  <Switch
+                    checked={isCPF}
+                    onChange={() => {
+                      setIsCPF((state) => !state);
+                    }}
+                  />
+                </Style.SwitchWrapper>
+
+                {isCPF && (
+                  <FormikInput
+                    name="CPF"
+                    maxLength={
+                      applyMask({ value: values.CPF, mask: 'CPF' }).length
+                    }
+                    value={applyMask({ value: values.CPF, mask: 'CPF' }).value}
+                    error={touched.CPF && errors.CPF ? errors.CPF : null}
+                    placeholder="000.000.000-00"
+                  />
+                )}
+
+                {!isCPF && (
+                  <FormikInput
+                    name="CNPJ"
+                    maxLength={
+                      applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length
+                    }
+                    value={
+                      applyMask({ value: values.CNPJ, mask: 'CNPJ' }).value
+                    }
+                    error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
+                    placeholder="00.000.000/0000-00"
+                  />
+                )}
+                <FormikInput
+                  type="password"
+                  label="Senha"
+                  name="password"
+                  value={values.password}
+                  error={
+                    touched.password && errors.password ? errors.password : null
+                  }
+                  placeholder="Crie uma senha de 8 caracteres"
+                />
+                <FormikInput
+                  type="password"
+                  label="Confirmar senha"
+                  name="confirmPassword"
+                  value={values.confirmPassword}
+                  error={
+                    touched.confirmPassword && errors.confirmPassword
+                      ? errors.confirmPassword
+                      : null
+                  }
+                  placeholder="Confirme a senha criada"
+                />
+                <Button
+                  center
+                  label="Cadastrar"
+                  type="submit"
+                  loading={onQuery}
+                />
+              </Form>
+            </Style.FormContainer>
+          )}
+        </Formik>
+        {/* <Uploader
             label="Logo"
             error={errors.image}
             register={{ ...register('image') }}
           />
-
           <Input
             label="Nome do responsável"
             placeholder="Ex: João Silva"
@@ -144,10 +265,7 @@ export const modalCreateCompanyAndOwner = () => {
             error={errors.confirmPassword}
             {...register('confirmPassword')}
             maxLength={120}
-          />
-
-          <Button center label="Cadastrar" type="submit" loading={onQuery} />
-        </Style.FormContainer>
+          /> */}
       </Modal>
     );
   };
