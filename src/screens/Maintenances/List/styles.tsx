@@ -65,11 +65,11 @@ export const CreateMaintenancesContainer = styled.div<{
 
   height: fit-content;
 
-  width: 100%;
   top: ${theme.size.lg};
   background-color: ${theme.color.white};
   border-radius: ${theme.size.xxsm};
   padding: ${theme.size.xsm} ${theme.size.sm};
+  width: 50%;
 
   ${({ createMaintenancesIsOpen }) =>
     createMaintenancesIsOpen && `transform: scaleY(1);`}
@@ -79,7 +79,6 @@ export const CreateMaintenancesContent = styled.div`
   display: flex;
   align-items: center;
 
-  width: 100%;
   gap: ${theme.size.xsm};
   max-height: fit-content;
 
