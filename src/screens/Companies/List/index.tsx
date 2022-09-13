@@ -12,31 +12,36 @@ import { Table, TableContent } from '../../../components/Table';
 import { icon } from '../../../assets/icons/index';
 import { Pagination } from '../../../components/Pagination';
 import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
+import { theme } from '../../../styles/theme';
 
 // TYPES
-import { ICompany } from '../types';
+import { ICompany } from './utils/types';
 
 // FUNCTIONS
 import { requestUsersList } from './utils/functions';
 import { DateFormatter } from '../../../utils/functions';
 
-// THEMES
-import { theme } from '../../../styles/theme';
-import { modalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
-
 // MODALS
+import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
 
 export const CompaniesList = () => {
+  // UTILS
   const navigate = useNavigate();
   const { state } = useLocation();
-
-  const [companies, setCompanies] = useState<ICompany[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  // FILTER
   const [filter, setFilter] = useState<string>('');
-
-  const [page, setPage] = useState<number>(1);
   const [count, setCount] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const offset = 20;
+
+  // CONSTS
+  const [companies, setCompanies] = useState<ICompany[] | null>(null);
+
+  const [
+    modalCreateCompanyAndOwnerIsOpen,
+    setCreateModalCreateCompanyAndOwnerIsOpen,
+  ] = useState<boolean>(false);
 
   useEffect(() => {
     requestUsersList({
@@ -47,21 +52,15 @@ export const CompaniesList = () => {
     });
   }, [state]);
 
-  const {
-    ModalCreateCompanyAndOwner,
-    modalCreateCompanyAndOwnerIsOpen,
-    togleModalCreateCompanyAndOwner,
-  } = modalCreateCompanyAndOwner();
-
   return (
     <>
-      {modalCreateCompanyAndOwnerIsOpen && (
-        <ModalCreateCompanyAndOwner
-          setCompanies={setCompanies}
-          page={page}
-          setCount={setCount}
-        />
-      )}
+      <ModalCreateCompanyAndOwner
+        setCompanies={setCompanies}
+        page={page}
+        setCount={setCount}
+        modalState={modalCreateCompanyAndOwnerIsOpen}
+        setModalState={setCreateModalCreateCompanyAndOwnerIsOpen}
+      />
 
       {loading ? (
         <DotSpinLoading />
@@ -123,7 +122,7 @@ export const CompaniesList = () => {
               className="p2"
               icon={icon.plusWithBg}
               onClick={() => {
-                togleModalCreateCompanyAndOwner();
+                setCreateModalCreateCompanyAndOwnerIsOpen(true);
               }}
             />
           </Style.Header>

@@ -16,27 +16,32 @@ import { theme } from '../../../styles/theme';
 // ICONS
 import { icon } from '../../../assets/icons/index';
 
-// TYPES
-import { ICompany } from '../types';
-
-// MODAIS
-import { modalEditCompany } from './utils/modals/ModalEditCompany';
-
 // FUNCTIONS
 import { applyMask, DateFormatter } from '../../../utils/functions';
+
+// TYPES
+import { ICompany } from '../List/utils/types';
+
+// MODAIS
+
 import {
   requestChangeIsBlocked,
   requestDeleteCompany,
 } from './utils/functions';
+import { ModalEditCompanyAndOwner } from './utils/modals/ModalEditCompanyAndOwner';
 
 export const CompanyDetails = () => {
+  // UTILS
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [company, setCompany] = useState<ICompany>(state as ICompany);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const { ModalEditCompany, modalCompanyIsOpen, toggleModalEditCompany } =
-    modalEditCompany();
+  // CONSTS
+  const [company, setCompany] = useState<ICompany>(state as ICompany);
+  const [
+    modalEditCompanyAndOwnerIsOpen,
+    setEditModalCreateCompanyAndOwnerIsOpen,
+  ] = useState<boolean>(false);
 
   useEffect(() => {
     if (!state) {
@@ -47,9 +52,12 @@ export const CompanyDetails = () => {
 
   return (
     <>
-      {modalCompanyIsOpen && (
-        <ModalEditCompany company={company} setCompany={setCompany} />
-      )}
+      <ModalEditCompanyAndOwner
+        company={company}
+        setCompany={setCompany}
+        modalState={modalEditCompanyAndOwnerIsOpen}
+        setModalState={setEditModalCreateCompanyAndOwnerIsOpen}
+      />
 
       {!loading && (
         <>
@@ -171,7 +179,7 @@ export const CompanyDetails = () => {
               icon={icon.editWithBg}
               label="Editar"
               onClick={() => {
-                toggleModalEditCompany();
+                setEditModalCreateCompanyAndOwnerIsOpen(true);
               }}
             />
           </Style.Footer>
