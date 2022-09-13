@@ -63,9 +63,9 @@ export const InputContainer = styled.div<{
  `}
 `;
 
-export const ErrorMessage = styled.div`
+export const ErrorMessage = styled.div<{ errorColor: string }>`
   display: flex;
-  color: ${theme.color.danger};
+  color: ${({ errorColor }) => errorColor};
 
   > p {
     animation: scale-in-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;

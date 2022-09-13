@@ -24,6 +24,7 @@ import { useAuthContext } from '../../../contexts/Auth/UseAuthContext';
 
 // TYPES
 import { IFormData } from './types';
+import { theme } from '../../../styles/theme';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ export const Login = () => {
         }}
       >
         {({ errors, values, touched }) => (
-          <Form>
+          <>
             <Image
               img={icon.logoTextWhite}
               width="290px"
@@ -64,28 +65,38 @@ export const Login = () => {
               radius="0"
             />
             <Style.LoginContainer>
-              <h2>Login/Backoffice</h2>
-              <FormikInput
-                name="email"
-                label="E-mail"
-                placeholder="Ex: joao.silva@ada.com.br"
-                value={values.email}
-                error={touched.email && errors.email ? errors.email : null}
-              />
+              <Form>
+                <Style.InputWrapper>
+                  <h2>Login/Backoffice</h2>
+                  <FormikInput
+                    labelColor={theme.color.white}
+                    errorColor={theme.color.white}
+                    name="email"
+                    label="E-mail"
+                    placeholder="Ex: joao.silva@ada.com.br"
+                    value={values.email}
+                    error={touched.email && errors.email ? errors.email : null}
+                  />
 
-              <FormikInput
-                name="password"
-                label="Senha"
-                type="password"
-                value={values.password}
-                placeholder="Insira sua senha"
-                error={
-                  touched.password && errors.password ? errors.password : null
-                }
-              />
+                  <FormikInput
+                    labelColor={theme.color.white}
+                    errorColor={theme.color.white}
+                    name="password"
+                    label="Senha"
+                    type="password"
+                    value={values.password}
+                    placeholder="Insira sua senha"
+                    error={
+                      touched.password && errors.password
+                        ? errors.password
+                        : null
+                    }
+                  />
+                </Style.InputWrapper>
+                <Button center label="Login" loading={onQuery} type="submit" />
+              </Form>
             </Style.LoginContainer>
-            <Button label="Login" loading={onQuery} type="submit" />
-          </Form>
+          </>
         )}
       </Formik>
     </Style.Background>

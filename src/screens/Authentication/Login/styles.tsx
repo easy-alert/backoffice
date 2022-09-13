@@ -11,28 +11,41 @@ export const Background = styled.div`
   background-color: ${theme.color.gray5};
 `;
 
-export const LoginContainer = styled.div`
+export const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   background-color: ${theme.color.primary};
   border-radius: ${theme.size.xxsm};
+  gap: ${theme.size.xsm};
+  padding: ${theme.size.md};
 
+  > h2 {
+    margin-bottom: ${theme.size.sm};
+    color: ${theme.color.white};
+  }
+`;
+
+export const LoginContainer = styled.div`
   width: 100%;
   max-width: 450px;
 
   display: flex;
   flex-direction: column;
+  margin: ${theme.size.xxxxlg} 0 0 0;
+  > form {
+    display: flex;
+    flex-direction: column;
 
-  margin: ${theme.size.xxxxlg} 0px 0 0px;
-  padding: ${theme.size.sm} ${theme.size.md};
+    > h2 {
+      margin-bottom: ${theme.size.sm};
+      color: ${theme.color.white};
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-  > h2 {
-    margin-bottom: ${theme.size.sm};
-    color: ${theme.color.white};
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  > :nth-child(2) {
-    margin-bottom: ${theme.size.xsm};
+    button {
+      margin-top: ${theme.size.xsm};
+    }
   }
 `;

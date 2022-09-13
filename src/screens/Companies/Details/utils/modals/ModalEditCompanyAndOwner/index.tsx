@@ -46,13 +46,14 @@ export const ModalEditCompanyAndOwner = ({
           companyName: company.name,
           contactNumber: applyMask({
             value: company.contactNumber,
-            mask: 'CPF',
+            mask: 'TEL',
           }).value,
-          CPF:
-            company.CPF && applyMask({ value: company.CPF, mask: 'CPF' }).value,
-          CNPJ:
-            company.CNPJ &&
-            applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value,
+          CPF: company.CPF
+            ? applyMask({ value: company.CPF, mask: 'CPF' }).value
+            : '',
+          CNPJ: company.CNPJ
+            ? applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value
+            : '',
           password: '',
           confirmPassword: '',
         }}
@@ -99,7 +100,7 @@ export const ModalEditCompanyAndOwner = ({
                 name="email"
                 value={values.email}
                 error={touched.email && errors.email ? errors.email : null}
-                placeholder="Ex:  joao.silva@easyalert.com"
+                placeholder="Ex: joao.silva@easyalert.com"
               />
               <FormikInput
                 label="Nome da empresa"

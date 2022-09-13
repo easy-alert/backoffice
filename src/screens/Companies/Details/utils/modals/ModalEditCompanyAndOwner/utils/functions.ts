@@ -22,7 +22,7 @@ export const requestEditCompanyAndOwner = async ({
   setOnQuery(true);
   let imageUrl: any;
 
-  if (data.image.length) {
+  if (!data.image.length) {
     const { Location } = await uploadFile(data.image);
     imageUrl = Location;
   } else {
@@ -36,9 +36,9 @@ export const requestEditCompanyAndOwner = async ({
     name: data.name,
     email: data.email,
     companyName: data.companyName,
+    CNPJ: data.CNPJ !== '' ? unMask(data.CNPJ) : null,
+    CPF: data.CPF !== '' ? unMask(data.CPF) : null,
     contactNumber: unMask(data.contactNumber),
-    CNPJ: unMask(data.CNPJ),
-    CPF: unMask(data.CPF),
     password: data.password,
   })
     .then((res) => {
@@ -67,6 +67,7 @@ export const requestEditCompanyAndOwner = async ({
       setCompany(updatedCompany);
       setModalState(false);
       toast.success(res.data.ServerMessage.message);
+      setOnQuery(false);
     })
     .catch((err) => {
       setOnQuery(false);
@@ -88,13 +89,13 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
       .test(
         'FileSize',
         'O tamanho da imagem excedeu o limite.',
-        (value) => !value || (value && value.size <= 5000000),
+        (value) => value.length || (value && value.size <= 5000000),
       )
       .test(
         'FileType',
         'Formato inválido.',
         (value) =>
-          !value ||
+          value.length ||
           (value &&
             (value.type === 'image/png' ||
               value.type === 'image/jpeg' ||
@@ -128,13 +129,11 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
 
     password: yup
       .string()
-      .required('Informe a senha.')
-      .min(8, 'Sua senha deve possuir 8 ou mais caracteres.'),
+      .matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres.'),
 
     confirmPassword: yup
       .string()
-      .required('Informe a senha.')
-      .min(8, 'Sua senha deve possuir 8 ou mais caracteres.')
+      .matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres;')
       .oneOf([yup.ref('password'), null], 'As senhas não coincidem.'),
   })
   .required();
@@ -149,13 +148,13 @@ export const schemaModalCreateCompanyAndOwnerWithCPF = yup
       .test(
         'FileSize',
         'O tamanho da imagem excedeu o limite.',
-        (value) => !value || (value && value.size <= 5000000),
+        (value) => value.length || (value && value.size <= 5000000),
       )
       .test(
         'FileType',
         'Formato inválido.',
         (value) =>
-          !value ||
+          value.length ||
           (value &&
             (value.type === 'image/png' ||
               value.type === 'image/jpeg' ||
@@ -189,13 +188,11 @@ export const schemaModalCreateCompanyAndOwnerWithCPF = yup
 
     password: yup
       .string()
-      .required('Informe a senha.')
-      .min(8, 'Sua senha deve possuir 8 ou mais caracteres.'),
+      .matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres.'),
 
     confirmPassword: yup
       .string()
-      .required('Informe a senha.')
-      .min(8, 'Sua senha deve possuir 8 ou mais caracteres.')
+      .matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres;')
       .oneOf([yup.ref('password'), null], 'As senhas não coincidem.'),
   })
   .required();
