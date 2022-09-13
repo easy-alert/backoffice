@@ -88,20 +88,7 @@ export const requestCreateUser = async ({
 // YUP
 export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
   .object({
-    // image: yup
-    //   .mixed()
-    //   .test('fileSize', 'O tamanho da imagem excede o limite.', (value) => {
-    //     if (!value.length) return true; // attachment is optional
-    //     return value[0].size <= 5000000;
-    //   })
-    //   .test('type', 'Formato inválido.', (value) => {
-    //     if (!value.length) return true;
-    //     return (
-    //       value[0].type === 'image/jpeg' ||
-    //       value[0].type === 'image/png' ||
-    //       value[0].type === 'image/jpg'
-    //     );
-    //   }),
+    image: yup.mixed(),
 
     name: yup
       .string()
@@ -144,20 +131,7 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
 // YUP
 export const schemaModalCreateCompanyAndOwnerWithCPF = yup
   .object({
-    // image: yup
-    //   .mixed()
-    //   .test('fileSize', 'O tamanho da imagem excede o limite.', (value) => {
-    //     if (!value.length) return true; // attachment is optional
-    //     return value[0].size <= 5000000;
-    //   })
-    //   .test('type', 'Formato inválido.', (value) => {
-    //     if (!value.length) return true;
-    //     return (
-    //       value[0].type === 'image/jpeg' ||
-    //       value[0].type === 'image/png' ||
-    //       value[0].type === 'image/jpg'
-    //     );
-    //   }),
+    image: yup.mixed(),
 
     name: yup
       .string()

@@ -15,9 +15,9 @@ import { icon } from '../../assets/icons/index';
 export const Uploader = ({
   label,
   error,
-  register,
   defaultImage,
   setNewImage,
+  name,
 }: IUploader) => {
   const [image, setImage] = useState<any>(defaultImage);
   return (
@@ -28,9 +28,9 @@ export const Uploader = ({
           <img src={image ? icon.editWithBg : icon.plusWithBg} alt="" />
           <Image img={image ?? icon.imageBackplate} size="80px" />
           <Input
+            name={name}
             type="file"
-            error={error}
-            {...register}
+            error={error ?? null}
             onChange={(evt) => {
               if (evt.target.files?.length) {
                 const newImage = URL.createObjectURL(evt.target.files[0]);

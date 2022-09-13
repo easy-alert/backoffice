@@ -5,7 +5,7 @@ import { Form, Formik } from 'formik';
 // COMPONENTS
 import { ModalComponent } from '../../../../../../components/Modal';
 import { Button } from '../../../../../../components/Buttons/Button';
-// import { Uploader } from '../../../../../../components/Uploader';
+import { Uploader } from '../../../../../../components/Uploader';
 import * as Style from './styles';
 
 // TYPES
@@ -69,6 +69,11 @@ export const modalCreateCompanyAndOwner = () => {
           {({ errors, values, touched }) => (
             <Style.FormContainer>
               <Form>
+                <Uploader
+                  name="image"
+                  label="Logo"
+                  error={touched.image && errors.image ? errors.image : null}
+                />
                 <FormikInput
                   label="Nome do responsável"
                   name="name"
@@ -119,13 +124,14 @@ export const modalCreateCompanyAndOwner = () => {
                 />
 
                 <Style.SwitchWrapper>
-                  <h6>{!isCPF ? 'CPF' : 'CNPJ'}</h6>
+                  <h6>CNPJ</h6>
                   <Switch
                     checked={isCPF}
                     onChange={() => {
                       setIsCPF((state) => !state);
                     }}
                   />
+                  <h6>CPF</h6>
                 </Style.SwitchWrapper>
 
                 {isCPF && (

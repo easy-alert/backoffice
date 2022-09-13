@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FieldError } from 'react-hook-form';
 
 export interface IUploader {
   label: string;
-  error: FieldError | undefined;
-  register: any;
+  error: string | null;
   defaultImage?: string;
   setNewImage?: any;
+  name?: string;
 }

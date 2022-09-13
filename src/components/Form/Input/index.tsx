@@ -25,9 +25,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, IInput> = (
   >
     {label && <h6>{label}</h6>}
     <input id={name} name={name} ref={ref} {...rest} />
-    <ErrorMessage>
-      {!!error && <p className="p3">{error.message}</p>}
-    </ErrorMessage>
+    <ErrorMessage>{!!error && <p className="p3">{error}</p>}</ErrorMessage>
   </InputContainer>
 );
 export const Input = forwardRef(InputBase);
