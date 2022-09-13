@@ -1,5 +1,6 @@
 // LIBS
 import { forwardRef, ForwardRefRenderFunction } from 'react';
+import { Field } from 'formik';
 
 // TYPES
 import { SelectProps } from './utils/types';
@@ -13,7 +14,7 @@ const SelectBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
 ) => (
   <SelectContainer error={!!error}>
     <h6>{label}</h6>
-    <select id={name} name={name} ref={ref} {...rest} />
+    <Field as="select" id={name} name={name} ref={ref} {...rest} />
     <ErrorMessage>
       {!!error && <p className="p3">{error.message}</p>}
     </ErrorMessage>

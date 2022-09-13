@@ -3,7 +3,7 @@
 export interface IUploader {
   label: string;
   error: string | null;
-  defaultImage?: string;
-  setNewImage?: any;
+  defaultImage?: any;
   name?: string;
+  onChange: any;
 }

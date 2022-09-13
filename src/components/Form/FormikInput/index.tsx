@@ -1,9 +1,10 @@
 // LIBS
 import { forwardRef, ForwardRefRenderFunction } from 'react';
+import { Field } from 'formik';
 
 // TYPES
-import { Field } from 'formik';
 import { IInput } from './utils/types';
+
 // COMPONENTS
 import { ErrorMessage, InputContainer } from './styles';
 import { theme } from '../../../styles/theme';

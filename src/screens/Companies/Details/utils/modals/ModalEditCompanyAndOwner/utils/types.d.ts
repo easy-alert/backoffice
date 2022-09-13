@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IModalStates } from '../../../../../../../components/Modal/utils/types';
+import { ICompany } from '../../../../../List/utils/types';
 
 export interface IModalEditCompanyAndOwner extends IModalStates {
   company: ICompany;

@@ -1,4 +1,5 @@
 import { IModalStates } from '../../../../../../../components/Modal/utils/types';
+import { ICompany } from '../../../../../List/utils/types';
 
 export interface IModalCreateCompanyAndOWner extends IModalStates {
   setCount: (setCount: number) => void;

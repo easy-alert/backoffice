@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 // LIBS
 import { useEffect, useState } from 'react';
 
@@ -8,7 +9,6 @@ import { Image } from '../../../components/Image';
 import { icon } from '../../../assets/icons/index';
 import { Pagination } from '../../../components/Pagination';
 import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
-import { Input } from '../../../components/Form/Input';
 import { Button } from '../../../components/Buttons/Button';
 
 // FUNCTIONS
@@ -26,6 +26,7 @@ export const MaintenancesList = () => {
   const [count, setCount] = useState<number>(0);
   const offset = 20;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [maintenances, setMaintenances] = useState<any>();
 
   const [createMaintenancesIsOpen, setCreateMaintenancesIsOpen] =
@@ -102,10 +103,10 @@ export const MaintenancesList = () => {
               createMaintenancesIsOpen={createMaintenancesIsOpen}
             >
               <Style.CreateMaintenancesContent>
-                <Input
+                {/* <Input
                   placeholder="Digite o nome da categoria"
                   maxLength={40}
-                />
+                /> */}
                 <Style.ButtonsMaintenancesContainer>
                   <Button label="Criar" />
                   <Button label="Excluir" borderless />

@@ -21,7 +21,7 @@ export const requestCreateCompanyAndOWner = async ({
   setOnQuery(true);
   let imageUrl;
 
-  if (data.image.length) {
+  if (data.image) {
     const { Location } = await uploadFile(data.image);
     imageUrl = Location;
   } else {
@@ -37,8 +37,8 @@ export const requestCreateCompanyAndOWner = async ({
     email: data.email,
     password: data.password,
     companyName: data.companyName,
-    CNPJ: data.CNPJ ? unMask(data.CNPJ) : null,
-    CPF: data.CPF ? unMask(data.CPF) : null,
+    CNPJ: data.CNPJ !== '' ? unMask(data.CNPJ) : null,
+    CPF: data.CPF !== '' ? unMask(data.CPF) : null,
     contactNumber: unMask(data.contactNumber),
   })
     .then((res) => {
@@ -63,7 +63,25 @@ export const requestCreateCompanyAndOWner = async ({
 // YUP
 export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
   .object({
-    image: yup.mixed(),
+    image: yup
+      .mixed()
+      .nullable()
+      .notRequired()
+      .test(
+        'FileSize',
+        'O tamanho da imagem excedeu o limite.',
+        (value) => !value || (value && value.size <= 5000000),
+      )
+      .test(
+        'FileType',
+        'Formato inválido.',
+        (value) =>
+          !value ||
+          (value &&
+            (value.type === 'image/png' ||
+              value.type === 'image/jpeg' ||
+              value.type === 'image/jpg')),
+      ),
 
     name: yup
       .string()
@@ -103,9 +121,28 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
   })
   .required();
 
+// YUP
 export const schemaModalCreateCompanyAndOwnerWithCPF = yup
   .object({
-    image: yup.mixed(),
+    image: yup
+      .mixed()
+      .nullable()
+      .notRequired()
+      .test(
+        'FileSize',
+        'O tamanho da imagem excedeu o limite.',
+        (value) => !value || (value && value.size <= 5000000),
+      )
+      .test(
+        'FileType',
+        'Formato inválido.',
+        (value) =>
+          !value ||
+          (value &&
+            (value.type === 'image/png' ||
+              value.type === 'image/jpeg' ||
+              value.type === 'image/jpg')),
+      ),
 
     name: yup
       .string()

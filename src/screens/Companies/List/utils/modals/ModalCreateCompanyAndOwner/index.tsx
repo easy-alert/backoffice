@@ -4,7 +4,7 @@ import { Form, Formik } from 'formik';
 
 // COMPONENTS
 import { Button } from '../../../../../../components/Buttons/Button';
-import { Uploader } from '../../../../../../components/Uploader';
+import { FormikImageInput } from '../../../../../../components/Form/FormikImageInput';
 import { FormikInput } from '../../../../../../components/Form/FormikInput';
 import { Switch } from '../../../../../../components/Buttons/SwitchButton';
 import { Modal } from '../../../../../../components/Modal';
@@ -67,13 +67,20 @@ export const ModalCreateCompanyAndOwner = ({
           });
         }}
       >
-        {({ errors, values, touched }) => (
+        {({ errors, values, touched, setFieldValue }) => (
           <Style.FormContainer>
             <Form>
-              <Uploader
+              <FormikImageInput
                 name="image"
                 label="Logo"
                 error={touched.image && errors.image ? errors.image : null}
+                defaultImage={values.image}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={(event: any) => {
+                  if (event.target.files?.length) {
+                    setFieldValue('image', event.target.files[0]);
+                  }
+                }}
               />
               <FormikInput
                 label="Nome do responsável"
@@ -123,13 +130,17 @@ export const ModalCreateCompanyAndOwner = ({
                 }
                 placeholder="Ex: (00) 0 0000-0000"
               />
-
               <Style.SwitchWrapper>
                 <h6>CNPJ</h6>
                 <Switch
                   checked={isCPF}
                   onChange={() => {
                     setIsCPF((state) => !state);
+                    if (isCPF) {
+                      setFieldValue('CNPJ', '');
+                    } else {
+                      setFieldValue('CPF', '');
+                    }
                   }}
                 />
                 <h6>CPF</h6>
@@ -190,87 +201,6 @@ export const ModalCreateCompanyAndOwner = ({
           </Style.FormContainer>
         )}
       </Formik>
-      {/* <Uploader
-            label="Logo"
-            error={errors.image}
-            register={{ ...register('image') }}
-          />
-          <Input
-            label="Nome do responsável"
-            placeholder="Ex: João Silva"
-            error={errors.name}
-            {...register('name')}
-            maxLength={40}
-          />
-
-          <Input
-            label="E-mail"
-            placeholder="Ex: joao.silva@ada.com.br"
-            error={errors.email}
-            {...register('email')}
-            maxLength={50}
-          />
-
-          <Input
-            label="Nome da empresa"
-            placeholder="Ex: SATC"
-            error={errors.companyName}
-            {...register('companyName')}
-            maxLength={40}
-          />
-
-          <Input
-            label="Telefone"
-            placeholder="Ex: 48 99000-0000"
-            error={errors.contactNumber}
-            {...register('contactNumber')}
-            maxLength={applyMask({ value: masksInput.TEL, mask: 'TEL' }).length}
-            value={applyMask({ value: masksInput.TEL, mask: 'TEL' }).value}
-            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-              setMasksInput({ ...masksInput, TEL: evt.target.value });
-            }}
-          />
-          <Input
-            label="CPF"
-            placeholder="Ex: 000.000.000.00"
-            error={errors.CPF}
-            {...register('CPF')}
-            maxLength={applyMask({ value: masksInput.CPF, mask: 'CPF' }).length}
-            value={applyMask({ value: masksInput.CPF, mask: 'CPF' }).value}
-            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-              setMasksInput({ ...masksInput, CPF: evt.target.value });
-            }}
-          />
-          <Input
-            label="CNPJ"
-            placeholder="Ex: 00.000.000/0000-00"
-            error={errors.CNPJ}
-            {...register('CNPJ')}
-            maxLength={
-              applyMask({ value: masksInput.CNPJ, mask: 'CNPJ' }).length
-            }
-            value={applyMask({ value: masksInput.CNPJ, mask: 'CNPJ' }).value}
-            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-              setMasksInput({ ...masksInput, CNPJ: evt.target.value });
-            }}
-          />
-
-          <Input
-            type="password"
-            placeholder="Crie uma senha"
-            label="Senha do usuário"
-            error={errors.password}
-            {...register('password')}
-            maxLength={120}
-          />
-          <Input
-            type="password"
-            label="Confirmar senha"
-            placeholder="Repita a senha criada"
-            error={errors.confirmPassword}
-            {...register('confirmPassword')}
-            maxLength={120}
-          /> */}
     </Modal>
   );
 };

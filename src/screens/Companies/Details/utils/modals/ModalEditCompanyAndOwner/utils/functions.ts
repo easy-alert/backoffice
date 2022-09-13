@@ -81,7 +81,25 @@ export const requestEditCompanyAndOwner = async ({
 // YUP
 export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
   .object({
-    image: yup.mixed(),
+    image: yup
+      .mixed()
+      .nullable()
+      .notRequired()
+      .test(
+        'FileSize',
+        'O tamanho da imagem excedeu o limite.',
+        (value) => !value || (value && value.size <= 5000000),
+      )
+      .test(
+        'FileType',
+        'Formato inválido.',
+        (value) =>
+          !value ||
+          (value &&
+            (value.type === 'image/png' ||
+              value.type === 'image/jpeg' ||
+              value.type === 'image/jpg')),
+      ),
 
     name: yup
       .string()
@@ -121,9 +139,28 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
   })
   .required();
 
+// YUP
 export const schemaModalCreateCompanyAndOwnerWithCPF = yup
   .object({
-    image: yup.mixed(),
+    image: yup
+      .mixed()
+      .nullable()
+      .notRequired()
+      .test(
+        'FileSize',
+        'O tamanho da imagem excedeu o limite.',
+        (value) => !value || (value && value.size <= 5000000),
+      )
+      .test(
+        'FileType',
+        'Formato inválido.',
+        (value) =>
+          !value ||
+          (value &&
+            (value.type === 'image/png' ||
+              value.type === 'image/jpeg' ||
+              value.type === 'image/jpg')),
+      ),
 
     name: yup
       .string()

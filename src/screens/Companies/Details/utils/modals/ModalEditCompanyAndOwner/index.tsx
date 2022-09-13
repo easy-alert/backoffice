@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import * as Style from './styles';
 import { Button } from '../../../../../../components/Buttons/Button';
-import { Uploader } from '../../../../../../components/Uploader';
+import { FormikImageInput } from '../../../../../../components/Form/FormikImageInput';
 import { FormikInput } from '../../../../../../components/Form/FormikInput';
 import { Modal } from '../../../../../../components/Modal';
 
@@ -32,8 +32,6 @@ export const ModalEditCompanyAndOwner = ({
   const navigate = useNavigate();
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
-  console.log(company.CNPJ);
-
   return (
     <Modal
       title="Editar usuário"
@@ -46,9 +44,15 @@ export const ModalEditCompanyAndOwner = ({
           name: company.UserCompanies[0].User.name,
           email: company.UserCompanies[0].User.email,
           companyName: company.name,
-          contactNumber: company.contactNumber,
-          CPF: applyMask({ value: company.CNPJ, mask: 'CPF' }).value,
-          CNPJ: applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value,
+          contactNumber: applyMask({
+            value: company.contactNumber,
+            mask: 'CPF',
+          }).value,
+          CPF:
+            company.CPF && applyMask({ value: company.CPF, mask: 'CPF' }).value,
+          CNPJ:
+            company.CNPJ &&
+            applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value,
           password: '',
           confirmPassword: '',
         }}
@@ -68,13 +72,20 @@ export const ModalEditCompanyAndOwner = ({
           });
         }}
       >
-        {({ errors, values, touched }) => (
+        {({ errors, values, touched, setFieldValue }) => (
           <Style.FormContainer>
             <Form>
-              <Uploader
+              <FormikImageInput
                 name="image"
                 label="Logo"
                 error={touched.image && errors.image ? errors.image : null}
+                defaultImage={values.image}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={(event: any) => {
+                  if (event.target.files?.length) {
+                    setFieldValue('image', event.target.files[0]);
+                  }
+                }}
               />
               <FormikInput
                 label="Nome do responsável"
@@ -126,38 +137,29 @@ export const ModalEditCompanyAndOwner = ({
               />
 
               {company.CPF && (
-                <>
-                  {console.log('CPF')}
-                  <FormikInput
-                    name="CPF"
-                    label="CPF"
-                    maxLength={
-                      applyMask({ value: values.CPF, mask: 'CPF' }).length
-                    }
-                    value={applyMask({ value: values.CPF, mask: 'CPF' }).value}
-                    error={touched.CPF && errors.CPF ? errors.CPF : null}
-                    placeholder="000.000.000-00"
-                  />
-                </>
+                <FormikInput
+                  name="CPF"
+                  label="CPF"
+                  maxLength={
+                    applyMask({ value: values.CPF, mask: 'CPF' }).length
+                  }
+                  value={applyMask({ value: values.CPF, mask: 'CPF' }).value}
+                  error={touched.CPF && errors.CPF ? errors.CPF : null}
+                  placeholder="000.000.000-00"
+                />
               )}
 
               {company.CNPJ && (
-                <>
-                  {(console.log('CNPJ'), console.log(values.CNPJ))}
-
-                  <FormikInput
-                    name="CNPJ"
-                    label="CNPJ"
-                    maxLength={
-                      applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length
-                    }
-                    value={
-                      applyMask({ value: values.CNPJ, mask: 'CNPJ' }).value
-                    }
-                    error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
-                    placeholder="00.000.000/0000-00"
-                  />
-                </>
+                <FormikInput
+                  name="CNPJ"
+                  label="CNPJ"
+                  maxLength={
+                    applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length
+                  }
+                  value={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).value}
+                  error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
+                  placeholder="00.000.000/0000-00"
+                />
               )}
               <FormikInput
                 type="password"
@@ -193,101 +195,6 @@ export const ModalEditCompanyAndOwner = ({
           </Style.FormContainer>
         )}
       </Formik>
-
-      {/* <Style.FormContainer as="form" onSubmit={onSubmit}>
-        <Uploader
-          label="Logo"
-          error={errors.image}
-          register={{ ...register('image') }}
-          defaultImage={company.image}
-        />
-        <Input
-          label="Nome do responsável"
-          placeholder="Ex: João Silva"
-          error={errors.name}
-          {...register('name')}
-          maxLength={40}
-        />
-
-        <Input
-          label="E-mail"
-          placeholder="Ex: joao.silva@ada.com.br"
-          error={errors.email}
-          {...register('email')}
-          maxLength={50}
-        />
-
-        <Input
-          label="Nome da empresa"
-          placeholder="Ex: SATC"
-          error={errors.companyName}
-          {...register('companyName')}
-          maxLength={40}
-        />
-
-        <Input
-          label="Telefone"
-          placeholder="Ex: (48) 9 9000-0000"
-          error={errors.contactNumber}
-          {...register('contactNumber')}
-          maxLength={applyMask({ value: masksInput.TEL, mask: 'TEL' }).length}
-          value={applyMask({ value: masksInput.TEL, mask: 'TEL' }).value}
-          onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-            setMasksInput({ ...masksInput, TEL: evt.target.value });
-          }}
-        />
-
-        {company.CPF && (
-          <Input
-            label="CPF"
-            placeholder="Ex: 000.000.000.00"
-            error={errors.CPF}
-            {...register('CPF')}
-            maxLength={applyMask({ value: masksInput.CPF, mask: 'CPF' }).length}
-            value={applyMask({ value: masksInput.CPF, mask: 'CPF' }).value}
-            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-              setMasksInput({ ...masksInput, CPF: evt.target.value });
-            }}
-          />
-        )}
-
-        {company.CNPJ && (
-          <Input
-            label="CNPJ"
-            placeholder="Ex: 00.000.000/0000-00"
-            error={errors.CNPJ}
-            {...register('CNPJ')}
-            maxLength={
-              applyMask({ value: masksInput.CNPJ, mask: 'CNPJ' }).length
-            }
-            value={applyMask({ value: masksInput.CNPJ, mask: 'CNPJ' }).value}
-            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-              setMasksInput({ ...masksInput, CNPJ: evt.target.value });
-            }}
-          />
-        )}
-
-        <Input
-          type="password"
-          placeholder="••••••••••"
-          passwordPlaceholder
-          label="Senha do usuário"
-          error={errors.password}
-          {...register('password')}
-          maxLength={120}
-        />
-        <Input
-          type="password"
-          placeholder="••••••••••"
-          passwordPlaceholder
-          label="Confirmar senha"
-          error={errors.confirmPassword}
-          {...register('confirmPassword')}
-          maxLength={120}
-        />
-
-        <Button center label="Salvar" type="submit" loading={onQuery} />
-      </Style.FormContainer> */}
     </Modal>
   );
 };

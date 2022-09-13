@@ -1,46 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react';
-
 // COMPONENTS
-import { Image } from '../Image';
-import { Input } from '../Form/Input';
+import { Image } from '../../Image';
 
 // TYPES
 import { IUploader } from './utils/types';
 
 // COMPONENTS
 import * as Style from './styles';
-import { icon } from '../../assets/icons/index';
+import { icon } from '../../../assets/icons';
 
-export const Uploader = ({
+export const FormikImageInput = ({
   label,
   error,
   defaultImage,
-  setNewImage,
   name,
+  onChange,
 }: IUploader) => {
-  const [image, setImage] = useState<any>(defaultImage);
+  const checkImageType = () => {
+    if (defaultImage) {
+      if (defaultImage instanceof File) {
+        return URL.createObjectURL(defaultImage);
+      }
+      return defaultImage;
+    }
+    return icon.imageBackplate;
+  };
+
   return (
     <Style.BackgroundSection>
       <h6>{label}</h6>
       <Style.Container>
         <Style.ImageWrapper>
-          <img src={image ? icon.editWithBg : icon.plusWithBg} alt="" />
-          <Image img={image ?? icon.imageBackplate} size="80px" />
-          <Input
+          <img src={defaultImage ? icon.editWithBg : icon.plusWithBg} alt="" />
+          <Image img={checkImageType()} size="80px" />
+          <input
             name={name}
             type="file"
-            error={error ?? null}
-            onChange={(evt) => {
-              if (evt.target.files?.length) {
-                const newImage = URL.createObjectURL(evt.target.files[0]);
-                setImage(newImage);
-
-                if (setNewImage) {
-                  setNewImage(newImage);
-                }
-              }
-            }}
+            onChange={onChange}
             style={{
               position: 'absolute',
               cursor: 'pointer',
@@ -51,6 +47,9 @@ export const Uploader = ({
               opacity: 0,
             }}
           />
+          <Style.ErrorMessage>
+            {!!error && <p className="p3">{error}</p>}
+          </Style.ErrorMessage>
         </Style.ImageWrapper>
         <p className="p5">JPG ou PNG. Tamanho máximo de 5 MB.</p>
       </Style.Container>

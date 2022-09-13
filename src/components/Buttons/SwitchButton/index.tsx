@@ -1,13 +1,16 @@
 import ReactSwitch from 'react-switch';
 import { ISwitchButton } from './utils/types';
+import { theme } from '../../../styles/theme';
 
 export const Switch = ({ disabled, onChange, checked }: ISwitchButton) => (
   <ReactSwitch
     disabled={disabled}
     onChange={onChange}
     checked={checked}
-    onColor="#D8EDEC"
-    onHandleColor="#0C918B"
+    onColor={theme.color.dangerL}
+    offColor={theme.color.dangerL}
+    onHandleColor={theme.color.primary}
+    offHandleColor={theme.color.primary}
     handleDiameter={16}
     uncheckedIcon={false}
     checkedIcon={false}

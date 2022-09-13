@@ -12,7 +12,7 @@ export async function uploadFile(file: any) {
   let response = {};
 
   const formData = new FormData();
-  formData.append('file', file[0]);
+  formData.append('file', file);
 
   await Api.post('upload/file', formData).then((res) => {
     response = res.data;

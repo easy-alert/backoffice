@@ -11,16 +11,6 @@ export const Background = styled.div`
   background-color: ${theme.color.gray5};
 `;
 
-export const FormContainter = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  @media (max-width: 900px) {
-    padding: 0 ${theme.size.md};
-  }
-`;
-
 export const LoginContainer = styled.div`
   background-color: ${theme.color.primary};
   border-radius: ${theme.size.xxsm};
