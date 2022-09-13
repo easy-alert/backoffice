@@ -73,33 +73,16 @@ export const CreateMaintenancesContainer = styled.div<{
 
   ${({ createMaintenancesIsOpen }) =>
     createMaintenancesIsOpen && `transform: scaleY(1);`}
-`;
-
-export const CreateMaintenancesContent = styled.div`
-  display: flex;
-  align-items: center;
-
-  gap: ${theme.size.xsm};
-  max-height: fit-content;
 
   @media (max-width: 900px) {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-export const ButtonsMaintenancesContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${theme.size.xsm};
-
-  @media (max-width: 900px) {
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    align-items: center;
-    gap: ${theme.size.xsm};
     width: 100%;
   }
+`;
+
+export const CreateMaintenancesContainerContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.size.xsm};
 `;
 
 export const PaginationFooter = styled.footer`

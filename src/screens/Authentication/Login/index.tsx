@@ -1,7 +1,6 @@
 // LIBS
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { Formik, Form } from 'formik';
 
 // COMPONENTS
@@ -25,6 +24,7 @@ import { useAuthContext } from '../../../contexts/Auth/UseAuthContext';
 // TYPES
 import { IFormData } from './types';
 import { theme } from '../../../styles/theme';
+import { catchHandler } from '../../../utils/functions';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -48,11 +48,7 @@ export const Login = () => {
             })
             .catch((err) => {
               setOnQuery(false);
-              if (err.response.data) {
-                toast.error(err.response.data.ServerMessage.message);
-              } else {
-                toast.error('Erro de comunicação');
-              }
+              catchHandler(err);
             });
         }}
       >

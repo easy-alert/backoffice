@@ -1,8 +1,8 @@
-/* eslint-disable no-alert */
 // LIBS
 import { useEffect, useState } from 'react';
 
 // COMPONENTS
+import { Form, Formik } from 'formik';
 import * as Style from './styles';
 import { IconButton } from '../../../components/Buttons/IconButton';
 import { Image } from '../../../components/Image';
@@ -10,17 +10,19 @@ import { icon } from '../../../assets/icons/index';
 import { Pagination } from '../../../components/Pagination';
 import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
 import { Button } from '../../../components/Buttons/Button';
+import { schemeCreateCategory } from './utils/functions';
+import { IFormDataCategory } from './utils/types';
+import { FormikInput } from '../../../components/Form/FormikInput';
 
 // FUNCTIONS
 // import { requestUsersList } from './utils/functions';
 // import { DateFormatter } from '../../../utils/functions';
 
-// THEMES
-
-// MODALS
-
 export const MaintenancesList = () => {
+  // UTILS
   const [loading, setLoading] = useState<boolean>(true);
+
+  // FILTER
   const [filter, setFilter] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [count, setCount] = useState<number>(0);
@@ -91,7 +93,7 @@ export const MaintenancesList = () => {
                   createMaintenancesIsOpen ? 'Cancelar' : 'Criar categoria'
                 }
                 className="p2"
-                icon={icon.plusWithBg}
+                icon={createMaintenancesIsOpen ? icon.circleX : icon.plusWithBg}
                 onClick={() => {
                   setCreateMaintenancesIsOpen((prevState) => !prevState);
                 }}
@@ -99,19 +101,31 @@ export const MaintenancesList = () => {
             </Style.LeftSide>
 
             <Style.CreateMaintenancesContainer
-              as="form"
               createMaintenancesIsOpen={createMaintenancesIsOpen}
             >
-              <Style.CreateMaintenancesContent>
-                {/* <Input
-                  placeholder="Digite o nome da categoria"
-                  maxLength={40}
-                /> */}
-                <Style.ButtonsMaintenancesContainer>
-                  <Button label="Criar" />
-                  <Button label="Excluir" borderless />
-                </Style.ButtonsMaintenancesContainer>
-              </Style.CreateMaintenancesContent>
+              <Formik
+                initialValues={{ name: '' }}
+                validationSchema={schemeCreateCategory}
+                onSubmit={async (data: IFormDataCategory) => {
+                  console.log(data);
+                }}
+              >
+                {({ errors, values, touched }) => (
+                  <Form>
+                    <Style.CreateMaintenancesContainerContent>
+                      <FormikInput
+                        name="name"
+                        value={values.name}
+                        error={touched.name && errors.name ? errors.name : null}
+                        placeholder="Digite o nome da categoria"
+                        maxLength={40}
+                      />
+                      <Button label="Criar" type="submit" />
+                      <Button label="Fechar" borderless />
+                    </Style.CreateMaintenancesContainerContent>
+                  </Form>
+                )}
+              </Formik>
             </Style.CreateMaintenancesContainer>
           </Style.Header>
 

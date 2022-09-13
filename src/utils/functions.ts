@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { Api } from '../services/api';
 import { IMask, IUploadFile } from './types';
 
+// DATES
 export const DateFormatter = (date: string) =>
   new Date(date).toLocaleDateString('pt-BR', {
     timeZone: 'UTC',
   });
+
+// UPLOADS
 
 export async function uploadFile(file: any) {
   let response = {};
@@ -21,6 +25,8 @@ export async function uploadFile(file: any) {
   return response as IUploadFile;
 }
 
+// ERRORS
+
 export const handleError = async ({ error }: { error: Error }) => {
   if (process.env.NODE_ENV !== 'development') {
     axios.post('https://ada-logs.herokuapp.com/api/logs/create', {
@@ -33,6 +39,8 @@ export const handleError = async ({ error }: { error: Error }) => {
     });
   }
 };
+
+// MASKS
 
 export const applyMask = ({
   mask,
@@ -101,3 +109,13 @@ export const applyMask = ({
 };
 
 export const unMask = (value: string) => value.replace(/[^a-zA-Z0-9]/g, '');
+
+// REQUESTS
+export const catchHandler = (err: any) => {
+  toast.dismiss();
+  if (err.response.data) {
+    toast.error(err.response.data.ServerMessage.message);
+  } else {
+    toast.error('Erro de comunicação');
+  }
+};

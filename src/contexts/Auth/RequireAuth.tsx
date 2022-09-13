@@ -20,9 +20,7 @@ export const RequireAuth = () => {
         setUser(res.data.User);
         setLoading(false);
       })
-      .catch(() => {
-        navigate('/login');
-      });
+      .catch(() => navigate('/login'));
   };
 
   useEffect(() => {

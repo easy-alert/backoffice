@@ -1,6 +1,6 @@
 // LIBS
-import { toast } from 'react-toastify';
 import { Api } from '../../../../services/api';
+import { catchHandler } from '../../../../utils/functions';
 
 // TYPES
 import { IRequestUsersList } from './types';
@@ -22,10 +22,6 @@ export const requestUsersList = async ({
       if (setPage) setPage(1);
     })
     .catch((err) => {
-      if (err.response.data) {
-        toast.error(err.response.data.ServerMessage.message);
-      } else {
-        toast.error('Erro de comunicação');
-      }
+      catchHandler(err);
     });
 };

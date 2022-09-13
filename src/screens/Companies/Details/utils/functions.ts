@@ -6,6 +6,7 @@ import { Api } from '../../../../services/api';
 // TYPES
 import { IRequestChangeIsActiveAndIsDeleted } from './types';
 import { ICompany } from '../../List/utils/types';
+import { catchHandler } from '../../../../utils/functions';
 
 export const requestChangeIsBlocked = async ({
   company,
@@ -26,12 +27,7 @@ export const requestChangeIsBlocked = async ({
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {
-      toast.dismiss();
-      if (err.response.data) {
-        toast.error(err.response.data.ServerMessage.message);
-      } else {
-        toast.error('Erro de comunicação');
-      }
+      catchHandler(err);
     });
 };
 
@@ -53,11 +49,6 @@ export const requestDeleteCompany = async ({
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {
-      toast.dismiss();
-      if (err.response.data) {
-        toast.error(err.response.data.ServerMessage.message);
-      } else {
-        toast.error('Erro de comunicação');
-      }
+      catchHandler(err);
     });
 };

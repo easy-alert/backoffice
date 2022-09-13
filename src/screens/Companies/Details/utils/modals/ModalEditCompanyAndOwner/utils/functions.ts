@@ -5,7 +5,11 @@ import * as yup from 'yup';
 
 // FUNCTIONS
 import { Api } from '../../../../../../../services/api';
-import { unMask, uploadFile } from '../../../../../../../utils/functions';
+import {
+  catchHandler,
+  unMask,
+  uploadFile,
+} from '../../../../../../../utils/functions';
 
 // TYPES
 import { ICompany } from '../../../../../List/utils/types';
@@ -71,11 +75,7 @@ export const requestEditCompanyAndOwner = async ({
     })
     .catch((err) => {
       setOnQuery(false);
-      if (err.response.data) {
-        toast.error(err.response.data.ServerMessage.message);
-      } else {
-        toast.error('Erro de comunicação');
-      }
+      catchHandler(err);
     });
 };
 
