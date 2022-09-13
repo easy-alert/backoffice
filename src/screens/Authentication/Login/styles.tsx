@@ -22,6 +22,9 @@ export const InputWrapper = styled.div`
   > h2 {
     margin-bottom: ${theme.size.sm};
     color: ${theme.color.white};
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
@@ -31,21 +34,9 @@ export const LoginContainer = styled.div`
 
   display: flex;
   flex-direction: column;
-  margin: ${theme.size.xxxxlg} 0 0 0;
-  > form {
-    display: flex;
-    flex-direction: column;
+  margin-top: ${theme.size.xxxxlg};
 
-    > h2 {
-      margin-bottom: ${theme.size.sm};
-      color: ${theme.color.white};
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    button {
-      margin-top: ${theme.size.xsm};
-    }
+  button {
+    margin-top: ${theme.size.xsm};
   }
 `;

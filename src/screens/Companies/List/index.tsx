@@ -134,10 +134,15 @@ export const CompaniesList = () => {
                   { label: '' },
                   {
                     label: 'Nome',
-                    cssProps: { paddingLeft: theme.size.xsm },
+                    cssProps: {
+                      paddingLeft: theme.size.xsm,
+                    },
                   },
                   {
                     label: 'Responsável',
+                    cssProps: {
+                      paddingRight: theme.size.sm,
+                    },
                   },
                   { label: 'Último acesso' },
                   { label: 'Status' },
@@ -182,6 +187,7 @@ export const CompaniesList = () => {
                           whiteSpace: 'nowrap',
                           textOverflow: 'ellipsis',
                           maxWidth: '150px',
+                          paddingRight: theme.size.sm,
                         },
                       },
                       {
