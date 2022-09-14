@@ -43,7 +43,7 @@ export const requestEditCompanyAndOwner = async ({
     CNPJ: data.CNPJ !== '' ? unMask(data.CNPJ) : null,
     CPF: data.CPF !== '' ? unMask(data.CPF) : null,
     contactNumber: unMask(data.contactNumber),
-    password: data.password,
+    password: data.password !== '' ? data.password : null,
   })
     .then((res) => {
       const updatedCompany: ICompany = {
@@ -133,8 +133,11 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
 
     confirmPassword: yup
       .string()
-      .matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres;')
-      .oneOf([yup.ref('password'), null], 'As senhas não coincidem.'),
+      .oneOf([yup.ref('password'), null], 'As senhas não coincidem.')
+      .when('password', {
+        is: (password: string) => password && password.length > 0,
+        then: yup.string().required('Confirme a nova senha.'),
+      }),
   })
   .required();
 
@@ -192,7 +195,10 @@ export const schemaModalCreateCompanyAndOwnerWithCPF = yup
 
     confirmPassword: yup
       .string()
-      .matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres;')
-      .oneOf([yup.ref('password'), null], 'As senhas não coincidem.'),
+      .oneOf([yup.ref('password'), null], 'As senhas não coincidem.')
+      .when('password', {
+        is: (password: string) => password && password.length > 0,
+        then: yup.string().required('Confirme a nova senha.'),
+      }),
   })
   .required();
