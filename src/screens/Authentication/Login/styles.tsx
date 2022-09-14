@@ -11,28 +11,13 @@ export const Background = styled.div`
   background-color: ${theme.color.gray5};
 `;
 
-export const FormContainter = styled.div`
+export const InputWrapper = styled.div`
   display: flex;
-  align-items: center;
   flex-direction: column;
-  width: 100%;
-  @media (max-width: 900px) {
-    padding: 0 ${theme.size.md};
-  }
-`;
-
-export const LoginContainer = styled.div`
   background-color: ${theme.color.primary};
   border-radius: ${theme.size.xxsm};
-
-  width: 100%;
-  max-width: 450px;
-
-  display: flex;
-  flex-direction: column;
-
-  margin: ${theme.size.xxxxlg} 0px 0 0px;
-  padding: ${theme.size.sm} ${theme.size.md};
+  gap: ${theme.size.xsm};
+  padding: ${theme.size.md};
 
   > h2 {
     margin-bottom: ${theme.size.sm};
@@ -41,8 +26,17 @@ export const LoginContainer = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
   }
+`;
 
-  > :nth-child(2) {
-    margin-bottom: ${theme.size.xsm};
+export const LoginContainer = styled.div`
+  width: 100%;
+  max-width: 450px;
+
+  display: flex;
+  flex-direction: column;
+  margin-top: ${theme.size.xxxxlg};
+
+  button {
+    margin-top: ${theme.size.xsm};
   }
 `;

@@ -1,18 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { Api } from '../services/api';
 import { IMask, IUploadFile } from './types';
 
+// DATES
 export const DateFormatter = (date: string) =>
   new Date(date).toLocaleDateString('pt-BR', {
     timeZone: 'UTC',
   });
 
+// UPLOADS
+
 export async function uploadFile(file: any) {
   let response = {};
 
   const formData = new FormData();
-  formData.append('file', file[0]);
+  formData.append('file', file);
 
   await Api.post('upload/file', formData).then((res) => {
     response = res.data;
@@ -20,6 +24,8 @@ export async function uploadFile(file: any) {
 
   return response as IUploadFile;
 }
+
+// ERRORS
 
 export const handleError = async ({ error }: { error: Error }) => {
   if (process.env.NODE_ENV !== 'development') {
@@ -33,6 +39,8 @@ export const handleError = async ({ error }: { error: Error }) => {
     });
   }
 };
+
+// MASKS
 
 export const applyMask = ({
   mask,
@@ -76,9 +84,8 @@ export const applyMask = ({
         value: value
           .replace(/\D/g, '')
           .replace(/^(\d{2})(\d)/g, '($1) $2')
-          .replace(/(\d)(\d{8})$/, '$1 $2')
           .replace(/(\d)(\d{4})$/, '$1-$2'),
-        length: 16,
+        length: 15,
       };
       break;
     case 'BRL':
@@ -101,3 +108,13 @@ export const applyMask = ({
 };
 
 export const unMask = (value: string) => value.replace(/[^a-zA-Z0-9]/g, '');
+
+// REQUESTS
+export const catchHandler = (err: any) => {
+  toast.dismiss();
+  if (err.response.data) {
+    toast.error(err.response.data.ServerMessage.message);
+  } else {
+    toast.error('Erro de comunicação');
+  }
+};

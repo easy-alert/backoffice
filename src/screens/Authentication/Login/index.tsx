@@ -1,17 +1,15 @@
 // LIBS
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { Formik, Form } from 'formik';
 
 // COMPONENTS
 import { Api } from '../../../services/api';
-import { Input } from '../../../components/Form/Input';
 import { Button } from '../../../components/Buttons/Button';
 import { Image } from '../../../components/Image';
+import { FormikInput } from '../../../components/Form/FormikInput';
 
-// COMPONENTS
+// STYLES
 import * as Style from './styles';
 
 // ICONS
@@ -26,66 +24,77 @@ import { useAuthContext } from '../../../contexts/Auth/UseAuthContext';
 // TYPES
 import { IFormData } from './types';
 import { theme } from '../../../styles/theme';
+import { catchHandler } from '../../../utils/functions';
 
 export const Login = () => {
   const navigate = useNavigate();
   const { signin } = useAuthContext();
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
-  // YUP VALIDATIONS
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormData>({
-    resolver: yupResolver(schema),
-  });
-  // SUBMITED FORM
-  const onSubmit = handleSubmit(async (data) => {
-    setOnQuery(true);
-    await Api.post('/auth/backoffice/login', {
-      email: data.email,
-      password: data.password,
-    })
-      .then((res) => {
-        signin(res.data);
-        navigate('/companies');
-      })
-      .catch((err) => {
-        setOnQuery(false);
-        if (err.response.data) {
-          toast.error(err.response.data.ServerMessage.message);
-        } else {
-          toast.error('Erro de comunicação');
-        }
-      });
-  });
-
   return (
     <Style.Background>
-      <Image img={icon.logoTextWhite} width="290px" height="65px" radius="0" />
-      <Style.FormContainter as="form" onSubmit={onSubmit}>
-        <Style.LoginContainer>
-          <h2>Login/Backoffice</h2>
-          <Input
-            label="E-mail"
-            labelColor={theme.color.white}
-            placeholder="Ex: joao.silva@ada.com.br"
-            error={errors.email}
-            {...register('email')}
-          />
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        validationSchema={schema}
+        onSubmit={async (data: IFormData) => {
+          setOnQuery(true);
+          await Api.post('/auth/backoffice/login', {
+            email: data.email,
+            password: data.password,
+          })
+            .then((res) => {
+              signin(res.data);
+              navigate('/companies');
+            })
+            .catch((err) => {
+              setOnQuery(false);
+              catchHandler(err);
+            });
+        }}
+      >
+        {({ errors, values, touched }) => (
+          <>
+            <Image
+              img={icon.logoTextWhite}
+              width="290px"
+              height="65px"
+              radius="0"
+            />
+            <Style.LoginContainer>
+              <Form>
+                <Style.InputWrapper>
+                  <h2>Login/Backoffice</h2>
+                  <FormikInput
+                    labelColor={theme.color.white}
+                    errorColor={theme.color.white}
+                    name="email"
+                    label="E-mail"
+                    placeholder="Ex: joao.silva@ada.com.br"
+                    value={values.email}
+                    error={touched.email && errors.email ? errors.email : null}
+                  />
 
-          <Input
-            label="Senha"
-            type="password"
-            labelColor={theme.color.white}
-            placeholder="Insira sua senha"
-            error={errors.password}
-            {...register('password')}
-          />
-        </Style.LoginContainer>
-        <Button label="Login" loading={onQuery} type="submit" />
-      </Style.FormContainter>
+                  <FormikInput
+                    labelColor={theme.color.white}
+                    errorColor={theme.color.white}
+                    name="password"
+                    label="Senha"
+                    type="password"
+                    value={values.password}
+                    placeholder="Insira sua senha"
+                    error={
+                      touched.password && errors.password
+                        ? errors.password
+                        : null
+                    }
+                  />
+                </Style.InputWrapper>
+                <Button center label="Login" loading={onQuery} type="submit" />
+              </Form>
+            </Style.LoginContainer>
+          </>
+        )}
+      </Formik>
     </Style.Background>
   );
 };

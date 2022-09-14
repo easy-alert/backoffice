@@ -10,6 +10,9 @@ import { Login } from './screens/Authentication/Login';
 // COMPANIES
 import { CompaniesList } from './screens/Companies/List';
 import { CompanyDetails } from './screens/Companies/Details';
+import { MaintenancesList } from './screens/Maintenances/List';
+
+// CATEGORIES
 
 const AppRoutes = () => (
   <AuthProvider>
@@ -31,6 +34,8 @@ const AppRoutes = () => (
             <Route index element={<CompaniesList />} />
             <Route path=":user_id" element={<CompanyDetails />} />
           </Route>
+
+          <Route path="/maintenances" element={<MaintenancesList />} />
         </Route>
       </Routes>
     </BrowserRouter>

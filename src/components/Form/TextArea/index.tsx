@@ -1,5 +1,7 @@
 // LIBS
 import { forwardRef, ForwardRefRenderFunction } from 'react';
+import { Field } from 'formik';
+
 // TYPES
 import { TextAreaProps } from './utils/types';
 // COMPONENTS
@@ -11,7 +13,7 @@ const TextAreaBase: ForwardRefRenderFunction<
 > = ({ label, name, error, ...rest }, ref) => (
   <TextAreaContainer error={!!error}>
     {label && <h6>{label}</h6>}
-    <textarea id={name} name={name} ref={ref} {...rest} />
+    <Field as="textarea" id={name} name={name} ref={ref} {...rest} />
     <ErrorMessage>
       {!!error && <p className="p3">{error.message}</p>}
     </ErrorMessage>

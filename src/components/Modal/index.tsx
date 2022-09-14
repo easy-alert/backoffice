@@ -1,67 +1,69 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // LIBS
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // COMPONENTS
 import * as Style from './styles';
+import { theme } from '../../styles/theme';
+import { IconButton } from '../Buttons/IconButton';
+
 // ICONS
 import { icon } from '../../assets/icons/index';
 
 // TYPES
-import { theme } from '../../styles/theme';
-import { IconButton } from '../Buttons/IconButton';
+import { IModal } from './utils/types';
 
-export const ModalComponent = () => {
-  const [modalIsOpen, setOpenModal] = useState<boolean>(false);
-  const [animation, setAnimation] = useState<boolean>(false);
+export const Modal = ({
+  children,
+  title,
+  size = 'md',
+  modalState,
+  setModalState,
+}: IModal) => {
+  const [animation, setAnimation] = useState<boolean>(true);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   const toggleModal = () => {
     if (modalIsOpen) {
       setAnimation(false);
       setTimeout(() => {
-        setOpenModal(!modalIsOpen);
+        setModalIsOpen(false);
+        setModalState(false);
       }, 250);
-    } else {
+    } else if (modalState) {
       setAnimation(true);
-      setOpenModal(true);
+      setModalIsOpen(true);
     }
   };
 
-  const Modal = ({
-    children,
-    title,
-    size = 'md',
-  }: {
-    children: JSX.Element;
-    title: string;
-    size?: 'md' | 'lg';
-  }) => (
-    <Style.Background
-      id="background"
-      animation={animation}
-      onMouseDown={(evt: any) => {
-        if (evt.target.id === 'background') toggleModal();
-      }}
-    >
-      <Style.Body animation={animation} size={size}>
-        <Style.Header>
-          <h2>{title}</h2>
-          <IconButton
-            icon={icon.x}
-            color={theme.color.primary}
-            onClick={() => {
-              toggleModal();
-            }}
-          />
-        </Style.Header>
-        {children}
-      </Style.Body>
-    </Style.Background>
-  );
+  useEffect(() => {
+    toggleModal();
+  }, [modalState]);
 
-  return {
-    Modal,
-    modalIsOpen,
-    toggleModal,
-  };
+  if (modalIsOpen) {
+    return (
+      <Style.Background
+        id="background"
+        animation={animation}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onMouseDown={(evt: any) => {
+          if (evt.target.id === 'background') setModalState(false);
+        }}
+      >
+        <Style.Body animation={animation} size={size}>
+          <Style.Header>
+            <h2>{title}</h2>
+            <IconButton
+              icon={icon.x}
+              color={theme.color.primary}
+              onClick={() => {
+                setModalState(false);
+              }}
+            />
+          </Style.Header>
+          {children}
+        </Style.Body>
+      </Style.Background>
+    );
+  }
+  return null;
 };

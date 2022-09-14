@@ -12,31 +12,36 @@ import { Table, TableContent } from '../../../components/Table';
 import { icon } from '../../../assets/icons/index';
 import { Pagination } from '../../../components/Pagination';
 import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
+import { theme } from '../../../styles/theme';
 
 // TYPES
-import { ICompany } from '../types';
-
-// MODALS
-import { modalCreateCompanie } from './utils/modals/ModalCreateUser';
+import { ICompany } from './utils/types';
 
 // FUNCTIONS
 import { requestUsersList } from './utils/functions';
 import { DateFormatter } from '../../../utils/functions';
 
-// THEMES
-import { theme } from '../../../styles/theme';
+// MODALS
+import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
 
 export const CompaniesList = () => {
+  // UTILS
   const navigate = useNavigate();
   const { state } = useLocation();
-
-  const [companies, setCompanies] = useState<ICompany[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  // FILTER
   const [filter, setFilter] = useState<string>('');
-
-  const [page, setPage] = useState<number>(1);
   const [count, setCount] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const offset = 20;
+
+  // CONSTS
+  const [companies, setCompanies] = useState<ICompany[] | null>(null);
+
+  const [
+    modalCreateCompanyAndOwnerIsOpen,
+    setCreateModalCreateCompanyAndOwnerIsOpen,
+  ] = useState<boolean>(false);
 
   useEffect(() => {
     requestUsersList({
@@ -47,21 +52,15 @@ export const CompaniesList = () => {
     });
   }, [state]);
 
-  const {
-    ModalCreateCompanie,
-    modalCreateCompanieIsOpen,
-    toggleModalCreateCompanie,
-  } = modalCreateCompanie();
-
   return (
     <>
-      {modalCreateCompanieIsOpen && (
-        <ModalCreateCompanie
-          setCompanies={setCompanies}
-          page={page}
-          setCount={setCount}
-        />
-      )}
+      <ModalCreateCompanyAndOwner
+        setCompanies={setCompanies}
+        page={page}
+        setCount={setCount}
+        modalState={modalCreateCompanyAndOwnerIsOpen}
+        setModalState={setCreateModalCreateCompanyAndOwnerIsOpen}
+      />
 
       {loading ? (
         <DotSpinLoading />
@@ -123,7 +122,7 @@ export const CompaniesList = () => {
               className="p2"
               icon={icon.plusWithBg}
               onClick={() => {
-                toggleModalCreateCompanie();
+                setCreateModalCreateCompanyAndOwnerIsOpen(true);
               }}
             />
           </Style.Header>
@@ -135,10 +134,15 @@ export const CompaniesList = () => {
                   { label: '' },
                   {
                     label: 'Nome',
-                    cssProps: { paddingLeft: theme.size.xsm },
+                    cssProps: {
+                      paddingLeft: theme.size.xsm,
+                    },
                   },
                   {
                     label: 'Responsável',
+                    cssProps: {
+                      paddingRight: theme.size.sm,
+                    },
                   },
                   { label: 'Último acesso' },
                   { label: 'Status' },
@@ -183,6 +187,7 @@ export const CompaniesList = () => {
                           whiteSpace: 'nowrap',
                           textOverflow: 'ellipsis',
                           maxWidth: '150px',
+                          paddingRight: theme.size.sm,
                         },
                       },
                       {
