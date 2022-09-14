@@ -84,9 +84,8 @@ export const applyMask = ({
         value: value
           .replace(/\D/g, '')
           .replace(/^(\d{2})(\d)/g, '($1) $2')
-          .replace(/(\d)(\d{8})$/, '$1 $2')
           .replace(/(\d)(\d{4})$/, '$1-$2'),
-        length: 16,
+        length: 15,
       };
       break;
     case 'BRL':

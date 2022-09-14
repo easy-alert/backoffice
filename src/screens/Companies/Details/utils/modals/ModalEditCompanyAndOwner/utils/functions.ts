@@ -120,7 +120,7 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
     contactNumber: yup
       .string()
       .required('O número de telefone deve ser preenchido.')
-      .min(15, 'O número de telefone deve conter  no mínimo 15 caracteres.'),
+      .min(14, 'O número de telefone deve conter  no mínimo 14 caracteres.'),
 
     CNPJ: yup
       .string()
@@ -179,7 +179,7 @@ export const schemaModalCreateCompanyAndOwnerWithCPF = yup
     contactNumber: yup
       .string()
       .required('O número de telefone deve ser preenchido.')
-      .min(15, 'O número de telefone deve conter  no mínimo 15 caracteres.'),
+      .min(14, 'O número de telefone deve conter  no mínimo 14 caracteres.'),
 
     CPF: yup
       .string()
