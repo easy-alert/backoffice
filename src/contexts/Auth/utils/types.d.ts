@@ -1,4 +1,4 @@
-import { IUser } from '../../../types/types';
+import { IUser } from '../../../utils/types';
 
 export interface IAuthContext {
   user: IUser | null;

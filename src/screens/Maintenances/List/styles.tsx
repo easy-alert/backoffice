@@ -79,19 +79,16 @@ export const CreateMaintenancesContainer = styled.div<{
   }
 `;
 
-export const CreateMaintenancesContainerContent = styled.div`
+export const CreateMaintenancesButtons = styled.div`
   display: flex;
   align-items: center;
   gap: ${theme.size.xsm};
 `;
 
-export const PaginationFooter = styled.footer`
-  margin-top: 10px;
-  padding-right: 16px;
-  width: 100%;
-  height: fit-content;
+export const CreateMaintenancesContainerContent = styled.div`
   display: flex;
-  justify-content: flex-end;
+  align-items: flex-start;
+  gap: ${theme.size.xsm};
 `;
 
 export const NoMaintenancesContainer = styled.div`
