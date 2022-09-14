@@ -11,6 +11,7 @@ import { FormikInput } from '../../../components/Form/FormikInput';
 
 // STYLES
 import * as Style from './styles';
+import { theme } from '../../../styles/theme';
 
 // ICONS
 import { icon } from '../../../assets/icons';
@@ -22,8 +23,7 @@ import { schema } from './utils/functions';
 import { useAuthContext } from '../../../contexts/Auth/UseAuthContext';
 
 // TYPES
-import { IFormData } from './types';
-import { theme } from '../../../styles/theme';
+import { IFormData } from './utils/types';
 import { catchHandler } from '../../../utils/functions';
 
 export const Login = () => {

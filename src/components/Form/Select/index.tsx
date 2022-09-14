@@ -15,9 +15,7 @@ const SelectBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
   <SelectContainer error={!!error}>
     <h6>{label}</h6>
     <Field as="select" id={name} name={name} ref={ref} {...rest} />
-    <ErrorMessage>
-      {!!error && <p className="p3">{error.message}</p>}
-    </ErrorMessage>
+    <ErrorMessage>{!!error && <p className="p3">{error}</p>}</ErrorMessage>
   </SelectContainer>
 );
 export const Select = forwardRef(SelectBase);

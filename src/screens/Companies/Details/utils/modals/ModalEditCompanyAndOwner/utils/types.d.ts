@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IModalStates } from '../../../../../../../components/Modal/utils/types';
-import { ICompany } from '../../../../../List/utils/types';
+import { ICompany, IFormDataCompany } from '../../../../../List/utils/types';
 
 export interface IModalEditCompanyAndOwner extends IModalStates {
   company: ICompany;
@@ -9,7 +9,7 @@ export interface IModalEditCompanyAndOwner extends IModalStates {
 
 // REQUESTS
 export interface IRequestEditCompanyAndOwner {
-  data: IFormDataUser;
+  data: IFormDataCompany;
   company: ICompany;
   setCompany: (setCompany: ICompany) => void;
   setOnQuery: (setOnQuery: boolean) => void;

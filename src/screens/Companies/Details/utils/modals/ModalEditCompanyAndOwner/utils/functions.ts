@@ -53,7 +53,7 @@ export const requestEditCompanyAndOwner = async ({
         contactNumber: data.contactNumber,
         CNPJ: data.CNPJ,
         CPF: data.CPF,
-        isBlocked: data.isBlocked,
+        isBlocked: company.isBlocked,
         createdAt: company.createdAt,
         UserCompanies: [
           {

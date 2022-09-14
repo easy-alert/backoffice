@@ -1,5 +1,5 @@
 import { IModalStates } from '../../../../../../../components/Modal/utils/types';
-import { ICompany } from '../../../../../List/utils/types';
+import { ICompany, IFormDataCompany } from '../../../../../List/utils/types';
 
 export interface IModalCreateCompanyAndOWner extends IModalStates {
   setCount: (setCount: number) => void;
@@ -12,7 +12,7 @@ export interface IRequestCreateCompanyAndOWner {
   page: number;
   setCompanies: (setCompanies: ICompany[]) => void;
 
-  data: IFormDataUser;
+  data: IFormDataCompany;
   setOnQuery: (setOnQuery: boolean) => void;
   setModalState: (setModalState: boolean) => void;
 }

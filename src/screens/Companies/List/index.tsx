@@ -40,7 +40,7 @@ export const CompaniesList = () => {
 
   const [
     modalCreateCompanyAndOwnerIsOpen,
-    setCreateModalCreateCompanyAndOwnerIsOpen,
+    setModalCreateCompanyAndOwnerIsOpen,
   ] = useState<boolean>(false);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export const CompaniesList = () => {
         page={page}
         setCount={setCount}
         modalState={modalCreateCompanyAndOwnerIsOpen}
-        setModalState={setCreateModalCreateCompanyAndOwnerIsOpen}
+        setModalState={setModalCreateCompanyAndOwnerIsOpen}
       />
 
       {loading ? (
@@ -122,7 +122,7 @@ export const CompaniesList = () => {
               className="p2"
               icon={icon.plusWithBg}
               onClick={() => {
-                setCreateModalCreateCompanyAndOwnerIsOpen(true);
+                setModalCreateCompanyAndOwnerIsOpen(true);
               }}
             />
           </Style.Header>
