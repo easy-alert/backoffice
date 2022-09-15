@@ -20,6 +20,7 @@ import logoRed from './logoRed.svg';
 import logoTextBlack from './logoTextBlack.svg';
 import maintenances from './maintenances.svg';
 import circleX from './circleX.svg';
+import xWhite from './xWhite.svg';
 
 export const icon = {
   leftArrow,
@@ -44,4 +45,5 @@ export const icon = {
   logoTextWhite,
   maintenances,
   circleX,
+  xWhite,
 };
