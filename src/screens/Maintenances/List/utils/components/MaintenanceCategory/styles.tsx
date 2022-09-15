@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { theme } from '../../../../../../styles/theme';
 
-export const Background = styled.div``;
+export const Background = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.size.sm};
+`;
 
 export const HeaderCategory = styled.div`
   display: flex;
@@ -33,4 +37,11 @@ export const ButtonsHeader = styled.div`
   justify-content: center;
   align-items: center;
   gap: ${theme.size.xsm};
+`;
+
+export const MaintenancesContainer = styled.div`
+  display: flex;
+  background-color: red;
+  /* border-radius: ${theme.size.xxsm};
+  background-color: ${theme.color.white}; */
 `;

@@ -23,12 +23,14 @@ export const requestCreateCategory = async ({
   setCategories,
   categories,
 }: IRequestCreateCategory) => {
+  toast.loading('Atualizando...');
+  setCreateMaintenancesIsOpen(false);
+
   await Api.post('/backoffice/categories/create', {
     name: values.name,
   })
     .then((res) => {
       toast.dismiss();
-      toast.success(res.data.ServerMessage.message);
 
       const tempCategory = categories;
       tempCategory.unshift({
@@ -37,9 +39,9 @@ export const requestCreateCategory = async ({
         Maintenances: [],
       });
 
-      setCategories(tempCategory);
+      setCategories([...tempCategory]);
 
-      setCreateMaintenancesIsOpen(false);
+      toast.success(res.data.ServerMessage.message);
       resetForm();
     })
     .catch((err) => {
