@@ -54,7 +54,7 @@ export const Sidebar = ({ children }: ISidebar) => {
         <Style.CloseButtonMobile>
           <IconButton
             labelPos="bottom"
-            icon={icon.x}
+            icon={icon.xWhite}
             onClick={() => {
               setAnimate(false);
               setTimeout(() => {
@@ -91,10 +91,7 @@ export const Sidebar = ({ children }: ISidebar) => {
                   }, 125);
                 }
               }}
-              selected={
-                window.location.pathname.startsWith(element.url) ||
-                element.url === '/login'
-              }
+              selected={window.location.pathname.startsWith(element.url) || element.url === '/login'}
             />
           </React.Fragment>
         ))}

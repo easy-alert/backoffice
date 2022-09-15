@@ -33,7 +33,7 @@ export const Card = styled.div`
   @media (max-width: 500px) {
     > h6 {
       width: fit-content;
-      min-width: 130px;
+      min-width: 150px;
     }
     > p {
       white-space: nowrap;
