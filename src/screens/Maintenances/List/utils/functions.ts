@@ -5,10 +5,7 @@ import { Api } from '../../../../services/api';
 import { catchHandler } from '../../../../utils/functions';
 import { IRequestCategories, IRequestCreateCategory } from './types';
 
-export const requestCategories = async ({
-  setLoading,
-  setCategories,
-}: IRequestCategories) => {
+export const requestCategories = async ({ setLoading, setCategories }: IRequestCategories) => {
   await Api.get('/backoffice/categories/list')
     .then((res) => {
       setCategories(res.data);
@@ -33,14 +30,14 @@ export const requestCreateCategory = async ({
       toast.dismiss();
       toast.success(res.data.ServerMessage.message);
 
-      setCategories([
-        ...categories!,
-        {
-          id: res.data.category.id,
-          name: res.data.category.name,
-          Maintenances: [],
-        },
-      ]);
+      const tempCategory = categories;
+      tempCategory.unshift({
+        id: res.data.category.id,
+        name: res.data.category.name,
+        Maintenances: [],
+      });
+
+      setCategories(tempCategory);
 
       setCreateMaintenancesIsOpen(false);
       resetForm();
@@ -53,9 +50,6 @@ export const requestCreateCategory = async ({
 // YUP
 export const schemeCreateCategory = yup
   .object({
-    name: yup
-      .string()
-      .required()
-      .min(3, 'O nome da categoria deve conter 3 ou mais caracteres.'),
+    name: yup.string().required().min(3, 'O nome da categoria deve conter 3 ou mais caracteres.'),
   })
   .required();

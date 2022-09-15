@@ -10,11 +10,7 @@ import { Image } from '../../../components/Image';
 import { icon } from '../../../assets/icons/index';
 import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
 import { Button } from '../../../components/Buttons/Button';
-import {
-  requestCategories,
-  requestCreateCategory,
-  schemeCreateCategory,
-} from './utils/functions';
+import { requestCategories, requestCreateCategory, schemeCreateCategory } from './utils/functions';
 import { FormikInput } from '../../../components/Form/FormikInput';
 import { MaintenanceCategory } from './utils/components/MaintenanceCategory';
 import { ICategories } from './utils/types';
@@ -28,10 +24,9 @@ export const MaintenancesList = () => {
 
   // CONSTS
 
-  const [categories, setCategories] = useState<ICategories[] | null>(null);
+  const [categories, setCategories] = useState<ICategories[]>([]);
 
-  const [createMaintenancesIsOpen, setCreateMaintenancesIsOpen] =
-    useState<boolean>(false);
+  const [createMaintenancesIsOpen, setCreateMaintenancesIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     requestCategories({ setLoading, setCategories });
@@ -80,9 +75,7 @@ export const MaintenancesList = () => {
               <IconButton
                 hideLabelOnMedia
                 fontWeight="500"
-                label={
-                  createMaintenancesIsOpen ? 'Cancelar' : 'Criar categoria'
-                }
+                label={createMaintenancesIsOpen ? 'Cancelar' : 'Criar categoria'}
                 className="p2"
                 icon={createMaintenancesIsOpen ? icon.circleX : icon.plusWithBg}
                 onClick={() => {
@@ -91,9 +84,7 @@ export const MaintenancesList = () => {
               />
             </Style.LeftSide>
 
-            <Style.CreateMaintenancesContainer
-              createMaintenancesIsOpen={createMaintenancesIsOpen}
-            >
+            <Style.CreateMaintenancesContainer createMaintenancesIsOpen={createMaintenancesIsOpen}>
               <Formik
                 initialValues={{ name: '', teste: '' }}
                 validationSchema={schemeCreateCategory}
@@ -137,9 +128,16 @@ export const MaintenancesList = () => {
           </Style.Header>
 
           {categories?.length ? (
-            categories.map((category) => (
-              <MaintenanceCategory key={category.name} category={category} />
-            ))
+            <Style.CategoriesContainer>
+              {categories.map((category) => (
+                <MaintenanceCategory
+                  key={category.name}
+                  category={category}
+                  setCategories={setCategories}
+                  categories={categories}
+                />
+              ))}
+            </Style.CategoriesContainer>
           ) : (
             <Style.NoMaintenancesContainer>
               <Image img={icon.paper} size="80px" radius="0" />

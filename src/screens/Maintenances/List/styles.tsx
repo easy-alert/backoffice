@@ -71,8 +71,7 @@ export const CreateMaintenancesContainer = styled.div<{
   padding: ${theme.size.xsm} ${theme.size.sm};
   width: 50%;
 
-  ${({ createMaintenancesIsOpen }) =>
-    createMaintenancesIsOpen && `transform: scaleY(1);`}
+  ${({ createMaintenancesIsOpen }) => createMaintenancesIsOpen && `transform: scaleY(1);`}
 
   @media (max-width: 900px) {
     width: 100%;
@@ -102,4 +101,11 @@ export const NoMaintenancesContainer = styled.div`
     color: ${theme.color.gray4};
     text-align: center;
   }
+`;
+
+export const CategoriesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.size.xxlg};
+  width: 100%;
 `;

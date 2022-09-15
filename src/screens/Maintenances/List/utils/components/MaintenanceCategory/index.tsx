@@ -10,38 +10,71 @@ import { Button } from '../../../../../../components/Buttons/Button';
 import { IconButton } from '../../../../../../components/Buttons/IconButton';
 import { FormikInput } from '../../../../../../components/Form/FormikInput';
 import * as Style from './styles';
-import { schemeEditCategory } from './utils/functions';
-import { IFormDataEditCategory } from './utils/types';
-import { ICategories } from '../../types';
+import { requestDeleteCategory, requestEditCategory, schemeEditCategory } from './utils/functions';
+import { IMaintenanceCategory } from './utils/types';
+import { PopoverButton } from '../../../../../../components/Buttons/PopoverButton';
+import { theme } from '../../../../../../styles/theme';
 
-export const MaintenanceCategory = ({
-  category,
-}: {
-  category: ICategories;
-}) => {
+export const MaintenanceCategory = ({ category, categories, setCategories }: IMaintenanceCategory) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isEditingCategoryName, setIsEditingCategoryName] =
-    useState<boolean>(false);
+  const [isEditingCategoryName, setIsEditingCategoryName] = useState<boolean>(false);
 
   return (
     <Style.Background>
       <Style.HeaderCategory>
         {!isEditingCategoryName ? (
           <Style.HeaderTitle>
-            <h5>{category.name}</h5>
+            <Style.EditContainer>
+              <h5>{category.name}</h5>
+              <IconButton
+                icon={icon.editWithBg}
+                onClick={() => {
+                  setIsEditingCategoryName(true);
+                }}
+              />
+
+              <PopoverButton
+                actionButtonBgColor={theme.color.danger}
+                hiddenActionButtonLabel
+                type="IconButton"
+                buttonIcon={icon.trash}
+                label="Excluir"
+                message={{
+                  title: 'Deseja excluir este usuário?',
+                  content: 'Atenção, essa ação não poderá ser desfeita posteriormente.',
+                  contentColor: theme.color.danger,
+                }}
+                actionButtonClick={() => {
+                  requestDeleteCategory({
+                    categoryId: category.id,
+                    categories,
+                    setCategories,
+                  });
+                }}
+              />
+            </Style.EditContainer>
+
             <IconButton
-              icon={icon.editWithBg}
+              hideLabelOnMedia
+              icon={icon.plusWithBg}
+              label="Criar manutenção"
               onClick={() => {
-                setIsEditingCategoryName(true);
+                // setIsEditingCategoryName(true);
               }}
             />
           </Style.HeaderTitle>
         ) : (
           <Formik
-            initialValues={{ name: '' }}
+            initialValues={{ name: category.name }}
             validationSchema={schemeEditCategory}
-            onSubmit={async (data: IFormDataEditCategory) => {
-              console.log(data);
+            onSubmit={async (values) => {
+              requestEditCategory({
+                values,
+                categories,
+                setCategories,
+                categoryId: category.id,
+                setIsEditingCategoryName,
+              });
             }}
           >
             {({ errors, values, touched }) => (

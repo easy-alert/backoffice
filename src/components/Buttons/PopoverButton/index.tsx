@@ -18,21 +18,23 @@ import { icon } from '../../../assets/icons';
 
 export const PopoverButton = ({
   type = 'Button',
-  buttonIcon = '',
+  label = '',
   buttonIconSize = '24px',
+  buttonIcon = '',
   iconButtonColor,
   bgColor,
-  label,
+  actionButtonBgColor,
+  actionButtonClick,
+  hiddenActionButtonLabel = false,
+  borderless,
+  loading,
+  iconButtonClassName,
+
   message = {
     title: 'Title',
     content: 'Message Title',
     contentColor: theme.color.gray4,
   },
-  actionButtonBgColor,
-  actionButtonClick,
-  borderless,
-  loading,
-  iconButtonClassName,
 }: IPopoverButton) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const [animate, setAnimate] = useState<boolean>(false);
@@ -117,9 +119,7 @@ export const PopoverButton = ({
                 arrowStyle={getArrowStyle(position, arrowSize)}
               >
                 <Style.PopoverBackground>
-                  <Style.PopoverBody
-                    contentColor={message.contentColor ?? theme.color.gray4}
-                  >
+                  <Style.PopoverBody contentColor={message.contentColor ?? theme.color.gray4}>
                     <h2>
                       {label}
                       <IconButton
@@ -170,7 +170,7 @@ export const PopoverButton = ({
           <IconButton
             hideLabelOnMedia
             className={iconButtonClassName}
-            label={label}
+            label={hiddenActionButtonLabel ? '' : label}
             color={iconButtonColor}
             icon={buttonIcon}
             size={buttonIconSize}

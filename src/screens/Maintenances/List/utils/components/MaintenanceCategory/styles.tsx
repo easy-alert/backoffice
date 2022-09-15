@@ -10,6 +10,12 @@ export const HeaderCategory = styled.div`
 export const HeaderTitle = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+export const EditContainer = styled.div`
+  display: flex;
+  align-items: center;
   gap: ${theme.size.xsm};
 `;
 
@@ -18,11 +24,13 @@ export const FormContainer = styled.div`
   align-items: flex-start;
 
   gap: ${theme.size.xsm};
-  width: 50%;
+  width: 100%;
+  max-width: 500px;
 `;
 
 export const ButtonsHeader = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: ${theme.size.xsm};
 `;

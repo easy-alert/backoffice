@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-// Maintenances
-export interface MaintenancesHistory {
+// MAINTENANCES
+interface MaintenanceHistory {
   id: string;
   maintenanceId: string;
   element: string;
@@ -15,9 +15,9 @@ export interface MaintenancesHistory {
   createdAt: string;
   updatedAt: string;
 }
-export interface Maintenance {
+interface Maintenance {
   id: string;
-  MaintenancesHistory: MaintenancesHistory[];
+  MaintenancesHistory: MaintenanceHistory[];
 }
 export interface ICategories {
   id: string;
@@ -25,19 +25,21 @@ export interface ICategories {
   Maintenances: Maintenance[];
 }
 
+// FORM
+export interface IFormDataCategory {
+  name: string;
+}
+
+// REQUESTS
 export interface IRequestCategories {
   setLoading: (setLoading: boolean) => void;
   setCategories: (setCategories: ICategories[]) => void;
 }
 
-export interface IFormDataCategory {
-  name: string;
-}
-
 export interface IRequestCreateCategory {
   values: IFormDataCategory;
   setCreateMaintenancesIsOpen: (setCreateMaintenancesIsOpen: boolean) => void;
-  categories: ICategories[] | null;
+  categories: ICategories[];
   setCategories: (setCategories: ICategories[]) => void;
   resetForm: any;
 }
