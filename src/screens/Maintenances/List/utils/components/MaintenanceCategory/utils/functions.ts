@@ -18,6 +18,7 @@ export const requestEditCategory = async ({
   setIsEditingCategoryName,
 }: IEditCategory) => {
   toast.loading('Atualizando...');
+  setIsEditingCategoryName(false);
   await Api.put('/backoffice/categories/edit', {
     categoryId,
     name: values.name,
@@ -34,7 +35,6 @@ export const requestEditCategory = async ({
       };
       setCategories([...categoriesEdit]);
 
-      setIsEditingCategoryName(false);
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {

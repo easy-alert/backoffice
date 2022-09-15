@@ -104,6 +104,10 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
           </Formik>
         )}
       </Style.HeaderCategory>
+
+      <Style.MaintenancesContainer>
+        <h1>f</h1>
+      </Style.MaintenancesContainer>
     </Style.Background>
   );
 };
