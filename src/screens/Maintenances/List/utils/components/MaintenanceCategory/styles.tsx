@@ -4,7 +4,7 @@ import { theme } from '../../../../../../styles/theme';
 export const Background = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.size.sm};
+  gap: ${theme.size.xxsm};
 `;
 
 export const HeaderCategory = styled.div`
@@ -16,6 +16,7 @@ export const HeaderTitle = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  height: 32px;
 `;
 export const EditContainer = styled.div`
   display: flex;

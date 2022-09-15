@@ -88,7 +88,7 @@ export const MaintenancesList = () => {
 
             <Style.CreateMaintenancesContainer createMaintenancesIsOpen={createMaintenancesIsOpen}>
               <Formik
-                initialValues={{ name: '', teste: '' }}
+                initialValues={{ name: '' }}
                 validationSchema={schemeCreateCategory}
                 onSubmit={async (values, actions) => {
                   await requestCreateCategory({
