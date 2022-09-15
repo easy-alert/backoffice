@@ -72,6 +72,7 @@ export const MaintenancesList = () => {
                 </Style.SearchField>
               </Style.HeaderTitle>
 
+<<<<<<< src/screens/Maintenances/List/index.tsx
               {!createMaintenancesIsOpen && (
                 <IconButton
                   hideLabelOnMedia
@@ -84,6 +85,18 @@ export const MaintenancesList = () => {
                   }}
                 />
               )}
+=======
+              <IconButton
+                hideLabelOnMedia
+                fontWeight="500"
+                label={createMaintenancesIsOpen ? 'Cancelar' : 'Criar categoria'}
+                className="p2"
+                icon={createMaintenancesIsOpen ? icon.circleX : icon.plusWithBg}
+                onClick={() => {
+                  setCreateMaintenancesIsOpen((prevState) => !prevState);
+                }}
+              />
+>>>>>>> src/screens/Maintenances/List/index.tsx
             </Style.LeftSide>
 
             <Style.CreateMaintenancesContainer createMaintenancesIsOpen={createMaintenancesIsOpen}>
