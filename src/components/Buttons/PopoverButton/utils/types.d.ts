@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ButtonHTMLAttributes } from 'react';
 
-export interface IPopoverButton
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IPopoverButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
+  hiddenActionButtonLabel?: boolean;
   message: {
     title: string;
     content: string;

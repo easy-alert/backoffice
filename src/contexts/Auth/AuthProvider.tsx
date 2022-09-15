@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { setToken } from './utils/functions';
 
 // TYPES
-import { IUser } from '../../types/types';
+import { IUser } from '../../utils/types';
 import { AuthContext } from './AuthContext';
 import { ILoginRequestResponse } from './utils/types';
 
