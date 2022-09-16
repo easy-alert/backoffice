@@ -23,7 +23,6 @@ export const MaintenancesList = () => {
   const [filter, setFilter] = useState<string>('');
 
   // CONSTS
-
   const [categories, setCategories] = useState<ICategories[]>([]);
 
   const [createMaintenancesIsOpen, setCreateMaintenancesIsOpen] = useState<boolean>(false);
