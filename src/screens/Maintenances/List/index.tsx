@@ -41,8 +41,7 @@ export const MaintenancesList = () => {
           <Style.Header>
             <Style.LeftSide>
               <Style.HeaderTitle>
-                <h2>Manutenção</h2>
-
+                <h2>Manutenções</h2>
                 <Style.SearchField>
                   <IconButton
                     icon={icon.search}

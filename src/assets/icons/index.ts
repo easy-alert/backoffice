@@ -24,6 +24,7 @@ import xWhite from './xWhite.svg';
 import edit from './edit.svg';
 import trash from './trash.svg';
 import plus from './plus.svg';
+import alert from './alert.svg';
 
 export const icon = {
   leftArrow,
@@ -52,4 +53,5 @@ export const icon = {
   edit,
   trashWithBg,
   plus,
+  alert,
 };
