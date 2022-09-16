@@ -32,8 +32,9 @@ export interface IFormDataCategory {
 
 // REQUESTS
 export interface IRequestCategories {
-  setLoading: (setLoading: boolean) => void;
+  setLoading?: (setLoading: boolean) => void;
   setCategories: (setCategories: ICategories[]) => void;
+  filter?: string;
 }
 
 export interface IRequestCreateCategory {

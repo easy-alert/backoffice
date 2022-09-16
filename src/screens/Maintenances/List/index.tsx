@@ -49,7 +49,7 @@ export const MaintenancesList = () => {
                     icon={icon.search}
                     size="16px"
                     onClick={() => {
-                      alert('buscando');
+                      requestCategories({ setCategories, filter });
                     }}
                   />
                   <input
@@ -60,12 +60,12 @@ export const MaintenancesList = () => {
                     onChange={(evt) => {
                       setFilter(evt.target.value);
                       if (evt.target.value === '') {
-                        alert('buscando');
+                        requestCategories({ setCategories, filter: '' });
                       }
                     }}
                     onKeyUp={(evt) => {
                       if (evt.key === 'Enter') {
-                        alert('buscando');
+                        requestCategories({ setCategories, filter });
                       }
                     }}
                   />

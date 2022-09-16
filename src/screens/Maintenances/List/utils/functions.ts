@@ -5,11 +5,11 @@ import { Api } from '../../../../services/api';
 import { catchHandler } from '../../../../utils/functions';
 import { IRequestCategories, IRequestCreateCategory } from './types';
 
-export const requestCategories = async ({ setLoading, setCategories }: IRequestCategories) => {
-  await Api.get('/backoffice/categories/list')
+export const requestCategories = async ({ setLoading, setCategories, filter = '' }: IRequestCategories) => {
+  await Api.get(`/backoffice/categories/list?search=${filter}`)
     .then((res) => {
       setCategories(res.data);
-      setLoading(false);
+      if (setLoading) setLoading(false);
     })
     .catch((err) => {
       catchHandler(err);
