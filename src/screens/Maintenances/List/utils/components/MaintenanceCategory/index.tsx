@@ -9,11 +9,17 @@ import { Button } from '../../../../../../components/Buttons/Button';
 // COMPONENTS
 import { IconButton } from '../../../../../../components/Buttons/IconButton';
 import { FormikInput } from '../../../../../../components/Form/FormikInput';
-import * as Style from './styles';
-import { requestDeleteCategory, requestEditCategory, schemeEditCategory } from './utils/functions';
-import { IMaintenanceCategory } from './utils/types';
 import { PopoverButton } from '../../../../../../components/Buttons/PopoverButton';
 import { theme } from '../../../../../../styles/theme';
+import * as Style from './styles';
+
+import { MaintenanceCard } from '../MaintenanceCard';
+
+// FUNCTIONS
+import { requestDeleteCategory, requestEditCategory, schemeEditCategory } from './utils/functions';
+
+// TYPES
+import { IMaintenanceCategory } from './utils/types';
 
 export const MaintenanceCategory = ({ category, categories, setCategories }: IMaintenanceCategory) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,7 +33,8 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
             <Style.EditContainer>
               <h5>{category.name}</h5>
               <IconButton
-                icon={icon.editWithBg}
+                size="16px"
+                icon={icon.edit}
                 onClick={() => {
                   setIsEditingCategoryName(true);
                 }}
@@ -36,6 +43,7 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
               <PopoverButton
                 actionButtonBgColor={theme.color.danger}
                 hiddenActionButtonLabel
+                buttonIconSize="16px"
                 type="IconButton"
                 buttonIcon={icon.trash}
                 label="Excluir"
@@ -56,7 +64,8 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
 
             <IconButton
               hideLabelOnMedia
-              icon={icon.plusWithBg}
+              icon={icon.plus}
+              size="16px"
               label="Criar manutenção"
               onClick={() => {
                 // setIsEditingCategoryName(true);
@@ -106,7 +115,19 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
       </Style.HeaderCategory>
 
       <Style.MaintenancesContainer>
-        <h1>f</h1>
+        <Style.MaintenancesHeader>
+          <Style.MaintenancesGrid>
+            <p className="p2">Elemento</p>
+            <p className="p2">Atividade</p>
+            <p className="p2">Periodicidade</p>
+            <p className="p2">Responsável</p>
+            <p className="p2">Fonte</p>
+          </Style.MaintenancesGrid>
+        </Style.MaintenancesHeader>
+
+        {category.Maintenances.map((maintenance) => (
+          <MaintenanceCard maintenance={maintenance.MaintenancesHistory} key={maintenance.id} />
+        ))}
       </Style.MaintenancesContainer>
     </Style.Background>
   );

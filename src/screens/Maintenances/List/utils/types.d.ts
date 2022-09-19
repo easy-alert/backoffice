@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // MAINTENANCES
-interface MaintenanceHistory {
+interface IMaintenanceHistory {
   id: string;
   maintenanceId: string;
   element: string;
@@ -15,14 +15,14 @@ interface MaintenanceHistory {
   createdAt: string;
   updatedAt: string;
 }
-interface Maintenance {
+interface IMaintenance {
   id: string;
-  MaintenancesHistory: MaintenanceHistory[];
+  MaintenancesHistory: IMaintenanceHistory[];
 }
 export interface ICategories {
   id: string;
   name: string;
-  Maintenances: Maintenance[];
+  Maintenances: IMaintenance[];
 }
 
 // FORM

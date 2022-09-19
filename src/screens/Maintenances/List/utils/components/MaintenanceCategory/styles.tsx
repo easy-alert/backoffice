@@ -42,7 +42,20 @@ export const ButtonsHeader = styled.div`
 
 export const MaintenancesContainer = styled.div`
   display: flex;
-  background-color: red;
-  /* border-radius: ${theme.size.xxsm};
-  background-color: ${theme.color.white}; */
+  flex-direction: column;
+  gap: ${theme.size.xsm};
+`;
+
+export const MaintenancesHeader = styled.div`
+  display: flex;
+  padding: 0 ${theme.size.sm};
+`;
+
+export const MaintenancesGrid = styled.div`
+  display: grid;
+  width: 100%;
+  grid-template-rows: 1fr;
+  align-items: center;
+  grid-gap: ${theme.size.sm};
+  grid-template-columns: 0.7fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
 `;
