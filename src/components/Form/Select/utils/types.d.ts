@@ -1,7 +1,6 @@
 import { SelectHTMLAttributes } from 'react';
 
-export interface SelectProps
-  extends SelectHTMLAttributes<SelectHTMLAttributes> {
+export interface SelectProps extends SelectHTMLAttributes<SelectHTMLAttributes> {
   label: string;
-  error?: string;
+  error?: string | null | any;
 }

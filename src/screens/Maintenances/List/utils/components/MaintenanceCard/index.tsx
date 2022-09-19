@@ -1,145 +1,38 @@
 // LIBS
 import { useState } from 'react';
-import { Form, Formik } from 'formik';
 
 // COMPONENTS
 import { icon } from '../../../../../../assets/icons';
 import { Button } from '../../../../../../components/Buttons/Button';
 import { Image } from '../../../../../../components/Image';
-import { FormikInput } from '../../../../../../components/Form/FormikInput';
 import * as Style from './styles';
-
-// FUNCTIONS
-import { schemaEditMaintenance } from './utils/functions';
 
 // TYPES
 import { IMaintenanceCard } from './utils/types';
-import { applyMask } from '../../../../../../utils/functions';
-import { FormikTextArea } from '../../../../../../components/Form/FormikTextArea';
+
+// MODALS
+import { ModalEditMaintenance } from './utils/ModalEditMaintenance';
 
 export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
   const [cardIsOpen, setCardIsOpen] = useState<boolean>(false);
-  const [cardIsEditing, setcardIsEditing] = useState<boolean>(false);
+  const [modalEditMaintenanceOpen, setModalEditMaintenanceOpen] =
+    useState<boolean>(false);
 
   return (
-    <Style.MaintenancesCard
-      onClick={() => {
-        setCardIsOpen((prevState) => !prevState);
-      }}
-    >
-      {cardIsEditing ? (
-        <Style.MaintenancesCardContent>
-          <Formik
-            initialValues={{
-              element: maintenance[0].element,
-              activity: maintenance[0].activity,
-              frequency: String(maintenance[0].frequency),
-              responsible: maintenance[0].responsible,
-              source: maintenance[0].source,
-              period: String(maintenance[0].period),
-              delay: String(maintenance[0].delay),
-              observation: maintenance[0].observation,
-            }}
-            validationSchema={schemaEditMaintenance}
-            onSubmit={async (values) => {
-              // eslint-disable-next-line no-console
-              console.log(values);
-            }}
-          >
-            {({ errors, values, touched }) => (
-              <Form>
-                <>
-                  <Style.MaintenancesCardTopContent>
-                    <Style.MaintenancesGrid isEditing={cardIsEditing}>
-                      <FormikTextArea
-                        name="element"
-                        height="60px"
-                        value={values.element}
-                        error={touched.element && errors.element ? errors.element : null}
-                        placeholder="Ex: João Silva"
-                      />
-                      <FormikTextArea
-                        name="activity"
-                        height="60px"
-                        value={values.activity}
-                        error={touched.activity && errors.activity ? errors.activity : null}
-                        placeholder="Ex: João Silva"
-                      />
-
-                      <FormikInput
-                        name="frequency"
-                        value={applyMask({ value: values.frequency, mask: 'NUM' }).value}
-                        error={touched.frequency && errors.frequency ? errors.frequency : null}
-                        placeholder="Ex: João Silva"
-                      />
-
-                      <FormikInput
-                        name="responsible"
-                        value={values.responsible}
-                        error={touched.responsible && errors.responsible ? errors.responsible : null}
-                        placeholder="Ex: João Silva"
-                      />
-
-                      <FormikInput
-                        name="source"
-                        value={values.source}
-                        error={touched.source && errors.source ? errors.source : null}
-                        placeholder="Ex: João Silva"
-                      />
-
-                      <Style.ArrowContainer>
-                        <Style.Arrow cardIsOpen={cardIsEditing}>
-                          <Image img={icon.downArrow} size="16px" />
-                        </Style.Arrow>
-                      </Style.ArrowContainer>
-                    </Style.MaintenancesGrid>
-                  </Style.MaintenancesCardTopContent>
-
-                  <Style.Hr />
-                  <Style.MaintenancesMoreGrid>
-                    <FormikTextArea
-                      height="60px"
-                      name="observation"
-                      value={values.observation}
-                      error={touched.observation && errors.observation ? errors.observation : null}
-                      placeholder="Ex: João Silva"
-                    />
-
-                    <FormikInput
-                      name="period"
-                      value={applyMask({ value: values.period, mask: 'NUM' }).value}
-                      error={touched.period && errors.period ? errors.period : null}
-                      placeholder="Ex: João Silva"
-                    />
-                    <FormikInput
-                      name="delay"
-                      value={applyMask({ value: values.delay, mask: 'NUM' }).value}
-                      error={touched.delay && errors.delay ? errors.delay : null}
-                      placeholder="Ex: João Silva"
-                    />
-
-                    <Style.MaintenancesCardGridMoreEditButton>
-                      <Button
-                        label="Cancelar"
-                        type="button"
-                        borderless
-                        onClick={() => {
-                          setcardIsEditing(false);
-                        }}
-                      />
-
-                      <Button label="Editar" type="submit" />
-                    </Style.MaintenancesCardGridMoreEditButton>
-                  </Style.MaintenancesMoreGrid>
-                </>
-              </Form>
-            )}
-          </Formik>
-        </Style.MaintenancesCardContent>
-      ) : (
+    <>
+      <ModalEditMaintenance
+        modalState={modalEditMaintenanceOpen}
+        setModalState={setModalEditMaintenanceOpen}
+        selectedMaintenance={maintenance}
+      />
+      <Style.MaintenancesCard
+        onClick={() => {
+          setCardIsOpen((prevState) => !prevState);
+        }}
+      >
         <Style.MaintenancesCardContent>
           <Style.MaintenancesCardTopContent>
-            <Style.MaintenancesGrid isEditing={cardIsEditing}>
+            <Style.MaintenancesGrid>
               <p className="p2">{maintenance[0].element}</p>
               <p className="p2">{maintenance[0].activity}</p>
               <p className="p2"> {maintenance[0].frequency}</p>
@@ -177,15 +70,16 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
               <Style.MaintenancesCardGridMoreEditButton>
                 <Button
                   label="Editar"
-                  onClick={() => {
-                    setcardIsEditing(true);
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setModalEditMaintenanceOpen(true);
                   }}
                 />
               </Style.MaintenancesCardGridMoreEditButton>
             </Style.MaintenancesMoreGrid>
           </Style.MaintenancesCardBottomContainer>
         </Style.MaintenancesCardContent>
-      )}
-    </Style.MaintenancesCard>
+      </Style.MaintenancesCard>
+    </>
   );
 };

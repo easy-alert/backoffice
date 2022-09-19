@@ -1,10 +1,11 @@
-import { IModalStates } from '../../../../../../../components/Modal/utils/types';
-import { ICompany, IFormDataCompany } from '../../../../../List/utils/types';
+import { IModalStates } from '../../../../../../../../../components/Modal/utils/types';
+import {
+  ICompany,
+  IFormDataCompany,
+} from '../../../../../../../../Companies/List/utils/types';
 
 export interface IModalCreateCompanyAndOwner extends IModalStates {
-  setCount: (setCount: number) => void;
-  page: number;
-  setCompanies: (setCompanies: ICompany[]) => void;
+  selectedMaintenance: any;
 }
 
 export interface IRequestCreateCompanyAndOWner {

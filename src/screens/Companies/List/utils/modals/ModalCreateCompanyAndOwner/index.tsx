@@ -12,7 +12,7 @@ import * as Style from './styles';
 
 // TYPES
 import { IFormDataCompany } from '../../types';
-import { IModalCreateCompanyAndOWner } from './utils/types';
+import { IModalCreateCompanyAndOwner } from './utils/types';
 
 // FUNCTIONS
 
@@ -29,12 +29,16 @@ export const ModalCreateCompanyAndOwner = ({
   setCount,
   modalState,
   setModalState,
-}: IModalCreateCompanyAndOWner) => {
+}: IModalCreateCompanyAndOwner) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
   const [isCPF, setIsCPF] = useState<boolean>(false);
 
   return (
-    <Modal title="Cadastrar usuário" modalState={modalState} setModalState={setModalState}>
+    <Modal
+      title="Cadastrar usuário"
+      modalState={modalState}
+      setModalState={setModalState}
+    >
       <Formik
         initialValues={{
           image: '',
@@ -47,7 +51,11 @@ export const ModalCreateCompanyAndOwner = ({
           password: '',
           confirmPassword: '',
         }}
-        validationSchema={isCPF ? schemaModalCreateCompanyAndOwnerWithCPF : schemaModalCreateCompanyAndOwnerWithCNPJ}
+        validationSchema={
+          isCPF
+            ? schemaModalCreateCompanyAndOwnerWithCPF
+            : schemaModalCreateCompanyAndOwnerWithCNPJ
+        }
         onSubmit={async (data: IFormDataCompany) => {
           await requestCreateCompanyAndOWner({
             data,
@@ -92,7 +100,9 @@ export const ModalCreateCompanyAndOwner = ({
                 label="Nome da empresa"
                 name="companyName"
                 value={values.companyName}
-                error={touched.companyName && errors.companyName ? errors.companyName : null}
+                error={
+                  touched.companyName && errors.companyName ? errors.companyName : null
+                }
                 placeholder="Ex: SATC"
               />
 
@@ -111,7 +121,11 @@ export const ModalCreateCompanyAndOwner = ({
                     mask: 'TEL',
                   }).value
                 }
-                error={touched.contactNumber && errors.contactNumber ? errors.contactNumber : null}
+                error={
+                  touched.contactNumber && errors.contactNumber
+                    ? errors.contactNumber
+                    : null
+                }
                 placeholder="Ex: (00) 0 0000-0000"
               />
               <Style.SwitchWrapper>
@@ -162,7 +176,11 @@ export const ModalCreateCompanyAndOwner = ({
                 label="Confirmar senha"
                 name="confirmPassword"
                 value={values.confirmPassword}
-                error={touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword : null}
+                error={
+                  touched.confirmPassword && errors.confirmPassword
+                    ? errors.confirmPassword
+                    : null
+                }
                 placeholder="Confirme a senha criada"
               />
               <Button center label="Cadastrar" type="submit" loading={onQuery} />

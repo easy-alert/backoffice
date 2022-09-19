@@ -77,14 +77,12 @@ export const PeriodIconWrapper = styled.div`
 `;
 
 // GRIDS
-export const MaintenancesGrid = styled.div<{ isEditing: boolean }>`
+export const MaintenancesGrid = styled.div`
   display: grid;
+  align-items: center;
   width: 100%;
   grid-template-rows: 1fr;
   overflow: hidden;
-
-  ${({ isEditing }) => (isEditing ? `align-items: flex-start;` : 'align-items: center;')}
-
   grid-gap: ${theme.size.sm};
   grid-template-columns: 0.7fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
 `;
