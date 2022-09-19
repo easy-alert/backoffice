@@ -31,14 +31,14 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
         <Style.MaintenancesCardContent>
           <Formik
             initialValues={{
-              element: '',
-              activity: '',
-              frequency: '',
-              responsible: '',
-              source: '',
-              period: '',
-              delay: '',
-              observation: '',
+              element: maintenance[0].element,
+              activity: maintenance[0].activity,
+              frequency: String(maintenance[0].frequency),
+              responsible: maintenance[0].responsible,
+              source: maintenance[0].source,
+              period: String(maintenance[0].period),
+              delay: String(maintenance[0].delay),
+              observation: maintenance[0].observation,
             }}
             validationSchema={schemaEditMaintenance}
             onSubmit={async (values) => {
@@ -103,6 +103,7 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
                       error={touched.observation && errors.observation ? errors.observation : null}
                       placeholder="Ex: João Silva"
                     />
+
                     <FormikInput
                       name="period"
                       value={applyMask({ value: values.period, mask: 'NUM' }).value}
@@ -123,7 +124,6 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
                         borderless
                         onClick={() => {
                           setcardIsEditing(false);
-                          setCardIsOpen(true);
                         }}
                       />
 

@@ -43,7 +43,6 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
                   setIsEditingCategoryName(true);
                 }}
               />
-
               <PopoverButton
                 actionButtonBgColor={theme.color.danger}
                 hiddenActionButtonLabel

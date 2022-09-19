@@ -106,6 +106,6 @@ export const NoMaintenancesContainer = styled.div`
 export const CategoriesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.size.xxlg};
+  gap: ${theme.size.md};
   width: 100%;
 `;

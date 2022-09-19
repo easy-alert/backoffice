@@ -82,6 +82,7 @@ export const MaintenancesGrid = styled.div<{ isEditing: boolean }>`
   grid-gap: ${theme.size.sm};
   grid-template-columns: 0.7fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
 `;
+
 export const MaintenancesMoreGrid = styled.div`
   display: grid;
   width: 100%;
