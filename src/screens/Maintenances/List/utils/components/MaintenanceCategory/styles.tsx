@@ -58,4 +58,9 @@ export const MaintenancesGrid = styled.div`
   align-items: center;
   grid-gap: ${theme.size.sm};
   grid-template-columns: 0.7fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
+
+  > p {
+    cursor: pointer;
+    width: fit-content;
+  }
 `;

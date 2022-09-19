@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ICategories } from '../../../types';
 
 export interface IMaintenanceCategory {
@@ -22,4 +23,21 @@ export interface IDeleteCategory {
   categoryId: string;
   categories: ICategories[];
   setCategories: (setCategories: ICategories[]) => void;
+}
+
+export interface ISortType {
+  type: 'none' | 'element' | 'activity' | 'frequency' | 'responsible' | 'source';
+}
+
+export interface ISortArray {
+  category: ICategories;
+  isSorted: boolean;
+  setIsSorted: (setIsSorted: boolean) => void;
+}
+
+export interface ISortArrayteste {
+  category: ICategories;
+  isSorted: boolean;
+  setIsSorted: (setIsSorted: boolean) => void;
+  toSortString: string;
 }

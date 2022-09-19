@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-console */
 
 // LIBS
@@ -16,14 +19,15 @@ import * as Style from './styles';
 import { MaintenanceCard } from '../MaintenanceCard';
 
 // FUNCTIONS
-import { requestDeleteCategory, requestEditCategory, schemeEditCategory } from './utils/functions';
+import { alphabeticalOrder, requestDeleteCategory, requestEditCategory, schemeEditCategory } from './utils/functions';
 
 // TYPES
-import { IMaintenanceCategory } from './utils/types';
+import { IMaintenanceCategory, ISortType } from './utils/types';
 
 export const MaintenanceCategory = ({ category, categories, setCategories }: IMaintenanceCategory) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isEditingCategoryName, setIsEditingCategoryName] = useState<boolean>(false);
+  const [isSorted, setIsSorted] = useState<boolean>(false);
+  const [sortType, setSortType] = useState<ISortType>({ type: 'element' });
 
   return (
     <Style.Background>
@@ -117,11 +121,56 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
       <Style.MaintenancesContainer>
         <Style.MaintenancesHeader>
           <Style.MaintenancesGrid>
-            <p className="p2">Elemento</p>
-            <p className="p2">Atividade</p>
-            <p className="p2">Periodicidade</p>
-            <p className="p2">Responsável</p>
-            <p className="p2">Fonte</p>
+            <p
+              className="p2"
+              style={{ color: sortType.type === 'element' ? theme.color.black : theme.color.gray4 }}
+              onClick={() => {
+                setSortType({ type: 'element' });
+                alphabeticalOrder({ category, isSorted, setIsSorted, toSortString: 'element' });
+              }}
+            >
+              Elemento{isSorted && sortType.type === 'element' ? '▴' : '▾'}
+            </p>
+            <p
+              className="p2"
+              style={{ color: sortType.type === 'activity' ? theme.color.black : theme.color.gray4 }}
+              onClick={() => {
+                setSortType({ type: 'activity' });
+                alphabeticalOrder({ category, isSorted, setIsSorted, toSortString: 'activity' });
+              }}
+            >
+              Atividade{isSorted && sortType.type === 'activity' ? '▴' : '▾'}
+            </p>
+            <p
+              className="p2"
+              style={{ color: sortType.type === 'frequency' ? theme.color.black : theme.color.gray4 }}
+              onClick={() => {
+                setSortType({ type: 'frequency' });
+                alphabeticalOrder({ category, isSorted, setIsSorted, toSortString: 'frequency' });
+              }}
+            >
+              Periodicidade{isSorted && sortType.type === 'frequency' ? '▴' : '▾'}
+            </p>
+            <p
+              className="p2"
+              style={{ color: sortType.type === 'responsible' ? theme.color.black : theme.color.gray4 }}
+              onClick={() => {
+                setSortType({ type: 'responsible' });
+                alphabeticalOrder({ category, isSorted, setIsSorted, toSortString: 'responsible' });
+              }}
+            >
+              Responsável{isSorted && sortType.type === 'responsible' ? '▴' : '▾'}
+            </p>
+            <p
+              className="p2"
+              style={{ color: sortType.type === 'source' ? theme.color.black : theme.color.gray4 }}
+              onClick={() => {
+                setSortType({ type: 'source' });
+                alphabeticalOrder({ category, isSorted, setIsSorted, toSortString: 'source' });
+              }}
+            >
+              Fonte{isSorted && sortType.type === 'source' ? '▴' : '▾'}
+            </p>
           </Style.MaintenancesGrid>
         </Style.MaintenancesHeader>
 
