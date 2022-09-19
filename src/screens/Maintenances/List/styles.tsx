@@ -2,14 +2,16 @@ import styled from 'styled-components';
 import { theme } from '../../../styles/theme';
 
 export const Header = styled.header`
-  position: relative;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 12px;
+  height: 32px;
+
   @media (max-width: 900px) {
-    align-items: flex-start;
+    height: fit-content;
+    flex-direction: column;
   }
 `;
 
@@ -27,7 +29,8 @@ export const HeaderTitle = styled.div`
 export const LeftSide = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 50%;
+
   > h2 {
     margin-right: ${theme.size.sm};
   }
@@ -35,6 +38,19 @@ export const LeftSide = styled.div`
   @media (max-width: 900px) {
     width: 100%;
     align-items: flex-start;
+  }
+`;
+
+export const RightSide = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: ${theme.size.xsm};
+  width: 50%;
+  @media (max-width: 900px) {
+    flex-direction: row-reverse;
+    height: 32px;
+    width: 100%;
   }
 `;
 
@@ -53,35 +69,12 @@ export const SearchField = styled.div`
   }
 `;
 
-export const CreateMaintenancesContainer = styled.div<{
-  createMaintenancesIsOpen: boolean;
-}>`
-  overflow: hidden;
-  position: absolute;
-  transition: 0.25s;
-
-  transform: scaleY(0);
-  transform-origin: top;
-
-  height: fit-content;
-
-  top: ${theme.size.lg};
-  background-color: ${theme.color.white};
-  border-radius: ${theme.size.xxsm};
-  padding: ${theme.size.xsm} ${theme.size.sm};
-  width: 50%;
-
-  ${({ createMaintenancesIsOpen }) => createMaintenancesIsOpen && `transform: scaleY(1);`}
+export const CreateMaintenancesContainer = styled.div`
+  width: 100%;
 
   @media (max-width: 900px) {
     width: 100%;
   }
-`;
-
-export const CreateMaintenancesButtons = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${theme.size.xsm};
 `;
 
 export const CreateMaintenancesContainerContent = styled.div`
@@ -108,4 +101,5 @@ export const CategoriesContainer = styled.div`
   flex-direction: column;
   gap: ${theme.size.md};
   width: 100%;
+  overflow-x: auto;
 `;

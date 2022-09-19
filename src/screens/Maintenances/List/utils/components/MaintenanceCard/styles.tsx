@@ -23,7 +23,6 @@ export const MaintenancesCard = styled.div`
   padding: ${theme.size.xsm} ${theme.size.sm};
   border-radius: ${theme.size.xxsm};
   background-color: ${theme.color.white};
-
   transition: 0.25s;
   :hover {
     cursor: pointer;
@@ -71,11 +70,18 @@ export const MaintenancesCardBottomPeriod = styled.div`
   }
 `;
 
+export const PeriodIconWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: ${theme.size.xxsm};
+`;
+
 // GRIDS
 export const MaintenancesGrid = styled.div<{ isEditing: boolean }>`
   display: grid;
   width: 100%;
   grid-template-rows: 1fr;
+  overflow: hidden;
 
   ${({ isEditing }) => (isEditing ? `align-items: flex-start;` : 'align-items: center;')}
 
@@ -84,6 +90,8 @@ export const MaintenancesGrid = styled.div<{ isEditing: boolean }>`
 `;
 
 export const MaintenancesMoreGrid = styled.div`
+  overflow: hidden;
+
   display: grid;
   width: 100%;
   grid-template-rows: 1fr;

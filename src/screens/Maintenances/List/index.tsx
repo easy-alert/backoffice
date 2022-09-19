@@ -69,62 +69,52 @@ export const MaintenancesList = () => {
                   />
                 </Style.SearchField>
               </Style.HeaderTitle>
-
-              {!createMaintenancesIsOpen && (
-                <IconButton
-                  hideLabelOnMedia
-                  fontWeight="500"
-                  label="Criar categoria"
-                  className="p2"
-                  icon={icon.plusWithBg}
-                  onClick={() => {
-                    setCreateMaintenancesIsOpen((prevState) => !prevState);
-                  }}
-                />
-              )}
             </Style.LeftSide>
 
-            <Style.CreateMaintenancesContainer createMaintenancesIsOpen={createMaintenancesIsOpen}>
-              <Formik
-                initialValues={{ name: '' }}
-                validationSchema={schemeCreateCategory}
-                onSubmit={async (values, actions) => {
-                  await requestCreateCategory({
-                    values,
-                    setCreateMaintenancesIsOpen,
-                    resetForm: actions.resetForm,
-                    setCategories,
-                    categories,
-                  });
+            <Style.RightSide>
+              {createMaintenancesIsOpen && (
+                <Style.CreateMaintenancesContainer>
+                  <Formik
+                    initialValues={{ name: '' }}
+                    validationSchema={schemeCreateCategory}
+                    onSubmit={async (values, actions) => {
+                      await requestCreateCategory({
+                        values,
+                        setCreateMaintenancesIsOpen,
+                        resetForm: actions.resetForm,
+                        setCategories,
+                        categories,
+                      });
+                    }}
+                  >
+                    {({ errors, values, touched }) => (
+                      <Form>
+                        <Style.CreateMaintenancesContainerContent>
+                          <FormikInput
+                            name="name"
+                            value={values.name}
+                            error={touched.name && errors.name ? errors.name : null}
+                            placeholder="Digite o nome da categoria"
+                            maxLength={40}
+                          />
+                          <Button label="Criar" type="submit" />
+                        </Style.CreateMaintenancesContainerContent>
+                      </Form>
+                    )}
+                  </Formik>
+                </Style.CreateMaintenancesContainer>
+              )}
+              <IconButton
+                hideLabelOnMedia
+                fontWeight="500"
+                label={createMaintenancesIsOpen ? 'Cancelar' : 'Criar categoria'}
+                className="p2"
+                icon={createMaintenancesIsOpen ? icon.circleX : icon.plusWithBg}
+                onClick={() => {
+                  setCreateMaintenancesIsOpen((prevState) => !prevState);
                 }}
-              >
-                {({ errors, values, touched, resetForm }) => (
-                  <Form>
-                    <Style.CreateMaintenancesContainerContent>
-                      <FormikInput
-                        name="name"
-                        value={values.name}
-                        error={touched.name && errors.name ? errors.name : null}
-                        placeholder="Digite o nome da categoria"
-                        maxLength={40}
-                      />
-                      <Style.CreateMaintenancesButtons>
-                        <Button label="Criar" type="submit" />
-                        <Button
-                          label="Fechar"
-                          type="button"
-                          borderless
-                          onClick={() => {
-                            resetForm();
-                            setCreateMaintenancesIsOpen(false);
-                          }}
-                        />
-                      </Style.CreateMaintenancesButtons>
-                    </Style.CreateMaintenancesContainerContent>
-                  </Form>
-                )}
-              </Formik>
-            </Style.CreateMaintenancesContainer>
+              />
+            </Style.RightSide>
           </Style.Header>
 
           {categories?.length ? (

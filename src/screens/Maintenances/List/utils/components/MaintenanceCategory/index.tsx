@@ -93,6 +93,7 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
               <Form>
                 <Style.FormContainer>
                   <FormikInput
+                    autoFocus
                     name="name"
                     value={values.name}
                     error={touched.name && errors.name ? errors.name : null}

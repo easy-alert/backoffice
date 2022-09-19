@@ -42,6 +42,7 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
             }}
             validationSchema={schemaEditMaintenance}
             onSubmit={async (values) => {
+              // eslint-disable-next-line no-console
               console.log(values);
             }}
           >
@@ -161,11 +162,13 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
               </p>
 
               <Style.MaintenancesCardBottomPeriod>
-                <p className="p2">
+                <Style.PeriodIconWrapper>
                   <Image img={icon.alert} size="16px" />
-                  <span>Período: </span>
-                  {maintenance[0].period}
-                </p>
+                  <p className="p2">
+                    <span>Período: </span>
+                    {maintenance[0].period}
+                  </p>
+                </Style.PeriodIconWrapper>
                 <p className="p2">
                   <span>Delay: </span>
                   {maintenance[0].delay}

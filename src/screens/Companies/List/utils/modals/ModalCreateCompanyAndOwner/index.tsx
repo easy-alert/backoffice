@@ -34,11 +34,7 @@ export const ModalCreateCompanyAndOwner = ({
   const [isCPF, setIsCPF] = useState<boolean>(false);
 
   return (
-    <Modal
-      title="Cadastrar usuário"
-      modalState={modalState}
-      setModalState={setModalState}
-    >
+    <Modal title="Cadastrar usuário" modalState={modalState} setModalState={setModalState}>
       <Formik
         initialValues={{
           image: '',
@@ -51,11 +47,7 @@ export const ModalCreateCompanyAndOwner = ({
           password: '',
           confirmPassword: '',
         }}
-        validationSchema={
-          isCPF
-            ? schemaModalCreateCompanyAndOwnerWithCPF
-            : schemaModalCreateCompanyAndOwnerWithCNPJ
-        }
+        validationSchema={isCPF ? schemaModalCreateCompanyAndOwnerWithCPF : schemaModalCreateCompanyAndOwnerWithCNPJ}
         onSubmit={async (data: IFormDataCompany) => {
           await requestCreateCompanyAndOWner({
             data,
@@ -100,11 +92,7 @@ export const ModalCreateCompanyAndOwner = ({
                 label="Nome da empresa"
                 name="companyName"
                 value={values.companyName}
-                error={
-                  touched.companyName && errors.companyName
-                    ? errors.companyName
-                    : null
-                }
+                error={touched.companyName && errors.companyName ? errors.companyName : null}
                 placeholder="Ex: SATC"
               />
 
@@ -123,11 +111,7 @@ export const ModalCreateCompanyAndOwner = ({
                     mask: 'TEL',
                   }).value
                 }
-                error={
-                  touched.contactNumber && errors.contactNumber
-                    ? errors.contactNumber
-                    : null
-                }
+                error={touched.contactNumber && errors.contactNumber ? errors.contactNumber : null}
                 placeholder="Ex: (00) 0 0000-0000"
               />
               <Style.SwitchWrapper>
@@ -149,9 +133,7 @@ export const ModalCreateCompanyAndOwner = ({
               {isCPF && (
                 <FormikInput
                   name="CPF"
-                  maxLength={
-                    applyMask({ value: values.CPF, mask: 'CPF' }).length
-                  }
+                  maxLength={applyMask({ value: values.CPF, mask: 'CPF' }).length}
                   value={applyMask({ value: values.CPF, mask: 'CPF' }).value}
                   error={touched.CPF && errors.CPF ? errors.CPF : null}
                   placeholder="000.000.000-00"
@@ -161,9 +143,7 @@ export const ModalCreateCompanyAndOwner = ({
               {!isCPF && (
                 <FormikInput
                   name="CNPJ"
-                  maxLength={
-                    applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length
-                  }
+                  maxLength={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length}
                   value={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).value}
                   error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
                   placeholder="00.000.000/0000-00"
@@ -174,9 +154,7 @@ export const ModalCreateCompanyAndOwner = ({
                 label="Senha"
                 name="password"
                 value={values.password}
-                error={
-                  touched.password && errors.password ? errors.password : null
-                }
+                error={touched.password && errors.password ? errors.password : null}
                 placeholder="Crie uma senha de 8 caracteres"
               />
               <FormikInput
@@ -184,19 +162,10 @@ export const ModalCreateCompanyAndOwner = ({
                 label="Confirmar senha"
                 name="confirmPassword"
                 value={values.confirmPassword}
-                error={
-                  touched.confirmPassword && errors.confirmPassword
-                    ? errors.confirmPassword
-                    : null
-                }
+                error={touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword : null}
                 placeholder="Confirme a senha criada"
               />
-              <Button
-                center
-                label="Cadastrar"
-                type="submit"
-                loading={onQuery}
-              />
+              <Button center label="Cadastrar" type="submit" loading={onQuery} />
             </Form>
           </Style.FormContainer>
         )}

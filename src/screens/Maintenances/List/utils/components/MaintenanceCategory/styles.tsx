@@ -5,6 +5,10 @@ export const Background = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.size.xxsm};
+
+  @media (max-width: 900px) {
+    min-width: 900px;
+  }
 `;
 
 export const HeaderCategory = styled.div`
@@ -30,7 +34,7 @@ export const FormContainer = styled.div`
 
   gap: ${theme.size.xsm};
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
 `;
 
 export const ButtonsHeader = styled.div`
