@@ -14,24 +14,30 @@ import { schemaEditMaintenance } from './utils/functions';
 
 // TYPES
 import { IMaintenanceCard } from './utils/types';
+import { applyMask } from '../../../../../../utils/functions';
+import { FormikTextArea } from '../../../../../../components/Form/FormikTextArea';
 
 export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
   const [cardIsOpen, setCardIsOpen] = useState<boolean>(false);
   const [cardIsEditing, setcardIsEditing] = useState<boolean>(false);
 
   return (
-    <Style.MaintenancesCard>
+    <Style.MaintenancesCard
+      onClick={() => {
+        setCardIsOpen((prevState) => !prevState);
+      }}
+    >
       {cardIsEditing ? (
         <Style.MaintenancesCardContent>
           <Formik
             initialValues={{
               element: '',
               activity: '',
-              frequency: 0,
+              frequency: '',
               responsible: '',
               source: '',
-              period: 0,
-              delay: 0,
+              period: '',
+              delay: '',
               observation: '',
             }}
             validationSchema={schemaEditMaintenance}
@@ -43,32 +49,30 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
               <Form>
                 <>
                   <Style.MaintenancesCardTopContent>
-                    <Style.MaintenancesGrid>
-                      <FormikInput
-                        label="Elemento"
+                    <Style.MaintenancesGrid isEditing={cardIsEditing}>
+                      <FormikTextArea
                         name="element"
+                        height="60px"
                         value={values.element}
                         error={touched.element && errors.element ? errors.element : null}
                         placeholder="Ex: João Silva"
                       />
+                      <FormikTextArea
+                        name="activity"
+                        height="60px"
+                        value={values.activity}
+                        error={touched.activity && errors.activity ? errors.activity : null}
+                        placeholder="Ex: João Silva"
+                      />
+
                       <FormikInput
-                        label="Frequencia"
                         name="frequency"
-                        value={values.frequency}
+                        value={applyMask({ value: values.frequency, mask: 'NUM' }).value}
                         error={touched.frequency && errors.frequency ? errors.frequency : null}
                         placeholder="Ex: João Silva"
                       />
 
                       <FormikInput
-                        label="Frequencia"
-                        name="frequency"
-                        value={values.frequency}
-                        error={touched.frequency && errors.frequency ? errors.frequency : null}
-                        placeholder="Ex: João Silva"
-                      />
-
-                      <FormikInput
-                        label="Responsavel"
                         name="responsible"
                         value={values.responsible}
                         error={touched.responsible && errors.responsible ? errors.responsible : null}
@@ -76,7 +80,6 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
                       />
 
                       <FormikInput
-                        label="Fonte"
                         name="source"
                         value={values.source}
                         error={touched.source && errors.source ? errors.source : null}
@@ -93,15 +96,26 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
 
                   <Style.Hr />
                   <Style.MaintenancesMoreGrid>
-                    <p className="p2">
-                      <span>Observação: </span>
-                      {maintenance[0].observation}
-                    </p>
+                    <FormikTextArea
+                      height="60px"
+                      name="observation"
+                      value={values.observation}
+                      error={touched.observation && errors.observation ? errors.observation : null}
+                      placeholder="Ex: João Silva"
+                    />
+                    <FormikInput
+                      name="period"
+                      value={applyMask({ value: values.period, mask: 'NUM' }).value}
+                      error={touched.period && errors.period ? errors.period : null}
+                      placeholder="Ex: João Silva"
+                    />
+                    <FormikInput
+                      name="delay"
+                      value={applyMask({ value: values.delay, mask: 'NUM' }).value}
+                      error={touched.delay && errors.delay ? errors.delay : null}
+                      placeholder="Ex: João Silva"
+                    />
 
-                    <Style.MaintenancesCardBottomPeriod>
-                      <p className="p2"> EDITANDO</p>
-                      <p className="p2"> EDITANDO</p>
-                    </Style.MaintenancesCardBottomPeriod>
                     <Style.MaintenancesCardGridMoreEditButton>
                       <Button
                         label="Cancelar"
@@ -113,7 +127,7 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
                         }}
                       />
 
-                      <Button label="Editar" />
+                      <Button label="Editar" type="submit" />
                     </Style.MaintenancesCardGridMoreEditButton>
                   </Style.MaintenancesMoreGrid>
                 </>
@@ -122,13 +136,9 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
           </Formik>
         </Style.MaintenancesCardContent>
       ) : (
-        <Style.MaintenancesCardContent
-          onClick={() => {
-            setCardIsOpen((prevState) => !prevState);
-          }}
-        >
+        <Style.MaintenancesCardContent>
           <Style.MaintenancesCardTopContent>
-            <Style.MaintenancesGrid>
+            <Style.MaintenancesGrid isEditing={cardIsEditing}>
               <p className="p2">{maintenance[0].element}</p>
               <p className="p2">{maintenance[0].activity}</p>
               <p className="p2"> {maintenance[0].frequency}</p>

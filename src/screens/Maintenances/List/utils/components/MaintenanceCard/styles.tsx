@@ -29,6 +29,7 @@ export const MaintenancesCard = styled.div`
     cursor: pointer;
   }
 `;
+
 export const MaintenancesCardContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -70,15 +71,17 @@ export const MaintenancesCardBottomPeriod = styled.div`
   }
 `;
 
-export const MaintenancesGrid = styled.div`
+// GRIDS
+export const MaintenancesGrid = styled.div<{ isEditing: boolean }>`
   display: grid;
   width: 100%;
   grid-template-rows: 1fr;
-  align-items: center;
+
+  ${({ isEditing }) => (isEditing ? `align-items: flex-start;` : 'align-items: center;')}
+
   grid-gap: ${theme.size.sm};
   grid-template-columns: 0.7fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
 `;
-
 export const MaintenancesMoreGrid = styled.div`
   display: grid;
   width: 100%;

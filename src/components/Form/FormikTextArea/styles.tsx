@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { theme } from '../../../styles/theme';
 
-export const TextAreaContainer = styled.div<{ error: boolean }>`
+export const TextAreaContainer = styled.div<{ error: boolean; height: string }>`
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -13,6 +13,12 @@ export const TextAreaContainer = styled.div<{ error: boolean }>`
     color: ${theme.color.danger};
   }
  `}
+  ${({ height }) =>
+    height &&
+    `
+  > textarea {
+    height:${height} ;
+  }`}
 `;
 
 export const ErrorMessage = styled.div`

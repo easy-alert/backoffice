@@ -31,9 +31,7 @@ export const handleError = async ({ error }: { error: Error }) => {
   if (process.env.NODE_ENV !== 'development') {
     axios.post('https://ada-logs.herokuapp.com/api/logs/create', {
       projectName: 'Sul Oxidos',
-      environment: window.location.host.includes('sandbox')
-        ? 'Sandbox'
-        : 'Production',
+      environment: window.location.host.includes('sandbox') ? 'Sandbox' : 'Production',
       side: 'Backoffice',
       errorStack: error.stack,
     });
@@ -42,13 +40,7 @@ export const handleError = async ({ error }: { error: Error }) => {
 
 // MASKS
 
-export const applyMask = ({
-  mask,
-  value,
-}: {
-  mask: 'CPF' | 'CNPJ' | 'TEL' | 'CEP' | 'BRL';
-  value: string;
-}) => {
+export const applyMask = ({ mask, value }: { mask: 'CPF' | 'CNPJ' | 'TEL' | 'CEP' | 'BRL' | 'NUM'; value: string }) => {
   let Mask: IMask = { value: '', length: 0 };
 
   switch (mask) {
@@ -90,14 +82,18 @@ export const applyMask = ({
       break;
     case 'BRL':
       Mask = {
-        value: (Number(value.replace(/[^0-9]*/g, '')) / 100).toLocaleString(
-          'pt-br',
-          {
-            style: 'currency',
-            currency: 'BRL',
-          },
-        ),
+        value: (Number(value.replace(/[^0-9]*/g, '')) / 100).toLocaleString('pt-br', {
+          style: 'currency',
+          currency: 'BRL',
+        }),
         length: 17,
+      };
+      break;
+
+    case 'NUM':
+      Mask = {
+        value: value.replace(/[^0-9]*/g, ''),
+        length: 0,
       };
       break;
 
