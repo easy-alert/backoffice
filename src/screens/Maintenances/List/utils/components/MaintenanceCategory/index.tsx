@@ -28,6 +28,7 @@ export const MaintenanceCategory = ({
 }: IMaintenanceCategory) => {
   const [isSorted, setIsSorted] = useState<boolean>(false);
   const [sortType, setSortType] = useState<ISortType>({ type: 'element' });
+  const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
     <Style.Background>
@@ -43,6 +44,7 @@ export const MaintenanceCategory = ({
               }}
             />
             <PopoverButton
+              disabled={onQuery}
               actionButtonBgColor={theme.color.danger}
               hiddenActionButtonLabel
               buttonIconSize="16px"
@@ -59,6 +61,7 @@ export const MaintenanceCategory = ({
                   categoryId: category.id,
                   categories,
                   setCategories,
+                  setOnQuery,
                 });
               }}
             />
@@ -77,99 +80,108 @@ export const MaintenanceCategory = ({
       </Style.HeaderCategory>
 
       <Style.MaintenancesContainer>
-        <Style.MaintenancesHeader>
-          <Style.MaintenancesGrid>
-            <p
-              className="p2"
-              style={{
-                color:
-                  sortType.type === 'element' ? theme.color.black : theme.color.gray4,
-              }}
-              onClick={() => {
-                setSortType({ type: 'element' });
-                alphabeticalOrder({
-                  category,
-                  isSorted,
-                  setIsSorted,
-                  toSortString: 'element',
-                });
-              }}
-            >
-              Elemento{isSorted && sortType.type === 'element' ? '▴' : '▾'}
-            </p>
-            <p
-              className="p2"
-              style={{
-                color:
-                  sortType.type === 'activity' ? theme.color.black : theme.color.gray4,
-              }}
-              onClick={() => {
-                setSortType({ type: 'activity' });
-                alphabeticalOrder({
-                  category,
-                  isSorted,
-                  setIsSorted,
-                  toSortString: 'activity',
-                });
-              }}
-            >
-              Atividade{isSorted && sortType.type === 'activity' ? '▴' : '▾'}
-            </p>
-            <p
-              className="p2"
-              style={{
-                color:
-                  sortType.type === 'frequency' ? theme.color.black : theme.color.gray4,
-              }}
-              onClick={() => {
-                setSortType({ type: 'frequency' });
-                alphabeticalOrder({
-                  category,
-                  isSorted,
-                  setIsSorted,
-                  toSortString: 'frequency',
-                });
-              }}
-            >
-              Periodicidade{isSorted && sortType.type === 'frequency' ? '▴' : '▾'}
-            </p>
-            <p
-              className="p2"
-              style={{
-                color:
-                  sortType.type === 'responsible' ? theme.color.black : theme.color.gray4,
-              }}
-              onClick={() => {
-                setSortType({ type: 'responsible' });
-                alphabeticalOrder({
-                  category,
-                  isSorted,
-                  setIsSorted,
-                  toSortString: 'responsible',
-                });
-              }}
-            >
-              Responsável{isSorted && sortType.type === 'responsible' ? '▴' : '▾'}
-            </p>
-            <p
-              className="p2"
-              style={{
-                color: sortType.type === 'source' ? theme.color.black : theme.color.gray4,
-              }}
-              onClick={() => {
-                setSortType({ type: 'source' });
-                alphabeticalOrder({
-                  category,
-                  isSorted,
-                  setIsSorted,
-                  toSortString: 'source',
-                });
-              }}
-            >
-              Fonte{isSorted && sortType.type === 'source' ? '▴' : '▾'}
-            </p>
-          </Style.MaintenancesGrid>
-        </Style.MaintenancesHeader>
+        {category.Maintenances.length ? (
+          <Style.MaintenancesHeader>
+            <Style.MaintenancesGrid>
+              <p
+                className="p2"
+                style={{
+                  color:
+                    sortType.type === 'element' ? theme.color.black : theme.color.gray4,
+                }}
+                onClick={() => {
+                  setSortType({ type: 'element' });
+                  alphabeticalOrder({
+                    category,
+                    isSorted,
+                    setIsSorted,
+                    toSortString: 'element',
+                  });
+                }}
+              >
+                Elemento{isSorted && sortType.type === 'element' ? '▴' : '▾'}
+              </p>
+              <p
+                className="p2"
+                style={{
+                  color:
+                    sortType.type === 'activity' ? theme.color.black : theme.color.gray4,
+                }}
+                onClick={() => {
+                  setSortType({ type: 'activity' });
+                  alphabeticalOrder({
+                    category,
+                    isSorted,
+                    setIsSorted,
+                    toSortString: 'activity',
+                  });
+                }}
+              >
+                Atividade{isSorted && sortType.type === 'activity' ? '▴' : '▾'}
+              </p>
+              <p
+                className="p2"
+                style={{
+                  color:
+                    sortType.type === 'frequency' ? theme.color.black : theme.color.gray4,
+                }}
+                onClick={() => {
+                  setSortType({ type: 'frequency' });
+                  alphabeticalOrder({
+                    category,
+                    isSorted,
+                    setIsSorted,
+                    toSortString: 'frequency',
+                  });
+                }}
+              >
+                Periodicidade{isSorted && sortType.type === 'frequency' ? '▴' : '▾'}
+              </p>
+              <p
+                className="p2"
+                style={{
+                  color:
+                    sortType.type === 'responsible'
+                      ? theme.color.black
+                      : theme.color.gray4,
+                }}
+                onClick={() => {
+                  setSortType({ type: 'responsible' });
+                  alphabeticalOrder({
+                    category,
+                    isSorted,
+                    setIsSorted,
+                    toSortString: 'responsible',
+                  });
+                }}
+              >
+                Responsável{isSorted && sortType.type === 'responsible' ? '▴' : '▾'}
+              </p>
+              <p
+                className="p2"
+                style={{
+                  color:
+                    sortType.type === 'source' ? theme.color.black : theme.color.gray4,
+                }}
+                onClick={() => {
+                  setSortType({ type: 'source' });
+                  alphabeticalOrder({
+                    category,
+                    isSorted,
+                    setIsSorted,
+                    toSortString: 'source',
+                  });
+                }}
+              >
+                Fonte{isSorted && sortType.type === 'source' ? '▴' : '▾'}
+              </p>
+            </Style.MaintenancesGrid>
+          </Style.MaintenancesHeader>
+        ) : (
+          <p className="p2" style={{ opacity: 0.7 }}>
+            Nenhuma manutenção cadastrada.
+          </p>
+        )}
 
         {category.Maintenances.map((maintenance) => (
           <MaintenanceCard maintenance={maintenance} key={maintenance.id} />

@@ -5,11 +5,7 @@ import * as yup from 'yup';
 
 // FUNCTIONS
 import { Api } from '../../../../../../../services/api';
-import {
-  catchHandler,
-  unMask,
-  uploadFile,
-} from '../../../../../../../utils/functions';
+import { catchHandler, unMask, uploadFile } from '../../../../../../../utils/functions';
 
 // TYPES
 import { ICompany } from '../../../../../List/utils/types';
@@ -71,7 +67,6 @@ export const requestEditCompanyAndOwner = async ({
       setCompany(updatedCompany);
       setModalState(false);
       toast.success(res.data.ServerMessage.message);
-      setOnQuery(false);
     })
     .catch((err) => {
       setOnQuery(false);

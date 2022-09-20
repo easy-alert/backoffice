@@ -35,7 +35,8 @@ export const CompanyDetails = () => {
 
   // CONSTS
   const [company, setCompany] = useState<ICompany>(state as ICompany);
-  const [modalEditCompanyAndOwnerIsOpen, setEditModalCreateCompanyAndOwnerIsOpen] = useState<boolean>(false);
+  const [modalEditCompanyAndOwnerIsOpen, setEditModalCreateCompanyAndOwnerIsOpen] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (!state) {
@@ -46,12 +47,14 @@ export const CompanyDetails = () => {
 
   return (
     <>
-      <ModalEditCompanyAndOwner
-        company={company}
-        setCompany={setCompany}
-        modalState={modalEditCompanyAndOwnerIsOpen}
-        setModalState={setEditModalCreateCompanyAndOwnerIsOpen}
-      />
+      {modalEditCompanyAndOwnerIsOpen && (
+        <ModalEditCompanyAndOwner
+          company={company}
+          setCompany={setCompany}
+          modalState={modalEditCompanyAndOwnerIsOpen}
+          setModalState={setEditModalCreateCompanyAndOwnerIsOpen}
+        />
+      )}
 
       {!loading && (
         <>
@@ -83,20 +86,26 @@ export const CompanyDetails = () => {
 
             <Style.Card>
               <h6>Telefone</h6>
-              <p className="p2">{applyMask({ value: company.contactNumber, mask: 'TEL' }).value}</p>
+              <p className="p2">
+                {applyMask({ value: company.contactNumber, mask: 'TEL' }).value}
+              </p>
             </Style.Card>
 
             {company.CPF && (
               <Style.Card>
                 <h6>CPF</h6>
-                <p className="p2">{applyMask({ value: company.CPF, mask: 'CPF' }).value}</p>
+                <p className="p2">
+                  {applyMask({ value: company.CPF, mask: 'CPF' }).value}
+                </p>
               </Style.Card>
             )}
 
             {company.CNPJ && (
               <Style.Card>
                 <h6>CNPJ</h6>
-                <p className="p2">{applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value}</p>
+                <p className="p2">
+                  {applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value}
+                </p>
               </Style.Card>
             )}
 
@@ -122,12 +131,16 @@ export const CompanyDetails = () => {
 
           <Style.Footer>
             <PopoverButton
-              actionButtonBgColor={company.isBlocked ? theme.color.success : theme.color.danger}
+              actionButtonBgColor={
+                company.isBlocked ? theme.color.success : theme.color.danger
+              }
               type="IconButton"
               label={company.isBlocked ? 'Ativar' : 'Desativar'}
               buttonIcon={company.isBlocked ? icon.checked : icon.block}
               message={{
-                title: `Deseja ${company.isBlocked ? 'ativar' : 'desativar'} o acesso deste usuário?`,
+                title: `Deseja ${
+                  company.isBlocked ? 'ativar' : 'desativar'
+                } o acesso deste usuário?`,
                 content: 'Esta ação poderá ser desfeita posteriormente.',
                 contentColor: theme.color.danger,
               }}

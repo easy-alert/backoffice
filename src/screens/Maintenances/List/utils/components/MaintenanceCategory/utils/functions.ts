@@ -46,9 +46,10 @@ export const requestDeleteCategory = async ({
   categoryId,
   categories,
   setCategories,
+  setOnQuery,
 }: IDeleteCategory) => {
   toast.loading('Atualizando...');
-
+  setOnQuery(true);
   await Api.delete('/backoffice/categories/delete', {
     data: {
       categoryId,
@@ -65,6 +66,7 @@ export const requestDeleteCategory = async ({
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {
+      setOnQuery(false);
       catchHandler(err);
     });
 };

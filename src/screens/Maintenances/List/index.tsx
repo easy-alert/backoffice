@@ -38,12 +38,14 @@ export const MaintenancesList = () => {
 
   return (
     <>
-      <ModalCreateCategory
-        modalState={modalCreateCategoryOpen}
-        setModalState={setModalCreateCategoryOpen}
-        categories={categories}
-        setCategories={setCategories}
-      />
+      {modalCreateCategoryOpen && (
+        <ModalCreateCategory
+          modalState={modalCreateCategoryOpen}
+          setModalState={setModalCreateCategoryOpen}
+          categories={categories}
+          setCategories={setCategories}
+        />
+      )}
       {loading ? (
         <DotSpinLoading />
       ) : (

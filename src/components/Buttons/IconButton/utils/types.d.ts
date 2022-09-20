@@ -11,4 +11,5 @@ export interface IIconButton {
   hideLabelOnMedia?: boolean;
   fontWeight?: string;
   size?: string;
+  disabled?: boolean;
 }

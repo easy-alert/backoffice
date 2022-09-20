@@ -23,6 +23,7 @@ export interface IDeleteCategory {
   categoryId: string;
   categories: ICategories[];
   setCategories: (setCategories: ICategories[]) => void;
+  setOnQuery: (setOnQuery: boolean) => void;
 }
 
 export interface ISortType {

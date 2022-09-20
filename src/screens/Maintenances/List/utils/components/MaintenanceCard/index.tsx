@@ -35,9 +35,9 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
             <Style.MaintenancesGrid>
               <p className="p2">{maintenance.MaintenancesHistory[0].element}</p>
               <p className="p2">{maintenance.MaintenancesHistory[0].activity}</p>
-              <p className="p2"> {maintenance.MaintenancesHistory[0].frequency}</p>
-              <p className="p2"> {maintenance.MaintenancesHistory[0].responsible}</p>
-              <p className="p2"> {maintenance.MaintenancesHistory[0].source}</p>
+              <p className="p2">{maintenance.MaintenancesHistory[0].frequency}</p>
+              <p className="p2">{maintenance.MaintenancesHistory[0].responsible}</p>
+              <p className="p2">{maintenance.MaintenancesHistory[0].source}</p>
               <Style.ArrowContainer>
                 <Style.Arrow cardIsOpen={cardIsOpen}>
                   <Image img={icon.downArrow} size="16px" />

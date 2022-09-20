@@ -30,8 +30,6 @@ export const requestCreateCategory = async ({
 
       setModalState(false);
       toast.success(res.data.ServerMessage.message);
-
-      setOnQuery(false);
     })
     .catch((err) => {
       setOnQuery(false);

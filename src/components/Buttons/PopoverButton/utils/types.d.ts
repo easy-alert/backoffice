@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ButtonHTMLAttributes } from 'react';
-
-export interface IPopoverButton extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IPopoverButton {
   label: string;
   hiddenActionButtonLabel?: boolean;
   message: {
@@ -19,4 +17,5 @@ export interface IPopoverButton extends ButtonHTMLAttributes<HTMLButtonElement> 
   buttonIconSize?: string;
   borderless?: boolean;
   iconButtonClassName?: string;
+  disabled?: boolean;
 }
