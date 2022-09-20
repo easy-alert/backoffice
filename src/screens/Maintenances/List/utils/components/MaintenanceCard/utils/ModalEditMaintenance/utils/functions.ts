@@ -4,60 +4,38 @@ import * as yup from 'yup';
 
 // FUNCTIONS
 import { Api } from '../../../../../../../../../services/api';
-import { unMask, uploadFile } from '../../../../../../../../../utils/functions';
-import { requestUsersList } from '../../../../../../../../Companies/List/utils/functions';
+import { catchHandler } from '../../../../../../../../../utils/functions';
 
 // TYPES
-import { IRequestCreateCompanyAndOWner } from './types';
+import { IRequestEditMaintenance } from './types';
 
-export const requestCreateCompanyAndOWner = async ({
-  data,
-  setModalState,
-  setCompanies,
-  page,
-  setCount,
-  setOnQuery,
-}: IRequestCreateCompanyAndOWner) => {
-  setOnQuery(true);
-  let imageUrl;
+export const requestEditMaintenance = async ({
+  maintenanceId,
+  values,
+}: IRequestEditMaintenance) => {
+  toast.loading('Atualizando...');
 
-  if (data.image) {
-    const { Location } = await uploadFile(data.image);
-    imageUrl = Location;
-  } else {
-    imageUrl = `https://avatars.dicebear.com/api/initials/${data.name.replace(
-      /\s/g,
-      '%20',
-    )}.svg`;
-  }
+  console.log(values);
 
-  await Api.post('/backoffice/companies/create', {
-    image: imageUrl,
-    name: data.name,
-    email: data.email,
-    password: data.password,
-    companyName: data.companyName,
-    CNPJ: data.CNPJ !== '' ? unMask(data.CNPJ) : null,
-    CPF: data.CPF !== '' ? unMask(data.CPF) : null,
-    contactNumber: unMask(data.contactNumber),
+  await Api.post('/backoffice/maintenances/edit', {
+    maintenanceId,
+    element: values.element,
+    activity: values.activity,
+    frequency: Number(values.frequency),
+    responsible: values.responsible,
+    source: values.source,
+    period: Number(values.period),
+    delay: Number(values.delay),
+    observation: values.observation ?? null,
   })
     .then((res) => {
-      requestUsersList({
-        setCompanies,
-        page,
-        setCount,
-      });
-      setModalState(false);
+      console.log(res.data);
+
+      toast.dismiss();
       toast.success(res.data.ServerMessage.message);
-      setOnQuery(false);
     })
     .catch((err) => {
-      setOnQuery(false);
-      if (err.response.data) {
-        toast.error(err.response.data.ServerMessage.message);
-      } else {
-        toast.error('Erro de comunicação');
-      }
+      catchHandler(err);
     });
 };
 

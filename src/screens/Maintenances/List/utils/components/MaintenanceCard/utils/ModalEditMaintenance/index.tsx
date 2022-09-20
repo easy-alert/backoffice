@@ -10,16 +10,16 @@ import { Modal } from '../../../../../../../../components/Modal';
 import * as Style from './styles';
 
 // TYPES
-import { IModalCreateCompanyAndOwner } from './utils/types';
+import { IModalEditMaintenance } from './utils/types';
 
 // FUNCTIONS
-import { schemaEditMaintenance } from './utils/functions';
+import { schemaEditMaintenance, requestEditMaintenance } from './utils/functions';
 
 export const ModalEditMaintenance = ({
   modalState,
   setModalState,
   selectedMaintenance,
-}: IModalCreateCompanyAndOwner) => {
+}: IModalEditMaintenance) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
@@ -30,19 +30,19 @@ export const ModalEditMaintenance = ({
     >
       <Formik
         initialValues={{
-          element: selectedMaintenance[0].element,
-          activity: selectedMaintenance[0].activity,
-          frequency: String(selectedMaintenance[0].frequency),
-          responsible: selectedMaintenance[0].responsible,
-          source: selectedMaintenance[0].source,
-          period: String(selectedMaintenance[0].period),
-          delay: String(selectedMaintenance[0].delay),
-          observation: selectedMaintenance[0].observation,
+          element: selectedMaintenance.MaintenancesHistory[0].element,
+          activity: selectedMaintenance.MaintenancesHistory[0].activity,
+          frequency: String(selectedMaintenance.MaintenancesHistory[0].frequency),
+          responsible: selectedMaintenance.MaintenancesHistory[0].responsible,
+          source: selectedMaintenance.MaintenancesHistory[0].source,
+          period: String(selectedMaintenance.MaintenancesHistory[0].period),
+          delay: String(selectedMaintenance.MaintenancesHistory[0].delay),
+          observation: selectedMaintenance.MaintenancesHistory[0].observation,
         }}
         validationSchema={schemaEditMaintenance}
         onSubmit={async (values) => {
-          // eslint-disable-next-line no-console
-          console.log(values);
+          requestEditMaintenance({ maintenanceId: selectedMaintenance.id, values });
+
           setOnQuery(false);
         }}
       >

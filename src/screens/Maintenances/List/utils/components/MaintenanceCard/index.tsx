@@ -33,11 +33,11 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
         <Style.MaintenancesCardContent>
           <Style.MaintenancesCardTopContent>
             <Style.MaintenancesGrid>
-              <p className="p2">{maintenance[0].element}</p>
-              <p className="p2">{maintenance[0].activity}</p>
-              <p className="p2"> {maintenance[0].frequency}</p>
-              <p className="p2"> {maintenance[0].responsible}</p>
-              <p className="p2"> {maintenance[0].source}</p>
+              <p className="p2">{maintenance.MaintenancesHistory[0].element}</p>
+              <p className="p2">{maintenance.MaintenancesHistory[0].activity}</p>
+              <p className="p2"> {maintenance.MaintenancesHistory[0].frequency}</p>
+              <p className="p2"> {maintenance.MaintenancesHistory[0].responsible}</p>
+              <p className="p2"> {maintenance.MaintenancesHistory[0].source}</p>
               <Style.ArrowContainer>
                 <Style.Arrow cardIsOpen={cardIsOpen}>
                   <Image img={icon.downArrow} size="16px" />
@@ -51,7 +51,7 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
             <Style.MaintenancesMoreGrid>
               <p className="p2">
                 <span>Observação: </span>
-                {maintenance[0].observation}
+                {maintenance.MaintenancesHistory[0].observation}
               </p>
 
               <Style.MaintenancesCardBottomPeriod>
@@ -59,12 +59,12 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
                   <Image img={icon.alert} size="16px" />
                   <p className="p2">
                     <span>Período: </span>
-                    {maintenance[0].period}
+                    {maintenance.MaintenancesHistory[0].period}
                   </p>
                 </Style.PeriodIconWrapper>
                 <p className="p2">
                   <span>Delay: </span>
-                  {maintenance[0].delay}
+                  {maintenance.MaintenancesHistory[0].delay}
                 </p>
               </Style.MaintenancesCardBottomPeriod>
               <Style.MaintenancesCardGridMoreEditButton>

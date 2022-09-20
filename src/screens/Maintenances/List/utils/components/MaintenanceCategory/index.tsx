@@ -5,13 +5,10 @@
 
 // LIBS
 import { useState } from 'react';
-import { Form, Formik } from 'formik';
 import { icon } from '../../../../../../assets/icons';
-import { Button } from '../../../../../../components/Buttons/Button';
 
 // COMPONENTS
 import { IconButton } from '../../../../../../components/Buttons/IconButton';
-import { FormikInput } from '../../../../../../components/Form/FormikInput';
 import { PopoverButton } from '../../../../../../components/Buttons/PopoverButton';
 import { theme } from '../../../../../../styles/theme';
 import * as Style from './styles';
@@ -19,12 +16,7 @@ import * as Style from './styles';
 import { MaintenanceCard } from '../MaintenanceCard';
 
 // FUNCTIONS
-import {
-  alphabeticalOrder,
-  requestDeleteCategory,
-  requestEditCategory,
-  schemaEditCategory,
-} from './utils/functions';
+import { alphabeticalOrder, requestDeleteCategory } from './utils/functions';
 
 // TYPES
 import { IMaintenanceCategory, ISortType } from './utils/types';
@@ -34,97 +26,54 @@ export const MaintenanceCategory = ({
   categories,
   setCategories,
 }: IMaintenanceCategory) => {
-  const [isEditingCategoryName, setIsEditingCategoryName] = useState<boolean>(false);
   const [isSorted, setIsSorted] = useState<boolean>(false);
   const [sortType, setSortType] = useState<ISortType>({ type: 'element' });
 
   return (
     <Style.Background>
       <Style.HeaderCategory>
-        {!isEditingCategoryName ? (
-          <Style.HeaderTitle>
-            <Style.EditContainer>
-              <h5>{category.name}</h5>
-              <IconButton
-                size="16px"
-                icon={icon.edit}
-                onClick={() => {
-                  setIsEditingCategoryName(true);
-                }}
-              />
-              <PopoverButton
-                actionButtonBgColor={theme.color.danger}
-                hiddenActionButtonLabel
-                buttonIconSize="16px"
-                type="IconButton"
-                buttonIcon={icon.trash}
-                label="Excluir"
-                message={{
-                  title: 'Deseja excluir este usuário?',
-                  content: 'Atenção, essa ação não poderá ser desfeita posteriormente.',
-                  contentColor: theme.color.danger,
-                }}
-                actionButtonClick={() => {
-                  requestDeleteCategory({
-                    categoryId: category.id,
-                    categories,
-                    setCategories,
-                  });
-                }}
-              />
-            </Style.EditContainer>
-
+        <Style.HeaderTitle>
+          <Style.EditContainer>
+            <h5>{category.name}</h5>
             <IconButton
-              hideLabelOnMedia
-              icon={icon.plus}
               size="16px"
-              label="Criar manutenção"
+              icon={icon.edit}
               onClick={() => {
                 // setIsEditingCategoryName(true);
               }}
             />
-          </Style.HeaderTitle>
-        ) : (
-          <Formik
-            initialValues={{ name: category.name }}
-            validationSchema={schemaEditCategory}
-            onSubmit={async (values) => {
-              requestEditCategory({
-                values,
-                categories,
-                setCategories,
-                categoryId: category.id,
-                setIsEditingCategoryName,
-              });
+            <PopoverButton
+              actionButtonBgColor={theme.color.danger}
+              hiddenActionButtonLabel
+              buttonIconSize="16px"
+              type="IconButton"
+              buttonIcon={icon.trash}
+              label="Excluir"
+              message={{
+                title: 'Deseja excluir este usuário?',
+                content: 'Atenção, essa ação não poderá ser desfeita posteriormente.',
+                contentColor: theme.color.danger,
+              }}
+              actionButtonClick={() => {
+                requestDeleteCategory({
+                  categoryId: category.id,
+                  categories,
+                  setCategories,
+                });
+              }}
+            />
+          </Style.EditContainer>
+
+          <IconButton
+            hideLabelOnMedia
+            icon={icon.plus}
+            size="16px"
+            label="Criar manutenção"
+            onClick={() => {
+              // setIsEditingCategoryName(true);
             }}
-          >
-            {({ errors, values, touched }) => (
-              <Form>
-                <Style.FormContainer>
-                  <FormikInput
-                    autoFocus
-                    name="name"
-                    value={values.name}
-                    error={touched.name && errors.name ? errors.name : null}
-                    placeholder="Digite o nome da categoria"
-                    maxLength={40}
-                  />
-                  <Style.ButtonsHeader>
-                    <Button label="Salvar" type="submit" />
-                    <Button
-                      label="Cancelar"
-                      type="button"
-                      borderless
-                      onClick={() => {
-                        setIsEditingCategoryName(false);
-                      }}
-                    />
-                  </Style.ButtonsHeader>
-                </Style.FormContainer>
-              </Form>
-            )}
-          </Formik>
-        )}
+          />
+        </Style.HeaderTitle>
       </Style.HeaderCategory>
 
       <Style.MaintenancesContainer>
@@ -223,10 +172,7 @@ export const MaintenanceCategory = ({
         </Style.MaintenancesHeader>
 
         {category.Maintenances.map((maintenance) => (
-          <MaintenanceCard
-            maintenance={maintenance.MaintenancesHistory}
-            key={maintenance.id}
-          />
+          <MaintenanceCard maintenance={maintenance} key={maintenance.id} />
         ))}
       </Style.MaintenancesContainer>
     </Style.Background>
