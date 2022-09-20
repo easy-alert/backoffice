@@ -7,7 +7,6 @@ export const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 12px;
-  height: 32px;
 
   @media (max-width: 900px) {
     height: fit-content;
@@ -49,7 +48,6 @@ export const RightSide = styled.div`
   width: 50%;
   @media (max-width: 900px) {
     flex-direction: row-reverse;
-    height: 32px;
     width: 100%;
   }
 `;
