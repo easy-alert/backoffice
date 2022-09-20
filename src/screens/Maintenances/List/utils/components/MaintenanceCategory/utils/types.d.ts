@@ -33,11 +33,5 @@ export interface ISortArray {
   category: ICategories;
   isSorted: boolean;
   setIsSorted: (setIsSorted: boolean) => void;
-}
-
-export interface ISortArrayteste {
-  category: ICategories;
-  isSorted: boolean;
-  setIsSorted: (setIsSorted: boolean) => void;
   toSortString: string;
 }

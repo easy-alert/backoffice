@@ -25,22 +25,9 @@ export interface ICategories {
   Maintenances: IMaintenance[];
 }
 
-// FORM
-export interface IFormDataCategory {
-  name: string;
-}
-
 // REQUESTS
 export interface IRequestCategories {
   setLoading?: (setLoading: boolean) => void;
   setCategories: (setCategories: ICategories[]) => void;
   filter?: string;
-}
-
-export interface IRequestCreateCategory {
-  values: IFormDataCategory;
-  setCreateMaintenancesIsOpen: (setCreateMaintenancesIsOpen: boolean) => void;
-  categories: ICategories[];
-  setCategories: (setCategories: ICategories[]) => void;
-  resetForm: any;
 }

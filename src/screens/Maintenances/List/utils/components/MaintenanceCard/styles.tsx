@@ -84,7 +84,7 @@ export const MaintenancesGrid = styled.div`
   grid-template-rows: 1fr;
   overflow: hidden;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 0.7fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 250px 300px 0.5fr 0.5fr 0.5fr 0.1fr;
 `;
 
 export const MaintenancesMoreGrid = styled.div`
@@ -94,7 +94,7 @@ export const MaintenancesMoreGrid = styled.div`
   width: 100%;
   grid-template-rows: 1fr;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 0.7fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 250px 300px 0.5fr 0.5fr 0.5fr 0.1fr;
   span {
     color: ${theme.color.primary};
   }

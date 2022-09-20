@@ -102,4 +102,5 @@ export const CategoriesContainer = styled.div`
   gap: ${theme.size.md};
   width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
 `;

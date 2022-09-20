@@ -7,15 +7,13 @@ import axios from 'axios';
 export const Api = axios.create({
   baseURL:
     process.env.NODE_ENV === 'production'
-      ? process.env.REACT_APP_API_URL
+      ? 'https://easyalert-sandbox.herokuapp.com/api'
       : 'http://localhost:8080/api',
 });
 
 Api.interceptors.request.use(
   (config: any) => {
-    config.headers.authorization! = `Bearer ${localStorage.getItem(
-      'authToken',
-    )}`;
+    config.headers.authorization! = `Bearer ${localStorage.getItem('authToken')}`;
 
     return config;
   },

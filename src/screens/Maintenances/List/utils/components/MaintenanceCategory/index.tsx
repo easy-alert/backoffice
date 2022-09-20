@@ -19,12 +19,21 @@ import * as Style from './styles';
 import { MaintenanceCard } from '../MaintenanceCard';
 
 // FUNCTIONS
-import { alphabeticalOrder, requestDeleteCategory, requestEditCategory, schemeEditCategory } from './utils/functions';
+import {
+  alphabeticalOrder,
+  requestDeleteCategory,
+  requestEditCategory,
+  schemaEditCategory,
+} from './utils/functions';
 
 // TYPES
 import { IMaintenanceCategory, ISortType } from './utils/types';
 
-export const MaintenanceCategory = ({ category, categories, setCategories }: IMaintenanceCategory) => {
+export const MaintenanceCategory = ({
+  category,
+  categories,
+  setCategories,
+}: IMaintenanceCategory) => {
   const [isEditingCategoryName, setIsEditingCategoryName] = useState<boolean>(false);
   const [isSorted, setIsSorted] = useState<boolean>(false);
   const [sortType, setSortType] = useState<ISortType>({ type: 'element' });
@@ -78,7 +87,7 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
         ) : (
           <Formik
             initialValues={{ name: category.name }}
-            validationSchema={schemeEditCategory}
+            validationSchema={schemaEditCategory}
             onSubmit={async (values) => {
               requestEditCategory({
                 values,
@@ -123,50 +132,89 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
           <Style.MaintenancesGrid>
             <p
               className="p2"
-              style={{ color: sortType.type === 'element' ? theme.color.black : theme.color.gray4 }}
+              style={{
+                color:
+                  sortType.type === 'element' ? theme.color.black : theme.color.gray4,
+              }}
               onClick={() => {
                 setSortType({ type: 'element' });
-                alphabeticalOrder({ category, isSorted, setIsSorted, toSortString: 'element' });
+                alphabeticalOrder({
+                  category,
+                  isSorted,
+                  setIsSorted,
+                  toSortString: 'element',
+                });
               }}
             >
               Elemento{isSorted && sortType.type === 'element' ? '▴' : '▾'}
             </p>
             <p
               className="p2"
-              style={{ color: sortType.type === 'activity' ? theme.color.black : theme.color.gray4 }}
+              style={{
+                color:
+                  sortType.type === 'activity' ? theme.color.black : theme.color.gray4,
+              }}
               onClick={() => {
                 setSortType({ type: 'activity' });
-                alphabeticalOrder({ category, isSorted, setIsSorted, toSortString: 'activity' });
+                alphabeticalOrder({
+                  category,
+                  isSorted,
+                  setIsSorted,
+                  toSortString: 'activity',
+                });
               }}
             >
               Atividade{isSorted && sortType.type === 'activity' ? '▴' : '▾'}
             </p>
             <p
               className="p2"
-              style={{ color: sortType.type === 'frequency' ? theme.color.black : theme.color.gray4 }}
+              style={{
+                color:
+                  sortType.type === 'frequency' ? theme.color.black : theme.color.gray4,
+              }}
               onClick={() => {
                 setSortType({ type: 'frequency' });
-                alphabeticalOrder({ category, isSorted, setIsSorted, toSortString: 'frequency' });
+                alphabeticalOrder({
+                  category,
+                  isSorted,
+                  setIsSorted,
+                  toSortString: 'frequency',
+                });
               }}
             >
               Periodicidade{isSorted && sortType.type === 'frequency' ? '▴' : '▾'}
             </p>
             <p
               className="p2"
-              style={{ color: sortType.type === 'responsible' ? theme.color.black : theme.color.gray4 }}
+              style={{
+                color:
+                  sortType.type === 'responsible' ? theme.color.black : theme.color.gray4,
+              }}
               onClick={() => {
                 setSortType({ type: 'responsible' });
-                alphabeticalOrder({ category, isSorted, setIsSorted, toSortString: 'responsible' });
+                alphabeticalOrder({
+                  category,
+                  isSorted,
+                  setIsSorted,
+                  toSortString: 'responsible',
+                });
               }}
             >
               Responsável{isSorted && sortType.type === 'responsible' ? '▴' : '▾'}
             </p>
             <p
               className="p2"
-              style={{ color: sortType.type === 'source' ? theme.color.black : theme.color.gray4 }}
+              style={{
+                color: sortType.type === 'source' ? theme.color.black : theme.color.gray4,
+              }}
               onClick={() => {
                 setSortType({ type: 'source' });
-                alphabeticalOrder({ category, isSorted, setIsSorted, toSortString: 'source' });
+                alphabeticalOrder({
+                  category,
+                  isSorted,
+                  setIsSorted,
+                  toSortString: 'source',
+                });
               }}
             >
               Fonte{isSorted && sortType.type === 'source' ? '▴' : '▾'}
@@ -175,7 +223,10 @@ export const MaintenanceCategory = ({ category, categories, setCategories }: IMa
         </Style.MaintenancesHeader>
 
         {category.Maintenances.map((maintenance) => (
-          <MaintenanceCard maintenance={maintenance.MaintenancesHistory} key={maintenance.id} />
+          <MaintenanceCard
+            maintenance={maintenance.MaintenancesHistory}
+            key={maintenance.id}
+          />
         ))}
       </Style.MaintenancesContainer>
     </Style.Background>

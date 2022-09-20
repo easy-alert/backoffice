@@ -6,8 +6,8 @@ export const Background = styled.div`
   flex-direction: column;
   gap: ${theme.size.xxsm};
 
-  @media (max-width: 900px) {
-    min-width: 900px;
+  @media (max-width: 1100px) {
+    min-width: 960px;
   }
 `;
 
@@ -61,7 +61,7 @@ export const MaintenancesGrid = styled.div`
   grid-template-rows: 1fr;
   align-items: center;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 0.7fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 250px 300px 0.5fr 0.5fr 0.5fr 0.1fr;
 
   > p {
     cursor: pointer;

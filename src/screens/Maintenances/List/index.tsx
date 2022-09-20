@@ -3,17 +3,21 @@
 import { useEffect, useState } from 'react';
 
 // COMPONENTS
-import { Form, Formik } from 'formik';
 import * as Style from './styles';
 import { IconButton } from '../../../components/Buttons/IconButton';
 import { Image } from '../../../components/Image';
 import { icon } from '../../../assets/icons/index';
 import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
-import { Button } from '../../../components/Buttons/Button';
-import { requestCategories, requestCreateCategory, schemeCreateCategory } from './utils/functions';
-import { FormikInput } from '../../../components/Form/FormikInput';
 import { MaintenanceCategory } from './utils/components/MaintenanceCategory';
+
+// TYPES
 import { ICategories } from './utils/types';
+
+// FUNCTIONS
+import { requestCategories } from './utils/functions';
+
+// MODALS
+import { ModalCreateCategory } from './utils/ModalCreateCategory';
 
 export const MaintenancesList = () => {
   // UTILS
@@ -22,10 +26,11 @@ export const MaintenancesList = () => {
   // FILTER
   const [filter, setFilter] = useState<string>('');
 
+  // MODALS
+  const [modalCreateCategoryOpen, setModalCreateCategoryOpen] = useState<boolean>(false);
+
   // CONSTS
   const [categories, setCategories] = useState<ICategories[]>([]);
-
-  const [createMaintenancesIsOpen, setCreateMaintenancesIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     requestCategories({ setLoading, setCategories });
@@ -33,7 +38,12 @@ export const MaintenancesList = () => {
 
   return (
     <>
-      {/* {Modal} */}
+      <ModalCreateCategory
+        modalState={modalCreateCategoryOpen}
+        setModalState={setModalCreateCategoryOpen}
+        categories={categories}
+        setCategories={setCategories}
+      />
       {loading ? (
         <DotSpinLoading />
       ) : (
@@ -72,46 +82,14 @@ export const MaintenancesList = () => {
             </Style.LeftSide>
 
             <Style.RightSide>
-              {createMaintenancesIsOpen && (
-                <Style.CreateMaintenancesContainer>
-                  <Formik
-                    initialValues={{ name: '' }}
-                    validationSchema={schemeCreateCategory}
-                    onSubmit={async (values, actions) => {
-                      await requestCreateCategory({
-                        values,
-                        setCreateMaintenancesIsOpen,
-                        resetForm: actions.resetForm,
-                        setCategories,
-                        categories,
-                      });
-                    }}
-                  >
-                    {({ errors, values, touched }) => (
-                      <Form>
-                        <Style.CreateMaintenancesContainerContent>
-                          <FormikInput
-                            name="name"
-                            value={values.name}
-                            error={touched.name && errors.name ? errors.name : null}
-                            placeholder="Digite o nome da categoria"
-                            maxLength={40}
-                          />
-                          <Button label="Criar" type="submit" />
-                        </Style.CreateMaintenancesContainerContent>
-                      </Form>
-                    )}
-                  </Formik>
-                </Style.CreateMaintenancesContainer>
-              )}
               <IconButton
                 hideLabelOnMedia
                 fontWeight="500"
-                label={createMaintenancesIsOpen ? 'Cancelar' : 'Criar categoria'}
+                label="Criar categoria"
                 className="p2"
-                icon={createMaintenancesIsOpen ? icon.circleX : icon.plusWithBg}
+                icon={icon.plusWithBg}
                 onClick={() => {
-                  setCreateMaintenancesIsOpen((prevState) => !prevState);
+                  setModalCreateCategoryOpen(true);
                 }}
               />
             </Style.RightSide>
