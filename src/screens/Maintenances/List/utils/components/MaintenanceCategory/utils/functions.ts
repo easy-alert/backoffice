@@ -86,8 +86,25 @@ export const alphabeticalOrder = ({
   isSorted,
   setIsSorted,
   toSortString,
+  defaultSortedColumn = false,
 }: ISortArray) => {
-  if (isSorted) {
+  if (defaultSortedColumn) {
+    if (isSorted) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      category.Maintenances.sort((a: any, b: any) =>
+        a.MaintenancesHistory[0][toSortString] < b.MaintenancesHistory[0][toSortString]
+          ? -1
+          : 1,
+      );
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      category.Maintenances.sort((a: any, b: any) =>
+        a.MaintenancesHistory[0][toSortString] > b.MaintenancesHistory[0][toSortString]
+          ? -1
+          : 1,
+      );
+    }
+  } else if (!isSorted) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     category.Maintenances.sort((a: any, b: any) =>
       a.MaintenancesHistory[0][toSortString] < b.MaintenancesHistory[0][toSortString]
@@ -102,5 +119,6 @@ export const alphabeticalOrder = ({
         : 1,
     );
   }
+
   setIsSorted(!isSorted);
 };

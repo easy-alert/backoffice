@@ -35,4 +35,5 @@ export interface ISortArray {
   isSorted: boolean;
   setIsSorted: (setIsSorted: boolean) => void;
   toSortString: string;
+  defaultSortedColumn?: boolean;
 }

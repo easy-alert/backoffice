@@ -96,6 +96,7 @@ export const MaintenanceCategory = ({
                     isSorted,
                     setIsSorted,
                     toSortString: 'element',
+                    defaultSortedColumn: true,
                   });
                 }}
               >
@@ -117,7 +118,7 @@ export const MaintenanceCategory = ({
                   });
                 }}
               >
-                Atividade{isSorted && sortType.type === 'activity' ? '▴' : '▾'}
+                Atividade{isSorted && sortType.type === 'activity' ? '▾' : '▴'}
               </p>
               <p
                 className="p2"
@@ -135,7 +136,7 @@ export const MaintenanceCategory = ({
                   });
                 }}
               >
-                Periodicidade{isSorted && sortType.type === 'frequency' ? '▴' : '▾'}
+                Periodicidade{isSorted && sortType.type === 'frequency' ? '▾' : '▴'}
               </p>
               <p
                 className="p2"
@@ -155,7 +156,7 @@ export const MaintenanceCategory = ({
                   });
                 }}
               >
-                Responsável{isSorted && sortType.type === 'responsible' ? '▴' : '▾'}
+                Responsável{isSorted && sortType.type === 'responsible' ? '▾' : '▴'}
               </p>
               <p
                 className="p2"
@@ -173,7 +174,7 @@ export const MaintenanceCategory = ({
                   });
                 }}
               >
-                Fonte{isSorted && sortType.type === 'source' ? '▴' : '▾'}
+                Fonte{isSorted && sortType.type === 'source' ? '▾' : '▴'}
               </p>
             </Style.MaintenancesGrid>
           </Style.MaintenancesHeader>
