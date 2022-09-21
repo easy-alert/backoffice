@@ -66,8 +66,8 @@ export const schemaCreateMaintenance = yup
 
     frequency: yup
       .string()
-      .required('A periodicidade deve ser preenchida.')
-      .matches(/^\d/, 'A periodicidade deve ser um número.'),
+      .required('A frequência deve ser preenchida.')
+      .matches(/^\d/, 'A frequência deve ser um número.'),
 
     responsible: yup
       .string()

@@ -68,11 +68,12 @@ export const ModalEditMaintenance = ({
                 maxLength={180}
               />
               <FormikInput
-                label="Periodicidade"
+                label="Frequência"
                 name="frequency"
                 value={values.frequency}
                 error={touched.frequency && errors.frequency ? errors.frequency : null}
                 placeholder=" "
+                maxLength={4}
               />
               <FormikInput
                 label="Responsável"
@@ -111,6 +112,7 @@ export const ModalEditMaintenance = ({
                 value={values.period}
                 error={touched.period && errors.period ? errors.period : null}
                 placeholder=" "
+                maxLength={4}
               />
 
               <FormikInput
@@ -119,6 +121,7 @@ export const ModalEditMaintenance = ({
                 value={values.delay}
                 error={touched.delay && errors.delay ? errors.delay : null}
                 placeholder=" "
+                maxLength={4}
               />
 
               <Button center label="Editar" type="submit" loading={onQuery} />

@@ -6,3 +6,10 @@ export const FormContainer = styled.div`
     margin-top: ${theme.size.xsm};
   }
 `;
+
+export const SelectWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: ${theme.size.sm};
+`;

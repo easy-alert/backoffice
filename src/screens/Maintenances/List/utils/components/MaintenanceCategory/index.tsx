@@ -143,7 +143,7 @@ export const MaintenanceCategory = ({
                     });
                   }}
                 >
-                  Periodicidade{isSorted && sortType.type === 'frequency' ? '▾' : '▴'}
+                  Frequência{isSorted && sortType.type === 'frequency' ? '▾' : '▴'}
                 </p>
                 <p
                   className="p2"

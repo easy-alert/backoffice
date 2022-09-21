@@ -15,6 +15,7 @@ import { IModalCreateMaintenance } from './utils/types';
 // FUNCTIONS
 import { schemaCreateMaintenance, requestCreateMaintenance } from './utils/functions';
 import { applyMask } from '../../../../../../../../utils/functions';
+import { FormikSelect } from '../../../../../../../../components/Form/FormikSelect';
 
 export const ModalCreateMaintenance = ({
   modalState,
@@ -72,14 +73,23 @@ export const ModalCreateMaintenance = ({
                 height="82px"
                 maxLength={180}
               />
-              <FormikInput
-                label="Periodicidade"
-                name="frequency"
-                value={applyMask({ mask: 'NUM', value: values.frequency }).value}
-                error={touched.frequency && errors.frequency ? errors.frequency : null}
-                placeholder="1"
-                // check maxlength
-              />
+              <Style.SelectWrapper>
+                <FormikInput
+                  label="Frequência"
+                  name="frequency"
+                  value={applyMask({ mask: 'NUM', value: values.frequency }).value}
+                  error={touched.frequency && errors.frequency ? errors.frequency : null}
+                  placeholder="1"
+                  maxLength={4}
+                />
+
+                <FormikSelect label="Intervalo">
+                  <option value="Dias">Dias</option>
+                  <option value="Semanas">Semanas</option>
+                  <option value="Meses">Meses</option>
+                  <option value="Anos">Anos</option>
+                </FormikSelect>
+              </Style.SelectWrapper>
               <FormikInput
                 label="Responsável"
                 name="responsible"
@@ -110,23 +120,38 @@ export const ModalCreateMaintenance = ({
                 placeholder="Atenção no acabamento"
                 maxLength={55}
               />
-
-              <FormikInput
-                label="Período"
-                name="period"
-                value={applyMask({ mask: 'NUM', value: values.period }).value}
-                error={touched.period && errors.period ? errors.period : null}
-                placeholder="10"
-              />
-
-              <FormikInput
-                label="Delay"
-                name="delay"
-                value={applyMask({ mask: 'NUM', value: values.delay }).value}
-                error={touched.delay && errors.delay ? errors.delay : null}
-                placeholder="1"
-              />
-
+              <Style.SelectWrapper>
+                <FormikInput
+                  label="Período"
+                  name="period"
+                  value={applyMask({ mask: 'NUM', value: values.period }).value}
+                  error={touched.period && errors.period ? errors.period : null}
+                  placeholder="10"
+                  maxLength={4}
+                />
+                <FormikSelect label="Intervalo">
+                  <option value="Dias">Dias</option>
+                  <option value="Semanas">Semanas</option>
+                  <option value="Meses">Meses</option>
+                  <option value="Anos">Anos</option>
+                </FormikSelect>
+              </Style.SelectWrapper>
+              <Style.SelectWrapper>
+                <FormikInput
+                  label="Delay"
+                  name="delay"
+                  value={applyMask({ mask: 'NUM', value: values.delay }).value}
+                  error={touched.delay && errors.delay ? errors.delay : null}
+                  placeholder="1"
+                  maxLength={4}
+                />
+                <FormikSelect label="Intervalo">
+                  <option value="Dias">Dias</option>
+                  <option value="Semanas">Semanas</option>
+                  <option value="Meses">Meses</option>
+                  <option value="Anos">Anos</option>
+                </FormikSelect>
+              </Style.SelectWrapper>
               <Button center label="Cadastrar" type="submit" loading={onQuery} />
             </Form>
           </Style.FormContainer>

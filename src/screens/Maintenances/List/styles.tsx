@@ -7,9 +7,10 @@ export const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   margin-bottom: ${theme.size.md};
+
   @media (max-width: 900px) {
     height: fit-content;
-    flex-direction: column;
+    align-items: flex-start;
   }
 `;
 
@@ -46,8 +47,7 @@ export const RightSide = styled.div`
   gap: ${theme.size.xsm};
   width: 50%;
   @media (max-width: 900px) {
-    flex-direction: row-reverse;
-    width: 100%;
+    height: 100%;
   }
 `;
 

@@ -59,7 +59,7 @@ export const schemaEditMaintenance = yup
 
       .min(3, 'A atividade deve conter 3 ou mais caracteres.'),
 
-    frequency: yup.string().required('A periodicidade deve ser preenchida.'),
+    frequency: yup.string().required('A frequência deve ser preenchida.'),
 
     responsible: yup
 

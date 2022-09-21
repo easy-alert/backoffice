@@ -34,10 +34,10 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
       >
         <Style.MaintenancesCardContent>
           <Style.MaintenancesCardTopContent>
-            <Style.MaintenancesGrid>
+            <Style.MaintenancesGrid cardIsOpen={cardIsOpen}>
               <p className="p2">{maintenance.MaintenancesHistory[0].element}</p>
               <p className="p2">{maintenance.MaintenancesHistory[0].activity}</p>
-              <p className="p2">{maintenance.MaintenancesHistory[0].frequency}</p>
+              <p className="p2">A cada 9999 semanas</p>
               <p className="p2">{maintenance.MaintenancesHistory[0].responsible}</p>
               <p className="p2">{maintenance.MaintenancesHistory[0].source}</p>
               <Style.ArrowContainer>

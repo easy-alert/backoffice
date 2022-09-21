@@ -38,7 +38,7 @@ export const MaintenancesCardContent = styled.div`
 
 export const MaintenancesCardTopContent = styled.div`
   display: flex;
-  height: 80px;
+  min-height: 80px;
 `;
 
 export const MaintenancesCardBottomContainer = styled.div<{ cardIsOpen: boolean }>`
@@ -48,7 +48,7 @@ export const MaintenancesCardBottomContainer = styled.div<{ cardIsOpen: boolean 
   overflow: hidden;
   transition: max-height 0.25s;
 
-  ${({ cardIsOpen }) => (cardIsOpen ? `max-height: 80px; ` : ` max-height: 0px; `)};
+  ${({ cardIsOpen }) => (cardIsOpen ? `max-height: 80px;` : `max-height: 0px; `)};
 `;
 
 export const MaintenancesCardGridMoreEditButton = styled.div`
@@ -77,18 +77,22 @@ export const PeriodIconWrapper = styled.div`
 `;
 
 // GRIDS
-export const MaintenancesGrid = styled.div`
+export const MaintenancesGrid = styled.div<{ cardIsOpen: boolean }>`
   display: grid;
   align-items: center;
   width: 100%;
   grid-template-rows: 1fr;
   overflow: hidden;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 250px 300px 0.4fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 225px 250px 0.8fr 0.8fr 0.5fr 0.1fr;
 
   > p {
-    overflow: hidden;
     word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: ${({ cardIsOpen }) => (cardIsOpen ? 6 : 4)};
+    -webkit-box-orient: vertical;
   }
 `;
 
@@ -99,7 +103,8 @@ export const MaintenancesMoreGrid = styled.div`
   width: 100%;
   grid-template-rows: 1fr;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 250px 300px 0.4fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 225px 250px 0.8fr 0.8fr 0.5fr 0.1fr;
+
   span {
     color: ${theme.color.primary};
   }
