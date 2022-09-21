@@ -12,6 +12,7 @@ import { IMaintenanceCard } from './utils/types';
 
 // MODALS
 import { ModalEditMaintenance } from './utils/ModalEditMaintenance';
+import { intervalTimeConverter } from '../../../../../../utils/functions';
 
 export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
   const [cardIsOpen, setCardIsOpen] = useState<boolean>(false);
@@ -37,7 +38,16 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
             <Style.MaintenancesGrid cardIsOpen={cardIsOpen}>
               <p className="p2">{maintenance.MaintenancesHistory[0].element}</p>
               <p className="p2">{maintenance.MaintenancesHistory[0].activity}</p>
-              <p className="p2">A cada 9999 semanas</p>
+              <p className="p2">
+                A cada{' '}
+                {`${maintenance.MaintenancesHistory[0].frequency} ${intervalTimeConverter(
+                  {
+                    value: maintenance.MaintenancesHistory[0].frequency,
+                    intervalName:
+                      maintenance.MaintenancesHistory[0].FrequencyTimeInterval.name,
+                  },
+                )}`}
+              </p>
               <p className="p2">{maintenance.MaintenancesHistory[0].responsible}</p>
               <p className="p2">{maintenance.MaintenancesHistory[0].source}</p>
               <Style.ArrowContainer>
@@ -61,13 +71,28 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
                   <Image img={icon.alert} size="16px" />
                   <p className="p2">
                     <span>Período: </span>
-                    {maintenance.MaintenancesHistory[0].period}
+                    {`${
+                      maintenance.MaintenancesHistory[0].period
+                    } ${intervalTimeConverter({
+                      value: maintenance.MaintenancesHistory[0].period,
+                      intervalName:
+                        maintenance.MaintenancesHistory[0].PeriodTimeInterval.name,
+                    })}`}
                   </p>
                 </Style.PeriodIconWrapper>
-                <p className="p2">
-                  <span>Delay: </span>
-                  {maintenance.MaintenancesHistory[0].delay}
-                </p>
+                <Style.PeriodIconWrapper>
+                  <Image img={icon.alert} size="16px" />
+                  <p className="p2">
+                    <span>Delay: </span>
+                    {`${maintenance.MaintenancesHistory[0].delay} ${intervalTimeConverter(
+                      {
+                        value: maintenance.MaintenancesHistory[0].delay,
+                        intervalName:
+                          maintenance.MaintenancesHistory[0].DelayTimeInterval.name,
+                      },
+                    )}`}
+                  </p>
+                </Style.PeriodIconWrapper>
               </Style.MaintenancesCardBottomPeriod>
               <Style.MaintenancesCardGridMoreEditButton>
                 <Button

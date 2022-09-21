@@ -17,7 +17,7 @@ import { theme } from '../../../styles/theme';
 import { icon } from '../../../assets/icons/index';
 
 // FUNCTIONS
-import { applyMask, DateFormatter } from '../../../utils/functions';
+import { applyMask, dateFormatter } from '../../../utils/functions';
 
 // TYPES
 import { ICompany } from '../List/utils/types';
@@ -117,14 +117,14 @@ export const CompanyDetails = () => {
 
             <Style.Card>
               <h6>Data de cadastro</h6>
-              <p className="p2">{DateFormatter(company.createdAt)}</p>
+              <p className="p2">{dateFormatter(company.createdAt)}</p>
             </Style.Card>
 
             <Style.Card>
               <h6>Último acesso</h6>
               <p className="p2">
                 {company.UserCompanies[0].User.lastAccess
-                  ? DateFormatter(company.UserCompanies[0].User.lastAccess)
+                  ? dateFormatter(company.UserCompanies[0].User.lastAccess)
                   : '-'}
               </p>
             </Style.Card>

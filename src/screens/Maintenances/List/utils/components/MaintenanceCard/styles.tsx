@@ -62,7 +62,8 @@ export const MaintenancesCardGridMoreEditButton = styled.div`
 
 export const MaintenancesCardBottomPeriod = styled.div`
   display: flex;
-  gap: ${theme.size.sm};
+  flex-direction: column;
+  gap: ${theme.size.xxsm};
 
   > p {
     display: flex;
@@ -107,6 +108,7 @@ export const MaintenancesMoreGrid = styled.div`
 
   span {
     color: ${theme.color.primary};
+    font-weight: 500;
   }
   > p {
     overflow: hidden;

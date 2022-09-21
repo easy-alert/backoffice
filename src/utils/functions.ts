@@ -5,13 +5,57 @@ import { Api } from '../services/api';
 import { IMask, IUploadFile } from './types';
 
 // DATES
-export const DateFormatter = (date: string) =>
+export const dateFormatter = (date: string) =>
   new Date(date).toLocaleDateString('pt-BR', {
     timeZone: 'UTC',
   });
 
-// UPLOADS
+export const intervalTimeConverter = ({
+  value,
+  intervalName,
+}: {
+  value: string;
+  intervalName: string;
+}) => {
+  let convertedInterval = '';
+  const plural = Number(value) > 1;
+  switch (intervalName) {
+    case 'Day':
+      if (plural) {
+        convertedInterval = 'dias';
+      } else {
+        convertedInterval = 'dia';
+      }
+      break;
+    case 'Month':
+      if (plural) {
+        convertedInterval = 'meses';
+      } else {
+        convertedInterval = 'mês';
+      }
+      break;
+    case 'Week':
+      if (plural) {
+        convertedInterval = 'semanas';
+      } else {
+        convertedInterval = 'semana';
+      }
+      break;
+    case 'Year':
+      if (plural) {
+        convertedInterval = 'anos';
+      } else {
+        convertedInterval = 'ano';
+      }
+      break;
 
+    default:
+      break;
+  }
+  return convertedInterval;
+};
+
+// UPLOADS
 export async function uploadFile(file: any) {
   let response = {};
 
@@ -26,7 +70,6 @@ export async function uploadFile(file: any) {
 }
 
 // ERRORS
-
 export const handleError = async ({ error }: { error: Error }) => {
   if (process.env.NODE_ENV !== 'development') {
     axios.post('https://ada-logs.herokuapp.com/api/logs/create', {
@@ -39,7 +82,6 @@ export const handleError = async ({ error }: { error: Error }) => {
 };
 
 // MASKS
-
 export const applyMask = ({
   mask,
   value,

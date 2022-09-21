@@ -17,10 +17,22 @@ export interface IRequestCreateMaintenance {
     element: string;
     activity: string;
     frequency: string;
+    frequencyTimeInterval: string;
     responsible: string;
     source: string;
     period: string;
+    periodTimeInterval: string;
     delay: string;
+    delayTimeInterval: string;
     observation: string;
   };
+}
+
+export interface ITimeInterval {
+  id: string;
+  name: string;
+}
+
+export interface IRequestListIntervals {
+  setTimeIntervals: (setTimeIntervals: ITimeInterval[]) => void;
 }

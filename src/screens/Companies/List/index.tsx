@@ -21,7 +21,7 @@ import { ICompany } from './utils/types';
 
 // FUNCTIONS
 import { requestUsersList } from './utils/functions';
-import { DateFormatter } from '../../../utils/functions';
+import { dateFormatter } from '../../../utils/functions';
 
 // MODALS
 import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
@@ -193,7 +193,7 @@ export const CompaniesList = () => {
                       },
                       {
                         cell: companie.UserCompanies[0].User.lastAccess
-                          ? DateFormatter(companie.UserCompanies[0].User.lastAccess)
+                          ? dateFormatter(companie.UserCompanies[0].User.lastAccess)
                           : '-',
                         cssProps: { width: '25%' },
                       },

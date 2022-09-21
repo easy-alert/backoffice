@@ -1,5 +1,5 @@
 // LIBS
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Formik } from 'formik';
 
 // COMPONENTS
@@ -10,10 +10,14 @@ import { Modal } from '../../../../../../../../components/Modal';
 import * as Style from './styles';
 
 // TYPES
-import { IModalCreateMaintenance } from './utils/types';
+import { IModalCreateMaintenance, ITimeInterval } from './utils/types';
 
 // FUNCTIONS
-import { schemaCreateMaintenance, requestCreateMaintenance } from './utils/functions';
+import {
+  schemaCreateMaintenance,
+  requestCreateMaintenance,
+  requestListIntervals,
+} from './utils/functions';
 import { applyMask } from '../../../../../../../../utils/functions';
 import { FormikSelect } from '../../../../../../../../components/Form/FormikSelect';
 
@@ -25,6 +29,11 @@ export const ModalCreateMaintenance = ({
   setCategories,
 }: IModalCreateMaintenance) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
+  const [timeIntervals, setTimeIntervals] = useState<ITimeInterval[]>([]);
+
+  useEffect(() => {
+    requestListIntervals({ setTimeIntervals });
+  }, []);
 
   return (
     <Modal title="Criar manutenção" modalState={modalState} setModalState={setModalState}>
@@ -33,10 +42,13 @@ export const ModalCreateMaintenance = ({
           element: '',
           activity: '',
           frequency: '',
+          frequencyTimeInterval: '',
           responsible: '',
           source: '',
           period: '',
+          periodTimeInterval: '',
           delay: '',
+          delayTimeInterval: '',
           observation: '',
         }}
         validationSchema={schemaCreateMaintenance}
@@ -82,12 +94,23 @@ export const ModalCreateMaintenance = ({
                   placeholder="1"
                   maxLength={4}
                 />
-
-                <FormikSelect label="Intervalo">
-                  <option value="Dias">Dias</option>
-                  <option value="Semanas">Semanas</option>
-                  <option value="Meses">Meses</option>
-                  <option value="Anos">Anos</option>
+                <FormikSelect
+                  name="frequencyTimeInterval"
+                  label="Intervalo"
+                  error={
+                    touched.frequencyTimeInterval && errors.frequencyTimeInterval
+                      ? errors.frequencyTimeInterval
+                      : null
+                  }
+                >
+                  <option value="Selecione" disabled>
+                    Selecione
+                  </option>
+                  {timeIntervals.map((element) => (
+                    <option key={element.id} value={element.id}>
+                      {element.name}
+                    </option>
+                  ))}
                 </FormikSelect>
               </Style.SelectWrapper>
               <FormikInput
@@ -129,11 +152,23 @@ export const ModalCreateMaintenance = ({
                   placeholder="10"
                   maxLength={4}
                 />
-                <FormikSelect label="Intervalo">
-                  <option value="Dias">Dias</option>
-                  <option value="Semanas">Semanas</option>
-                  <option value="Meses">Meses</option>
-                  <option value="Anos">Anos</option>
+                <FormikSelect
+                  name="periodTimeInterval"
+                  label="Intervalo"
+                  error={
+                    touched.periodTimeInterval && errors.periodTimeInterval
+                      ? errors.periodTimeInterval
+                      : null
+                  }
+                >
+                  <option value="Selecione" disabled>
+                    Selecione
+                  </option>
+                  {timeIntervals.map((element) => (
+                    <option key={element.id} value={element.id}>
+                      {element.name}
+                    </option>
+                  ))}
                 </FormikSelect>
               </Style.SelectWrapper>
               <Style.SelectWrapper>
@@ -145,11 +180,23 @@ export const ModalCreateMaintenance = ({
                   placeholder="1"
                   maxLength={4}
                 />
-                <FormikSelect label="Intervalo">
-                  <option value="Dias">Dias</option>
-                  <option value="Semanas">Semanas</option>
-                  <option value="Meses">Meses</option>
-                  <option value="Anos">Anos</option>
+                <FormikSelect
+                  name="delayTimeInterval"
+                  label="Intervalo"
+                  error={
+                    touched.delayTimeInterval && errors.delayTimeInterval
+                      ? errors.delayTimeInterval
+                      : null
+                  }
+                >
+                  <option value="Selecione" disabled>
+                    Selecione
+                  </option>
+                  {timeIntervals.map((element) => (
+                    <option key={element.id} value={element.id}>
+                      {element.name}
+                    </option>
+                  ))}
                 </FormikSelect>
               </Style.SelectWrapper>
               <Button center label="Cadastrar" type="submit" loading={onQuery} />
