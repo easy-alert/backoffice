@@ -30,6 +30,7 @@ export const IconButton = ({
     gap={gap}
     color={color}
     fontWeight={fontWeight}
+    disable={disabled}
     onClick={() => {
       onClick();
     }}

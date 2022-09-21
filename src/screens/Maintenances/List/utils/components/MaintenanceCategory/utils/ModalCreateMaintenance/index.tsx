@@ -62,6 +62,7 @@ export const ModalCreateMaintenance = ({
                 height="60px"
                 maxLength={150}
               />
+
               <FormikTextArea
                 label="Atividade"
                 name="activity"

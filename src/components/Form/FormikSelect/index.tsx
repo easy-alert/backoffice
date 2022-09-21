@@ -18,4 +18,4 @@ const SelectBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
     <ErrorMessage>{!!error && <p className="p3">{error}</p>}</ErrorMessage>
   </SelectContainer>
 );
-export const Select = forwardRef(SelectBase);
+export const FormikSelect = forwardRef(SelectBase);
