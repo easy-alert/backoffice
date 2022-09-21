@@ -25,7 +25,7 @@ export const PopoverButton = ({
   bgColor,
   actionButtonBgColor,
   actionButtonClick,
-  hiddenActionButtonLabel = false,
+  hiddenIconButtonLabel = false,
   borderless,
   loading,
   iconButtonClassName,
@@ -163,7 +163,7 @@ export const PopoverButton = ({
             disabled={disabled}
             hideLabelOnMedia
             className={iconButtonClassName}
-            label={hiddenActionButtonLabel ? '' : label}
+            label={hiddenIconButtonLabel ? '' : label}
             color={iconButtonColor}
             icon={buttonIcon}
             size={buttonIconSize}

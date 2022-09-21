@@ -13,6 +13,7 @@ export const Background = styled.div`
 
 export const HeaderCategory = styled.div`
   display: flex;
+  margin-bottom: ${theme.size.xsm};
 `;
 
 export const HeaderTitle = styled.div`
@@ -21,7 +22,7 @@ export const HeaderTitle = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
-export const EditContainer = styled.div`
+export const Container = styled.div`
   display: flex;
   align-items: center;
   gap: ${theme.size.xsm};
@@ -60,7 +61,7 @@ export const MaintenancesGrid = styled.div`
   grid-template-rows: 1fr;
   align-items: center;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 250px 300px 0.5fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 250px 300px 0.4fr 0.5fr 0.5fr 0.1fr;
 
   > p {
     cursor: pointer;

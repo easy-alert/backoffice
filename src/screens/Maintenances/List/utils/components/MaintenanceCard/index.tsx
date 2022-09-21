@@ -20,11 +20,13 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
 
   return (
     <>
-      <ModalEditMaintenance
-        modalState={modalEditMaintenanceOpen}
-        setModalState={setModalEditMaintenanceOpen}
-        selectedMaintenance={maintenance}
-      />
+      {modalEditMaintenanceOpen && (
+        <ModalEditMaintenance
+          modalState={modalEditMaintenanceOpen}
+          setModalState={setModalEditMaintenanceOpen}
+          selectedMaintenance={maintenance}
+        />
+      )}
       <Style.MaintenancesCard
         onClick={() => {
           setCardIsOpen((prevState) => !prevState);

@@ -10,40 +10,44 @@ import { Modal } from '../../../../../../../../components/Modal';
 import * as Style from './styles';
 
 // TYPES
-import { IModalEditMaintenance } from './utils/types';
+import { IModalCreateMaintenance } from './utils/types';
 
 // FUNCTIONS
-import { schemaEditMaintenance, requestEditMaintenance } from './utils/functions';
+import { schemaCreateMaintenance, requestCreateMaintenance } from './utils/functions';
+import { applyMask } from '../../../../../../../../utils/functions';
 
-export const ModalEditMaintenance = ({
+export const ModalCreateMaintenance = ({
   modalState,
   setModalState,
-  selectedMaintenance,
-}: IModalEditMaintenance) => {
+  categoryId,
+  categories,
+  setCategories,
+}: IModalCreateMaintenance) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
-    <Modal
-      title="Editar manutenção"
-      modalState={modalState}
-      setModalState={setModalState}
-    >
+    <Modal title="Criar manutenção" modalState={modalState} setModalState={setModalState}>
       <Formik
         initialValues={{
-          element: selectedMaintenance.MaintenancesHistory[0].element,
-          activity: selectedMaintenance.MaintenancesHistory[0].activity,
-          frequency: String(selectedMaintenance.MaintenancesHistory[0].frequency),
-          responsible: selectedMaintenance.MaintenancesHistory[0].responsible,
-          source: selectedMaintenance.MaintenancesHistory[0].source,
-          period: String(selectedMaintenance.MaintenancesHistory[0].period),
-          delay: String(selectedMaintenance.MaintenancesHistory[0].delay),
-          observation: selectedMaintenance.MaintenancesHistory[0].observation,
+          element: '',
+          activity: '',
+          frequency: '',
+          responsible: '',
+          source: '',
+          period: '',
+          delay: '',
+          observation: '',
         }}
-        validationSchema={schemaEditMaintenance}
+        validationSchema={schemaCreateMaintenance}
         onSubmit={async (values) => {
-          requestEditMaintenance({ maintenanceId: selectedMaintenance.id, values });
-          // TIRAR ISSO AQUI DEPOIS, BOTAR NA FUNÇÃO
-          setOnQuery(false);
+          requestCreateMaintenance({
+            values,
+            categoryId,
+            setModalState,
+            categories,
+            setCategories,
+            setOnQuery,
+          });
         }}
       >
         {({ errors, values, touched }) => (
@@ -54,7 +58,7 @@ export const ModalEditMaintenance = ({
                 name="element"
                 value={values.element}
                 error={touched.element && errors.element ? errors.element : null}
-                placeholder=" "
+                placeholder="Rejuntamento e vedações"
                 height="60px"
                 maxLength={150}
               />
@@ -63,16 +67,17 @@ export const ModalEditMaintenance = ({
                 name="activity"
                 value={values.activity}
                 error={touched.activity && errors.activity ? errors.activity : null}
-                placeholder=" "
+                placeholder="Verificar sua integridade e reconstruir os rejuntamentos internos e externos dos pisos"
                 height="82px"
                 maxLength={180}
               />
               <FormikInput
                 label="Periodicidade"
                 name="frequency"
-                value={values.frequency}
+                value={applyMask({ mask: 'NUM', value: values.frequency }).value}
                 error={touched.frequency && errors.frequency ? errors.frequency : null}
-                placeholder=" "
+                placeholder="1"
+                // check maxlength
               />
               <FormikInput
                 label="Responsável"
@@ -81,7 +86,7 @@ export const ModalEditMaintenance = ({
                 error={
                   touched.responsible && errors.responsible ? errors.responsible : null
                 }
-                placeholder=" "
+                placeholder="Equipe de manutenção local"
                 maxLength={40}
               />
 
@@ -90,7 +95,7 @@ export const ModalEditMaintenance = ({
                 name="source"
                 value={values.source}
                 error={touched.source && errors.source ? errors.source : null}
-                placeholder=" "
+                placeholder="NBR 5674:2012"
                 maxLength={40}
               />
 
@@ -101,27 +106,27 @@ export const ModalEditMaintenance = ({
                 error={
                   touched.observation && errors.observation ? errors.observation : null
                 }
-                placeholder=" "
+                placeholder="Atenção no acabamento"
                 maxLength={55}
               />
 
               <FormikInput
                 label="Período"
                 name="period"
-                value={values.period}
+                value={applyMask({ mask: 'NUM', value: values.period }).value}
                 error={touched.period && errors.period ? errors.period : null}
-                placeholder=" "
+                placeholder="10"
               />
 
               <FormikInput
                 label="Delay"
                 name="delay"
-                value={values.delay}
+                value={applyMask({ mask: 'NUM', value: values.delay }).value}
                 error={touched.delay && errors.delay ? errors.delay : null}
-                placeholder=" "
+                placeholder="1"
               />
 
-              <Button center label="Editar" type="submit" loading={onQuery} />
+              <Button center label="Cadastrar" type="submit" loading={onQuery} />
             </Form>
           </Style.FormContainer>
         )}

@@ -48,6 +48,7 @@ export const ModalCreateCategory = ({
             <Form>
               <FormikInput
                 autoFocus
+                maxLength={50}
                 label="Nome da categoria"
                 name="categoryName"
                 value={values.categoryName}

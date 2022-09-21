@@ -6,8 +6,7 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
-
+  margin-bottom: ${theme.size.md};
   @media (max-width: 900px) {
     height: fit-content;
     flex-direction: column;
@@ -101,4 +100,5 @@ export const CategoriesContainer = styled.div`
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  padding-bottom: ${theme.size.sm};
 `;

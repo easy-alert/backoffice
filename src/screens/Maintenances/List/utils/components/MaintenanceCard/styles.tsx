@@ -16,6 +16,7 @@ export const Hr = styled.div`
   height: 1px;
   width: 100%;
   background-color: ${theme.color.gray2};
+  margin-top: ${theme.size.xsm};
 `;
 
 export const MaintenancesCard = styled.div`
@@ -32,7 +33,6 @@ export const MaintenancesCard = styled.div`
 export const MaintenancesCardContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.size.xsm};
   width: 100%;
 `;
 
@@ -84,7 +84,12 @@ export const MaintenancesGrid = styled.div`
   grid-template-rows: 1fr;
   overflow: hidden;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 250px 300px 0.5fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 250px 300px 0.4fr 0.5fr 0.5fr 0.1fr;
+
+  > p {
+    overflow: hidden;
+    word-break: break-all;
+  }
 `;
 
 export const MaintenancesMoreGrid = styled.div`
@@ -94,8 +99,12 @@ export const MaintenancesMoreGrid = styled.div`
   width: 100%;
   grid-template-rows: 1fr;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 250px 300px 0.5fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 250px 300px 0.4fr 0.5fr 0.5fr 0.1fr;
   span {
     color: ${theme.color.primary};
+  }
+  > p {
+    overflow: hidden;
+    word-break: break-all;
   }
 `;

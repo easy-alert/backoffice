@@ -49,8 +49,6 @@ export const Footer = styled.footer`
   gap: ${theme.size.sm};
 `;
 
-// aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
 export const ContainerButton = styled.div`
   position: relative;
   width: fit-content;

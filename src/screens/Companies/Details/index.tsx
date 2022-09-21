@@ -32,6 +32,7 @@ export const CompanyDetails = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [loading, setLoading] = useState<boolean>(true);
+  const [onQuery, setOnQuery] = useState<boolean>(false);
 
   // CONSTS
   const [company, setCompany] = useState<ICompany>(state as ICompany);
@@ -131,8 +132,9 @@ export const CompanyDetails = () => {
 
           <Style.Footer>
             <PopoverButton
+              disabled={onQuery}
               actionButtonBgColor={
-                company.isBlocked ? theme.color.success : theme.color.danger
+                company.isBlocked ? theme.color.success : theme.color.primary
               }
               type="IconButton"
               label={company.isBlocked ? 'Ativar' : 'Desativar'}
@@ -149,11 +151,13 @@ export const CompanyDetails = () => {
                   company,
                   setCompany,
                   navigate,
+                  setOnQuery,
                 });
               }}
             />
             <PopoverButton
-              actionButtonBgColor={theme.color.danger}
+              disabled={onQuery}
+              actionButtonBgColor={theme.color.primary}
               type="IconButton"
               label="Excluir"
               buttonIcon={icon.trashWithBg}
@@ -166,11 +170,13 @@ export const CompanyDetails = () => {
                 requestDeleteCompany({
                   company,
                   navigate,
+                  setOnQuery,
                 });
               }}
             />
 
             <IconButton
+              disabled={onQuery}
               hideLabelOnMedia
               icon={icon.editWithBg}
               label="Editar"

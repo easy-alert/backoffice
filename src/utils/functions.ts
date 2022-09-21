@@ -40,7 +40,13 @@ export const handleError = async ({ error }: { error: Error }) => {
 
 // MASKS
 
-export const applyMask = ({ mask, value }: { mask: 'CPF' | 'CNPJ' | 'TEL' | 'CEP' | 'BRL' | 'NUM'; value: string }) => {
+export const applyMask = ({
+  mask,
+  value,
+}: {
+  mask: 'CPF' | 'CNPJ' | 'TEL' | 'CEP' | 'BRL' | 'NUM';
+  value: string;
+}) => {
   let Mask: IMask = { value: '', length: 0 };
 
   switch (mask) {

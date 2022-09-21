@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IPopoverButton {
   label: string;
-  hiddenActionButtonLabel?: boolean;
+  hiddenIconButtonLabel?: boolean;
   message: {
     title: string;
     content: string;
