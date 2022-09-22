@@ -33,11 +33,7 @@ export const ModalEditCompanyAndOwner = ({
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
-    <Modal
-      title="Editar usuário"
-      modalState={modalState}
-      setModalState={setModalState}
-    >
+    <Modal title="Editar usuário" modalState={modalState} setModalState={setModalState}>
       <Formik
         initialValues={{
           image: company.image,
@@ -48,9 +44,7 @@ export const ModalEditCompanyAndOwner = ({
             value: company.contactNumber,
             mask: 'TEL',
           }).value,
-          CPF: company.CPF
-            ? applyMask({ value: company.CPF, mask: 'CPF' }).value
-            : '',
+          CPF: company.CPF ? applyMask({ value: company.CPF, mask: 'CPF' }).value : '',
           CNPJ: company.CNPJ
             ? applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value
             : '',
@@ -107,13 +101,10 @@ export const ModalEditCompanyAndOwner = ({
                 name="companyName"
                 value={values.companyName}
                 error={
-                  touched.companyName && errors.companyName
-                    ? errors.companyName
-                    : null
+                  touched.companyName && errors.companyName ? errors.companyName : null
                 }
                 placeholder="Ex: SATC"
               />
-
               <FormikInput
                 label="Telefone"
                 name="contactNumber"
@@ -123,43 +114,50 @@ export const ModalEditCompanyAndOwner = ({
                     mask: 'TEL',
                   }).length
                 }
-                value={
-                  applyMask({
-                    value: values.contactNumber,
-                    mask: 'TEL',
-                  }).value
-                }
+                value={values.contactNumber}
                 error={
                   touched.contactNumber && errors.contactNumber
                     ? errors.contactNumber
                     : null
                 }
                 placeholder="Ex: (00) 0 0000-0000"
+                onChange={(e) => {
+                  setFieldValue(
+                    'contactNumber',
+                    applyMask({ value: e.target.value, mask: 'TEL' }).value,
+                  );
+                }}
               />
 
               {company.CPF && (
                 <FormikInput
                   name="CPF"
-                  label="CPF"
-                  maxLength={
-                    applyMask({ value: values.CPF, mask: 'CPF' }).length
-                  }
-                  value={applyMask({ value: values.CPF, mask: 'CPF' }).value}
+                  maxLength={applyMask({ value: values.CPF, mask: 'CPF' }).length}
+                  value={values.CPF}
                   error={touched.CPF && errors.CPF ? errors.CPF : null}
                   placeholder="000.000.000-00"
+                  onChange={(e) => {
+                    setFieldValue(
+                      'CPF',
+                      applyMask({ value: e.target.value, mask: 'CPF' }).value,
+                    );
+                  }}
                 />
               )}
 
               {company.CNPJ && (
                 <FormikInput
                   name="CNPJ"
-                  label="CNPJ"
-                  maxLength={
-                    applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length
-                  }
-                  value={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).value}
+                  maxLength={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length}
+                  value={values.CNPJ}
                   error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
                   placeholder="00.000.000/0000-00"
+                  onChange={(e) => {
+                    setFieldValue(
+                      'CNPJ',
+                      applyMask({ value: e.target.value, mask: 'CNPJ' }).value,
+                    );
+                  }}
                 />
               )}
               <FormikInput
@@ -167,9 +165,7 @@ export const ModalEditCompanyAndOwner = ({
                 label="Senha"
                 name="password"
                 value={values.password}
-                error={
-                  touched.password && errors.password ? errors.password : null
-                }
+                error={touched.password && errors.password ? errors.password : null}
                 passwordPlaceholder
                 placeholder="••••••••••"
               />
@@ -186,12 +182,7 @@ export const ModalEditCompanyAndOwner = ({
                 passwordPlaceholder
                 placeholder="••••••••••"
               />
-              <Button
-                center
-                label="Cadastrar"
-                type="submit"
-                loading={onQuery}
-              />
+              <Button center label="Cadastrar" type="submit" loading={onQuery} />
             </Form>
           </Style.FormContainer>
         )}

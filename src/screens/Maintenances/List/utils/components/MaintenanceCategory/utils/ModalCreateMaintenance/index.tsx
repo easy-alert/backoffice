@@ -59,7 +59,7 @@ export const ModalCreateMaintenance = ({
           });
         }}
       >
-        {({ errors, values, touched }) => (
+        {({ errors, values, touched, setFieldValue }) => (
           <Style.FormContainer>
             <Form>
               <FormikTextArea
@@ -85,10 +85,16 @@ export const ModalCreateMaintenance = ({
                 <FormikInput
                   label="Frequência"
                   name="frequency"
-                  value={applyMask({ mask: 'NUM', value: values.frequency }).value}
+                  value={values.frequency}
                   error={touched.frequency && errors.frequency ? errors.frequency : null}
                   placeholder="1"
                   maxLength={4}
+                  onChange={(e) => {
+                    setFieldValue(
+                      'frequency',
+                      applyMask({ mask: 'NUM', value: e.target.value }).value,
+                    );
+                  }}
                 />
                 <FormikSelect
                   selectPlaceholderValue={values.frequencyTimeInterval}
@@ -146,10 +152,16 @@ export const ModalCreateMaintenance = ({
                 <FormikInput
                   label="Período"
                   name="period"
-                  value={applyMask({ mask: 'NUM', value: values.period }).value}
+                  value={values.period}
                   error={touched.period && errors.period ? errors.period : null}
                   placeholder="10"
                   maxLength={4}
+                  onChange={(e) => {
+                    setFieldValue(
+                      'period',
+                      applyMask({ mask: 'NUM', value: e.target.value }).value,
+                    );
+                  }}
                 />
                 <FormikSelect
                   selectPlaceholderValue={values.periodTimeInterval}
@@ -177,10 +189,16 @@ export const ModalCreateMaintenance = ({
                 <FormikInput
                   label="Delay"
                   name="delay"
-                  value={applyMask({ mask: 'NUM', value: values.delay }).value}
+                  value={values.delay}
                   error={touched.delay && errors.delay ? errors.delay : null}
                   placeholder="1"
                   maxLength={4}
+                  onChange={(e) => {
+                    setFieldValue(
+                      'delay',
+                      applyMask({ mask: 'NUM', value: e.target.value }).value,
+                    );
+                  }}
                 />
                 <FormikSelect
                   selectPlaceholderValue={values.delayTimeInterval}

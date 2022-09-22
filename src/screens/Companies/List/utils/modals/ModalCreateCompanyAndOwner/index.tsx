@@ -115,19 +115,21 @@ export const ModalCreateCompanyAndOwner = ({
                     mask: 'TEL',
                   }).length
                 }
-                value={
-                  applyMask({
-                    value: values.contactNumber,
-                    mask: 'TEL',
-                  }).value
-                }
+                value={values.contactNumber}
                 error={
                   touched.contactNumber && errors.contactNumber
                     ? errors.contactNumber
                     : null
                 }
                 placeholder="Ex: (00) 0 0000-0000"
+                onChange={(e) => {
+                  setFieldValue(
+                    'contactNumber',
+                    applyMask({ value: e.target.value, mask: 'TEL' }).value,
+                  );
+                }}
               />
+
               <Style.SwitchWrapper>
                 <h6>CNPJ</h6>
                 <Switch
@@ -148,9 +150,15 @@ export const ModalCreateCompanyAndOwner = ({
                 <FormikInput
                   name="CPF"
                   maxLength={applyMask({ value: values.CPF, mask: 'CPF' }).length}
-                  value={applyMask({ value: values.CPF, mask: 'CPF' }).value}
+                  value={values.CPF}
                   error={touched.CPF && errors.CPF ? errors.CPF : null}
                   placeholder="000.000.000-00"
+                  onChange={(e) => {
+                    setFieldValue(
+                      'CPF',
+                      applyMask({ value: e.target.value, mask: 'CPF' }).value,
+                    );
+                  }}
                 />
               )}
 
@@ -158,9 +166,15 @@ export const ModalCreateCompanyAndOwner = ({
                 <FormikInput
                   name="CNPJ"
                   maxLength={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length}
-                  value={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).value}
+                  value={values.CNPJ}
                   error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
                   placeholder="00.000.000/0000-00"
+                  onChange={(e) => {
+                    setFieldValue(
+                      'CNPJ',
+                      applyMask({ value: e.target.value, mask: 'CNPJ' }).value,
+                    );
+                  }}
                 />
               )}
               <FormikInput

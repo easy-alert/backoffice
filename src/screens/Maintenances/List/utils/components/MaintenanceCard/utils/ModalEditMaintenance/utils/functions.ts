@@ -77,7 +77,12 @@ export const schemaEditMaintenance = yup
     frequency: yup
       .string()
       .required('A frequência deve ser preenchida.')
-      .matches(/^\d/, 'A frequência deve ser um número.'),
+      .matches(/^\d/, 'A frequência deve ser um número.')
+      .test(
+        'greaterThanZero',
+        'A frequência deve ser maior que zero.',
+        (value) => Number(value) > 0,
+      ),
 
     frequencyTimeInterval: yup
       .string()
@@ -101,7 +106,12 @@ export const schemaEditMaintenance = yup
     period: yup
       .string()
       .required('O período deve ser preenchido.')
-      .matches(/^\d/, 'O período deve ser um número.'),
+      .matches(/^\d/, 'O período deve ser um número.')
+      .test(
+        'greaterThanZero',
+        'O período deve ser maior que zero.',
+        (value) => Number(value) > 0,
+      ),
 
     periodTimeInterval: yup
       .string()
@@ -115,7 +125,12 @@ export const schemaEditMaintenance = yup
     delay: yup
       .string()
       .required('O delay deve ser preenchido.')
-      .matches(/^\d/, 'O delay deve ser um número.'),
+      .matches(/^\d/, 'O delay deve ser um número.')
+      .test(
+        'greaterThanZero',
+        'O delay deve ser maior que zero.',
+        (value) => Number(value) > 0,
+      ),
 
     delayTimeInterval: yup
       .string()
