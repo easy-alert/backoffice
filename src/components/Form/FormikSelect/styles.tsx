@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { theme } from '../../../styles/theme';
 
-export const SelectContainer = styled.div<{ error: boolean }>`
+export const SelectContainer = styled.div<{
+  error: boolean;
+  selectPlaceholderValue: string;
+}>`
   display: flex;
   flex-direction: column;
   > h6 {
@@ -9,6 +12,19 @@ export const SelectContainer = styled.div<{ error: boolean }>`
   }
   width: 100%;
   position: relative;
+
+  ${({ selectPlaceholderValue }) =>
+    selectPlaceholderValue === 'Selecione'
+      ? `
+      > select {
+        border-color: ${theme.color.gray3};
+        color: #757575
+      }
+      `
+      : `
+      > select {
+          border-color: ${theme.color.gray4};
+      }`}
 
   ${({ error }) =>
     error &&

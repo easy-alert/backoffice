@@ -7,7 +7,7 @@ import { Api } from '../../../../../../../../../services/api';
 import { catchHandler } from '../../../../../../../../../utils/functions';
 
 // TYPES
-import { IRequestCreateMaintenance, IRequestListIntervals } from './types';
+import { IRequestCreateMaintenance } from './types';
 
 export const requestCreateMaintenance = async ({
   values,
@@ -51,21 +51,8 @@ export const requestCreateMaintenance = async ({
     });
 };
 
-export const requestListIntervals = async ({
-  setTimeIntervals,
-}: IRequestListIntervals) => {
-  await Api.get('/time/interval/list', {})
-    .then((res) => {
-      setTimeIntervals(res.data);
-    })
-    .catch((err) => {
-      catchHandler(err);
-    });
-};
-
 // YUP
 export const schemaCreateMaintenance = yup
-
   .object({
     element: yup
       .string()
@@ -76,7 +63,7 @@ export const schemaCreateMaintenance = yup
       .string()
       .required('A atividade deve ser preenchida.')
       .min(3, 'A atividade deve conter 3 ou mais caracteres.'),
-    // troacr o input pra number acho
+
     frequency: yup
       .string()
       .required('A frequência deve ser preenchida.')
@@ -84,7 +71,12 @@ export const schemaCreateMaintenance = yup
 
     frequencyTimeInterval: yup
       .string()
-      .required('O intervalo da frequência deve ser preenchido.'),
+      .required('O intervalo da frequência deve ser preenchido.')
+      .test(
+        'hasValue',
+        'O intervalo do período deve ser preenchido.',
+        (value) => value !== 'Selecione',
+      ),
 
     responsible: yup
       .string()
@@ -103,14 +95,26 @@ export const schemaCreateMaintenance = yup
 
     periodTimeInterval: yup
       .string()
-      .required('O intervalo do período deve ser preenchido.'),
+      .required('O intervalo do período deve ser preenchido.')
+      .test(
+        'hasValue',
+        'O intervalo do período deve ser preenchido.',
+        (value) => value !== 'Selecione',
+      ),
 
     delay: yup
       .string()
       .required('O delay deve ser preenchido.')
       .matches(/^\d/, 'O delay deve ser um número.'),
 
-    delayTimeInterval: yup.string().required('O intervalo do delay deve ser preenchido.'),
+    delayTimeInterval: yup
+      .string()
+      .required('O intervalo do delay deve ser preenchido.')
+      .test(
+        'hasValue',
+        'O intervalo do período deve ser preenchido.',
+        (value) => value !== 'Selecione',
+      ),
 
     observation: yup.string().min(3, 'A observação deve conter 3 ou mais caracteres.'),
   })

@@ -6,19 +6,28 @@ interface IMaintenanceHistory {
   maintenanceId: string;
   element: string;
   activity: string;
-  frequency: string;
+  frequency: number;
   FrequencyTimeInterval: {
     name: string;
+    id: string;
+    pluralLabel: string;
+    singularLabel: string;
   };
   responsible: string;
   source: string;
-  period: string;
+  period: number;
   PeriodTimeInterval: {
     name: string;
+    id: string;
+    pluralLabel: string;
+    singularLabel: string;
   };
-  delay: string;
+  delay: number;
   DelayTimeInterval: {
     name: string;
+    id: string;
+    pluralLabel: string;
+    singularLabel: string;
   };
   observation: string;
   createdAt: string;

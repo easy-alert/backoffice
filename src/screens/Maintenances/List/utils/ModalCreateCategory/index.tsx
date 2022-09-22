@@ -23,11 +23,7 @@ export const ModalCreateCategory = ({
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
-    <Modal
-      title="Cadastrar categoria"
-      modalState={modalState}
-      setModalState={setModalState}
-    >
+    <Modal title="Criar categoria" modalState={modalState} setModalState={setModalState}>
       <Formik
         initialValues={{
           categoryName: '',
@@ -57,7 +53,7 @@ export const ModalCreateCategory = ({
                 }
                 placeholder="Digite o nome da categoria"
               />
-              <Button center label="Cadastrar" type="submit" loading={onQuery} />
+              <Button center label="Criar" type="submit" loading={onQuery} />
             </Form>
           </Style.FormContainer>
         )}

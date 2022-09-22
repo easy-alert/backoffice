@@ -2,58 +2,13 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Api } from '../services/api';
-import { IMask, IUploadFile } from './types';
+import { IMask, IUploadFile, IRequestListIntervals } from './types';
 
 // DATES
 export const dateFormatter = (date: string) =>
   new Date(date).toLocaleDateString('pt-BR', {
     timeZone: 'UTC',
   });
-
-export const intervalTimeConverter = ({
-  value,
-  intervalName,
-}: {
-  value: string;
-  intervalName: string;
-}) => {
-  let convertedInterval = '';
-  const plural = Number(value) > 1;
-  switch (intervalName) {
-    case 'Day':
-      if (plural) {
-        convertedInterval = 'dias';
-      } else {
-        convertedInterval = 'dia';
-      }
-      break;
-    case 'Month':
-      if (plural) {
-        convertedInterval = 'meses';
-      } else {
-        convertedInterval = 'mês';
-      }
-      break;
-    case 'Week':
-      if (plural) {
-        convertedInterval = 'semanas';
-      } else {
-        convertedInterval = 'semana';
-      }
-      break;
-    case 'Year':
-      if (plural) {
-        convertedInterval = 'anos';
-      } else {
-        convertedInterval = 'ano';
-      }
-      break;
-
-    default:
-      break;
-  }
-  return convertedInterval;
-};
 
 // UPLOADS
 export async function uploadFile(file: any) {
@@ -151,6 +106,9 @@ export const applyMask = ({
   return Mask;
 };
 
+export const capitalizeFirstLetter = (value: string) =>
+  value.charAt(0).toUpperCase() + value.slice(1);
+
 export const unMask = (value: string) => value.replace(/[^a-zA-Z0-9]/g, '');
 
 // REQUESTS
@@ -161,4 +119,16 @@ export const catchHandler = (err: any) => {
   } else {
     toast.error('Erro de comunicação');
   }
+};
+
+export const requestListIntervals = async ({
+  setTimeIntervals,
+}: IRequestListIntervals) => {
+  await Api.get('/time/interval/list', {})
+    .then((res) => {
+      setTimeIntervals(res.data);
+    })
+    .catch((err) => {
+      catchHandler(err);
+    });
 };

@@ -88,7 +88,7 @@ export const MaintenancesGrid = styled.div<{ cardIsOpen: boolean }>`
   grid-template-columns: 225px 250px 0.8fr 0.8fr 0.5fr 0.1fr;
 
   > p {
-    word-break: break-all;
+    word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -112,6 +112,6 @@ export const MaintenancesMoreGrid = styled.div`
   }
   > p {
     overflow: hidden;
-    word-break: break-all;
+    word-wrap: break-word;
   }
 `;

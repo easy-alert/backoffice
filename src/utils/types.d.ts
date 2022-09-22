@@ -24,3 +24,14 @@ export interface IMask {
   value: string;
   length: number;
 }
+
+export interface ITimeInterval {
+  id: string;
+  name: string;
+  singularLabel: string;
+  pluralLabel: string;
+}
+
+export interface IRequestListIntervals {
+  setTimeIntervals: (setTimeIntervals: ITimeInterval[]) => void;
+}

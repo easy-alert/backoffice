@@ -1,10 +1,12 @@
 import { IModalStates } from '../../../../../../../../../components/Modal/utils/types';
 import { ICategories } from '../../../../../types';
+import { ITimeInterval } from '../../../../../../../../../utils/types';
 
 export interface IModalCreateMaintenance extends IModalStates {
   categoryId: string;
   categories: ICategories[];
   setCategories: (setCategories: ICategories[]) => void;
+  timeIntervals: ITimeInterval[];
 }
 
 export interface IRequestCreateMaintenance {
@@ -26,13 +28,4 @@ export interface IRequestCreateMaintenance {
     delayTimeInterval: string;
     observation: string;
   };
-}
-
-export interface ITimeInterval {
-  id: string;
-  name: string;
-}
-
-export interface IRequestListIntervals {
-  setTimeIntervals: (setTimeIntervals: ITimeInterval[]) => void;
 }

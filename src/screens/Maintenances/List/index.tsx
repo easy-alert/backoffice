@@ -12,27 +12,26 @@ import { MaintenanceCategory } from './utils/components/MaintenanceCategory';
 
 // TYPES
 import { ICategories } from './utils/types';
+import { ITimeInterval } from '../../../utils/types';
 
 // FUNCTIONS
 import { requestCategories } from './utils/functions';
+import { requestListIntervals } from '../../../utils/functions';
 
 // MODALS
 import { ModalCreateCategory } from './utils/ModalCreateCategory';
 
 export const MaintenancesList = () => {
-  // UTILS
   const [loading, setLoading] = useState<boolean>(true);
-
-  // FILTER
   const [filter, setFilter] = useState<string>('');
+  const [categories, setCategories] = useState<ICategories[]>([]);
+  const [timeIntervals, setTimeIntervals] = useState<ITimeInterval[]>([]);
 
   // MODALS
   const [modalCreateCategoryOpen, setModalCreateCategoryOpen] = useState<boolean>(false);
 
-  // CONSTS
-  const [categories, setCategories] = useState<ICategories[]>([]);
-
   useEffect(() => {
+    requestListIntervals({ setTimeIntervals });
     requestCategories({ setLoading, setCategories });
   }, []);
 
@@ -106,6 +105,7 @@ export const MaintenancesList = () => {
                   category={category}
                   setCategories={setCategories}
                   categories={categories}
+                  timeIntervals={timeIntervals}
                 />
               ))}
             </Style.CategoriesContainer>

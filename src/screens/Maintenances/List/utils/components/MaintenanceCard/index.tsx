@@ -12,9 +12,8 @@ import { IMaintenanceCard } from './utils/types';
 
 // MODALS
 import { ModalEditMaintenance } from './utils/ModalEditMaintenance';
-import { intervalTimeConverter } from '../../../../../../utils/functions';
 
-export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
+export const MaintenanceCard = ({ maintenance, timeIntervals }: IMaintenanceCard) => {
   const [cardIsOpen, setCardIsOpen] = useState<boolean>(false);
   const [modalEditMaintenanceOpen, setModalEditMaintenanceOpen] =
     useState<boolean>(false);
@@ -26,6 +25,7 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
           modalState={modalEditMaintenanceOpen}
           setModalState={setModalEditMaintenanceOpen}
           selectedMaintenance={maintenance}
+          timeIntervals={timeIntervals}
         />
       )}
       <Style.MaintenancesCard
@@ -40,13 +40,12 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
               <p className="p2">{maintenance.MaintenancesHistory[0].activity}</p>
               <p className="p2">
                 A cada{' '}
-                {`${maintenance.MaintenancesHistory[0].frequency} ${intervalTimeConverter(
-                  {
-                    value: maintenance.MaintenancesHistory[0].frequency,
-                    intervalName:
-                      maintenance.MaintenancesHistory[0].FrequencyTimeInterval.name,
-                  },
-                )}`}
+                {`${maintenance.MaintenancesHistory[0].frequency} ${
+                  maintenance.MaintenancesHistory[0].frequency > 1
+                    ? maintenance.MaintenancesHistory[0].FrequencyTimeInterval.pluralLabel
+                    : maintenance.MaintenancesHistory[0].FrequencyTimeInterval
+                        .singularLabel
+                }`}
               </p>
               <p className="p2">{maintenance.MaintenancesHistory[0].responsible}</p>
               <p className="p2">{maintenance.MaintenancesHistory[0].source}</p>
@@ -71,26 +70,25 @@ export const MaintenanceCard = ({ maintenance }: IMaintenanceCard) => {
                   <Image img={icon.alert} size="16px" />
                   <p className="p2">
                     <span>Período: </span>
-                    {`${
-                      maintenance.MaintenancesHistory[0].period
-                    } ${intervalTimeConverter({
-                      value: maintenance.MaintenancesHistory[0].period,
-                      intervalName:
-                        maintenance.MaintenancesHistory[0].PeriodTimeInterval.name,
-                    })}`}
+                    {`${maintenance.MaintenancesHistory[0].period} ${
+                      maintenance.MaintenancesHistory[0].period > 1
+                        ? maintenance.MaintenancesHistory[0].PeriodTimeInterval
+                            .pluralLabel
+                        : maintenance.MaintenancesHistory[0].PeriodTimeInterval
+                            .singularLabel
+                    }`}
                   </p>
                 </Style.PeriodIconWrapper>
                 <Style.PeriodIconWrapper>
                   <Image img={icon.alert} size="16px" />
                   <p className="p2">
                     <span>Delay: </span>
-                    {`${maintenance.MaintenancesHistory[0].delay} ${intervalTimeConverter(
-                      {
-                        value: maintenance.MaintenancesHistory[0].delay,
-                        intervalName:
-                          maintenance.MaintenancesHistory[0].DelayTimeInterval.name,
-                      },
-                    )}`}
+                    {`${maintenance.MaintenancesHistory[0].delay} ${
+                      maintenance.MaintenancesHistory[0].delay > 1
+                        ? maintenance.MaintenancesHistory[0].DelayTimeInterval.pluralLabel
+                        : maintenance.MaintenancesHistory[0].DelayTimeInterval
+                            .singularLabel
+                    }`}
                   </p>
                 </Style.PeriodIconWrapper>
               </Style.MaintenancesCardBottomPeriod>

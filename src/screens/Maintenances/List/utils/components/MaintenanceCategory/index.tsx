@@ -19,7 +19,7 @@ import { ModalCreateMaintenance } from './utils/ModalCreateMaintenance';
 import { ModalEditCategory } from './utils/ModalEditCategory';
 
 // FUNCTIONS
-import { alphabeticalOrder } from './utils/functions';
+import { alphabeticalOrder, nestedObjectAlphabeticalOrder } from './utils/functions';
 
 // TYPES
 import { IMaintenanceCategory, ISortType } from './utils/types';
@@ -28,6 +28,7 @@ export const MaintenanceCategory = ({
   category,
   categories,
   setCategories,
+  timeIntervals,
 }: IMaintenanceCategory) => {
   const [isSorted, setIsSorted] = useState<boolean>(false);
   const [sortType, setSortType] = useState<ISortType>({ type: 'element' });
@@ -44,6 +45,7 @@ export const MaintenanceCategory = ({
           categoryId={category.id}
           categories={categories}
           setCategories={setCategories}
+          timeIntervals={timeIntervals}
         />
       )}
       {modalEditCategoryOpen && (
@@ -135,11 +137,12 @@ export const MaintenanceCategory = ({
                   }}
                   onClick={() => {
                     setSortType({ type: 'frequency' });
-                    alphabeticalOrder({
+                    nestedObjectAlphabeticalOrder({
                       category,
                       isSorted,
                       setIsSorted,
-                      toSortString: 'frequency',
+                      toSortString: 'singularLabel',
+                      toSortObject: 'FrequencyTimeInterval',
                     });
                   }}
                 >
@@ -192,7 +195,11 @@ export const MaintenanceCategory = ({
           )}
 
           {category.Maintenances.map((maintenance) => (
-            <MaintenanceCard maintenance={maintenance} key={maintenance.id} />
+            <MaintenanceCard
+              maintenance={maintenance}
+              key={maintenance.id}
+              timeIntervals={timeIntervals}
+            />
           ))}
         </Style.MaintenancesContainer>
       </Style.Background>

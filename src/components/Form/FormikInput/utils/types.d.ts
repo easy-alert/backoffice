@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { InputHTMLAttributes } from 'react';
 
 export interface IInput extends InputHTMLAttributes<HTMLInputElement> {

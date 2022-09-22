@@ -180,6 +180,13 @@ export default createGlobalStyle`
   }
 
 
+  option {
+    color: ${theme.color.gray5};
+  }
+
+  option[disabled] {
+    color: ${theme.color.gray4};
+  }
 
    button {
     border-radius: ${theme.size.xxsm};

@@ -1,5 +1,5 @@
 // LIBS
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Form, Formik } from 'formik';
 
 // COMPONENTS
@@ -10,15 +10,15 @@ import { Modal } from '../../../../../../../../components/Modal';
 import * as Style from './styles';
 
 // TYPES
-import { IModalCreateMaintenance, ITimeInterval } from './utils/types';
+import { IModalCreateMaintenance } from './utils/types';
 
 // FUNCTIONS
+import { schemaCreateMaintenance, requestCreateMaintenance } from './utils/functions';
 import {
-  schemaCreateMaintenance,
-  requestCreateMaintenance,
-  requestListIntervals,
-} from './utils/functions';
-import { applyMask } from '../../../../../../../../utils/functions';
+  applyMask,
+  capitalizeFirstLetter,
+} from '../../../../../../../../utils/functions';
+
 import { FormikSelect } from '../../../../../../../../components/Form/FormikSelect';
 
 export const ModalCreateMaintenance = ({
@@ -27,13 +27,9 @@ export const ModalCreateMaintenance = ({
   categoryId,
   categories,
   setCategories,
+  timeIntervals,
 }: IModalCreateMaintenance) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
-  const [timeIntervals, setTimeIntervals] = useState<ITimeInterval[]>([]);
-
-  useEffect(() => {
-    requestListIntervals({ setTimeIntervals });
-  }, []);
 
   return (
     <Modal title="Criar manutenção" modalState={modalState} setModalState={setModalState}>
@@ -42,13 +38,13 @@ export const ModalCreateMaintenance = ({
           element: '',
           activity: '',
           frequency: '',
-          frequencyTimeInterval: '',
+          frequencyTimeInterval: 'Selecione',
           responsible: '',
           source: '',
           period: '',
-          periodTimeInterval: '',
+          periodTimeInterval: 'Selecione',
           delay: '',
-          delayTimeInterval: '',
+          delayTimeInterval: 'Selecione',
           observation: '',
         }}
         validationSchema={schemaCreateMaintenance}
@@ -95,6 +91,7 @@ export const ModalCreateMaintenance = ({
                   maxLength={4}
                 />
                 <FormikSelect
+                  selectPlaceholderValue={values.frequencyTimeInterval}
                   name="frequencyTimeInterval"
                   label="Intervalo"
                   error={
@@ -108,7 +105,9 @@ export const ModalCreateMaintenance = ({
                   </option>
                   {timeIntervals.map((element) => (
                     <option key={element.id} value={element.id}>
-                      {element.name}
+                      {Number(values.frequency) > 1
+                        ? capitalizeFirstLetter(element.pluralLabel)
+                        : capitalizeFirstLetter(element.singularLabel)}
                     </option>
                   ))}
                 </FormikSelect>
@@ -153,6 +152,7 @@ export const ModalCreateMaintenance = ({
                   maxLength={4}
                 />
                 <FormikSelect
+                  selectPlaceholderValue={values.periodTimeInterval}
                   name="periodTimeInterval"
                   label="Intervalo"
                   error={
@@ -166,7 +166,9 @@ export const ModalCreateMaintenance = ({
                   </option>
                   {timeIntervals.map((element) => (
                     <option key={element.id} value={element.id}>
-                      {element.name}
+                      {Number(values.period) > 1
+                        ? capitalizeFirstLetter(element.pluralLabel)
+                        : capitalizeFirstLetter(element.singularLabel)}
                     </option>
                   ))}
                 </FormikSelect>
@@ -181,6 +183,7 @@ export const ModalCreateMaintenance = ({
                   maxLength={4}
                 />
                 <FormikSelect
+                  selectPlaceholderValue={values.delayTimeInterval}
                   name="delayTimeInterval"
                   label="Intervalo"
                   error={
@@ -194,12 +197,14 @@ export const ModalCreateMaintenance = ({
                   </option>
                   {timeIntervals.map((element) => (
                     <option key={element.id} value={element.id}>
-                      {element.name}
+                      {Number(values.delay) > 1
+                        ? capitalizeFirstLetter(element.pluralLabel)
+                        : capitalizeFirstLetter(element.singularLabel)}
                     </option>
                   ))}
                 </FormikSelect>
               </Style.SelectWrapper>
-              <Button center label="Cadastrar" type="submit" loading={onQuery} />
+              <Button center label="Criar" type="submit" loading={onQuery} />
             </Form>
           </Style.FormContainer>
         )}
