@@ -80,7 +80,7 @@ export const schemaCreateMaintenance = yup
       .required('O intervalo da frequência deve ser preenchido.')
       .test(
         'hasValue',
-        'O intervalo do período deve ser preenchido.',
+        'O intervalo da frequência deve ser preenchido.',
         (value) => value !== 'Selecione',
       ),
 
@@ -128,7 +128,7 @@ export const schemaCreateMaintenance = yup
       .required('O intervalo do delay deve ser preenchido.')
       .test(
         'hasValue',
-        'O intervalo do período deve ser preenchido.',
+        'O intervalo do delay deve ser preenchido.',
         (value) => value !== 'Selecione',
       ),
 
