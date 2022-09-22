@@ -12,12 +12,12 @@ import { IRequestCreateMaintenance } from './types';
 export const requestCreateMaintenance = async ({
   values,
   categoryId,
-  // setModalState,
-  // categories,
-  // setCategories,
+  setModalState,
+  categories,
+  setCategories,
   setOnQuery,
 }: IRequestCreateMaintenance) => {
-  // setOnQuery(true);
+  setOnQuery(true);
 
   await Api.post('/backoffice/maintenances/create', {
     categoryId,
@@ -34,15 +34,16 @@ export const requestCreateMaintenance = async ({
     observation: values.observation !== '' ? values.observation : null,
   })
     .then((res) => {
-      // const maintenancesArray = categories
-      //   .filter((element) => element.id === categoryId)
-      //   .shift();
+      const categoriesEdit = categories;
 
-      // const newMaintenance:
+      const index = categories.findIndex((category) => category.id === categoryId);
 
-      // maintenancesArray?.Maintenances.unshift()
+      categoriesEdit[index].Maintenances.unshift(res.data.maintenance);
 
-      // setModalState(false);
+      setCategories([...categoriesEdit]);
+
+      setModalState(false);
+
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {

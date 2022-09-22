@@ -35,6 +35,7 @@ interface IMaintenanceHistory {
 }
 interface IMaintenance {
   id: string;
+  element: string;
   MaintenancesHistory: IMaintenanceHistory[];
 }
 export interface ICategories {
