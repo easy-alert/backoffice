@@ -85,7 +85,8 @@ export const MaintenancesGrid = styled.div<{ cardIsOpen: boolean }>`
   grid-template-rows: 1fr;
   overflow: hidden;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 225px 250px 0.8fr 0.8fr 0.5fr 0.1fr;
+  grid-template-columns: 250px minmax(250px, 1fr) 0.7fr 0.7fr 0.5fr 0.1fr;
+
   > p {
     word-wrap: break-word;
     overflow: hidden;
@@ -103,7 +104,7 @@ export const MaintenancesMoreGrid = styled.div`
   width: 100%;
   grid-template-rows: 1fr;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 225px 250px 0.8fr 0.8fr 0.5fr 0.1fr;
+  grid-template-columns: 250px minmax(250px, 1fr) 0.7fr 0.7fr 0.5fr 0.1fr;
 
   span {
     color: ${theme.color.primary};

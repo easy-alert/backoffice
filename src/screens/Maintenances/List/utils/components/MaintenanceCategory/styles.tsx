@@ -61,7 +61,7 @@ export const MaintenancesGrid = styled.div`
   grid-template-rows: 1fr;
   align-items: center;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 225px 250px 0.8fr 0.8fr 0.5fr 0.1fr;
+  grid-template-columns: 250px minmax(250px, 1fr) 0.7fr 0.7fr 0.5fr 0.1fr;
 
   > p {
     cursor: pointer;
