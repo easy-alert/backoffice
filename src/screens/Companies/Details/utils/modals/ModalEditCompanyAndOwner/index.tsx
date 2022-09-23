@@ -45,9 +45,7 @@ export const ModalEditCompanyAndOwner = ({
             mask: 'TEL',
           }).value,
           CPF: company.CPF ? applyMask({ value: company.CPF, mask: 'CPF' }).value : '',
-          CNPJ: company.CNPJ
-            ? applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value
-            : '',
+          CNPJ: company.CNPJ ? applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value : '',
           password: '',
           confirmPassword: '',
         }}
@@ -88,6 +86,7 @@ export const ModalEditCompanyAndOwner = ({
                 value={values.name}
                 error={touched.name && errors.name ? errors.name : null}
                 placeholder="Ex: João Silva"
+                maxLength={40}
               />
               <FormikInput
                 label="E-mail"
@@ -95,15 +94,15 @@ export const ModalEditCompanyAndOwner = ({
                 value={values.email}
                 error={touched.email && errors.email ? errors.email : null}
                 placeholder="Ex: joao.silva@easyalert.com"
+                maxLength={40}
               />
               <FormikInput
                 label="Nome da empresa"
                 name="companyName"
                 value={values.companyName}
-                error={
-                  touched.companyName && errors.companyName ? errors.companyName : null
-                }
+                error={touched.companyName && errors.companyName ? errors.companyName : null}
                 placeholder="Ex: SATC"
+                maxLength={40}
               />
               <FormikInput
                 label="Telefone"
@@ -115,11 +114,7 @@ export const ModalEditCompanyAndOwner = ({
                   }).length
                 }
                 value={values.contactNumber}
-                error={
-                  touched.contactNumber && errors.contactNumber
-                    ? errors.contactNumber
-                    : null
-                }
+                error={touched.contactNumber && errors.contactNumber ? errors.contactNumber : null}
                 placeholder="Ex: (00) 0 0000-0000"
                 onChange={(e) => {
                   setFieldValue(
@@ -132,15 +127,13 @@ export const ModalEditCompanyAndOwner = ({
               {company.CPF && (
                 <FormikInput
                   name="CPF"
+                  label="CPF"
                   maxLength={applyMask({ value: values.CPF, mask: 'CPF' }).length}
                   value={values.CPF}
                   error={touched.CPF && errors.CPF ? errors.CPF : null}
                   placeholder="000.000.000-00"
                   onChange={(e) => {
-                    setFieldValue(
-                      'CPF',
-                      applyMask({ value: e.target.value, mask: 'CPF' }).value,
-                    );
+                    setFieldValue('CPF', applyMask({ value: e.target.value, mask: 'CPF' }).value);
                   }}
                 />
               )}
@@ -148,15 +141,13 @@ export const ModalEditCompanyAndOwner = ({
               {company.CNPJ && (
                 <FormikInput
                   name="CNPJ"
+                  label="CNPJ"
                   maxLength={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length}
                   value={values.CNPJ}
                   error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
                   placeholder="00.000.000/0000-00"
                   onChange={(e) => {
-                    setFieldValue(
-                      'CNPJ',
-                      applyMask({ value: e.target.value, mask: 'CNPJ' }).value,
-                    );
+                    setFieldValue('CNPJ', applyMask({ value: e.target.value, mask: 'CNPJ' }).value);
                   }}
                 />
               )}
@@ -168,6 +159,7 @@ export const ModalEditCompanyAndOwner = ({
                 error={touched.password && errors.password ? errors.password : null}
                 passwordPlaceholder
                 placeholder="••••••••••"
+                maxLength={120}
               />
               <FormikInput
                 type="password"
@@ -175,12 +167,11 @@ export const ModalEditCompanyAndOwner = ({
                 name="confirmPassword"
                 value={values.confirmPassword}
                 error={
-                  touched.confirmPassword && errors.confirmPassword
-                    ? errors.confirmPassword
-                    : null
+                  touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword : null
                 }
                 passwordPlaceholder
                 placeholder="••••••••••"
+                maxLength={120}
               />
               <Button center label="Cadastrar" type="submit" loading={onQuery} />
             </Form>

@@ -34,11 +34,7 @@ export const ModalCreateCompanyAndOwner = ({
   const [isCPF, setIsCPF] = useState<boolean>(false);
 
   return (
-    <Modal
-      title="Cadastrar usuário"
-      modalState={modalState}
-      setModalState={setModalState}
-    >
+    <Modal title="Cadastrar usuário" modalState={modalState} setModalState={setModalState}>
       <Formik
         initialValues={{
           image: '',
@@ -52,9 +48,7 @@ export const ModalCreateCompanyAndOwner = ({
           confirmPassword: '',
         }}
         validationSchema={
-          isCPF
-            ? schemaModalCreateCompanyAndOwnerWithCPF
-            : schemaModalCreateCompanyAndOwnerWithCNPJ
+          isCPF ? schemaModalCreateCompanyAndOwnerWithCPF : schemaModalCreateCompanyAndOwnerWithCNPJ
         }
         onSubmit={async (data: IFormDataCompany) => {
           await requestCreateCompanyAndOWner({
@@ -88,6 +82,7 @@ export const ModalCreateCompanyAndOwner = ({
                 value={values.name}
                 error={touched.name && errors.name ? errors.name : null}
                 placeholder="Ex: João Silva"
+                maxLength={40}
               />
               <FormikInput
                 label="E-mail"
@@ -95,15 +90,15 @@ export const ModalCreateCompanyAndOwner = ({
                 value={values.email}
                 error={touched.email && errors.email ? errors.email : null}
                 placeholder="Ex:  joao.silva@easyalert.com"
+                maxLength={40}
               />
               <FormikInput
                 label="Nome da empresa"
                 name="companyName"
                 value={values.companyName}
-                error={
-                  touched.companyName && errors.companyName ? errors.companyName : null
-                }
+                error={touched.companyName && errors.companyName ? errors.companyName : null}
                 placeholder="Ex: SATC"
+                maxLength={40}
               />
 
               <FormikInput
@@ -116,11 +111,7 @@ export const ModalCreateCompanyAndOwner = ({
                   }).length
                 }
                 value={values.contactNumber}
-                error={
-                  touched.contactNumber && errors.contactNumber
-                    ? errors.contactNumber
-                    : null
-                }
+                error={touched.contactNumber && errors.contactNumber ? errors.contactNumber : null}
                 placeholder="Ex: (00) 0 0000-0000"
                 onChange={(e) => {
                   setFieldValue(
@@ -154,10 +145,7 @@ export const ModalCreateCompanyAndOwner = ({
                   error={touched.CPF && errors.CPF ? errors.CPF : null}
                   placeholder="000.000.000-00"
                   onChange={(e) => {
-                    setFieldValue(
-                      'CPF',
-                      applyMask({ value: e.target.value, mask: 'CPF' }).value,
-                    );
+                    setFieldValue('CPF', applyMask({ value: e.target.value, mask: 'CPF' }).value);
                   }}
                 />
               )}
@@ -170,10 +158,7 @@ export const ModalCreateCompanyAndOwner = ({
                   error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
                   placeholder="00.000.000/0000-00"
                   onChange={(e) => {
-                    setFieldValue(
-                      'CNPJ',
-                      applyMask({ value: e.target.value, mask: 'CNPJ' }).value,
-                    );
+                    setFieldValue('CNPJ', applyMask({ value: e.target.value, mask: 'CNPJ' }).value);
                   }}
                 />
               )}
@@ -184,6 +169,7 @@ export const ModalCreateCompanyAndOwner = ({
                 value={values.password}
                 error={touched.password && errors.password ? errors.password : null}
                 placeholder="Crie uma senha de 8 caracteres"
+                maxLength={120}
               />
               <FormikInput
                 type="password"
@@ -191,11 +177,10 @@ export const ModalCreateCompanyAndOwner = ({
                 name="confirmPassword"
                 value={values.confirmPassword}
                 error={
-                  touched.confirmPassword && errors.confirmPassword
-                    ? errors.confirmPassword
-                    : null
+                  touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword : null
                 }
                 placeholder="Confirme a senha criada"
+                maxLength={120}
               />
               <Button center label="Cadastrar" type="submit" loading={onQuery} />
             </Form>
