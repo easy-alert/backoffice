@@ -43,10 +43,12 @@ export const Card = styled.div`
   }
 `;
 
-export const Footer = styled.footer`
+export const Footer = styled.footer<{ disabled: boolean }>`
   display: flex;
   justify-content: flex-end;
   gap: ${theme.size.sm};
+
+  ${({ disabled }) => disabled && 'opacity: 0.5;'}
 `;
 
 export const ContainerButton = styled.div`

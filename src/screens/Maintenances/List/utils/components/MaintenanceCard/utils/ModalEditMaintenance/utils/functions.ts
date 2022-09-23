@@ -13,6 +13,10 @@ export const requestEditMaintenance = async ({
   maintenanceId,
   values,
   setOnQuery,
+  setModalState,
+  categories,
+  setCategories,
+  categoryId,
 }: IRequestEditMaintenance) => {
   setOnQuery(true);
 
@@ -31,9 +35,19 @@ export const requestEditMaintenance = async ({
     observation: values.observation !== '' ? values.observation : null,
   })
     .then((res) => {
-      // eslint-disable-next-line no-console
-      console.log(res.data);
+      const categoriesEdit = categories;
 
+      const categoryIndex = categories.findIndex((category) => category.id === categoryId);
+
+      const maintenanceIndex = categoriesEdit[categoryIndex].Maintenances.findIndex(
+        (maintenance) => maintenance.id === maintenanceId,
+      );
+
+      categoriesEdit[categoryIndex].Maintenances[maintenanceIndex] = res.data.maintenance;
+
+      setCategories([...categoriesEdit]);
+
+      setModalState(false);
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {
@@ -107,11 +121,7 @@ export const schemaEditMaintenance = yup
       .string()
       .required('O período deve ser preenchido.')
       .matches(/^\d/, 'O período deve ser um número.')
-      .test(
-        'greaterThanZero',
-        'O período deve ser maior que zero.',
-        (value) => Number(value) > 0,
-      ),
+      .test('greaterThanZero', 'O período deve ser maior que zero.', (value) => Number(value) > 0),
 
     periodTimeInterval: yup
       .string()
@@ -126,11 +136,7 @@ export const schemaEditMaintenance = yup
       .string()
       .required('O delay deve ser preenchido.')
       .matches(/^\d/, 'O delay deve ser um número.')
-      .test(
-        'greaterThanZero',
-        'O delay deve ser maior que zero.',
-        (value) => Number(value) > 0,
-      ),
+      .test('greaterThanZero', 'O delay deve ser maior que zero.', (value) => Number(value) > 0),
 
     delayTimeInterval: yup
       .string()

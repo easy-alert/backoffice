@@ -66,5 +66,10 @@ export const MaintenancesGrid = styled.div`
   > p {
     cursor: pointer;
     width: fit-content;
+    transition: 0.25s;
+
+    :hover {
+      opacity: 0.7;
+    }
   }
 `;

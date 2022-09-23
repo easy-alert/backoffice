@@ -98,11 +98,7 @@ export const schemaCreateMaintenance = yup
       .string()
       .required('O período deve ser preenchido.')
       .matches(/^\d/, 'O período deve ser um número.')
-      .test(
-        'greaterThanZero',
-        'O período deve ser maior que zero.',
-        (value) => Number(value) > 0,
-      ),
+      .test('greaterThanZero', 'O período deve ser maior que zero.', (value) => Number(value) > 0),
 
     periodTimeInterval: yup
       .string()
@@ -117,11 +113,7 @@ export const schemaCreateMaintenance = yup
       .string()
       .required('O delay deve ser preenchido.')
       .matches(/^\d/, 'O delay deve ser um número.')
-      .test(
-        'greaterThanZero',
-        'O delay deve ser maior que zero.',
-        (value) => Number(value) > 0,
-      ),
+      .test('greaterThanZero', 'O delay deve ser maior que zero.', (value) => Number(value) > 0),
 
     delayTimeInterval: yup
       .string()

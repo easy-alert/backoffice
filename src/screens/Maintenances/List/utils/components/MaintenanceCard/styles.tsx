@@ -86,14 +86,14 @@ export const MaintenancesGrid = styled.div<{ cardIsOpen: boolean }>`
   overflow: hidden;
   grid-gap: ${theme.size.sm};
   grid-template-columns: 225px 250px 0.8fr 0.8fr 0.5fr 0.1fr;
-
-  > p {
+  s > p {
     word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: ${({ cardIsOpen }) => (cardIsOpen ? 6 : 4)};
     -webkit-box-orient: vertical;
+    line-height: 18px;
   }
 `;
 

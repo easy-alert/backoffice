@@ -32,8 +32,7 @@ export const MaintenanceCategory = ({
 }: IMaintenanceCategory) => {
   const [isSorted, setIsSorted] = useState<boolean>(false);
   const [sortType, setSortType] = useState<ISortType>({ type: 'element' });
-  const [modalCreateMaintenanceOpen, setModalCreateMaintenanceOpen] =
-    useState<boolean>(false);
+  const [modalCreateMaintenanceOpen, setModalCreateMaintenanceOpen] = useState<boolean>(false);
   const [modalEditCategoryOpen, setModalEditCategoryOpen] = useState<boolean>(false);
 
   return (
@@ -91,8 +90,7 @@ export const MaintenanceCategory = ({
                 <p
                   className="p2"
                   style={{
-                    color:
-                      sortType.type === 'element' ? theme.color.black : theme.color.gray4,
+                    color: sortType.type === 'element' ? theme.color.black : theme.color.gray4,
                   }}
                   onClick={() => {
                     setSortType({ type: 'element' });
@@ -110,10 +108,7 @@ export const MaintenanceCategory = ({
                 <p
                   className="p2"
                   style={{
-                    color:
-                      sortType.type === 'activity'
-                        ? theme.color.black
-                        : theme.color.gray4,
+                    color: sortType.type === 'activity' ? theme.color.black : theme.color.gray4,
                   }}
                   onClick={() => {
                     setSortType({ type: 'activity' });
@@ -130,10 +125,7 @@ export const MaintenanceCategory = ({
                 <p
                   className="p2"
                   style={{
-                    color:
-                      sortType.type === 'frequency'
-                        ? theme.color.black
-                        : theme.color.gray4,
+                    color: sortType.type === 'frequency' ? theme.color.black : theme.color.gray4,
                   }}
                   onClick={() => {
                     setSortType({ type: 'frequency' });
@@ -151,10 +143,7 @@ export const MaintenanceCategory = ({
                 <p
                   className="p2"
                   style={{
-                    color:
-                      sortType.type === 'responsible'
-                        ? theme.color.black
-                        : theme.color.gray4,
+                    color: sortType.type === 'responsible' ? theme.color.black : theme.color.gray4,
                   }}
                   onClick={() => {
                     setSortType({ type: 'responsible' });
@@ -171,8 +160,7 @@ export const MaintenanceCategory = ({
                 <p
                   className="p2"
                   style={{
-                    color:
-                      sortType.type === 'source' ? theme.color.black : theme.color.gray4,
+                    color: sortType.type === 'source' ? theme.color.black : theme.color.gray4,
                   }}
                   onClick={() => {
                     setSortType({ type: 'source' });
@@ -199,6 +187,9 @@ export const MaintenanceCategory = ({
               maintenance={maintenance}
               key={maintenance.id}
               timeIntervals={timeIntervals}
+              categories={categories}
+              setCategories={setCategories}
+              categoryId={category.id}
             />
           ))}
         </Style.MaintenancesContainer>

@@ -13,10 +13,15 @@ import { IMaintenanceCard } from './utils/types';
 // MODALS
 import { ModalEditMaintenance } from './utils/ModalEditMaintenance';
 
-export const MaintenanceCard = ({ maintenance, timeIntervals }: IMaintenanceCard) => {
+export const MaintenanceCard = ({
+  maintenance,
+  timeIntervals,
+  categories,
+  setCategories,
+  categoryId,
+}: IMaintenanceCard) => {
   const [cardIsOpen, setCardIsOpen] = useState<boolean>(false);
-  const [modalEditMaintenanceOpen, setModalEditMaintenanceOpen] =
-    useState<boolean>(false);
+  const [modalEditMaintenanceOpen, setModalEditMaintenanceOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -26,6 +31,9 @@ export const MaintenanceCard = ({ maintenance, timeIntervals }: IMaintenanceCard
           setModalState={setModalEditMaintenanceOpen}
           selectedMaintenance={maintenance}
           timeIntervals={timeIntervals}
+          categories={categories}
+          setCategories={setCategories}
+          categoryId={categoryId}
         />
       )}
       <Style.MaintenancesCard
@@ -43,8 +51,7 @@ export const MaintenanceCard = ({ maintenance, timeIntervals }: IMaintenanceCard
                 {`${maintenance.MaintenancesHistory[0].frequency} ${
                   maintenance.MaintenancesHistory[0].frequency > 1
                     ? maintenance.MaintenancesHistory[0].FrequencyTimeInterval.pluralLabel
-                    : maintenance.MaintenancesHistory[0].FrequencyTimeInterval
-                        .singularLabel
+                    : maintenance.MaintenancesHistory[0].FrequencyTimeInterval.singularLabel
                 }`}
               </p>
               <p className="p2">{maintenance.MaintenancesHistory[0].responsible}</p>
@@ -72,10 +79,8 @@ export const MaintenanceCard = ({ maintenance, timeIntervals }: IMaintenanceCard
                     <span>Período: </span>
                     {`${maintenance.MaintenancesHistory[0].period} ${
                       maintenance.MaintenancesHistory[0].period > 1
-                        ? maintenance.MaintenancesHistory[0].PeriodTimeInterval
-                            .pluralLabel
-                        : maintenance.MaintenancesHistory[0].PeriodTimeInterval
-                            .singularLabel
+                        ? maintenance.MaintenancesHistory[0].PeriodTimeInterval.pluralLabel
+                        : maintenance.MaintenancesHistory[0].PeriodTimeInterval.singularLabel
                     }`}
                   </p>
                 </Style.PeriodIconWrapper>
@@ -86,8 +91,7 @@ export const MaintenanceCard = ({ maintenance, timeIntervals }: IMaintenanceCard
                     {`${maintenance.MaintenancesHistory[0].delay} ${
                       maintenance.MaintenancesHistory[0].delay > 1
                         ? maintenance.MaintenancesHistory[0].DelayTimeInterval.pluralLabel
-                        : maintenance.MaintenancesHistory[0].DelayTimeInterval
-                            .singularLabel
+                        : maintenance.MaintenancesHistory[0].DelayTimeInterval.singularLabel
                     }`}
                   </p>
                 </Style.PeriodIconWrapper>
