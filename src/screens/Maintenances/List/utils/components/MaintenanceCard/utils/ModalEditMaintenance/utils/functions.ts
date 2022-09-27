@@ -59,6 +59,7 @@ export const requestEditMaintenance = async ({
 export const requestDeleteMaintenance = async ({
   maintenanceId,
   setOnQuery,
+  setModalState,
 }: IDeleteMaintenance) => {
   setOnQuery(true);
   await Api.delete('/backoffice/maintenances/delete', {
@@ -67,6 +68,7 @@ export const requestDeleteMaintenance = async ({
     },
   })
     .then((res) => {
+      setModalState(false);
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {

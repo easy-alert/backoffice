@@ -35,4 +35,5 @@ export interface IRequestEditMaintenance {
 export interface IDeleteMaintenance {
   maintenanceId: string;
   setOnQuery: (setOnQuery: boolean) => void;
+  setModalState: (setModalState: boolean) => void;
 }

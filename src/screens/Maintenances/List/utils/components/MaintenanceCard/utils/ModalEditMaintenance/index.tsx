@@ -236,6 +236,7 @@ export const ModalEditMaintenance = ({
                       requestDeleteMaintenance({
                         maintenanceId: selectedMaintenance.id,
                         setOnQuery,
+                        setModalState,
                       });
                     }}
                   />
