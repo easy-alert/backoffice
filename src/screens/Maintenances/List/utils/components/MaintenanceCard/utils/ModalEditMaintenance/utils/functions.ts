@@ -57,9 +57,12 @@ export const requestEditMaintenance = async ({
 };
 
 export const requestDeleteMaintenance = async ({
+  categoryId,
   maintenanceId,
   setOnQuery,
   setModalState,
+  categories,
+  setCategories,
 }: IDeleteMaintenance) => {
   setOnQuery(true);
   await Api.delete('/backoffice/maintenances/delete', {
@@ -68,6 +71,17 @@ export const requestDeleteMaintenance = async ({
     },
   })
     .then((res) => {
+      const categoriesEdit = categories;
+
+      const categoryIndex = categories.findIndex((category) => category.id === categoryId);
+
+      const maintenanceIndex = categoriesEdit[categoryIndex].Maintenances.findIndex(
+        (maintenance) => maintenance.id === maintenanceId,
+      );
+
+      categoriesEdit[categoryIndex].Maintenances.splice(maintenanceIndex, 1);
+
+      setCategories([...categoriesEdit]);
       setModalState(false);
       toast.success(res.data.ServerMessage.message);
     })

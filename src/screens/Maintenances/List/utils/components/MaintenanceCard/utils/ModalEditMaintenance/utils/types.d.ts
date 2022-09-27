@@ -33,7 +33,10 @@ export interface IRequestEditMaintenance {
 }
 
 export interface IDeleteMaintenance {
+  categoryId: string;
   maintenanceId: string;
   setOnQuery: (setOnQuery: boolean) => void;
   setModalState: (setModalState: boolean) => void;
+  categories: ICategories[];
+  setCategories: (setCategories: ICategories[]) => void;
 }

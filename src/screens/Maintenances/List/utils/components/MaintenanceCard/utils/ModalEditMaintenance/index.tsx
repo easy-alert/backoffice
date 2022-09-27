@@ -237,6 +237,9 @@ export const ModalEditMaintenance = ({
                         maintenanceId: selectedMaintenance.id,
                         setOnQuery,
                         setModalState,
+                        categories,
+                        setCategories,
+                        categoryId,
                       });
                     }}
                   />
