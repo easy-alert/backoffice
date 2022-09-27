@@ -111,7 +111,7 @@ export const ModalEditMaintenance = ({
                       : null
                   }
                 >
-                  <option value="Selecione" disabled>
+                  <option value="Selecione" disabled hidden>
                     Selecione
                   </option>
                   {timeIntervals.map((element) => (
@@ -174,7 +174,7 @@ export const ModalEditMaintenance = ({
                       : null
                   }
                 >
-                  <option value="Selecione" disabled>
+                  <option value="Selecione" disabled hidden>
                     Selecione
                   </option>
                   {timeIntervals.map((element) => (
@@ -208,7 +208,7 @@ export const ModalEditMaintenance = ({
                       : null
                   }
                 >
-                  <option value="Selecione" disabled>
+                  <option value="Selecione" disabled hidden>
                     Selecione
                   </option>
                   {timeIntervals.map((element) => (

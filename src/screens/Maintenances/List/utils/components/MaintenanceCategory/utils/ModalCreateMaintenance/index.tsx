@@ -14,10 +14,7 @@ import { IModalCreateMaintenance } from './utils/types';
 
 // FUNCTIONS
 import { schemaCreateMaintenance, requestCreateMaintenance } from './utils/functions';
-import {
-  applyMask,
-  capitalizeFirstLetter,
-} from '../../../../../../../../utils/functions';
+import { applyMask, capitalizeFirstLetter } from '../../../../../../../../utils/functions';
 
 import { FormikSelect } from '../../../../../../../../components/Form/FormikSelect';
 
@@ -106,7 +103,7 @@ export const ModalCreateMaintenance = ({
                       : null
                   }
                 >
-                  <option value="Selecione" disabled>
+                  <option value="Selecione" disabled hidden>
                     Selecione
                   </option>
                   {timeIntervals.map((element) => (
@@ -122,9 +119,7 @@ export const ModalCreateMaintenance = ({
                 label="Responsável"
                 name="responsible"
                 value={values.responsible}
-                error={
-                  touched.responsible && errors.responsible ? errors.responsible : null
-                }
+                error={touched.responsible && errors.responsible ? errors.responsible : null}
                 placeholder="Equipe de manutenção local"
                 maxLength={40}
               />
@@ -142,9 +137,7 @@ export const ModalCreateMaintenance = ({
                 label="Observação"
                 name="observation"
                 value={values.observation}
-                error={
-                  touched.observation && errors.observation ? errors.observation : null
-                }
+                error={touched.observation && errors.observation ? errors.observation : null}
                 placeholder="Atenção no acabamento"
                 maxLength={55}
               />
@@ -173,7 +166,7 @@ export const ModalCreateMaintenance = ({
                       : null
                   }
                 >
-                  <option value="Selecione" disabled>
+                  <option value="Selecione" disabled hidden>
                     Selecione
                   </option>
                   {timeIntervals.map((element) => (
@@ -194,10 +187,7 @@ export const ModalCreateMaintenance = ({
                   placeholder="1"
                   maxLength={4}
                   onChange={(e) => {
-                    setFieldValue(
-                      'delay',
-                      applyMask({ mask: 'NUM', value: e.target.value }).value,
-                    );
+                    setFieldValue('delay', applyMask({ mask: 'NUM', value: e.target.value }).value);
                   }}
                 />
                 <FormikSelect
@@ -210,7 +200,7 @@ export const ModalCreateMaintenance = ({
                       : null
                   }
                 >
-                  <option value="Selecione" disabled>
+                  <option value="Selecione" disabled hidden>
                     Selecione
                   </option>
                   {timeIntervals.map((element) => (
