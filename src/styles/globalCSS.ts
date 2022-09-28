@@ -21,7 +21,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background-color: ${theme.color.gray2};
+    background-color: ${theme.color.gray1};
     color: ${theme.color.gray5};
   }
 
