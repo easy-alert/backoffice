@@ -13,7 +13,7 @@ import { IRequestEditCompanyAndOwner } from './types';
 
 export const requestEditCompanyAndOwner = async ({
   data,
-  setModalState,
+  setModal,
   company,
   setCompany,
   navigate,
@@ -65,7 +65,7 @@ export const requestEditCompanyAndOwner = async ({
 
       navigate(window.location.pathname, { state: updatedCompany });
       setCompany(updatedCompany);
-      setModalState(false);
+      setModal(false);
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {

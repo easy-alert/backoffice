@@ -16,24 +16,19 @@ import { theme } from '../../../../../../../../styles/theme';
 import { IModalCreateMaintenance } from './utils/types';
 
 // FUNCTIONS
-import {
-  schemaEditCategory,
-  requestEditCategory,
-  requestDeleteCategory,
-} from './utils/functions';
+import { schemaEditCategory, requestEditCategory, requestDeleteCategory } from './utils/functions';
 
 export const ModalEditCategory = ({
-  modalState,
-  setModalState,
   categoryId,
   categories,
   setCategories,
   categoryName,
+  setModal,
 }: IModalCreateMaintenance) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
-    <Modal title="Editar categoria" modalState={modalState} setModalState={setModalState}>
+    <Modal title="Editar categoria" setModal={setModal}>
       <Formik
         initialValues={{
           categoryName,
@@ -45,7 +40,7 @@ export const ModalEditCategory = ({
             categories,
             setCategories,
             values,
-            setModalState,
+            setModal,
             setOnQuery,
           });
         }}
@@ -59,9 +54,7 @@ export const ModalEditCategory = ({
                 label="Nome da categoria"
                 name="categoryName"
                 value={values.categoryName}
-                error={
-                  touched.categoryName && errors.categoryName ? errors.categoryName : null
-                }
+                error={touched.categoryName && errors.categoryName ? errors.categoryName : null}
                 placeholder=" "
               />
               <Style.ButtonContainer>

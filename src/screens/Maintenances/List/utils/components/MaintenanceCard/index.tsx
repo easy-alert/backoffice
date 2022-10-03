@@ -27,8 +27,7 @@ export const MaintenanceCard = ({
     <>
       {modalEditMaintenanceOpen && (
         <ModalEditMaintenance
-          modalState={modalEditMaintenanceOpen}
-          setModalState={setModalEditMaintenanceOpen}
+          setModal={setModalEditMaintenanceOpen}
           selectedMaintenance={maintenance}
           timeIntervals={timeIntervals}
           categories={categories}

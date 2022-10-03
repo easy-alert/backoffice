@@ -12,7 +12,7 @@ import { IRequestCreateMaintenance } from './types';
 export const requestCreateMaintenance = async ({
   values,
   categoryId,
-  setModalState,
+  setModal,
   categories,
   setCategories,
   setOnQuery,
@@ -42,7 +42,7 @@ export const requestCreateMaintenance = async ({
 
       setCategories([...categoriesEdit]);
 
-      setModalState(false);
+      setModal(false);
 
       toast.success(res.data.ServerMessage.message);
     })

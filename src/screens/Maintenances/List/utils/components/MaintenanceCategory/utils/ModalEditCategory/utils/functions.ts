@@ -7,14 +7,14 @@ import { Api } from '../../../../../../../../../services/api';
 import { catchHandler } from '../../../../../../../../../utils/functions';
 
 // TYPES
-import { IDeleteCategory, IEditCategory, IRequestCreateMaintenance } from './types';
+import { IDeleteCategory, IEditCategory } from './types';
 
 export const requestEditCategory = async ({
   categoryId,
   values,
   setCategories,
   categories,
-  setModalState,
+  setModal,
   setOnQuery,
 }: IEditCategory) => {
   setOnQuery(true);
@@ -35,7 +35,7 @@ export const requestEditCategory = async ({
 
       setCategories([...categoriesEdit]);
 
-      setModalState(false);
+      setModal(false);
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {
@@ -64,47 +64,6 @@ export const requestDeleteCategory = async ({
       categoriesEdit.splice(index, 1);
       setCategories([...categoriesEdit]);
 
-      toast.success(res.data.ServerMessage.message);
-    })
-    .catch((err) => {
-      setOnQuery(false);
-      catchHandler(err);
-    });
-};
-
-export const requestCreateMaintenance = async ({
-  values,
-  categoryId,
-  // setModalState,
-  // categories,
-  // setCategories,
-  setOnQuery,
-}: IRequestCreateMaintenance) => {
-  // setOnQuery(true);
-  toast.loading('Atualizando...');
-  await Api.post('/backoffice/maintenances/create', {
-    categoryId,
-    element: values.element,
-    activity: values.activity,
-    frequency: Number(values.frequency),
-    responsible: values.responsible,
-    source: values.source,
-    period: Number(values.period),
-    delay: Number(values.delay),
-    observation: values.observation ?? null,
-  })
-    .then((res) => {
-      toast.dismiss();
-
-      // const maintenancesArray = categories
-      //   .filter((element) => element.id === categoryId)
-      //   .shift();
-
-      // const newMaintenance:
-
-      // maintenancesArray?.Maintenances.unshift()
-
-      // setModalState(false);
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {

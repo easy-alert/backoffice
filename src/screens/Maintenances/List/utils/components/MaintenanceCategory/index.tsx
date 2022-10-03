@@ -38,8 +38,7 @@ export const MaintenanceCategory = ({
     <>
       {modalCreateMaintenanceOpen && (
         <ModalCreateMaintenance
-          modalState={modalCreateMaintenanceOpen}
-          setModalState={setModalCreateMaintenanceOpen}
+          setModal={setModalCreateMaintenanceOpen}
           categoryId={category.id}
           categories={categories}
           setCategories={setCategories}
@@ -48,8 +47,7 @@ export const MaintenanceCategory = ({
       )}
       {modalEditCategoryOpen && (
         <ModalEditCategory
-          modalState={modalEditCategoryOpen}
-          setModalState={setModalEditCategoryOpen}
+          setModal={setModalEditCategoryOpen}
           categoryId={category.id}
           categoryName={category.name}
           categories={categories}

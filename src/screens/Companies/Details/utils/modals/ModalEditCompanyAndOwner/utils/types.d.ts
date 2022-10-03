@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IModalStates } from '../../../../../../../components/Modal/utils/types';
 import { ICompany, IFormDataCompany } from '../../../../../List/utils/types';
 
-export interface IModalEditCompanyAndOwner extends IModalStates {
+export interface IModalEditCompanyAndOwner {
   company: ICompany;
   setCompany: (setCompany: ICompany) => void;
+  setModal: (setModal: boolean) => void;
 }
 
 // REQUESTS
@@ -14,7 +14,7 @@ export interface IRequestEditCompanyAndOwner {
   setCompany: (setCompany: ICompany) => void;
   setOnQuery: (setOnQuery: boolean) => void;
   navigate: any;
-  setModalState: (setModalState: boolean) => void;
+  setModal: (setModal: boolean) => void;
 }
 
 export interface IRequestChangeIsActiveAndIsDeleted {

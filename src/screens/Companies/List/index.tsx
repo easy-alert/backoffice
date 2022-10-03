@@ -62,8 +62,7 @@ export const CompaniesList = () => {
           setCompanies={setCompanies}
           page={page}
           setCount={setCount}
-          modalState={modalCreateCompanyAndOwnerIsOpen}
-          setModalState={setModalCreateCompanyAndOwnerIsOpen}
+          setModal={setModalCreateCompanyAndOwnerIsOpen}
         />
       )}
 
@@ -163,9 +162,7 @@ export const CompaniesList = () => {
                     key={companie.id}
                     colsBody={[
                       {
-                        cell: (
-                          <Image size="32px" img={companie.image} key={companie.id} />
-                        ),
+                        cell: <Image size="32px" img={companie.image} key={companie.id} />,
                         cssProps: { width: '1%' },
                       },
                       {
@@ -202,9 +199,7 @@ export const CompaniesList = () => {
                         cssProps: { width: '30%' },
                       },
                       {
-                        cell: (
-                          <img src={icon.rightArrow} width="16px" height="16px" alt="" />
-                        ),
+                        cell: <img src={icon.rightArrow} width="16px" height="16px" alt="" />,
                         cssProps: { textAlign: 'end' },
                       },
                     ]}

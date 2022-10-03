@@ -52,8 +52,7 @@ export const CompanyDetails = () => {
         <ModalEditCompanyAndOwner
           company={company}
           setCompany={setCompany}
-          modalState={modalEditCompanyAndOwnerIsOpen}
-          setModalState={setEditModalCreateCompanyAndOwnerIsOpen}
+          setModal={setEditModalCreateCompanyAndOwnerIsOpen}
         />
       )}
 

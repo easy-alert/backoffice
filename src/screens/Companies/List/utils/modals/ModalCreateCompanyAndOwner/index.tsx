@@ -27,14 +27,13 @@ export const ModalCreateCompanyAndOwner = ({
   setCompanies,
   page,
   setCount,
-  modalState,
-  setModalState,
+  setModal,
 }: IModalCreateCompanyAndOwner) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
   const [isCPF, setIsCPF] = useState<boolean>(false);
 
   return (
-    <Modal title="Cadastrar usuário" modalState={modalState} setModalState={setModalState}>
+    <Modal title="Cadastrar usuário" setModal={setModal}>
       <Formik
         initialValues={{
           image: '',
@@ -53,7 +52,7 @@ export const ModalCreateCompanyAndOwner = ({
         onSubmit={async (data: IFormDataCompany) => {
           await requestCreateCompanyAndOWner({
             data,
-            setModalState,
+            setModal,
             setOnQuery,
             setCompanies,
             page,

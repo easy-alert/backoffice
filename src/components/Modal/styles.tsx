@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { theme } from '../../styles/theme';
 
-export const Background = styled.div<{
-  animation: boolean;
-}>`
+export const Background = styled.div`
   position: fixed;
   left: 0;
   top: 0;
@@ -19,6 +17,16 @@ export const Background = styled.div<{
   align-items: center;
   overflow-y: scroll;
 
+  animation: fade-in 0.1s ease-in both;
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
   @media only screen and (max-width: 900px) {
     padding: 0;
   }
@@ -29,25 +37,21 @@ export const Background = styled.div<{
     width: 0;
     background: transparent;
   }
-
-  ${({ animation }) =>
-    animation
-      ? `animation: fade-in 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both; @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }`
-      : `animation: fade-out 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both; @keyframes fade-out { 0% { opacity: 1; } 100% { opacity: 0; } }`};
 `;
 
-export const Body = styled.div<{ animation: boolean; size: string }>`
-  ${({ animation }) =>
-    animation
-      ? `animation: fade-in-scale 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both; @keyframes fade-in-scale { 0% { scale: 0; } 100% { scale: 1; } }`
-      : `animation: fade-out-scale 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both; @keyframes fade-out-scale { 0% { scale: 1; } 100% { scale: 0; } }`};
-
-  opacity: 1;
-
-  ${({ size }) => size === 'md' && 'width: 448px;'}
-  ${({ size }) => size === 'lg' && 'width: 896px;'}
-
+export const Body = styled.div`
+  width: 460px;
   margin-top: ${theme.size.xxlg};
+
+  animation: fade-in-scale 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  @keyframes fade-in-scale {
+    0% {
+      scale: 0;
+    }
+    100% {
+      scale: 1;
+    }
+  }
 
   padding: ${theme.size.md};
   background-color: ${theme.color.white};

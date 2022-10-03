@@ -1,9 +1,9 @@
-import { IModalStates } from '../../../../../../components/Modal/utils/types';
 import { ICategories } from '../../types';
 
-export interface IModalCreateCategory extends IModalStates {
+export interface IModalCreateCategory {
   categories: ICategories[];
   setCategories: (setCategories: ICategories[]) => void;
+  setModal: (setModal: boolean) => void;
 }
 
 // FORM
@@ -16,5 +16,5 @@ export interface IRequestCreateCategory {
   categories: ICategories[];
   setCategories: (setCategories: ICategories[]) => void;
   setOnQuery: (setOnQuery: boolean) => void;
-  setModalState: (setModalState: boolean) => void;
+  setModal: (setModal: boolean) => void;
 }

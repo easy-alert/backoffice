@@ -13,7 +13,7 @@ export const requestEditMaintenance = async ({
   maintenanceId,
   values,
   setOnQuery,
-  setModalState,
+  setModal,
   categories,
   setCategories,
   categoryId,
@@ -47,7 +47,7 @@ export const requestEditMaintenance = async ({
 
       setCategories([...categoriesEdit]);
 
-      setModalState(false);
+      setModal(false);
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {
@@ -60,7 +60,7 @@ export const requestDeleteMaintenance = async ({
   categoryId,
   maintenanceId,
   setOnQuery,
-  setModalState,
+  setModal,
   categories,
   setCategories,
 }: IDeleteMaintenance) => {
@@ -82,7 +82,7 @@ export const requestDeleteMaintenance = async ({
       categoriesEdit[categoryIndex].Maintenances.splice(maintenanceIndex, 1);
 
       setCategories([...categoriesEdit]);
-      setModalState(false);
+      setModal(false);
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {

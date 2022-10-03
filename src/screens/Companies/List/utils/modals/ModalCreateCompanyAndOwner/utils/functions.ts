@@ -12,11 +12,11 @@ import { IRequestCreateCompanyAndOWner } from './types';
 
 export const requestCreateCompanyAndOWner = async ({
   data,
-  setModalState,
   setCompanies,
   page,
   setCount,
   setOnQuery,
+  setModal,
 }: IRequestCreateCompanyAndOWner) => {
   setOnQuery(true);
   let imageUrl;
@@ -25,10 +25,7 @@ export const requestCreateCompanyAndOWner = async ({
     const { Location } = await uploadFile(data.image);
     imageUrl = Location;
   } else {
-    imageUrl = `https://avatars.dicebear.com/api/initials/${data.name.replace(
-      /\s/g,
-      '%20',
-    )}.svg`;
+    imageUrl = `https://avatars.dicebear.com/api/initials/${data.name.replace(/\s/g, '%20')}.svg`;
   }
 
   await Api.post('/backoffice/companies/create', {
@@ -47,7 +44,7 @@ export const requestCreateCompanyAndOWner = async ({
         page,
         setCount,
       });
-      setModalState(false);
+      setModal(false);
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {
@@ -103,10 +100,7 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
       .required('O número de telefone deve ser preenchido.')
       .min(14, 'O número de telefone deve conter no mínimo 14 caracteres.'),
 
-    CNPJ: yup
-      .string()
-      .required('O CNPJ deve ser preenchido.')
-      .min(18, 'O CNPJ deve ser válido.'),
+    CNPJ: yup.string().required('O CNPJ deve ser preenchido.').min(18, 'O CNPJ deve ser válido.'),
 
     password: yup
       .string()
@@ -164,10 +158,7 @@ export const schemaModalCreateCompanyAndOwnerWithCPF = yup
       .required('O número de telefone deve ser preenchido.')
       .min(14, 'O número de telefone deve conter no mínimo 14 caracteres.'),
 
-    CPF: yup
-      .string()
-      .required('O CPF deve ser preenchido.')
-      .min(14, 'O CPF deve ser válido.'),
+    CPF: yup.string().required('O CPF deve ser preenchido.').min(14, 'O CPF deve ser válido.'),
 
     password: yup
       .string()

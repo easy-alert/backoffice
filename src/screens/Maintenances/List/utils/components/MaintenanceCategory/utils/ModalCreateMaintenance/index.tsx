@@ -19,8 +19,7 @@ import { applyMask, capitalizeFirstLetter } from '../../../../../../../../utils/
 import { FormikSelect } from '../../../../../../../../components/Form/FormikSelect';
 
 export const ModalCreateMaintenance = ({
-  modalState,
-  setModalState,
+  setModal,
   categoryId,
   categories,
   setCategories,
@@ -29,7 +28,7 @@ export const ModalCreateMaintenance = ({
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
-    <Modal title="Criar manutenção" modalState={modalState} setModalState={setModalState}>
+    <Modal title="Criar manutenção" setModal={setModal}>
       <Formik
         initialValues={{
           element: '',
@@ -49,7 +48,7 @@ export const ModalCreateMaintenance = ({
           requestCreateMaintenance({
             values,
             categoryId,
-            setModalState,
+            setModal,
             categories,
             setCategories,
             setOnQuery,

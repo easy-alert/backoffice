@@ -1,13 +1,13 @@
-import { IModalStates } from '../../../../../../../../../components/Modal/utils/types';
 import { ITimeInterval } from '../../../../../../../../../utils/types';
 import { IMaintenance, ICategories } from '../../../../../../utils/types';
 
-export interface IModalEditMaintenance extends IModalStates {
+export interface IModalEditMaintenance {
   selectedMaintenance: IMaintenance;
   timeIntervals: ITimeInterval[];
   categories: ICategories[];
   setCategories: (setCategories: ICategories[]) => void;
   categoryId: string;
+  setModal: (setModal: boolean) => void;
 }
 
 export interface IRequestEditMaintenance {
@@ -27,7 +27,7 @@ export interface IRequestEditMaintenance {
     observation: string;
   };
   setOnQuery: (setOnQuery: boolean) => void;
-  setModalState: (setModalState: boolean) => void;
+  setModal: (setModal: boolean) => void;
   categories: ICategories[];
   setCategories: (setCategories: ICategories[]) => void;
 }
@@ -36,7 +36,7 @@ export interface IDeleteMaintenance {
   categoryId: string;
   maintenanceId: string;
   setOnQuery: (setOnQuery: boolean) => void;
-  setModalState: (setModalState: boolean) => void;
+  setModal: (setModal: boolean) => void;
   categories: ICategories[];
   setCategories: (setCategories: ICategories[]) => void;
 }

@@ -39,8 +39,7 @@ export const MaintenancesList = () => {
     <>
       {modalCreateCategoryOpen && (
         <ModalCreateCategory
-          modalState={modalCreateCategoryOpen}
-          setModalState={setModalCreateCategoryOpen}
+          setModal={setModalCreateCategoryOpen}
           categories={categories}
           setCategories={setCategories}
         />

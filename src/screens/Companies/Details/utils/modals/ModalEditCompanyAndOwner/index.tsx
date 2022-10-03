@@ -25,14 +25,13 @@ import {
 export const ModalEditCompanyAndOwner = ({
   setCompany,
   company,
-  setModalState,
-  modalState,
+  setModal,
 }: IModalEditCompanyAndOwner) => {
   const navigate = useNavigate();
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
-    <Modal title="Editar usuário" modalState={modalState} setModalState={setModalState}>
+    <Modal title="Editar usuário" setModal={setModal}>
       <Formik
         initialValues={{
           image: company.image,
@@ -60,7 +59,7 @@ export const ModalEditCompanyAndOwner = ({
             setCompany,
             navigate,
             setOnQuery,
-            setModalState,
+            setModal,
           });
         }}
       >

@@ -24,8 +24,7 @@ import { theme } from '../../../../../../../../styles/theme';
 import { PopoverButton } from '../../../../../../../../components/Buttons/PopoverButton';
 
 export const ModalEditMaintenance = ({
-  modalState,
-  setModalState,
+  setModal,
   selectedMaintenance,
   timeIntervals,
   categories,
@@ -35,7 +34,7 @@ export const ModalEditMaintenance = ({
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
-    <Modal title="Editar manutenção" modalState={modalState} setModalState={setModalState}>
+    <Modal title="Editar manutenção" setModal={setModal}>
       <Formik
         initialValues={{
           element: selectedMaintenance.MaintenancesHistory[0].element,
@@ -57,7 +56,7 @@ export const ModalEditMaintenance = ({
             maintenanceId: selectedMaintenance.id,
             values,
             setOnQuery,
-            setModalState,
+            setModal,
             categories,
             setCategories,
             categoryId,
@@ -236,7 +235,7 @@ export const ModalEditMaintenance = ({
                       requestDeleteMaintenance({
                         maintenanceId: selectedMaintenance.id,
                         setOnQuery,
-                        setModalState,
+                        setModal,
                         categories,
                         setCategories,
                         categoryId,

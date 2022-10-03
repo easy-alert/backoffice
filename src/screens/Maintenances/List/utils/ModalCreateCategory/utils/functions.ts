@@ -9,7 +9,7 @@ export const requestCreateCategory = async ({
   setCategories,
   categories,
   setOnQuery,
-  setModalState,
+  setModal,
 }: IRequestCreateCategory) => {
   setOnQuery(true);
 
@@ -28,7 +28,7 @@ export const requestCreateCategory = async ({
 
       setCategories([...tempCategory]);
 
-      setModalState(false);
+      setModal(false);
       toast.success(res.data.ServerMessage.message);
     })
     .catch((err) => {

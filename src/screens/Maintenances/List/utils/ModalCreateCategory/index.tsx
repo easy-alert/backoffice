@@ -15,15 +15,14 @@ import { IModalCreateCategory } from './utils/types';
 import { schemaCreateCategory, requestCreateCategory } from './utils/functions';
 
 export const ModalCreateCategory = ({
-  modalState,
-  setModalState,
+  setModal,
   categories,
   setCategories,
 }: IModalCreateCategory) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
-    <Modal title="Criar categoria" modalState={modalState} setModalState={setModalState}>
+    <Modal title="Criar categoria" setModal={setModal}>
       <Formik
         initialValues={{
           categoryName: '',
@@ -35,7 +34,7 @@ export const ModalCreateCategory = ({
             categories,
             setCategories,
             setOnQuery,
-            setModalState,
+            setModal,
           });
         }}
       >
@@ -48,9 +47,7 @@ export const ModalCreateCategory = ({
                 label="Nome da categoria"
                 name="categoryName"
                 value={values.categoryName}
-                error={
-                  touched.categoryName && errors.categoryName ? errors.categoryName : null
-                }
+                error={touched.categoryName && errors.categoryName ? errors.categoryName : null}
                 placeholder="Digite o nome da categoria"
               />
               <Button center label="Criar" type="submit" loading={onQuery} />
