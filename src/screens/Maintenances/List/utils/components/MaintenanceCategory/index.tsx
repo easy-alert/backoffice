@@ -8,10 +8,9 @@ import { useState } from 'react';
 import { icon } from '../../../../../../assets/icons';
 
 // COMPONENTS
-import { IconButton } from '../../../../../../components/Buttons/IconButton';
-
-import { theme } from '../../../../../../styles/theme';
 import * as Style from './styles';
+import { IconButton } from '../../../../../../components/Buttons/IconButton';
+import { Image } from '../../../../../../components/Image';
 import { MaintenanceCard } from '../MaintenanceCard';
 
 // MODALS
@@ -90,7 +89,7 @@ export const MaintenanceCategory = ({
                 <p
                   className="p2"
                   style={{
-                    color: sortType.type === 'element' ? theme.color.black : theme.color.gray4,
+                    opacity: sortType.type === 'element' ? '1' : '0.5',
                   }}
                   onClick={() => {
                     setSortType({ type: 'element' });
@@ -103,12 +102,17 @@ export const MaintenanceCategory = ({
                     });
                   }}
                 >
-                  Elemento{isSorted && sortType.type === 'element' ? '▴' : '▾'}
+                  Elemento
+                  {(isSorted && sortType.type === 'element') || sortType.type !== 'element' ? (
+                    <Image img={icon.upTriangle} size="8px" />
+                  ) : (
+                    <Image img={icon.downTriangle} size="8px" />
+                  )}
                 </p>
                 <p
                   className="p2"
                   style={{
-                    color: sortType.type === 'activity' ? theme.color.black : theme.color.gray4,
+                    opacity: sortType.type === 'activity' ? '1' : '0.5',
                   }}
                   onClick={() => {
                     setSortType({ type: 'activity' });
@@ -120,12 +124,17 @@ export const MaintenanceCategory = ({
                     });
                   }}
                 >
-                  Atividade{isSorted && sortType.type === 'activity' ? '▾' : '▴'}
+                  Atividade
+                  {isSorted && sortType.type === 'activity' ? (
+                    <Image img={icon.downTriangle} size="8px" />
+                  ) : (
+                    <Image img={icon.upTriangle} size="8px" />
+                  )}
                 </p>
                 <p
                   className="p2"
                   style={{
-                    color: sortType.type === 'frequency' ? theme.color.black : theme.color.gray4,
+                    opacity: sortType.type === 'frequency' ? '1' : '0.5',
                   }}
                   onClick={() => {
                     setSortType({ type: 'frequency' });
@@ -138,12 +147,17 @@ export const MaintenanceCategory = ({
                     });
                   }}
                 >
-                  Frequência{isSorted && sortType.type === 'frequency' ? '▾' : '▴'}
+                  Frequência
+                  {isSorted && sortType.type === 'frequency' ? (
+                    <Image img={icon.downTriangle} size="8px" />
+                  ) : (
+                    <Image img={icon.upTriangle} size="8px" />
+                  )}
                 </p>
                 <p
                   className="p2"
                   style={{
-                    color: sortType.type === 'responsible' ? theme.color.black : theme.color.gray4,
+                    opacity: sortType.type === 'responsible' ? '1' : '0.5',
                   }}
                   onClick={() => {
                     setSortType({ type: 'responsible' });
@@ -155,12 +169,17 @@ export const MaintenanceCategory = ({
                     });
                   }}
                 >
-                  Responsável{isSorted && sortType.type === 'responsible' ? '▾' : '▴'}
+                  Responsável
+                  {isSorted && sortType.type === 'responsible' ? (
+                    <Image img={icon.downTriangle} size="8px" />
+                  ) : (
+                    <Image img={icon.upTriangle} size="8px" />
+                  )}
                 </p>
                 <p
                   className="p2"
                   style={{
-                    color: sortType.type === 'source' ? theme.color.black : theme.color.gray4,
+                    opacity: sortType.type === 'source' ? '1' : '0.5',
                   }}
                   onClick={() => {
                     setSortType({ type: 'source' });
@@ -172,7 +191,12 @@ export const MaintenanceCategory = ({
                     });
                   }}
                 >
-                  Fonte{isSorted && sortType.type === 'source' ? '▾' : '▴'}
+                  Fonte
+                  {isSorted && sortType.type === 'source' ? (
+                    <Image img={icon.downTriangle} size="8px" />
+                  ) : (
+                    <Image img={icon.upTriangle} size="8px" />
+                  )}
                 </p>
               </Style.MaintenancesGrid>
             </Style.MaintenancesHeader>

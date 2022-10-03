@@ -88,6 +88,7 @@ export const MaintenancesGrid = styled.div<{ cardIsOpen: boolean }>`
   grid-template-columns: 250px minmax(250px, 1fr) 0.5fr 0.7fr 0.6fr 0.1fr;
 
   > p {
+    line-height: 17px;
     word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -15,12 +15,11 @@ import { IModalEditCompanyAndOwner } from './utils/types';
 
 // FUNCTIONS
 import { IFormDataCompany } from '../../../../List/utils/types';
-
 import { applyMask } from '../../../../../../utils/functions';
 import {
   requestEditCompanyAndOwner,
-  schemaModalCreateCompanyAndOwnerWithCNPJ,
-  schemaModalCreateCompanyAndOwnerWithCPF,
+  schemaModalEditCompanyAndOwnerWithCNPJ,
+  schemaModalEditCompanyAndOwnerWithCPF,
 } from './utils/functions';
 
 export const ModalEditCompanyAndOwner = ({
@@ -51,8 +50,8 @@ export const ModalEditCompanyAndOwner = ({
         }}
         validationSchema={
           company.CPF
-            ? schemaModalCreateCompanyAndOwnerWithCPF
-            : schemaModalCreateCompanyAndOwnerWithCNPJ
+            ? schemaModalEditCompanyAndOwnerWithCPF
+            : schemaModalEditCompanyAndOwnerWithCNPJ
         }
         onSubmit={async (data: IFormDataCompany) => {
           await requestEditCompanyAndOwner({

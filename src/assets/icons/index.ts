@@ -25,6 +25,8 @@ import edit from './edit.svg';
 import trash from './trash.svg';
 import plus from './plus.svg';
 import alert from './alert.svg';
+import downTriangle from './downTriangle.svg';
+import upTriangle from './upTriangle.svg';
 
 export const icon = {
   leftArrow,
@@ -54,4 +56,6 @@ export const icon = {
   trashWithBg,
   plus,
   alert,
+  downTriangle,
+  upTriangle,
 };

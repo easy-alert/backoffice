@@ -67,7 +67,9 @@ export const MaintenancesGrid = styled.div`
     cursor: pointer;
     width: fit-content;
     transition: 0.25s;
-
+    display: flex;
+    align-items: flex-start;
+    gap: ${theme.size.xxsm};
     :hover {
       opacity: 0.7;
     }

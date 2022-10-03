@@ -151,8 +151,7 @@ export const schemaEditMaintenance = yup
     delay: yup
       .string()
       .required('O delay deve ser preenchido.')
-      .matches(/^\d/, 'O delay deve ser um número.')
-      .test('greaterThanZero', 'O delay deve ser maior que zero.', (value) => Number(value) > 0),
+      .matches(/^\d/, 'O delay deve ser um número.'),
 
     delayTimeInterval: yup
       .string()
