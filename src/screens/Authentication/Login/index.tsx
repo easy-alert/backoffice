@@ -54,16 +54,11 @@ export const Login = () => {
       >
         {({ errors, values, touched }) => (
           <>
-            <Image
-              img={icon.logoTextWhite}
-              width="290px"
-              height="65px"
-              radius="0"
-            />
+            <Image img={icon.logoTextWhite} width="290px" height="65px" radius="0" />
             <Style.LoginContainer>
               <Form>
                 <Style.InputWrapper>
-                  <h2>Login/Backoffice</h2>
+                  <h2>Login/Client</h2>
                   <FormikInput
                     labelColor={theme.color.white}
                     errorColor={theme.color.white}
@@ -82,11 +77,7 @@ export const Login = () => {
                     type="password"
                     value={values.password}
                     placeholder="Insira sua senha"
-                    error={
-                      touched.password && errors.password
-                        ? errors.password
-                        : null
-                    }
+                    error={touched.password && errors.password ? errors.password : null}
                   />
                 </Style.InputWrapper>
                 <Button center label="Login" loading={onQuery} type="submit" />

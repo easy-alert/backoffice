@@ -28,9 +28,9 @@ export async function uploadFile(file: any) {
 export const handleError = async ({ error }: { error: Error }) => {
   if (process.env.NODE_ENV !== 'development') {
     axios.post('https://ada-logs.herokuapp.com/api/logs/create', {
-      projectName: 'Sul Oxidos',
+      projectName: 'EasyAlert',
       environment: window.location.host.includes('sandbox') ? 'Sandbox' : 'Production',
-      side: 'Backoffice',
+      side: 'Client',
       errorStack: error.stack,
     });
   }
@@ -121,9 +121,7 @@ export const catchHandler = (err: any) => {
   }
 };
 
-export const requestListIntervals = async ({
-  setTimeIntervals,
-}: IRequestListIntervals) => {
+export const requestListIntervals = async ({ setTimeIntervals }: IRequestListIntervals) => {
   await Api.get('/time/interval/list', {})
     .then((res) => {
       setTimeIntervals(res.data);
