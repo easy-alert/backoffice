@@ -65,7 +65,7 @@ export const CompanyDetails = () => {
           <ReturnButton path="/companies" />
           <Style.CardSection>
             <Style.Card>
-              <h6>Foto de perfil</h6>
+              <h6>Logo</h6>
               <Image img={company.image} size="80px" />
             </Style.Card>
 
