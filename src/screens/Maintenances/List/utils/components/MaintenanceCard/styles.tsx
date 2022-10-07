@@ -4,6 +4,7 @@ import { theme } from '../../../../../../styles/theme';
 export const ArrowContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 `;
 
 export const Arrow = styled.div<{ cardIsOpen: boolean }>`
@@ -27,6 +28,7 @@ export const MaintenancesCard = styled.div`
   transition: 0.25s;
   :hover {
     cursor: pointer;
+    background-color: ${`${theme.color.white}B3`};
   }
 `;
 
