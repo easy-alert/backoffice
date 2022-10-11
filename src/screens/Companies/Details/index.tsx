@@ -36,7 +36,7 @@ export const CompanyDetails = () => {
 
   // CONSTS
   const [company, setCompany] = useState<ICompany>(state as ICompany);
-  const [modalEditCompanyAndOwnerIsOpen, setEditModalCreateCompanyAndOwnerIsOpen] =
+  const [modalEditCompanyAndOwnerIsOpen, setModalEditCompanyAndOwnerIsOpen] =
     useState<boolean>(false);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export const CompanyDetails = () => {
         <ModalEditCompanyAndOwner
           company={company}
           setCompany={setCompany}
-          setModal={setEditModalCreateCompanyAndOwnerIsOpen}
+          setModal={setModalEditCompanyAndOwnerIsOpen}
         />
       )}
 
@@ -172,7 +172,7 @@ export const CompanyDetails = () => {
               icon={icon.editWithBg}
               label="Editar"
               onClick={() => {
-                setEditModalCreateCompanyAndOwnerIsOpen(true);
+                setModalEditCompanyAndOwnerIsOpen(true);
               }}
             />
           </Style.Footer>

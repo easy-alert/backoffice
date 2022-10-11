@@ -171,7 +171,7 @@ export const ModalEditCompanyAndOwner = ({
                 placeholder="••••••••••"
                 maxLength={120}
               />
-              <Button center label="Cadastrar" type="submit" loading={onQuery} />
+              <Button center label="Salvar" type="submit" loading={onQuery} />
             </Form>
           </Style.FormContainer>
         )}

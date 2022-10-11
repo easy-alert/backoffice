@@ -28,9 +28,10 @@ export const Card = styled.div`
 
   > h6 {
     width: 40%;
+    margin-right: ${theme.size.xsm};
   }
 
-  @media (max-width: 500px) {
+  /* @media (max-width: 500px) {
     > h6 {
       width: fit-content;
       min-width: 150px;
@@ -40,7 +41,7 @@ export const Card = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
     }
-  }
+  } */
 `;
 
 export const Footer = styled.footer<{ disabled: boolean }>`
