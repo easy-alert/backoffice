@@ -28,7 +28,7 @@ export const requestCreateCompanyAndOWner = async ({
     imageUrl = `https://avatars.dicebear.com/api/initials/${data.name.replace(/\s/g, '%20')}.svg`;
   }
 
-  await Api.post('/backoffice/companies/create', {
+  await Api.post('/companies/create', {
     image: imageUrl,
     name: data.name,
     email: data.email,

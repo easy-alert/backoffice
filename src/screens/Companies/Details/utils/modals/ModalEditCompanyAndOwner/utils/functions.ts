@@ -29,7 +29,7 @@ export const requestEditCompanyAndOwner = async ({
     imageUrl = company.image;
   }
 
-  await Api.put('/backoffice/companies/edit', {
+  await Api.put('/companies/edit', {
     userId: company.UserCompanies[0].User.id,
     companyId: company.id,
     image: imageUrl,

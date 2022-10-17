@@ -14,7 +14,7 @@ export const requestUsersList = async ({
   filter = '',
   setPage,
 }: IRequestUsersList) => {
-  await Api.get(`/backoffice/companies/list?page=${page}&search=${filter}`)
+  await Api.get(`/companies/list?page=${page}&search=${filter}`)
     .then((res) => {
       setCompanies(res.data.companiesAndOwners);
       setCount(res.data.companiesCount);

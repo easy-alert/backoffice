@@ -7,8 +7,8 @@ import axios from 'axios';
 export const Api = axios.create({
   baseURL:
     process.env.NODE_ENV === 'production'
-      ? 'https://easyalert-sandbox.herokuapp.com/api'
-      : 'http://localhost:8080/api',
+      ? 'https://easyalert-sandbox.herokuapp.com/api/backoffice'
+      : 'http://localhost:8080/api/backoffice',
 });
 
 Api.interceptors.request.use(

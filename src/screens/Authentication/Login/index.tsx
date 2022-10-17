@@ -38,7 +38,7 @@ export const Login = () => {
         validationSchema={schema}
         onSubmit={async (data: IFormData) => {
           setOnQuery(true);
-          await Api.post('/auth/backoffice/login', {
+          await Api.post('/auth/login', {
             email: data.email,
             password: data.password,
           })

@@ -15,7 +15,7 @@ export const requestChangeIsBlocked = async ({
 }: IRequestChangeIsActive) => {
   toast.loading('Atualizando...');
   setOnQuery(true);
-  await Api.put('/backoffice/companies/change/isBlocked', {
+  await Api.put('/companies/change/isBlocked', {
     companyId: company.id,
   })
     .then((res) => {
@@ -40,7 +40,7 @@ export const requestDeleteCompany = async ({
 }: IRequestChangeIsDeleted) => {
   toast.loading('Atualizando...');
   setOnQuery(true);
-  await Api.delete('/backoffice/companies/delete', {
+  await Api.delete('/companies/delete', {
     data: { companyId: company.id },
   })
     .then((res) => {
