@@ -22,6 +22,7 @@ export const requestUsersList = async ({
       if (setPage) setPage(1);
     })
     .catch((err) => {
+      if (setLoading) setLoading(false);
       catchHandler(err);
     });
 };
