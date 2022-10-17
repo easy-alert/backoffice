@@ -3,8 +3,8 @@ import { theme } from '../../../styles/theme';
 
 export const Background = styled.div<{ center: boolean }>`
   width: fit-content;
-  ${({ center }) =>
-    center && `width: 100%; display: flex; justify-content: center;`}
+  ${({ center }) => center && `width: 100%; display: flex; justify-content: center;`}
+  height: fit-content;
 `;
 
 export const SpinnerContent = styled.div`
@@ -41,7 +41,6 @@ export const ContainerButton = styled.div<{
   align-items: center;
   justify-content: center;
   width: fit-content;
-
   > button {
     transition: 0.5s;
     display: flex;
@@ -50,8 +49,7 @@ export const ContainerButton = styled.div<{
 
     :hover {
       opacity: 0.7;
-      ${({ outlined, bgColor }) =>
-        outlined && `background-color: ${`${bgColor}26`};`}
+      ${({ outlined, bgColor }) => outlined && `background-color: ${`${bgColor}26`};`}
     }
 
     ${({ bgColor }) => bgColor && `  background-color: ${bgColor};`}

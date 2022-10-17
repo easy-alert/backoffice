@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // COMPONENTS
-import * as Style from './styles';
 import { IconButton } from '../../../components/Buttons/IconButton';
 import { Image } from '../../../components/Image';
 import { Tag } from '../../../components/Tag';
@@ -12,6 +11,9 @@ import { Table, TableContent } from '../../../components/Table';
 import { icon } from '../../../assets/icons/index';
 import { Pagination } from '../../../components/Pagination';
 import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
+
+// STYLES
+import * as Style from './styles';
 import { theme } from '../../../styles/theme';
 
 // TYPES
@@ -19,7 +21,7 @@ import { ICompany } from './utils/types';
 
 // FUNCTIONS
 import { requestUsersList } from './utils/functions';
-import { DateFormatter } from '../../../utils/functions';
+import { dateFormatter } from '../../../utils/functions';
 
 // MODALS
 import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
@@ -29,8 +31,11 @@ export const CompaniesList = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [loading, setLoading] = useState<boolean>(true);
+
   // FILTER
   const [filter, setFilter] = useState<string>('');
+
+  // PAGINATION
   const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const offset = 20;
@@ -38,10 +43,8 @@ export const CompaniesList = () => {
   // CONSTS
   const [companies, setCompanies] = useState<ICompany[] | null>(null);
 
-  const [
-    modalCreateCompanyAndOwnerIsOpen,
-    setModalCreateCompanyAndOwnerIsOpen,
-  ] = useState<boolean>(false);
+  const [modalCreateCompanyAndOwnerIsOpen, setModalCreateCompanyAndOwnerIsOpen] =
+    useState<boolean>(false);
 
   useEffect(() => {
     requestUsersList({
@@ -54,13 +57,14 @@ export const CompaniesList = () => {
 
   return (
     <>
-      <ModalCreateCompanyAndOwner
-        setCompanies={setCompanies}
-        page={page}
-        setCount={setCount}
-        modalState={modalCreateCompanyAndOwnerIsOpen}
-        setModalState={setModalCreateCompanyAndOwnerIsOpen}
-      />
+      {modalCreateCompanyAndOwnerIsOpen && (
+        <ModalCreateCompanyAndOwner
+          setCompanies={setCompanies}
+          page={page}
+          setCount={setCount}
+          setModal={setModalCreateCompanyAndOwnerIsOpen}
+        />
+      )}
 
       {loading ? (
         <DotSpinLoading />
@@ -158,13 +162,7 @@ export const CompaniesList = () => {
                     key={companie.id}
                     colsBody={[
                       {
-                        cell: (
-                          <Image
-                            size="32px"
-                            img={companie.image}
-                            key={companie.id}
-                          />
-                        ),
+                        cell: <Image size="32px" img={companie.image} key={companie.id} />,
                         cssProps: { width: '1%' },
                       },
                       {
@@ -192,30 +190,16 @@ export const CompaniesList = () => {
                       },
                       {
                         cell: companie.UserCompanies[0].User.lastAccess
-                          ? DateFormatter(
-                              companie.UserCompanies[0].User.lastAccess,
-                            )
+                          ? dateFormatter(companie.UserCompanies[0].User.lastAccess)
                           : '-',
                         cssProps: { width: '25%' },
                       },
                       {
-                        cell: (
-                          <Tag
-                            isInvalid={companie.isBlocked}
-                            key={companie.id}
-                          />
-                        ),
+                        cell: <Tag isInvalid={companie.isBlocked} key={companie.id} />,
                         cssProps: { width: '30%' },
                       },
                       {
-                        cell: (
-                          <img
-                            src={icon.rightArrow}
-                            width="16px"
-                            height="16px"
-                            alt=""
-                          />
-                        ),
+                        cell: <img src={icon.rightArrow} width="16px" height="16px" alt="" />,
                         cssProps: { textAlign: 'end' },
                       },
                     ]}

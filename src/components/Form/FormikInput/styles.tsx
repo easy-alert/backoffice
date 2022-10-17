@@ -58,7 +58,7 @@ export const InputContainer = styled.div<{
    > input {
     border-color: ${theme.color.danger} !important;
     color: ${theme.color.danger};
-    margin-bottom: ${theme.size.xxsm};
+    margin-bottom: 2px;
     }
  `}
 `;

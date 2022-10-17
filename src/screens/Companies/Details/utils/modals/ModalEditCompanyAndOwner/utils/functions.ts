@@ -5,11 +5,7 @@ import * as yup from 'yup';
 
 // FUNCTIONS
 import { Api } from '../../../../../../../services/api';
-import {
-  catchHandler,
-  unMask,
-  uploadFile,
-} from '../../../../../../../utils/functions';
+import { catchHandler, unMask, uploadFile } from '../../../../../../../utils/functions';
 
 // TYPES
 import { ICompany } from '../../../../../List/utils/types';
@@ -17,7 +13,7 @@ import { IRequestEditCompanyAndOwner } from './types';
 
 export const requestEditCompanyAndOwner = async ({
   data,
-  setModalState,
+  setModal,
   company,
   setCompany,
   navigate,
@@ -33,7 +29,7 @@ export const requestEditCompanyAndOwner = async ({
     imageUrl = company.image;
   }
 
-  await Api.put('/backoffice/companies/edit', {
+  await Api.put('/companies/edit', {
     userId: company.UserCompanies[0].User.id,
     companyId: company.id,
     image: imageUrl,
@@ -69,9 +65,8 @@ export const requestEditCompanyAndOwner = async ({
 
       navigate(window.location.pathname, { state: updatedCompany });
       setCompany(updatedCompany);
-      setModalState(false);
+      setModal(false);
       toast.success(res.data.ServerMessage.message);
-      setOnQuery(false);
     })
     .catch((err) => {
       setOnQuery(false);
@@ -80,7 +75,7 @@ export const requestEditCompanyAndOwner = async ({
 };
 
 // YUP
-export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
+export const schemaModalEditCompanyAndOwnerWithCNPJ = yup
   .object({
     image: yup
       .mixed()
@@ -120,16 +115,11 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
     contactNumber: yup
       .string()
       .required('O número de telefone deve ser preenchido.')
-      .min(14, 'O número de telefone deve conter  no mínimo 14 caracteres.'),
+      .min(14, 'O número de telefone deve conter no mínimo 14 caracteres.'),
 
-    CNPJ: yup
-      .string()
-      .required('O CNPJ deve ser preenchido.')
-      .min(18, 'O CNPJ deve ser válido.'),
+    CNPJ: yup.string().required('O CNPJ deve ser preenchido.').min(18, 'O CNPJ deve ser válido.'),
 
-    password: yup
-      .string()
-      .matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres.'),
+    password: yup.string().matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres.'),
 
     confirmPassword: yup
       .string()
@@ -142,7 +132,7 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
   .required();
 
 // YUP
-export const schemaModalCreateCompanyAndOwnerWithCPF = yup
+export const schemaModalEditCompanyAndOwnerWithCPF = yup
   .object({
     image: yup
       .mixed()
@@ -182,16 +172,11 @@ export const schemaModalCreateCompanyAndOwnerWithCPF = yup
     contactNumber: yup
       .string()
       .required('O número de telefone deve ser preenchido.')
-      .min(14, 'O número de telefone deve conter  no mínimo 14 caracteres.'),
+      .min(14, 'O número de telefone deve conter no mínimo 14 caracteres.'),
 
-    CPF: yup
-      .string()
-      .required('O CPF deve ser preenchido.')
-      .min(14, 'O CPF deve ser válido.'),
+    CPF: yup.string().required('O CPF deve ser preenchido.').min(14, 'O CPF deve ser válido.'),
 
-    password: yup
-      .string()
-      .matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres.'),
+    password: yup.string().matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres.'),
 
     confirmPassword: yup
       .string()

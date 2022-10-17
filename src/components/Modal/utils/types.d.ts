@@ -1,10 +1,5 @@
-export interface IModalStates {
-  modalState: boolean;
-  setModalState: (setModalState: boolean) => void;
-}
-
-export interface IModal extends IModalStates {
-  children: JSX.Element;
+export interface IModal {
   title: string;
-  size?: 'md' | 'lg';
+  children: JSX.Element;
+  setModal: (setModal: boolean) => void;
 }

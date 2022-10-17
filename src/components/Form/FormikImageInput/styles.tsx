@@ -28,7 +28,6 @@ export const ImageWrapper = styled.div`
   :hover {
     opacity: 0.7;
   }
-
   > img {
     cursor: pointer;
     width: 24px;
@@ -42,6 +41,7 @@ export const ImageWrapper = styled.div`
 export const ErrorMessage = styled.div`
   display: flex;
   color: ${theme.color.danger};
+  margin-top: 2px;
 
   > p {
     animation: scale-in-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;

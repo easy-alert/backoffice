@@ -68,11 +68,16 @@ export const PopoverBackground = styled.div`
   }
 `;
 
-export const AnimationDiv = styled.div<{ animation: boolean }>`
-  ${({ animation }) =>
-    animation
-      ? `animation: fade-in 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both; @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }`
-      : `animation: fade-out 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both; @keyframes fade-out { 0% { opacity: 1; } 100% { opacity: 0; } }`};
+export const AnimationDiv = styled.div`
+  animation: fade-in 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;
 
 export const ActionButtonContainer = styled.div`

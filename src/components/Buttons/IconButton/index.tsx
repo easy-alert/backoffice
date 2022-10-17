@@ -19,8 +19,10 @@ export const IconButton = ({
   hideLabelOnMedia,
   fontWeight = '500',
   size = '24px;',
+  disabled = false,
 }: IIconButton) => (
   <ContainerButton
+    style={{ pointerEvents: disabled ? 'none' : 'auto' }}
     hideLabelOnMedia={hideLabelOnMedia}
     labelPos={labelPos}
     selected={selected}
@@ -28,6 +30,7 @@ export const IconButton = ({
     gap={gap}
     color={color}
     fontWeight={fontWeight}
+    disable={disabled}
     onClick={() => {
       onClick();
     }}

@@ -4,18 +4,18 @@ import { toast } from 'react-toastify';
 import { Api } from '../../../../services/api';
 
 // TYPES
-import { IRequestChangeIsActiveAndIsDeleted } from './types';
-import { ICompany } from '../../List/utils/types';
+import { IRequestChangeIsActive, IRequestChangeIsDeleted } from './types';
 import { catchHandler } from '../../../../utils/functions';
 
 export const requestChangeIsBlocked = async ({
   company,
   setCompany,
   navigate,
-}: IRequestChangeIsActiveAndIsDeleted) => {
+  setOnQuery,
+}: IRequestChangeIsActive) => {
   toast.loading('Atualizando...');
-
-  await Api.put('/backoffice/companies/change/isBlocked', {
+  setOnQuery(true);
+  await Api.put('/companies/change/isBlocked', {
     companyId: company.id,
   })
     .then((res) => {
@@ -25,8 +25,10 @@ export const requestChangeIsBlocked = async ({
       });
       toast.dismiss();
       toast.success(res.data.ServerMessage.message);
+      setOnQuery(false);
     })
     .catch((err) => {
+      setOnQuery(false);
       catchHandler(err);
     });
 };
@@ -34,21 +36,21 @@ export const requestChangeIsBlocked = async ({
 export const requestDeleteCompany = async ({
   company,
   navigate,
-}: {
-  company: ICompany;
-  navigate: any;
-}) => {
+  setOnQuery,
+}: IRequestChangeIsDeleted) => {
   toast.loading('Atualizando...');
-
-  await Api.delete('/backoffice/companies/delete', {
+  setOnQuery(true);
+  await Api.delete('/companies/delete', {
     data: { companyId: company.id },
   })
     .then((res) => {
       navigate('/companies', { replace: true });
       toast.dismiss();
       toast.success(res.data.ServerMessage.message);
+      setOnQuery(false);
     })
     .catch((err) => {
+      setOnQuery(false);
       catchHandler(err);
     });
 };

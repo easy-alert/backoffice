@@ -23,10 +23,10 @@ export interface ICompany {
 export interface IRequestUsersList {
   setCompanies: (setCompanies: ICompany[]) => void;
   setLoading?: (setLoading: boolean) => void;
-  page: number;
-  setCount: (setCount: number) => void;
-  filter?: string;
   setPage?: (setPage: number) => void;
+  setCount: (setCount: number) => void;
+  page: number;
+  filter?: string;
 }
 
 // YUP

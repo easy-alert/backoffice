@@ -24,7 +24,7 @@ export const Button = ({
       outlined={outlined}
       borderless={borderless}
     >
-      <button {...rest} disabled={disable}>
+      <button {...rest} disabled={disable || loading}>
         {loading ? <SpinnerContent /> : <h6>{label}</h6>}
       </button>
     </ContainerButton>

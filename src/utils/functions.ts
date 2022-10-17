@@ -2,16 +2,15 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Api } from '../services/api';
-import { IMask, IUploadFile } from './types';
+import { IMask, IUploadFile, IRequestListIntervals } from './types';
 
 // DATES
-export const DateFormatter = (date: string) =>
+export const dateFormatter = (date: string) =>
   new Date(date).toLocaleDateString('pt-BR', {
     timeZone: 'UTC',
   });
 
 // UPLOADS
-
 export async function uploadFile(file: any) {
   let response = {};
 
@@ -26,14 +25,11 @@ export async function uploadFile(file: any) {
 }
 
 // ERRORS
-
 export const handleError = async ({ error }: { error: Error }) => {
   if (process.env.NODE_ENV !== 'development') {
     axios.post('https://ada-logs.herokuapp.com/api/logs/create', {
-      projectName: 'Sul Oxidos',
-      environment: window.location.host.includes('sandbox')
-        ? 'Sandbox'
-        : 'Production',
+      projectName: 'EasyAlert',
+      environment: window.location.host.includes('sandbox') ? 'Sandbox' : 'Production',
       side: 'Backoffice',
       errorStack: error.stack,
     });
@@ -41,12 +37,11 @@ export const handleError = async ({ error }: { error: Error }) => {
 };
 
 // MASKS
-
 export const applyMask = ({
   mask,
   value,
 }: {
-  mask: 'CPF' | 'CNPJ' | 'TEL' | 'CEP' | 'BRL';
+  mask: 'CPF' | 'CNPJ' | 'TEL' | 'CEP' | 'BRL' | 'NUM';
   value: string;
 }) => {
   let Mask: IMask = { value: '', length: 0 };
@@ -90,14 +85,18 @@ export const applyMask = ({
       break;
     case 'BRL':
       Mask = {
-        value: (Number(value.replace(/[^0-9]*/g, '')) / 100).toLocaleString(
-          'pt-br',
-          {
-            style: 'currency',
-            currency: 'BRL',
-          },
-        ),
+        value: (Number(value.replace(/[^0-9]*/g, '')) / 100).toLocaleString('pt-br', {
+          style: 'currency',
+          currency: 'BRL',
+        }),
         length: 17,
+      };
+      break;
+
+    case 'NUM':
+      Mask = {
+        value: value.replace(/[^0-9]*/g, ''),
+        length: 0,
       };
       break;
 
@@ -106,6 +105,9 @@ export const applyMask = ({
   }
   return Mask;
 };
+
+export const capitalizeFirstLetter = (value: string) =>
+  value.charAt(0).toUpperCase() + value.slice(1);
 
 export const unMask = (value: string) => value.replace(/[^a-zA-Z0-9]/g, '');
 
@@ -117,4 +119,14 @@ export const catchHandler = (err: any) => {
   } else {
     toast.error('Erro de comunicação');
   }
+};
+
+export const requestListIntervals = async ({ setTimeIntervals }: IRequestListIntervals) => {
+  await Api.get('/timeinterval/list')
+    .then((res) => {
+      setTimeIntervals(res.data);
+    })
+    .catch((err) => {
+      catchHandler(err);
+    });
 };

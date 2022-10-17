@@ -1,109 +1,223 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-console */
 
 // LIBS
 import { useState } from 'react';
-import { Form, Formik } from 'formik';
 import { icon } from '../../../../../../assets/icons';
-import { Button } from '../../../../../../components/Buttons/Button';
 
 // COMPONENTS
-import { IconButton } from '../../../../../../components/Buttons/IconButton';
-import { FormikInput } from '../../../../../../components/Form/FormikInput';
 import * as Style from './styles';
-import { requestDeleteCategory, requestEditCategory, schemeEditCategory } from './utils/functions';
-import { IMaintenanceCategory } from './utils/types';
-import { PopoverButton } from '../../../../../../components/Buttons/PopoverButton';
-import { theme } from '../../../../../../styles/theme';
+import { IconButton } from '../../../../../../components/Buttons/IconButton';
+import { Image } from '../../../../../../components/Image';
+import { MaintenanceCard } from '../MaintenanceCard';
 
-export const MaintenanceCategory = ({ category, categories, setCategories }: IMaintenanceCategory) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isEditingCategoryName, setIsEditingCategoryName] = useState<boolean>(false);
+// MODALS
+import { ModalCreateMaintenance } from './utils/ModalCreateMaintenance';
+import { ModalEditCategory } from './utils/ModalEditCategory';
+
+// FUNCTIONS
+import { alphabeticalOrder, nestedObjectAlphabeticalOrder } from './utils/functions';
+
+// TYPES
+import { IMaintenanceCategory, ISortType } from './utils/types';
+
+export const MaintenanceCategory = ({
+  category,
+  categories,
+  setCategories,
+  timeIntervals,
+}: IMaintenanceCategory) => {
+  const [isSorted, setIsSorted] = useState<boolean>(false);
+  const [sortType, setSortType] = useState<ISortType>({ type: 'element' });
+  const [modalCreateMaintenanceOpen, setModalCreateMaintenanceOpen] = useState<boolean>(false);
+  const [modalEditCategoryOpen, setModalEditCategoryOpen] = useState<boolean>(false);
 
   return (
-    <Style.Background>
-      <Style.HeaderCategory>
-        {!isEditingCategoryName ? (
+    <>
+      {modalCreateMaintenanceOpen && (
+        <ModalCreateMaintenance
+          setModal={setModalCreateMaintenanceOpen}
+          categoryId={category.id}
+          categories={categories}
+          setCategories={setCategories}
+          timeIntervals={timeIntervals}
+        />
+      )}
+      {modalEditCategoryOpen && (
+        <ModalEditCategory
+          setModal={setModalEditCategoryOpen}
+          categoryId={category.id}
+          categoryName={category.name}
+          categories={categories}
+          setCategories={setCategories}
+        />
+      )}
+      <Style.Background>
+        <Style.HeaderCategory>
           <Style.HeaderTitle>
-            <Style.EditContainer>
+            <Style.Container>
               <h5>{category.name}</h5>
               <IconButton
-                icon={icon.editWithBg}
+                size="16px"
+                icon={icon.edit}
                 onClick={() => {
-                  setIsEditingCategoryName(true);
+                  setModalEditCategoryOpen(true);
                 }}
               />
-
-              <PopoverButton
-                actionButtonBgColor={theme.color.danger}
-                hiddenActionButtonLabel
-                type="IconButton"
-                buttonIcon={icon.trash}
-                label="Excluir"
-                message={{
-                  title: 'Deseja excluir este usuário?',
-                  content: 'Atenção, essa ação não poderá ser desfeita posteriormente.',
-                  contentColor: theme.color.danger,
-                }}
-                actionButtonClick={() => {
-                  requestDeleteCategory({
-                    categoryId: category.id,
-                    categories,
-                    setCategories,
-                  });
-                }}
-              />
-            </Style.EditContainer>
+            </Style.Container>
 
             <IconButton
               hideLabelOnMedia
-              icon={icon.plusWithBg}
+              icon={icon.plus}
+              size="16px"
               label="Criar manutenção"
               onClick={() => {
-                // setIsEditingCategoryName(true);
+                setModalCreateMaintenanceOpen(true);
               }}
             />
           </Style.HeaderTitle>
-        ) : (
-          <Formik
-            initialValues={{ name: category.name }}
-            validationSchema={schemeEditCategory}
-            onSubmit={async (values) => {
-              requestEditCategory({
-                values,
-                categories,
-                setCategories,
-                categoryId: category.id,
-                setIsEditingCategoryName,
-              });
-            }}
-          >
-            {({ errors, values, touched }) => (
-              <Form>
-                <Style.FormContainer>
-                  <FormikInput
-                    name="name"
-                    value={values.name}
-                    error={touched.name && errors.name ? errors.name : null}
-                    placeholder="Digite o nome da categoria"
-                    maxLength={40}
+        </Style.HeaderCategory>
+
+        <Style.MaintenancesContainer>
+          {category.Maintenances.length ? (
+            <Style.MaintenancesHeader>
+              <Style.MaintenancesGrid>
+                <Style.SortHeader
+                  highlighted={sortType.type === 'element'}
+                  onClick={() => {
+                    setSortType({ type: 'element' });
+                    alphabeticalOrder({
+                      category,
+                      isSorted,
+                      setIsSorted,
+                      toSortString: 'element',
+                      defaultSortedColumn: true,
+                    });
+                  }}
+                >
+                  <p className="p2">Elemento</p>
+                  <Image
+                    img={
+                      (isSorted && sortType.type === 'element') || sortType.type !== 'element'
+                        ? icon.upTriangle
+                        : icon.downTriangle
+                    }
+                    size="8px"
                   />
-                  <Style.ButtonsHeader>
-                    <Button label="Salvar" type="submit" />
-                    <Button
-                      label="Cancelar"
-                      type="button"
-                      borderless
-                      onClick={() => {
-                        setIsEditingCategoryName(false);
-                      }}
-                    />
-                  </Style.ButtonsHeader>
-                </Style.FormContainer>
-              </Form>
-            )}
-          </Formik>
-        )}
-      </Style.HeaderCategory>
-    </Style.Background>
+                </Style.SortHeader>
+
+                <Style.SortHeader
+                  highlighted={sortType.type === 'activity'}
+                  onClick={() => {
+                    setSortType({ type: 'activity' });
+                    alphabeticalOrder({
+                      category,
+                      isSorted,
+                      setIsSorted,
+                      toSortString: 'activity',
+                    });
+                  }}
+                >
+                  <p className="p2">Atividade</p>
+
+                  <Image
+                    img={
+                      isSorted && sortType.type === 'activity' ? icon.downTriangle : icon.upTriangle
+                    }
+                    size="8px"
+                  />
+                </Style.SortHeader>
+                <Style.SortHeader
+                  highlighted={sortType.type === 'frequency'}
+                  onClick={() => {
+                    setSortType({ type: 'frequency' });
+                    nestedObjectAlphabeticalOrder({
+                      category,
+                      isSorted,
+                      setIsSorted,
+                      toSortString: 'singularLabel',
+                      toSortObject: 'FrequencyTimeInterval',
+                    });
+                  }}
+                >
+                  <p className="p2">Frequência</p>
+
+                  <Image
+                    img={
+                      isSorted && sortType.type === 'frequency'
+                        ? icon.downTriangle
+                        : icon.upTriangle
+                    }
+                    size="8px"
+                  />
+                </Style.SortHeader>
+
+                <Style.SortHeader
+                  highlighted={sortType.type === 'responsible'}
+                  onClick={() => {
+                    setSortType({ type: 'responsible' });
+                    alphabeticalOrder({
+                      category,
+                      isSorted,
+                      setIsSorted,
+                      toSortString: 'responsible',
+                    });
+                  }}
+                >
+                  <p className="p2">Responsável</p>
+
+                  <Image
+                    img={
+                      isSorted && sortType.type === 'responsible'
+                        ? icon.downTriangle
+                        : icon.upTriangle
+                    }
+                    size="8px"
+                  />
+                </Style.SortHeader>
+
+                <Style.SortHeader
+                  highlighted={sortType.type === 'source'}
+                  onClick={() => {
+                    setSortType({ type: 'source' });
+                    alphabeticalOrder({
+                      category,
+                      isSorted,
+                      setIsSorted,
+                      toSortString: 'source',
+                    });
+                  }}
+                >
+                  <p className="p2">Fonte</p>
+                  <Image
+                    img={
+                      isSorted && sortType.type === 'source' ? icon.downTriangle : icon.upTriangle
+                    }
+                    size="8px"
+                  />
+                </Style.SortHeader>
+              </Style.MaintenancesGrid>
+            </Style.MaintenancesHeader>
+          ) : (
+            <p className="p2" style={{ opacity: 0.7 }}>
+              Nenhuma manutenção cadastrada.
+            </p>
+          )}
+
+          {category.Maintenances.map((maintenance) => (
+            <MaintenanceCard
+              maintenance={maintenance}
+              key={maintenance.id}
+              timeIntervals={timeIntervals}
+              categories={categories}
+              setCategories={setCategories}
+              categoryId={category.id}
+            />
+          ))}
+        </Style.MaintenancesContainer>
+      </Style.Background>
+    </>
   );
 };

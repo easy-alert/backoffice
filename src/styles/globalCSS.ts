@@ -21,7 +21,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background-color: ${theme.color.gray2};
+    background-color: ${theme.color.gray1};
     color: ${theme.color.gray5};
   }
 
@@ -180,6 +180,13 @@ export default createGlobalStyle`
   }
 
 
+  option {
+    color: ${theme.color.gray5};
+  }
+
+  option[disabled] {
+    color: ${theme.color.gray4};
+  }
 
    button {
     border-radius: ${theme.size.xxsm};

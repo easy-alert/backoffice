@@ -38,7 +38,7 @@ export const Login = () => {
         validationSchema={schema}
         onSubmit={async (data: IFormData) => {
           setOnQuery(true);
-          await Api.post('/auth/backoffice/login', {
+          await Api.post('/auth/login', {
             email: data.email,
             password: data.password,
           })
@@ -54,12 +54,7 @@ export const Login = () => {
       >
         {({ errors, values, touched }) => (
           <>
-            <Image
-              img={icon.logoTextWhite}
-              width="290px"
-              height="65px"
-              radius="0"
-            />
+            <Image img={icon.logoTextWhite} width="290px" height="65px" radius="0" />
             <Style.LoginContainer>
               <Form>
                 <Style.InputWrapper>
@@ -82,11 +77,7 @@ export const Login = () => {
                     type="password"
                     value={values.password}
                     placeholder="Insira sua senha"
-                    error={
-                      touched.password && errors.password
-                        ? errors.password
-                        : null
-                    }
+                    error={touched.password && errors.password ? errors.password : null}
                   />
                 </Style.InputWrapper>
                 <Button center label="Login" loading={onQuery} type="submit" />

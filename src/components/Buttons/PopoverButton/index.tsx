@@ -25,11 +25,11 @@ export const PopoverButton = ({
   bgColor,
   actionButtonBgColor,
   actionButtonClick,
-  hiddenActionButtonLabel = false,
+  hiddenIconButtonLabel = false,
   borderless,
   loading,
   iconButtonClassName,
-
+  disabled = false,
   message = {
     title: 'Title',
     content: 'Message Title',
@@ -37,7 +37,6 @@ export const PopoverButton = ({
   },
 }: IPopoverButton) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
-  const [animate, setAnimate] = useState<boolean>(false);
 
   function getArrowStyle(position: string | undefined, arrowSize: number) {
     switch (position) {
@@ -70,12 +69,8 @@ export const PopoverButton = ({
 
   const togglePopOver = () => {
     if (isPopoverOpen) {
-      setAnimate(false);
-      setTimeout(() => {
-        setIsPopoverOpen(false);
-      }, 250);
+      setIsPopoverOpen(false);
     } else {
-      setAnimate(true);
       setIsPopoverOpen(true);
     }
   };
@@ -86,17 +81,14 @@ export const PopoverButton = ({
       positions={['left', 'top', 'bottom', 'right']}
       padding={1}
       onClickOutside={() => {
-        setAnimate(false);
-        setTimeout(() => {
-          setIsPopoverOpen(false);
-        }, 250);
+        setIsPopoverOpen(false);
       }}
       containerStyle={{ zIndex: '10' }}
       // eslint-disable-next-line react/no-unstable-nested-components
       content={({ position, childRect, popoverRect }) => {
         const arrowSize = 10;
         return (
-          <Style.AnimationDiv animation={animate}>
+          <Style.AnimationDiv>
             <ArrowContainer
               position={position}
               childRect={childRect}
@@ -119,15 +111,14 @@ export const PopoverButton = ({
                 arrowStyle={getArrowStyle(position, arrowSize)}
               >
                 <Style.PopoverBackground>
-                  <Style.PopoverBody contentColor={message.contentColor ?? theme.color.gray4}>
+                  <Style.PopoverBody
+                    contentColor={message.contentColor ?? theme.color.gray4}
+                  >
                     <h2>
                       {label}
                       <IconButton
                         onClick={() => {
-                          setAnimate(false);
-                          setTimeout(() => {
-                            setIsPopoverOpen(false);
-                          }, 250);
+                          setIsPopoverOpen(false);
                         }}
                         icon={icon.x}
                       />
@@ -157,6 +148,7 @@ export const PopoverButton = ({
       <Style.ButtonContainer>
         {type === 'Button' && (
           <Button
+            disable={disabled}
             type="button"
             borderless={borderless}
             bgColor={bgColor}
@@ -168,9 +160,10 @@ export const PopoverButton = ({
 
         {type === 'IconButton' && (
           <IconButton
+            disabled={disabled}
             hideLabelOnMedia
             className={iconButtonClassName}
-            label={hiddenActionButtonLabel ? '' : label}
+            label={hiddenIconButtonLabel ? '' : label}
             color={iconButtonColor}
             icon={buttonIcon}
             size={buttonIconSize}

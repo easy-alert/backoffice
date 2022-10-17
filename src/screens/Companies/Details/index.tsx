@@ -17,17 +17,14 @@ import { theme } from '../../../styles/theme';
 import { icon } from '../../../assets/icons/index';
 
 // FUNCTIONS
-import { applyMask, DateFormatter } from '../../../utils/functions';
+import { applyMask, dateFormatter } from '../../../utils/functions';
 
 // TYPES
 import { ICompany } from '../List/utils/types';
 
 // MODAIS
 
-import {
-  requestChangeIsBlocked,
-  requestDeleteCompany,
-} from './utils/functions';
+import { requestChangeIsBlocked, requestDeleteCompany } from './utils/functions';
 import { ModalEditCompanyAndOwner } from './utils/modals/ModalEditCompanyAndOwner';
 
 export const CompanyDetails = () => {
@@ -35,13 +32,12 @@ export const CompanyDetails = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [loading, setLoading] = useState<boolean>(true);
+  const [onQuery, setOnQuery] = useState<boolean>(false);
 
   // CONSTS
   const [company, setCompany] = useState<ICompany>(state as ICompany);
-  const [
-    modalEditCompanyAndOwnerIsOpen,
-    setEditModalCreateCompanyAndOwnerIsOpen,
-  ] = useState<boolean>(false);
+  const [modalEditCompanyAndOwnerIsOpen, setModalEditCompanyAndOwnerIsOpen] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (!state) {
@@ -52,12 +48,13 @@ export const CompanyDetails = () => {
 
   return (
     <>
-      <ModalEditCompanyAndOwner
-        company={company}
-        setCompany={setCompany}
-        modalState={modalEditCompanyAndOwnerIsOpen}
-        setModalState={setEditModalCreateCompanyAndOwnerIsOpen}
-      />
+      {modalEditCompanyAndOwnerIsOpen && (
+        <ModalEditCompanyAndOwner
+          company={company}
+          setCompany={setCompany}
+          setModal={setModalEditCompanyAndOwnerIsOpen}
+        />
+      )}
 
       {!loading && (
         <>
@@ -68,7 +65,7 @@ export const CompanyDetails = () => {
           <ReturnButton path="/companies" />
           <Style.CardSection>
             <Style.Card>
-              <h6>Foto de perfil</h6>
+              <h6>Logo</h6>
               <Image img={company.image} size="80px" />
             </Style.Card>
 
@@ -89,26 +86,20 @@ export const CompanyDetails = () => {
 
             <Style.Card>
               <h6>Telefone</h6>
-              <p className="p2">
-                {applyMask({ value: company.contactNumber, mask: 'TEL' }).value}
-              </p>
+              <p className="p2">{applyMask({ value: company.contactNumber, mask: 'TEL' }).value}</p>
             </Style.Card>
 
             {company.CPF && (
               <Style.Card>
                 <h6>CPF</h6>
-                <p className="p2">
-                  {applyMask({ value: company.CPF, mask: 'CPF' }).value}
-                </p>
+                <p className="p2">{applyMask({ value: company.CPF, mask: 'CPF' }).value}</p>
               </Style.Card>
             )}
 
             {company.CNPJ && (
               <Style.Card>
                 <h6>CNPJ</h6>
-                <p className="p2">
-                  {applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value}
-                </p>
+                <p className="p2">{applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value}</p>
               </Style.Card>
             )}
 
@@ -119,24 +110,23 @@ export const CompanyDetails = () => {
 
             <Style.Card>
               <h6>Data de cadastro</h6>
-              <p className="p2">{DateFormatter(company.createdAt)}</p>
+              <p className="p2">{dateFormatter(company.createdAt)}</p>
             </Style.Card>
 
             <Style.Card>
               <h6>Último acesso</h6>
               <p className="p2">
                 {company.UserCompanies[0].User.lastAccess
-                  ? DateFormatter(company.UserCompanies[0].User.lastAccess)
+                  ? dateFormatter(company.UserCompanies[0].User.lastAccess)
                   : '-'}
               </p>
             </Style.Card>
           </Style.CardSection>
 
-          <Style.Footer>
+          <Style.Footer disabled={onQuery}>
             <PopoverButton
-              actionButtonBgColor={
-                company.isBlocked ? theme.color.success : theme.color.danger
-              }
+              disabled={onQuery}
+              actionButtonBgColor={company.isBlocked ? theme.color.success : theme.color.primary}
               type="IconButton"
               label={company.isBlocked ? 'Ativar' : 'Desativar'}
               buttonIcon={company.isBlocked ? icon.checked : icon.block}
@@ -152,34 +142,37 @@ export const CompanyDetails = () => {
                   company,
                   setCompany,
                   navigate,
+                  setOnQuery,
                 });
               }}
             />
             <PopoverButton
-              actionButtonBgColor={theme.color.danger}
+              disabled={onQuery}
+              actionButtonBgColor={theme.color.primary}
               type="IconButton"
               label="Excluir"
-              buttonIcon={icon.trash}
+              buttonIcon={icon.trashWithBg}
               message={{
                 title: 'Deseja excluir este usuário?',
-                content:
-                  'Atenção, essa ação não poderá ser desfeita posteriormente.',
+                content: 'Atenção, essa ação não poderá ser desfeita posteriormente.',
                 contentColor: theme.color.danger,
               }}
               actionButtonClick={() => {
                 requestDeleteCompany({
                   company,
                   navigate,
+                  setOnQuery,
                 });
               }}
             />
 
             <IconButton
+              disabled={onQuery}
               hideLabelOnMedia
               icon={icon.editWithBg}
               label="Editar"
               onClick={() => {
-                setEditModalCreateCompanyAndOwnerIsOpen(true);
+                setModalEditCompanyAndOwnerIsOpen(true);
               }}
             />
           </Style.Footer>
