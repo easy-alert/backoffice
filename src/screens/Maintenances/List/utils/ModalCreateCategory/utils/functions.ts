@@ -24,6 +24,7 @@ export const requestCreateCategory = async ({
       tempCategory.unshift({
         id: res.data.category.id,
         name: res.data.category.name,
+        ownerCompanyId: res.data.category.ownerCompanyId,
         Maintenances: [],
       });
 

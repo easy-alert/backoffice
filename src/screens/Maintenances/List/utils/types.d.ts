@@ -36,6 +36,7 @@ interface IMaintenance {
 export interface ICategories {
   id: string;
   name: string;
+  ownerCompanyId: string | null;
   Maintenances: IMaintenance[];
 }
 
