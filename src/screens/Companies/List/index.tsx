@@ -21,7 +21,7 @@ import { ICompany } from './utils/types';
 
 // FUNCTIONS
 import { requestUsersList } from './utils/functions';
-import { dateFormatter } from '../../../utils/functions';
+import { convertToUrlString, dateFormatter } from '../../../utils/functions';
 
 // MODALS
 import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
@@ -152,21 +152,21 @@ export const CompaniesList = () => {
                   { label: 'Status' },
                 ]}
               >
-                {companies.map((companie) => (
+                {companies.map((company) => (
                   <TableContent
                     onClick={() => {
-                      navigate(`/companies/${companie.name.toLowerCase()}`, {
-                        state: companie,
+                      navigate(`/companies/${convertToUrlString(company.name)}`, {
+                        state: company,
                       });
                     }}
-                    key={companie.id}
+                    key={company.id}
                     colsBody={[
                       {
-                        cell: <Image size="32px" img={companie.image} key={companie.id} />,
+                        cell: <Image size="32px" img={company.image} key={company.id} />,
                         cssProps: { width: '1%' },
                       },
                       {
-                        cell: companie.name,
+                        cell: company.name,
                         cssProps: {
                           width: '30%',
                           paddingLeft: theme.size.xsm,
@@ -178,7 +178,7 @@ export const CompaniesList = () => {
                         },
                       },
                       {
-                        cell: companie.UserCompanies[0].User.name,
+                        cell: company.UserCompanies[0].User.name,
                         cssProps: {
                           width: '30%',
                           overflow: 'hidden',
@@ -189,13 +189,13 @@ export const CompaniesList = () => {
                         },
                       },
                       {
-                        cell: companie.UserCompanies[0].User.lastAccess
-                          ? dateFormatter(companie.UserCompanies[0].User.lastAccess)
+                        cell: company.UserCompanies[0].User.lastAccess
+                          ? dateFormatter(company.UserCompanies[0].User.lastAccess)
                           : '-',
                         cssProps: { width: '25%' },
                       },
                       {
-                        cell: <Tag isInvalid={companie.isBlocked} key={companie.id} />,
+                        cell: <Tag isInvalid={company.isBlocked} key={company.id} />,
                         cssProps: { width: '30%' },
                       },
                       {
