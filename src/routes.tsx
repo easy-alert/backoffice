@@ -32,7 +32,7 @@ const AppRoutes = () => (
         >
           <Route path="/companies" element={<Outlet />}>
             <Route index element={<CompaniesList />} />
-            <Route path=":user_id" element={<CompanyDetails />} />
+            <Route path=":companyName" element={<CompanyDetails />} />
           </Route>
 
           <Route path="/maintenances" element={<MaintenancesList />} />
