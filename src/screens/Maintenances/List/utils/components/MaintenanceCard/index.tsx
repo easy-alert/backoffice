@@ -75,7 +75,7 @@ export const MaintenanceCard = ({
                 <Style.PeriodIconWrapper>
                   <Image img={icon.alert} size="16px" />
                   <p className="p2">
-                    <span>Período: </span>
+                    <span>Tempo para resposta: </span>
                     {`${maintenance.period} ${
                       maintenance.period > 1
                         ? maintenance.PeriodTimeInterval.pluralLabel
