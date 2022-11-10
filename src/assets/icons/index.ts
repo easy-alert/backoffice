@@ -27,6 +27,7 @@ import plus from './plus.svg';
 import alert from './alert.svg';
 import downTriangle from './downTriangle.svg';
 import upTriangle from './upTriangle.svg';
+import bell from './bell.svg';
 
 export const icon = {
   leftArrow,
@@ -58,4 +59,5 @@ export const icon = {
   alert,
   downTriangle,
   upTriangle,
+  bell,
 };
