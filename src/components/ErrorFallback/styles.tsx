@@ -15,9 +15,14 @@ export const Background = styled.div`
   font-family: DM Sans;
   background-color: ${theme.color.gray2};
 
+  > img {
+    max-width: 400px;
+  }
+
   @media (max-width: 900px) {
     position: fixed;
     overflow: hidden;
+    font-size: 80%;
   }
 
   > button {
@@ -33,6 +38,7 @@ export const Background = styled.div`
     color: ${theme.color.white};
     background-color: ${theme.color.primary};
     cursor: pointer;
+
     :hover {
       opacity: 0.7;
     }
@@ -61,5 +67,6 @@ export const Content = styled.div`
 
   @media (max-width: 900px) {
     width: 80%;
+    margin-top: ${theme.size.xlg};
   }
 `;
