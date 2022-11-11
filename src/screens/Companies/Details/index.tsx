@@ -126,7 +126,9 @@ export const CompanyDetails = () => {
           <Style.Footer disabled={onQuery}>
             <PopoverButton
               disabled={onQuery}
-              actionButtonBgColor={company.isBlocked ? theme.color.success : theme.color.primary}
+              actionButtonBgColor={
+                company.isBlocked ? theme.color.success : theme.color.actionDanger
+              }
               type="IconButton"
               label={company.isBlocked ? 'Ativar' : 'Desativar'}
               buttonIcon={company.isBlocked ? icon.checked : icon.block}
@@ -148,7 +150,7 @@ export const CompanyDetails = () => {
             />
             <PopoverButton
               disabled={onQuery}
-              actionButtonBgColor={theme.color.primary}
+              actionButtonBgColor={theme.color.actionDanger}
               type="IconButton"
               label="Excluir"
               buttonIcon={icon.trashWithBg}

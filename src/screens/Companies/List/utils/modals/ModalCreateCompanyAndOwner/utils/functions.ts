@@ -25,7 +25,10 @@ export const requestCreateCompanyAndOWner = async ({
     const { Location } = await uploadFile(data.image);
     imageUrl = Location;
   } else {
-    imageUrl = `https://avatars.dicebear.com/api/initials/${data.name.replace(/\s/g, '%20')}.svg`;
+    imageUrl = `https://avatars.dicebear.com/api/initials/${data.companyName.replace(
+      /\s/g,
+      '%20',
+    )}.svg`;
   }
 
   await Api.post('/companies/create', {
