@@ -3,7 +3,6 @@
 // MAINTENANCES
 interface IMaintenance {
   id: string;
-  maintenanceId: string;
   element: string;
   activity: string;
   frequency: number;
