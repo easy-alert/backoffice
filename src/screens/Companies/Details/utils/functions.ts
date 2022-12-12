@@ -4,8 +4,24 @@ import { toast } from 'react-toastify';
 import { Api } from '../../../../services/api';
 
 // TYPES
-import { IRequestChangeIsActive, IRequestChangeIsDeleted } from './types';
+import { IRequestChangeIsActive, IRequestChangeIsDeleted, IRequestUserDetails } from './types';
 import { catchHandler } from '../../../../utils/functions';
+
+export const requestUserDetails = async ({
+  setLoading,
+  setCompany,
+  companyId,
+}: IRequestUserDetails) => {
+  await Api.get(`/companies/list/details/${companyId}`)
+    .then((res) => {
+      setCompany(res.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      setLoading(false);
+      catchHandler(err);
+    });
+};
 
 export const requestChangeIsBlocked = async ({
   company,
@@ -16,7 +32,7 @@ export const requestChangeIsBlocked = async ({
   toast.loading('Atualizando...');
   setOnQuery(true);
   await Api.put('/companies/change/isBlocked', {
-    companyId: company.id,
+    companyId: company?.id,
   })
     .then((res) => {
       setCompany({ ...company, isBlocked: !company.isBlocked });
@@ -41,7 +57,7 @@ export const requestDeleteCompany = async ({
   toast.loading('Atualizando...');
   setOnQuery(true);
   await Api.delete('/companies/delete', {
-    data: { companyId: company.id },
+    data: { companyId: company?.id },
   })
     .then((res) => {
       navigate('/companies', { replace: true });

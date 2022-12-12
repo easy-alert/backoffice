@@ -21,7 +21,7 @@ import { ICompany } from './utils/types';
 
 // FUNCTIONS
 import { requestUsersList } from './utils/functions';
-import { convertToUrlString, dateFormatter } from '../../../utils/functions';
+import { dateFormatter } from '../../../utils/functions';
 
 // MODALS
 import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
@@ -155,7 +155,7 @@ export const CompaniesList = () => {
                 {companies.map((company) => (
                   <TableContent
                     onClick={() => {
-                      navigate(`/companies/${convertToUrlString(company.name)}`, {
+                      navigate(`/companies/${company.id}`, {
                         state: company,
                       });
                     }}
