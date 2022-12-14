@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 // LIBS
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import { IconButton } from '../../../components/Buttons/IconButton';
@@ -29,7 +29,6 @@ import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAnd
 export const CompaniesList = () => {
   // UTILS
   const navigate = useNavigate();
-  const { state } = useLocation();
   const [loading, setLoading] = useState<boolean>(true);
 
   // FILTER
@@ -53,7 +52,7 @@ export const CompaniesList = () => {
       page,
       setCount,
     });
-  }, [state]);
+  }, []);
 
   return (
     <>
