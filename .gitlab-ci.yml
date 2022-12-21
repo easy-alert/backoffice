@@ -1,10 +1,41 @@
 image: node:16.13.0
 
 stages:
+  - aws_init
+  - staging_bucket_check
   - staging_build
-  - production_build
   - staging_deploy
+  - production_bucket_check
+  - production_build
   - production_deploy
+
+aws_init:
+  stage: aws_init
+  image: python:latest
+  script:
+    - pip install awscli
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+  only:
+    - master
+    - develop
+
+staging_bucket_check:
+  stage: staging_bucket_check
+  environment: review/develop
+  image: python:latest
+  script:
+    - aws s3 ls | grep $S3_BUCKET
+    - |
+      if [ $? -ne 0 ]; then
+        aws s3 mb s3://$S3_BUCKET --region us-east-1
+        aws s3 website s3://$S3_BUCKET --index-document index.html --error-document index.html
+      else
+        echo "Bucket already exists"
+      fi
+  only:
+    - develop
+  
 
 staging_build:
   stage: staging_build
@@ -38,9 +69,6 @@ staging_deploy:
   environment: review/develop
   image: python:latest
   script:
-    - pip install awscli
-    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws s3 rm s3://$S3_BUCKET --recursive
     - aws s3 sync ./dist s3://$S3_BUCKET --acl public-read
   only:
@@ -51,9 +79,6 @@ production_deploy:
   environment: production
   image: python:latest
   script:
-    - pip install awscli
-    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws s3 rm s3://$S3_BUCKET --recursive
     - aws s3 sync ./dist s3://$S3_BUCKET --acl public-read
   only:
