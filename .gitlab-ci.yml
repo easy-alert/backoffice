@@ -16,13 +16,7 @@ staging_bucket_check:
     - pip install awscli
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-    - aws s3 ls | grep $S3_BUCKET &&
-      if [ $? -ne 0 ]; then
-        aws s3 mb s3://$S3_BUCKET --region us-east-1
-        aws s3 website s3://$S3_BUCKET --index-document index.html --error-document index.html
-      else
-        echo "Bucket already exists"
-      fi
+    - aws s3 mb s3://$S3_BUCKET --region us-east-1 2> /dev/null && aws s3 website s3://$S3_BUCKET --index-document index.html --error-document index.html || echo Bucket exists
   only:
     - develop
   
