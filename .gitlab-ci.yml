@@ -29,7 +29,7 @@ staging_bucket_check:
   
 production_bucket_check:
   stage: staging_bucket_check
-  environment: review/develop
+  environment: production
   image: python:latest
   script:
     - pip install awscli
@@ -44,7 +44,7 @@ production_bucket_check:
         echo "Bucket already exists"
       fi
   only:
-    - develop
+    - master
 
 staging_build:
   stage: staging_build
