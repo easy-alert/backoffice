@@ -82,7 +82,10 @@ export const Sidebar = ({ children }: ISidebar) => {
               color={theme.color.white}
               gap="0px"
               onClick={() => {
-                if (openSidebar) {
+                const checkKeyPress = window.event as KeyboardEvent;
+                if (checkKeyPress?.ctrlKey) {
+                  window.open(element.url, '_blank');
+                } else if (openSidebar) {
                   setAnimate(false);
                   setTimeout(() => {
                     setOpenSidebar(false);
@@ -90,6 +93,17 @@ export const Sidebar = ({ children }: ISidebar) => {
                   }, 125);
                 } else {
                   navigate(element.url);
+                }
+              }}
+              onAuxClick={() => {
+                if (openSidebar) {
+                  setAnimate(false);
+                  setTimeout(() => {
+                    setOpenSidebar(false);
+                    window.open(element.url, '_blank');
+                  }, 125);
+                } else {
+                  window.open(element.url, '_blank');
                 }
               }}
               selected={window.location.pathname.startsWith(element.url)}
