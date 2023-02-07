@@ -24,7 +24,7 @@ export const Sidebar = ({ children }: ISidebar) => {
 
   const SidebarContent: SidebarContentProps[] = [
     { icon: icon.user, url: '/companies' },
-    { icon: icon.bell, url: '/maintenances' },
+    { icon: icon.maintenances, url: '/maintenances' },
     { icon: icon.power, url: '/login' },
   ];
 
