@@ -1,6 +1,6 @@
 // LIBS
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // COMPONENTS
 import * as Style from './styles';
@@ -24,31 +24,32 @@ import { ICompany } from '../List/utils/types';
 
 // MODAIS
 
-import { requestChangeIsBlocked, requestDeleteCompany } from './utils/functions';
+import {
+  requestChangeIsBlocked,
+  requestDeleteCompany,
+  requestUserDetails,
+} from './utils/functions';
 import { ModalEditCompanyAndOwner } from './utils/modals/ModalEditCompanyAndOwner';
 
 export const CompanyDetails = () => {
   // UTILS
-  const navigate = useNavigate();
-  const { state } = useLocation();
   const [loading, setLoading] = useState<boolean>(true);
   const [onQuery, setOnQuery] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { companyId } = useParams();
 
   // CONSTS
-  const [company, setCompany] = useState<ICompany>(state as ICompany);
+  const [company, setCompany] = useState<ICompany>();
   const [modalEditCompanyAndOwnerIsOpen, setModalEditCompanyAndOwnerIsOpen] =
     useState<boolean>(false);
 
   useEffect(() => {
-    if (!state) {
-      navigate('/companies');
-    }
-    setLoading(false);
+    requestUserDetails({ companyId: companyId!, setCompany, setLoading });
   }, []);
 
   return (
     <>
-      {modalEditCompanyAndOwnerIsOpen && (
+      {modalEditCompanyAndOwnerIsOpen && company && (
         <ModalEditCompanyAndOwner
           company={company}
           setCompany={setCompany}
@@ -66,58 +67,60 @@ export const CompanyDetails = () => {
           <Style.CardSection>
             <Style.Card>
               <h6>Logo</h6>
-              <Image img={company.image} size="80px" />
+              <Image img={company?.image} size="80px" />
             </Style.Card>
 
             <Style.Card>
               <h6>Nome do responsável</h6>
-              <p className="p2">{company.UserCompanies[0].User.name}</p>
+              <p className="p2">{company?.UserCompanies[0].User.name}</p>
             </Style.Card>
 
             <Style.Card>
               <h6>E-mail</h6>
-              <p className="p2">{company.UserCompanies[0].User.email}</p>
+              <p className="p2">{company?.UserCompanies[0].User.email}</p>
             </Style.Card>
 
             <Style.Card>
               <h6>Nome da empresa</h6>
-              <p className="p2">{company.name}</p>
+              <p className="p2">{company?.name}</p>
             </Style.Card>
 
             <Style.Card>
               <h6>Telefone</h6>
-              <p className="p2">{applyMask({ value: company.contactNumber, mask: 'TEL' }).value}</p>
+              <p className="p2">
+                {applyMask({ value: company?.contactNumber ?? '', mask: 'TEL' }).value}
+              </p>
             </Style.Card>
 
-            {company.CPF && (
+            {company?.CPF && (
               <Style.Card>
                 <h6>CPF</h6>
-                <p className="p2">{applyMask({ value: company.CPF, mask: 'CPF' }).value}</p>
+                <p className="p2">{applyMask({ value: company?.CPF, mask: 'CPF' }).value}</p>
               </Style.Card>
             )}
 
-            {company.CNPJ && (
+            {company?.CNPJ && (
               <Style.Card>
                 <h6>CNPJ</h6>
-                <p className="p2">{applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value}</p>
+                <p className="p2">{applyMask({ value: company?.CNPJ, mask: 'CNPJ' }).value}</p>
               </Style.Card>
             )}
 
             <Style.Card>
               <h6>Status</h6>
-              <Tag isInvalid={company.isBlocked} />
+              <Tag isInvalid={company?.isBlocked ?? false} />
             </Style.Card>
 
             <Style.Card>
               <h6>Data de cadastro</h6>
-              <p className="p2">{dateFormatter(company.createdAt)}</p>
+              <p className="p2">{dateFormatter(company?.createdAt ?? '')}</p>
             </Style.Card>
 
             <Style.Card>
               <h6>Último acesso</h6>
               <p className="p2">
-                {company.UserCompanies[0].User.lastAccess
-                  ? dateFormatter(company.UserCompanies[0].User.lastAccess)
+                {company?.UserCompanies[0].User.lastAccess
+                  ? dateFormatter(company?.UserCompanies[0].User.lastAccess)
                   : '-'}
               </p>
             </Style.Card>
@@ -126,20 +129,22 @@ export const CompanyDetails = () => {
           <Style.Footer disabled={onQuery}>
             <PopoverButton
               disabled={onQuery}
-              actionButtonBgColor={company.isBlocked ? theme.color.success : theme.color.primary}
+              actionButtonBgColor={
+                company?.isBlocked ? theme.color.success : theme.color.actionDanger
+              }
               type="IconButton"
-              label={company.isBlocked ? 'Ativar' : 'Desativar'}
-              buttonIcon={company.isBlocked ? icon.checked : icon.block}
+              label={company?.isBlocked ? 'Ativar' : 'Desativar'}
+              buttonIcon={company?.isBlocked ? icon.checked : icon.block}
               message={{
                 title: `Deseja ${
-                  company.isBlocked ? 'ativar' : 'desativar'
+                  company?.isBlocked ? 'ativar' : 'desativar'
                 } o acesso deste usuário?`,
                 content: 'Esta ação poderá ser desfeita posteriormente.',
                 contentColor: theme.color.danger,
               }}
               actionButtonClick={() => {
                 requestChangeIsBlocked({
-                  company,
+                  company: company!,
                   setCompany,
                   navigate,
                   setOnQuery,
@@ -148,7 +153,7 @@ export const CompanyDetails = () => {
             />
             <PopoverButton
               disabled={onQuery}
-              actionButtonBgColor={theme.color.primary}
+              actionButtonBgColor={theme.color.actionDanger}
               type="IconButton"
               label="Excluir"
               buttonIcon={icon.trashWithBg}
@@ -159,7 +164,7 @@ export const CompanyDetails = () => {
               }}
               actionButtonClick={() => {
                 requestDeleteCompany({
-                  company,
+                  company: company!,
                   navigate,
                   setOnQuery,
                 });

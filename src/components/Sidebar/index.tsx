@@ -23,9 +23,9 @@ export const Sidebar = ({ children }: ISidebar) => {
   const [animate, setAnimate] = useState<boolean>(true);
 
   const SidebarContent: SidebarContentProps[] = [
-    { icon: icon.user, label: 'Usuários', url: '/companies' },
-    { icon: icon.maintenances, label: 'Manutenções', url: '/maintenances' },
-    { icon: icon.power, label: 'Sair', url: '/login' },
+    { icon: icon.user, url: '/companies' },
+    { icon: icon.maintenances, url: '/maintenances' },
+    { icon: icon.power, url: '/login' },
   ];
 
   useEffect(() => {
@@ -78,12 +78,14 @@ export const Sidebar = ({ children }: ISidebar) => {
               className="p5"
               labelPos="bottom"
               opacity="0.5"
-              label={element.label}
               icon={element.icon}
               color={theme.color.white}
               gap="0px"
               onClick={() => {
-                if (openSidebar) {
+                const checkKeyPress = window.event as KeyboardEvent;
+                if (checkKeyPress?.ctrlKey) {
+                  window.open(element.url, '_blank');
+                } else if (openSidebar) {
                   setAnimate(false);
                   setTimeout(() => {
                     setOpenSidebar(false);
@@ -93,9 +95,18 @@ export const Sidebar = ({ children }: ISidebar) => {
                   navigate(element.url);
                 }
               }}
-              selected={
-                window.location.pathname.startsWith(element.url) || element.url === '/login'
-              }
+              onAuxClick={() => {
+                if (openSidebar) {
+                  setAnimate(false);
+                  setTimeout(() => {
+                    setOpenSidebar(false);
+                    window.open(element.url, '_blank');
+                  }, 125);
+                } else {
+                  window.open(element.url, '_blank');
+                }
+              }}
+              selected={window.location.pathname.startsWith(element.url)}
             />
           </React.Fragment>
         ))}

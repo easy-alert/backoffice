@@ -15,13 +15,20 @@ export const Background = styled.div`
   font-family: DM Sans;
   background-color: ${theme.color.gray2};
 
+  > img {
+    width: 100%;
+    max-width: 400px;
+  }
+
   @media (max-width: 900px) {
     position: fixed;
     overflow: hidden;
+    font-size: 80%;
   }
 
   > button {
     font-family: DM Sans;
+    font-size: 14px;
     width: fit-content;
     transition: 0.25s;
     border-radius: ${theme.size.xxsm};
@@ -61,5 +68,6 @@ export const Content = styled.div`
 
   @media (max-width: 900px) {
     width: 80%;
+    margin-top: ${theme.size.xlg};
   }
 `;

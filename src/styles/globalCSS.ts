@@ -22,7 +22,7 @@ export default createGlobalStyle`
 
   body {
     background-color: ${theme.color.gray1};
-    color: ${theme.color.gray5};
+    color: ${theme.color.black};
   }
 
   h1 {
@@ -77,7 +77,7 @@ export default createGlobalStyle`
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
-    line-height: 16px;
+    line-height: 17px;
   }
   .p3{
     font-style: normal;

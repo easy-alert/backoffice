@@ -8,13 +8,14 @@ import { IIconButton } from './utils/types';
 
 export const IconButton = ({
   labelPos = 'left',
-  opacity = '1',
+  opacity,
   label,
   icon,
   gap = theme.size.xxsm,
   color = theme.color.gray4,
   selected,
   onClick,
+  onAuxClick,
   className = 'p2',
   hideLabelOnMedia,
   fontWeight = '500',
@@ -33,6 +34,9 @@ export const IconButton = ({
     disable={disabled}
     onClick={() => {
       onClick();
+    }}
+    onAuxClick={() => {
+      if (onAuxClick) onAuxClick();
     }}
   >
     <Image img={icon} size={size} radius="0px" />

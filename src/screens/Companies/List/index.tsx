@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 // LIBS
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import { IconButton } from '../../../components/Buttons/IconButton';
@@ -29,7 +29,6 @@ import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAnd
 export const CompaniesList = () => {
   // UTILS
   const navigate = useNavigate();
-  const { state } = useLocation();
   const [loading, setLoading] = useState<boolean>(true);
 
   // FILTER
@@ -53,7 +52,7 @@ export const CompaniesList = () => {
       page,
       setCount,
     });
-  }, [state]);
+  }, []);
 
   return (
     <>
@@ -152,21 +151,21 @@ export const CompaniesList = () => {
                   { label: 'Status' },
                 ]}
               >
-                {companies.map((companie) => (
+                {companies.map((company) => (
                   <TableContent
                     onClick={() => {
-                      navigate(`/companies/${companie.id}`, {
-                        state: companie,
+                      navigate(`/companies/${company.id}`, {
+                        state: company,
                       });
                     }}
-                    key={companie.id}
+                    key={company.id}
                     colsBody={[
                       {
-                        cell: <Image size="32px" img={companie.image} key={companie.id} />,
+                        cell: <Image size="32px" img={company.image} key={company.id} />,
                         cssProps: { width: '1%' },
                       },
                       {
-                        cell: companie.name,
+                        cell: company.name,
                         cssProps: {
                           width: '30%',
                           paddingLeft: theme.size.xsm,
@@ -178,7 +177,7 @@ export const CompaniesList = () => {
                         },
                       },
                       {
-                        cell: companie.UserCompanies[0].User.name,
+                        cell: company.UserCompanies[0].User.name,
                         cssProps: {
                           width: '30%',
                           overflow: 'hidden',
@@ -189,13 +188,13 @@ export const CompaniesList = () => {
                         },
                       },
                       {
-                        cell: companie.UserCompanies[0].User.lastAccess
-                          ? dateFormatter(companie.UserCompanies[0].User.lastAccess)
+                        cell: company.UserCompanies[0].User.lastAccess
+                          ? dateFormatter(company.UserCompanies[0].User.lastAccess)
                           : '-',
                         cssProps: { width: '25%' },
                       },
                       {
-                        cell: <Tag isInvalid={companie.isBlocked} key={companie.id} />,
+                        cell: <Tag isInvalid={company.isBlocked} key={company.id} />,
                         cssProps: { width: '30%' },
                       },
                       {

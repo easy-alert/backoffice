@@ -1,13 +1,42 @@
 image: node:16.13.0
 
 stages:
-  - build
-  - staging
-  - production
+  - staging_bucket_check
+  - staging_build
+  - staging_deploy
+  - production_bucket_check
+  - production_build
+  - production_deploy
 
-build:
-  stage: build
+staging_bucket_check:
+  stage: staging_bucket_check
+  environment: review/develop
+  image: python:latest
   script:
+    - pip install awscli
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws s3 mb s3://$S3_BUCKET --region us-east-1 2> /dev/null && aws s3 website s3://$S3_BUCKET --index-document index.html --error-document index.html || echo Bucket exists
+  only:
+    - develop
+  
+production_bucket_check:
+  stage: production_bucket_check
+  environment: production
+  image: python:latest
+  script:
+    - pip install awscli
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws s3 mb s3://$S3_BUCKET --region us-east-1 2> /dev/null && aws s3 website s3://$S3_BUCKET --index-document index.html --error-document index.html || echo Bucket exists
+  only:
+    - master
+
+staging_build:
+  stage: staging_build
+  environment: review/develop
+  script:
+    - printenv
     - yarn
     - yarn build
   artifacts:
@@ -16,11 +45,22 @@ build:
     expire_in: 1 hour
   only:
     - develop
+
+production_build:
+  stage: production_build
+  environment: production
+  script:
+    - yarn
+    - yarn build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+  only:
     - master
 
-
-staging:
-  stage: staging
+staging_deploy:
+  stage: staging_deploy
   environment: review/develop
   image: python:latest
   script:
@@ -29,11 +69,12 @@ staging:
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws s3 rm s3://$S3_BUCKET --recursive
     - aws s3 sync ./dist s3://$S3_BUCKET --acl public-read
+    - aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
   only:
     - develop
 
-production:
-  stage: production
+production_deploy:
+  stage: production_deploy
   environment: production
   image: python:latest
   script:
@@ -42,5 +83,6 @@ production:
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws s3 rm s3://$S3_BUCKET --recursive
     - aws s3 sync ./dist s3://$S3_BUCKET --acl public-read
+    - aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
   only:
     - master

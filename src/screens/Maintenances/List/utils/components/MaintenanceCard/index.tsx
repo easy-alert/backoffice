@@ -43,18 +43,18 @@ export const MaintenanceCard = ({
         <Style.MaintenancesCardContent>
           <Style.MaintenancesCardTopContent>
             <Style.MaintenancesGrid cardIsOpen={cardIsOpen}>
-              <p className="p2">{maintenance.MaintenancesHistory[0].element}</p>
-              <p className="p2">{maintenance.MaintenancesHistory[0].activity}</p>
+              <p className="p2">{maintenance.element}</p>
+              <p className="p2">{maintenance.activity}</p>
               <p className="p2">
                 A cada{' '}
-                {`${maintenance.MaintenancesHistory[0].frequency} ${
-                  maintenance.MaintenancesHistory[0].frequency > 1
-                    ? maintenance.MaintenancesHistory[0].FrequencyTimeInterval.pluralLabel
-                    : maintenance.MaintenancesHistory[0].FrequencyTimeInterval.singularLabel
+                {`${maintenance.frequency} ${
+                  maintenance.frequency > 1
+                    ? maintenance.FrequencyTimeInterval.pluralLabel
+                    : maintenance.FrequencyTimeInterval.singularLabel
                 }`}
               </p>
-              <p className="p2">{maintenance.MaintenancesHistory[0].responsible}</p>
-              <p className="p2">{maintenance.MaintenancesHistory[0].source}</p>
+              <p className="p2">{maintenance.responsible}</p>
+              <p className="p2">{maintenance.source}</p>
               <Style.ArrowContainer>
                 <Style.Arrow cardIsOpen={cardIsOpen}>
                   <Image img={icon.downArrow} size="16px" />
@@ -68,18 +68,18 @@ export const MaintenanceCard = ({
             <Style.MaintenancesMoreGrid>
               <p className="p2">
                 <span>Observação: </span>
-                {maintenance.MaintenancesHistory[0].observation ?? 'Nenhuma observação'}
+                {maintenance.observation ?? '-'}
               </p>
 
               <Style.MaintenancesCardBottomPeriod>
                 <Style.PeriodIconWrapper>
                   <Image img={icon.alert} size="16px" />
                   <p className="p2">
-                    <span>Período: </span>
-                    {`${maintenance.MaintenancesHistory[0].period} ${
-                      maintenance.MaintenancesHistory[0].period > 1
-                        ? maintenance.MaintenancesHistory[0].PeriodTimeInterval.pluralLabel
-                        : maintenance.MaintenancesHistory[0].PeriodTimeInterval.singularLabel
+                    <span>Tempo para resposta: </span>
+                    {`${maintenance.period} ${
+                      maintenance.period > 1
+                        ? maintenance.PeriodTimeInterval.pluralLabel
+                        : maintenance.PeriodTimeInterval.singularLabel
                     }`}
                   </p>
                 </Style.PeriodIconWrapper>
@@ -87,11 +87,13 @@ export const MaintenanceCard = ({
                   <Image img={icon.alert} size="16px" />
                   <p className="p2">
                     <span>Delay: </span>
-                    {`${maintenance.MaintenancesHistory[0].delay} ${
-                      maintenance.MaintenancesHistory[0].delay > 1
-                        ? maintenance.MaintenancesHistory[0].DelayTimeInterval.pluralLabel
-                        : maintenance.MaintenancesHistory[0].DelayTimeInterval.singularLabel
-                    }`}
+                    {maintenance.delay > 0
+                      ? `${maintenance.delay} ${
+                          maintenance.delay > 1
+                            ? maintenance.DelayTimeInterval.pluralLabel
+                            : maintenance.DelayTimeInterval.singularLabel
+                        }`
+                      : '-'}
                   </p>
                 </Style.PeriodIconWrapper>
               </Style.MaintenancesCardBottomPeriod>
