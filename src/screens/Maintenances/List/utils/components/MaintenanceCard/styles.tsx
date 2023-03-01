@@ -62,20 +62,9 @@ export const MaintenancesCardGridMoreEditButton = styled.div`
   grid-area: 1/6;
 `;
 
-export const MaintenancesCardBottomPeriod = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.size.xxsm};
-
-  > p {
-    display: flex;
-    gap: ${theme.size.xxsm};
-  }
-`;
-
 export const PeriodIconWrapper = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: ${theme.size.xxsm};
 `;
 
@@ -84,10 +73,9 @@ export const MaintenancesGrid = styled.div<{ cardIsOpen: boolean }>`
   display: grid;
   align-items: center;
   width: 100%;
-  grid-template-rows: 1fr;
   overflow: hidden;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 250px minmax(250px, 1fr) minmax(100px, 0.6fr) minmax(100px, 0.7fr) 0.6fr 0.1fr;
+  grid-template-columns: 230px minmax(280px, 0.55fr) 0.5fr 0.5fr 0.5fr 0.1fr;
 
   > p {
     line-height: 17px;
@@ -102,12 +90,12 @@ export const MaintenancesGrid = styled.div<{ cardIsOpen: boolean }>`
 
 export const MaintenancesMoreGrid = styled.div`
   overflow: hidden;
-
+  place-items: start;
   display: grid;
   width: 100%;
   grid-template-rows: 1fr;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 250px minmax(250px, 1fr) minmax(100px, 0.6fr) minmax(100px, 0.7fr) 0.6fr 0.1fr;
+  grid-template-columns: 230px minmax(280px, 0.55fr) 0.5fr 0.5fr 0.5fr 0.1fr;
 
   span {
     color: ${theme.color.primary};
