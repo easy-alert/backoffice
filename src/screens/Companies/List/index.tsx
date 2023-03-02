@@ -206,23 +206,25 @@ export const CompaniesList = () => {
                 ))}
               </Table>
 
-              <Style.PaginationFooter>
-                <Pagination
-                  totalCountOfRegister={count}
-                  currentPage={page}
-                  registerPerPage={offset}
-                  onPageChange={(page) => {
-                    setPage(page);
-                    requestUsersList({
-                      setCompanies,
-                      setLoading,
-                      page,
-                      setCount,
-                      filter,
-                    });
-                  }}
-                />
-              </Style.PaginationFooter>
+              {count > offset && (
+                <Style.PaginationFooter>
+                  <Pagination
+                    totalCountOfRegister={count}
+                    currentPage={page}
+                    registerPerPage={offset}
+                    onPageChange={(page) => {
+                      setPage(page);
+                      requestUsersList({
+                        setCompanies,
+                        setLoading,
+                        page,
+                        setCount,
+                        filter,
+                      });
+                    }}
+                  />
+                </Style.PaginationFooter>
+              )}
             </>
           ) : (
             <Style.Container>
