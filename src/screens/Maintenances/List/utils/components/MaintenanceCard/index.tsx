@@ -96,13 +96,15 @@ export const MaintenanceCard = ({
                 </p>
               </Style.PeriodIconWrapper>
               <Style.MaintenancesCardGridMoreEditButton>
-                <Button
-                  label="Editar"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setModalEditMaintenanceOpen(true);
-                  }}
-                />
+                <div>
+                  <Button
+                    label="Editar"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setModalEditMaintenanceOpen(true);
+                    }}
+                  />
+                </div>
               </Style.MaintenancesCardGridMoreEditButton>
             </Style.MaintenancesMoreGrid>
           </Style.MaintenancesCardBottomContainer>
