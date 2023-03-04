@@ -44,7 +44,7 @@ export const SearchField = styled.div`
 `;
 
 export const PaginationFooter = styled.footer`
-  margin-top: 10px;
+  margin-top: 4px;
   padding-right: 16px;
   width: 100%;
   height: fit-content;
