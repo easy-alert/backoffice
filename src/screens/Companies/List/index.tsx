@@ -131,7 +131,7 @@ export const CompaniesList = () => {
           </Style.Header>
 
           {companies?.length ? (
-            <>
+            <Style.Content>
               <Table
                 colsHeader={[
                   { label: '' },
@@ -221,7 +221,7 @@ export const CompaniesList = () => {
                   }}
                 />
               </Style.PaginationFooter>
-            </>
+            </Style.Content>
           ) : (
             <Style.Container>
               <Image img={icon.paper} size="80px" radius="0" />
