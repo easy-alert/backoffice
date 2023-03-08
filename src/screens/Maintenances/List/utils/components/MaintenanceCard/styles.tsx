@@ -73,6 +73,7 @@ export const PeriodIconWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${theme.size.xxsm};
+  white-space: nowrap;
 `;
 
 // GRIDS
@@ -82,7 +83,7 @@ export const MaintenancesGrid = styled.div<{ cardIsOpen: boolean }>`
   width: 100%;
   overflow: hidden;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 230px minmax(280px, 0.55fr) 0.5fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 230px minmax(280px, 0.8fr) 0.5fr 0.5fr 0.5fr 0.1fr;
 
   > p {
     line-height: 17px;
@@ -102,7 +103,7 @@ export const MaintenancesMoreGrid = styled.div`
   width: 100%;
   grid-template-rows: 1fr;
   grid-gap: ${theme.size.sm};
-  grid-template-columns: 230px minmax(280px, 0.55fr) 0.5fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 230px minmax(280px, 0.8fr) 0.5fr 0.5fr 0.5fr 0.1fr;
 
   span {
     color: ${theme.color.primary};
