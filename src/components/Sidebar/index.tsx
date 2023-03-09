@@ -15,17 +15,38 @@ import { IconButton } from '../Buttons/IconButton';
 
 // TYPES
 import { ISidebar, SidebarContentProps } from './utils/types';
+import { useAuthContext } from '../../contexts/Auth/UseAuthContext';
 
 export const Sidebar = ({ children }: ISidebar) => {
+  const { signout } = useAuthContext();
   const navigate = useNavigate();
 
   const [openSidebar, setOpenSidebar] = useState<boolean>(false);
   const [animate, setAnimate] = useState<boolean>(true);
 
   const SidebarContent: SidebarContentProps[] = [
-    { icon: icon.user, url: '/companies' },
-    { icon: icon.maintenances, url: '/maintenances' },
-    { icon: icon.power, url: '/login' },
+    {
+      icon: icon.user,
+      url: '/companies',
+      redirectFunction: () => {
+        navigate('/companies');
+      },
+    },
+    {
+      icon: icon.maintenances,
+      url: '/maintenances',
+      redirectFunction: () => {
+        navigate('/maintenances');
+      },
+    },
+    {
+      icon: icon.power,
+      url: '/login',
+      redirectFunction: () => {
+        signout();
+        navigate('/login');
+      },
+    },
   ];
 
   useEffect(() => {
@@ -89,10 +110,10 @@ export const Sidebar = ({ children }: ISidebar) => {
                   setAnimate(false);
                   setTimeout(() => {
                     setOpenSidebar(false);
-                    navigate(element.url);
+                    element.redirectFunction();
                   }, 125);
                 } else {
-                  navigate(element.url);
+                  element.redirectFunction();
                 }
               }}
               onAuxClick={() => {
