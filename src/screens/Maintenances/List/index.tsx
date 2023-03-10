@@ -33,6 +33,9 @@ export const MaintenancesList = () => {
 
   useEffect(() => {
     requestCategoriesForSelect({ setCategoriesOptions });
+  }, [JSON.stringify(categories)]);
+
+  useEffect(() => {
     requestListIntervals({ setTimeIntervals });
     requestCategories({ setLoading, setCategories });
   }, []);
