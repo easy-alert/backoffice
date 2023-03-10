@@ -29,6 +29,7 @@ export const ModalCreateMaintenance = ({
   categories,
   setCategories,
   timeIntervals,
+  categoriesOptions,
 }: IModalCreateMaintenance) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
@@ -36,14 +37,15 @@ export const ModalCreateMaintenance = ({
     <Modal title="Criar manutenção" setModal={setModal}>
       <Formik
         initialValues={{
+          customCategoryId: categoryId,
           element: '',
           activity: '',
           frequency: '',
-          frequencyTimeInterval: 'Selecione',
+          frequencyTimeInterval: '',
           responsible: '',
           source: '',
           period: '',
-          periodTimeInterval: 'Selecione',
+          periodTimeInterval: '',
           delay: '0',
           delayTimeInterval: timeIntervals[0].id,
           observation: '',
@@ -53,7 +55,6 @@ export const ModalCreateMaintenance = ({
         onSubmit={async (values, actions) => {
           requestCreateMaintenance({
             values,
-            categoryId,
             setModal,
             categories,
             setCategories,
@@ -67,6 +68,19 @@ export const ModalCreateMaintenance = ({
         {({ errors, values, touched, setFieldValue }) => (
           <Style.FormContainer>
             <Form>
+              <FormikSelect
+                label="Categoria"
+                name="customCategoryId"
+                selectPlaceholderValue={values.customCategoryId}
+                value={values.customCategoryId}
+              >
+                {categoriesOptions.map((option) => (
+                  <option value={option.id} key={option.id}>
+                    {option.name}
+                  </option>
+                ))}
+              </FormikSelect>
+
               <FormikTextArea
                 label="Elemento"
                 name="element"
@@ -111,7 +125,7 @@ export const ModalCreateMaintenance = ({
                       : null
                   }
                 >
-                  <option value="Selecione" disabled hidden>
+                  <option value="" disabled hidden>
                     Selecione
                   </option>
                   {timeIntervals.map((element) => (
@@ -174,7 +188,7 @@ export const ModalCreateMaintenance = ({
                       : null
                   }
                 >
-                  <option value="Selecione" disabled hidden>
+                  <option value="" disabled hidden>
                     Selecione
                   </option>
                   {timeIntervals.map((element) => (
@@ -214,7 +228,7 @@ export const ModalCreateMaintenance = ({
                       : null
                   }
                 >
-                  <option value="Selecione" disabled hidden>
+                  <option value="" disabled hidden>
                     Selecione
                   </option>
                   {timeIntervals.map((element) => (
