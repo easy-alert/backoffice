@@ -7,10 +7,9 @@ import { IMask, IUploadFile, IRequestListIntervals } from './types';
 // #endregion
 
 // #region DATES
-export const dateFormatter = (date: string) =>
-  new Date(date).toLocaleDateString('pt-BR', {
-    timeZone: 'UTC',
-  });
+export const dateFormatter = (date: string) => new Date(date).toLocaleDateString('pt-BR');
+
+export const dateTimeFormatter = (date: string) => new Date(date).toLocaleString('pt-BR');
 // #endregion
 
 // #region UPLOAD

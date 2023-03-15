@@ -89,7 +89,7 @@ export const CompaniesList = () => {
                 />
                 <input
                   type="text"
-                  maxLength={40}
+                  maxLength={80}
                   placeholder="Procurar"
                   value={filter}
                   onChange={(evt) => {
