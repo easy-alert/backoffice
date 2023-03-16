@@ -129,6 +129,24 @@ export const CompanyDetails = () => {
           </Style.CardSection>
 
           <Style.Footer disabled={onQuery}>
+            <IconButton
+              disabled={onQuery}
+              hideLabelOnMedia
+              icon={icon.access}
+              label="Acessar"
+              onClick={() => {
+                window.open(
+                  `${
+                    import.meta.env.VITE_COMPANY_URL ?? 'http://localhost:3000/account'
+                  }?backofficeToken=${localStorage.getItem('authToken')}&userId=${
+                    company?.UserCompanies[0].User.id
+                  }
+                  `,
+                  '_blank',
+                );
+              }}
+            />
+
             <PopoverButton
               disabled={onQuery}
               actionButtonBgColor={
