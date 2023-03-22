@@ -111,7 +111,7 @@ export const ModalCreateCompanyAndOwner = ({
                 }
                 value={values.contactNumber}
                 error={touched.contactNumber && errors.contactNumber ? errors.contactNumber : null}
-                placeholder="Ex: (00) 0 0000-0000"
+                placeholder="Ex: (00) 00000-0000"
                 onChange={(e) => {
                   setFieldValue(
                     'contactNumber',
@@ -126,11 +126,8 @@ export const ModalCreateCompanyAndOwner = ({
                   checked={isCPF}
                   onChange={() => {
                     setIsCPF((state) => !state);
-                    if (isCPF) {
-                      setFieldValue('CNPJ', '');
-                    } else {
-                      setFieldValue('CPF', '');
-                    }
+                    setFieldValue('CNPJ', '');
+                    setFieldValue('CPF', '');
                   }}
                 />
                 <h6>CPF</h6>
