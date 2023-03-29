@@ -175,7 +175,7 @@ export const CompaniesList = () => {
                         },
                       },
                       {
-                        cell: company.UserCompanies[0].User.name,
+                        cell: company?.UserCompanies[0]?.User.name,
                         cssProps: {
                           width: '30%',
                           overflow: 'hidden',
@@ -186,7 +186,7 @@ export const CompaniesList = () => {
                         },
                       },
                       {
-                        cell: company.UserCompanies[0].User.lastAccess
+                        cell: company?.UserCompanies[0]?.User.lastAccess
                           ? dateFormatter(company.UserCompanies[0].User.lastAccess)
                           : '-',
                         cssProps: { width: '25%' },
