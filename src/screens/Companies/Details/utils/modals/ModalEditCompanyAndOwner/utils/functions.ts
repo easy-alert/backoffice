@@ -16,7 +16,6 @@ export const requestEditCompanyAndOwner = async ({
   setModal,
   company,
   setCompany,
-  navigate,
   setOnQuery,
 }: IRequestEditCompanyAndOwner) => {
   setOnQuery(true);
@@ -63,7 +62,6 @@ export const requestEditCompanyAndOwner = async ({
         ],
       };
 
-      navigate(window.location.pathname, { state: updatedCompany });
       setCompany(updatedCompany);
       setModal(false);
       toast.success(res.data.ServerMessage.message);

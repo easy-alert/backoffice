@@ -13,7 +13,6 @@ export interface IRequestEditCompanyAndOwner {
   company: ICompany;
   setCompany: (setCompany: ICompany) => void;
   setOnQuery: (setOnQuery: boolean) => void;
-  navigate: any;
   setModal: (setModal: boolean) => void;
 }
 

@@ -10,7 +10,6 @@ export interface IRequestUserDetails {
 export interface IRequestChangeIsActive {
   company: ICompany;
   setCompany: (setCompany: ICompany) => void;
-  navigate: any;
   setOnQuery: (setOnQuery: boolean) => void;
 }
 
