@@ -43,6 +43,8 @@ export const CompanyDetails = () => {
   const [modalEditCompanyAndOwnerIsOpen, setModalEditCompanyAndOwnerIsOpen] =
     useState<boolean>(false);
 
+  const { search } = window.location;
+
   useEffect(() => {
     requestUserDetails({ companyId: companyId!, setCompany, setLoading });
   }, []);
@@ -63,7 +65,7 @@ export const CompanyDetails = () => {
             <h2>Detalhes de usuário</h2>
           </Style.Header>
 
-          <ReturnButton path="/companies" />
+          <ReturnButton path={`/companies${search}`} />
           <Style.CardSection>
             <Style.Card>
               <h6>Logo</h6>
@@ -166,7 +168,6 @@ export const CompanyDetails = () => {
                 requestChangeIsBlocked({
                   company: company!,
                   setCompany,
-                  navigate,
                   setOnQuery,
                 });
               }}

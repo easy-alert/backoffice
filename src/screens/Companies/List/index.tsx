@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 // LIBS
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // COMPONENTS
 import { IconButton } from '../../../components/Buttons/IconButton';
@@ -45,11 +45,19 @@ export const CompaniesList = () => {
   const [modalCreateCompanyAndOwnerIsOpen, setModalCreateCompanyAndOwnerIsOpen] =
     useState<boolean>(false);
 
+  const [search] = useSearchParams();
+  const queryPage = Number(search.get('page'));
+  const queryFilter = search.get('filter');
+
   useEffect(() => {
+    if (queryPage) setPage(queryPage);
+    if (queryFilter) setFilter(queryFilter);
+
     requestUsersList({
+      page: queryPage || page,
+      filter: queryFilter || filter,
       setCompanies,
       setLoading,
-      page,
       setCount,
     });
   }, []);
@@ -154,7 +162,7 @@ export const CompaniesList = () => {
                 {companies.map((company) => (
                   <TableContent
                     onClick={() => {
-                      navigate(`/companies/${company.id}`);
+                      navigate(`/companies/${company.id}?page=${page}&filter=${filter}`);
                     }}
                     key={company.id}
                     colsBody={[

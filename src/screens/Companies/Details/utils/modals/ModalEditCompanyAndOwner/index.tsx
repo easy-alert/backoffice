@@ -1,6 +1,5 @@
 // LIBS
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import { Form, Formik } from 'formik';
@@ -27,7 +26,6 @@ export const ModalEditCompanyAndOwner = ({
   company,
   setModal,
 }: IModalEditCompanyAndOwner) => {
-  const navigate = useNavigate();
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
@@ -57,7 +55,6 @@ export const ModalEditCompanyAndOwner = ({
             data,
             company,
             setCompany,
-            navigate,
             setOnQuery,
             setModal,
           });
