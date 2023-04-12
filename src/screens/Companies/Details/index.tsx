@@ -128,6 +128,11 @@ export const CompanyDetails = () => {
                   : '-'}
               </p>
             </Style.Card>
+
+            <Style.Card>
+              <h6>Frequência de notificações</h6>
+              <p className="p2">{company?.isNotifyingOnceAWeek ? 'Semanalmente' : 'Diariamente'}</p>
+            </Style.Card>
           </Style.CardSection>
 
           <Style.Footer disabled={onQuery}>
