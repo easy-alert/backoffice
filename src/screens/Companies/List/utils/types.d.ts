@@ -43,3 +43,17 @@ export interface IFormDataCompany {
   password: string;
   confirmPassword: string;
 }
+
+export interface IFormDataCompanyForEdit {
+  image: string;
+  name: string;
+  email: string;
+  companyName: string;
+  contactNumber: string;
+  CNPJ: string;
+  CPF: string;
+  isNotifyingOnceAWeek: string;
+
+  password: string;
+  confirmPassword: string;
+}

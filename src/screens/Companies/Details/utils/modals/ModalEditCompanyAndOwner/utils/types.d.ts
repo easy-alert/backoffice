@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ICompany, IFormDataCompany } from '../../../../../List/utils/types';
+import { ICompany, IFormDataCompanyForEdit } from '../../../../../List/utils/types';
 
 export interface IModalEditCompanyAndOwner {
   company: ICompany;
@@ -9,7 +9,7 @@ export interface IModalEditCompanyAndOwner {
 
 // REQUESTS
 export interface IRequestEditCompanyAndOwner {
-  data: IFormDataCompany;
+  data: IFormDataCompanyForEdit;
   company: ICompany;
   setCompany: (setCompany: ICompany) => void;
   setOnQuery: (setOnQuery: boolean) => void;

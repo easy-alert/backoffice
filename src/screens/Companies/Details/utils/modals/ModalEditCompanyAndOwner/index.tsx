@@ -13,7 +13,7 @@ import { Modal } from '../../../../../../components/Modal';
 import { IModalEditCompanyAndOwner } from './utils/types';
 
 // FUNCTIONS
-import { IFormDataCompany } from '../../../../List/utils/types';
+import { IFormDataCompanyForEdit } from '../../../../List/utils/types';
 import { applyMask } from '../../../../../../utils/functions';
 import {
   requestEditCompanyAndOwner,
@@ -52,7 +52,7 @@ export const ModalEditCompanyAndOwner = ({
             ? schemaModalEditCompanyAndOwnerWithCPF
             : schemaModalEditCompanyAndOwnerWithCNPJ
         }
-        onSubmit={async (data: IFormDataCompany) => {
+        onSubmit={async (data: IFormDataCompanyForEdit) => {
           await requestEditCompanyAndOwner({
             data,
             company,
