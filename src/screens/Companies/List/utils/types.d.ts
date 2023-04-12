@@ -17,6 +17,7 @@ export interface ICompany {
   CPF: string;
   isBlocked: boolean;
   createdAt: string;
+  isNotifyingOnceAWeek: boolean;
   UserCompanies: IUserCompanies[];
 }
 
@@ -36,8 +37,22 @@ export interface IFormDataCompany {
   email: string;
   companyName: string;
   contactNumber: string;
-  CPF: string;
+  CNPJorCPF: string;
+  isNotifyingOnceAWeek: string;
+
+  password: string;
+  confirmPassword: string;
+}
+
+export interface IFormDataCompanyForEdit {
+  image: string;
+  name: string;
+  email: string;
+  companyName: string;
+  contactNumber: string;
   CNPJ: string;
+  CPF: string;
+  isNotifyingOnceAWeek: string;
 
   password: string;
   confirmPassword: string;
