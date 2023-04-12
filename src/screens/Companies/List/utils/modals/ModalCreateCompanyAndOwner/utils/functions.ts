@@ -37,8 +37,8 @@ export const requestCreateCompanyAndOWner = async ({
     email: data.email,
     password: data.password,
     companyName: data.companyName,
-    CNPJ: data.CNPJ !== '' ? unMask(data.CNPJ) : null,
-    CPF: data.CPF !== '' ? unMask(data.CPF) : null,
+    CNPJ: data.CNPJorCPF?.length === 18 ? unMask(data.CNPJorCPF) : null,
+    CPF: data.CNPJorCPF?.length === 14 ? unMask(data.CNPJorCPF) : null,
     contactNumber: unMask(data.contactNumber),
     isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
   })
@@ -58,7 +58,7 @@ export const requestCreateCompanyAndOWner = async ({
 };
 
 // YUP
-export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
+export const schemaModalCreateCompanyAndOwner = yup
   .object({
     image: yup
       .mixed()
@@ -100,65 +100,14 @@ export const schemaModalCreateCompanyAndOwnerWithCNPJ = yup
       .required('O número de telefone deve ser preenchido.')
       .min(14, 'O número de telefone deve conter no mínimo 14 caracteres.'),
 
-    CNPJ: yup.string().required('O CNPJ deve ser preenchido.').min(18, 'O CNPJ deve ser válido.'),
-
-    password: yup
+    CNPJorCPF: yup
       .string()
-      .required('Informe a senha.')
-      .min(8, 'Sua senha deve possuir 8 ou mais caracteres.'),
-
-    confirmPassword: yup
-      .string()
-      .required('Informe a senha.')
-      .min(8, 'Sua senha deve possuir 8 ou mais caracteres.')
-      .oneOf([yup.ref('password'), null], 'As senhas não coincidem.'),
-  })
-  .required();
-
-// YUP
-export const schemaModalCreateCompanyAndOwnerWithCPF = yup
-  .object({
-    image: yup
-      .mixed()
-      .nullable()
-      .notRequired()
+      .required('Um CNPJ ou um CPF deve ser informado.')
       .test(
-        'FileSize',
-        'O tamanho da imagem excedeu o limite.',
-        (value) => !value || (value && value.size <= 5000000),
-      )
-      .test(
-        'FileType',
-        'Formato inválido.',
-        (value) =>
-          !value ||
-          (value &&
-            (value.type === 'image/png' ||
-              value.type === 'image/jpeg' ||
-              value.type === 'image/jpg')),
+        'len',
+        'Informe um CNPJ ou um CPF válido.',
+        (val) => val?.length === 14 || val?.length === 18,
       ),
-
-    name: yup
-      .string()
-      .required('O nome deve ser preenchido.')
-      .min(3, 'O nome deve conter 3 ou mais caracteres.'),
-
-    email: yup
-      .string()
-      .email('Informe um e-mail válido.')
-      .required('O e-mail deve ser preenchido.'),
-
-    companyName: yup
-      .string()
-      .required('O nome da empresa deve ser preenchido.')
-      .min(3, 'O nome da empresa deve conter 3 ou mais caracteres.'),
-
-    contactNumber: yup
-      .string()
-      .required('O número de telefone deve ser preenchido.')
-      .min(14, 'O número de telefone deve conter no mínimo 14 caracteres.'),
-
-    CPF: yup.string().required('O CPF deve ser preenchido.').min(14, 'O CPF deve ser válido.'),
 
     password: yup
       .string()

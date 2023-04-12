@@ -6,7 +6,6 @@ import { Form, Formik } from 'formik';
 import { Button } from '../../../../../../components/Buttons/Button';
 import { FormikImageInput } from '../../../../../../components/Form/FormikImageInput';
 import { FormikInput } from '../../../../../../components/Form/FormikInput';
-import { Switch } from '../../../../../../components/Buttons/SwitchButton';
 import { Modal } from '../../../../../../components/Modal';
 import * as Style from './styles';
 
@@ -17,11 +16,7 @@ import { IModalCreateCompanyAndOwner } from './utils/types';
 // FUNCTIONS
 
 import { applyMask } from '../../../../../../utils/functions';
-import {
-  requestCreateCompanyAndOWner,
-  schemaModalCreateCompanyAndOwnerWithCNPJ,
-  schemaModalCreateCompanyAndOwnerWithCPF,
-} from './utils/functions';
+import { requestCreateCompanyAndOWner, schemaModalCreateCompanyAndOwner } from './utils/functions';
 import { FormikSelect } from '../../../../../../components/Form/FormikSelect';
 
 export const ModalCreateCompanyAndOwner = ({
@@ -31,7 +26,6 @@ export const ModalCreateCompanyAndOwner = ({
   setModal,
 }: IModalCreateCompanyAndOwner) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
-  const [isCPF, setIsCPF] = useState<boolean>(false);
 
   return (
     <Modal title="Cadastrar usuário" setModal={setModal}>
@@ -42,15 +36,12 @@ export const ModalCreateCompanyAndOwner = ({
           email: '',
           companyName: '',
           contactNumber: '',
-          CPF: '',
-          CNPJ: '',
+          CNPJorCPF: '',
           password: '',
           confirmPassword: '',
           isNotifyingOnceAWeek: 'diariamente',
         }}
-        validationSchema={
-          isCPF ? schemaModalCreateCompanyAndOwnerWithCPF : schemaModalCreateCompanyAndOwnerWithCNPJ
-        }
+        validationSchema={schemaModalCreateCompanyAndOwner}
         onSubmit={async (data: IFormDataCompany) => {
           await requestCreateCompanyAndOWner({
             data,
@@ -122,44 +113,28 @@ export const ModalCreateCompanyAndOwner = ({
                 }}
               />
 
-              <Style.SwitchWrapper>
-                <h6>CNPJ</h6>
-                <Switch
-                  checked={isCPF}
-                  onChange={() => {
-                    setIsCPF((state) => !state);
-                    setFieldValue('CNPJ', '');
-                    setFieldValue('CPF', '');
-                  }}
-                />
-                <h6>CPF</h6>
-              </Style.SwitchWrapper>
+              <FormikInput
+                label="CNPJ/CPF"
+                name="CNPJorCPF"
+                placeholder="Insira o CNPJ ou CPF"
+                error={touched.CNPJorCPF && errors.CNPJorCPF ? errors.CNPJorCPF : null}
+                maxLength={
+                  applyMask({
+                    mask: 'CNPJ',
+                    value: values.CNPJorCPF,
+                  }).length
+                }
+                onChange={(e) => {
+                  setFieldValue(
+                    'CNPJorCPF',
+                    applyMask({
+                      mask: e.target.value.length > 14 ? 'CNPJ' : 'CPF',
+                      value: e.target.value,
+                    }).value,
+                  );
+                }}
+              />
 
-              {isCPF && (
-                <FormikInput
-                  name="CPF"
-                  maxLength={applyMask({ value: values.CPF, mask: 'CPF' }).length}
-                  value={values.CPF}
-                  error={touched.CPF && errors.CPF ? errors.CPF : null}
-                  placeholder="000.000.000-00"
-                  onChange={(e) => {
-                    setFieldValue('CPF', applyMask({ value: e.target.value, mask: 'CPF' }).value);
-                  }}
-                />
-              )}
-
-              {!isCPF && (
-                <FormikInput
-                  name="CNPJ"
-                  maxLength={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length}
-                  value={values.CNPJ}
-                  error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
-                  placeholder="00.000.000/0000-00"
-                  onChange={(e) => {
-                    setFieldValue('CNPJ', applyMask({ value: e.target.value, mask: 'CNPJ' }).value);
-                  }}
-                />
-              )}
               <FormikSelect
                 selectPlaceholderValue={values.isNotifyingOnceAWeek}
                 name="isNotifyingOnceAWeek"

@@ -37,8 +37,7 @@ export interface IFormDataCompany {
   email: string;
   companyName: string;
   contactNumber: string;
-  CPF: string;
-  CNPJ: string;
+  CNPJorCPF: string;
   isNotifyingOnceAWeek: string;
 
   password: string;
