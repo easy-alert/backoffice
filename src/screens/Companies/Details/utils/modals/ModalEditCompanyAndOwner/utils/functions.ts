@@ -39,6 +39,7 @@ export const requestEditCompanyAndOwner = async ({
     CPF: data.CPF !== '' ? unMask(data.CPF) : null,
     contactNumber: unMask(data.contactNumber),
     password: data.password !== '' ? data.password : null,
+    isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
   })
     .then((res) => {
       const updatedCompany: ICompany = {
@@ -50,6 +51,7 @@ export const requestEditCompanyAndOwner = async ({
         CPF: data.CPF,
         isBlocked: company.isBlocked,
         createdAt: company.createdAt,
+        isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
         UserCompanies: [
           {
             User: {

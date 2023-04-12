@@ -22,6 +22,7 @@ import {
   schemaModalCreateCompanyAndOwnerWithCNPJ,
   schemaModalCreateCompanyAndOwnerWithCPF,
 } from './utils/functions';
+import { FormikSelect } from '../../../../../../components/Form/FormikSelect';
 
 export const ModalCreateCompanyAndOwner = ({
   setCompanies,
@@ -45,6 +46,7 @@ export const ModalCreateCompanyAndOwner = ({
           CNPJ: '',
           password: '',
           confirmPassword: '',
+          isNotifyingOnceAWeek: 'diariamente',
         }}
         validationSchema={
           isCPF ? schemaModalCreateCompanyAndOwnerWithCPF : schemaModalCreateCompanyAndOwnerWithCNPJ
@@ -158,6 +160,15 @@ export const ModalCreateCompanyAndOwner = ({
                   }}
                 />
               )}
+              <FormikSelect
+                selectPlaceholderValue={values.isNotifyingOnceAWeek}
+                name="isNotifyingOnceAWeek"
+                label="Frequência de notificações"
+              >
+                <option value="diariamente">Diariamente</option>
+                <option value="semanalmente">Semanalmente</option>
+              </FormikSelect>
+
               <FormikInput
                 type="password"
                 label="Senha"
