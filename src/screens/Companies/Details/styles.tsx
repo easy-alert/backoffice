@@ -31,6 +31,16 @@ export const Card = styled.div`
     width: 40%;
     margin-right: ${theme.size.xsm};
   }
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${theme.size.xsm};
+
+    > h6 {
+      width: 100%;
+    }
+  }
 `;
 
 export const Footer = styled.footer<{ disabled: boolean }>`

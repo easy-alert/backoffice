@@ -179,7 +179,7 @@ export const CompaniesList = () => {
                           overflow: 'hidden',
                           whiteSpace: 'nowrap',
                           textOverflow: 'ellipsis',
-                          maxWidth: '150px',
+                          maxWidth: '300px',
                         },
                       },
                       {
@@ -189,7 +189,7 @@ export const CompaniesList = () => {
                           overflow: 'hidden',
                           whiteSpace: 'nowrap',
                           textOverflow: 'ellipsis',
-                          maxWidth: '150px',
+                          maxWidth: '300px',
                           paddingRight: theme.size.sm,
                         },
                       },
