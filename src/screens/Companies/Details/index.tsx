@@ -30,6 +30,7 @@ import {
   requestUserDetails,
 } from './utils/functions';
 import { ModalEditCompanyAndOwner } from './utils/modals/ModalEditCompanyAndOwner';
+import { ModalBuildingAccessHistories } from './utils/modals/ModalBuildingAccessHistories';
 
 export const CompanyDetails = () => {
   // UTILS
@@ -42,6 +43,8 @@ export const CompanyDetails = () => {
   const [company, setCompany] = useState<ICompany>();
   const [modalEditCompanyAndOwnerIsOpen, setModalEditCompanyAndOwnerIsOpen] =
     useState<boolean>(false);
+
+  const [modalBuildingAccessHistories, setModalBuildingAccessHistories] = useState<boolean>(false);
 
   const { search } = window.location;
 
@@ -56,6 +59,13 @@ export const CompanyDetails = () => {
           company={company}
           setCompany={setCompany}
           setModal={setModalEditCompanyAndOwnerIsOpen}
+        />
+      )}
+
+      {modalBuildingAccessHistories && company && (
+        <ModalBuildingAccessHistories
+          companyId={company.id}
+          setModal={setModalBuildingAccessHistories}
         />
       )}
 
@@ -136,6 +146,16 @@ export const CompanyDetails = () => {
           </Style.CardSection>
 
           <Style.Footer disabled={onQuery}>
+            <IconButton
+              disabled={onQuery}
+              hideLabelOnMedia
+              icon={icon.count}
+              label="Contagem"
+              onClick={() => {
+                setModalBuildingAccessHistories(true);
+              }}
+            />
+
             <IconButton
               disabled={onQuery}
               hideLabelOnMedia
