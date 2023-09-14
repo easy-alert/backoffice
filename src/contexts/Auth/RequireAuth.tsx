@@ -31,6 +31,7 @@ export const RequireAuth = ({ children }: IRequireAuth) => {
       .then((res) => {
         setUser(res.data.User);
         setLoading(false);
+        localStorage.setItem('user', res.data.User.name);
       })
       .catch(() => navigate('/login'));
   };
