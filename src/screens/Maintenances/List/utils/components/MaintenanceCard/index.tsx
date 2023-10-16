@@ -81,7 +81,7 @@ export const MaintenanceCard = ({
                     : maintenance.PeriodTimeInterval.singularLabel
                 }`}
               </p>
-
+              {/*
               <Style.PeriodIconWrapper title="Tempo para iniciar a notificação após a entrega da obra.">
                 <Image img={icon.alert} size="16px" />
                 <p className="p2">
@@ -94,7 +94,8 @@ export const MaintenanceCard = ({
                       }`
                     : '-'}
                 </p>
-              </Style.PeriodIconWrapper>
+              </Style.PeriodIconWrapper> */}
+
               <Style.MaintenancesCardGridMoreEditButton>
                 <div>
                   <Button
