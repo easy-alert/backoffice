@@ -27,7 +27,7 @@ export const MobileBackground = styled.div<{ animate: boolean }>`
 export const SidebarBody = styled.div<{ openSidebar: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: ${theme.size.xlg};
+  gap: ${theme.size.lg};
   align-items: center;
   padding: ${theme.size.sm} ${theme.size.xsm};
   min-width: 80px;
@@ -77,7 +77,7 @@ export const ImageContainer = styled.div`
   }
 `;
 export const CloseButtonMobile = styled.div`
-  margin: 12px 0 4px 0;
+  margin: 12px 0 12px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,7 +91,7 @@ export const Spacer = styled.div`
   height: 100%;
 `;
 export const Hr = styled.div`
-  height: 1px;
+  height: 2px;
   width: 100%;
   background-color: ${theme.color.white};
   margin-top: -${theme.size.sm};
