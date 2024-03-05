@@ -11,6 +11,8 @@ import { Login } from './screens/Authentication/Login';
 import { CompaniesList } from './screens/Companies/List';
 import { CompanyDetails } from './screens/Companies/Details';
 import { MaintenancesList } from './screens/Maintenances/List';
+import { SuppliersList } from './screens/Suppliers/List';
+import { SupplierDetails } from './screens/Suppliers/Details';
 
 // CATEGORIES
 
@@ -36,6 +38,11 @@ const AppRoutes = () => (
           </Route>
 
           <Route path="/maintenances" element={<MaintenancesList />} />
+
+          <Route path="/suppliers" element={<Outlet />}>
+            <Route index element={<SuppliersList />} />
+            <Route path=":supplierId" element={<SupplierDetails />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

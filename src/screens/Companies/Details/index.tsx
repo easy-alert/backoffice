@@ -31,6 +31,7 @@ import {
 } from './utils/functions';
 import { ModalEditCompanyAndOwner } from './utils/modals/ModalEditCompanyAndOwner';
 import { ModalBuildingAccessHistories } from './utils/modals/ModalBuildingAccessHistories';
+import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
 
 export const CompanyDetails = () => {
   // UTILS
@@ -68,6 +69,8 @@ export const CompanyDetails = () => {
           setModal={setModalBuildingAccessHistories}
         />
       )}
+
+      {loading && <DotSpinLoading />}
 
       {!loading && (
         <>
