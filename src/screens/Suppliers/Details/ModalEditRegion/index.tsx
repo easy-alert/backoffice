@@ -7,7 +7,7 @@ import { Button } from '../../../../components/Buttons/Button';
 import { FormContainer } from '../ModalEditSupplier/styles';
 import { FormikSelect } from '../../../../components/Form/FormikSelect';
 import { Api } from '../../../../services/api';
-import { catchHandler } from '../../../../utils/functions';
+import { catchHandler, convertStateName } from '../../../../utils/functions';
 import { ReactSelectComponent } from '../../../../components/ReactSelectComponent';
 import { useBrasilStates } from '../../../../hooks/useBrasilStates';
 import { useBrasilCities } from '../../../../hooks/useBrasilCities';
@@ -44,7 +44,9 @@ export const ModalEditRegion = ({ setModal, onThenRequest, region }: IModalEditR
   const [onQuery, setOnQuery] = useState<boolean>(false);
   const [tempState, setTempState] = useState('');
 
-  const { cities } = useBrasilCities({ UF: tempState || region.states[0].state || '' });
+  const { cities } = useBrasilCities({
+    UF: convertStateName(tempState) || convertStateName(region.states[0].state) || '',
+  });
 
   return (
     <Modal setModal={setModal} title="Editar região">
@@ -101,9 +103,9 @@ export const ModalEditRegion = ({ setModal, onThenRequest, region }: IModalEditR
                   label="Estados"
                   id="state"
                   name="state"
-                  options={states.map(({ sigla }) => ({
-                    label: sigla,
-                    value: sigla,
+                  options={states.map(({ nome }) => ({
+                    label: nome,
+                    value: nome,
                   }))}
                   placeholder="Selecione"
                   isMulti
@@ -127,9 +129,9 @@ export const ModalEditRegion = ({ setModal, onThenRequest, region }: IModalEditR
                     label="Estado"
                     id="state2"
                     name="state2"
-                    options={states.map(({ sigla }) => ({
-                      label: sigla,
-                      value: sigla,
+                    options={states.map(({ nome }) => ({
+                      label: nome,
+                      value: nome,
                     }))}
                     placeholder="Selecione"
                     onChange={(evt) => {
