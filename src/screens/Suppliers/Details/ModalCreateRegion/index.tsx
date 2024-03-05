@@ -8,7 +8,7 @@ import { Button } from '../../../../components/Buttons/Button';
 import { FormContainer } from '../ModalEditSupplier/styles';
 import { FormikSelect } from '../../../../components/Form/FormikSelect';
 import { Api } from '../../../../services/api';
-import { catchHandler } from '../../../../utils/functions';
+import { catchHandler, convertStateName } from '../../../../utils/functions';
 import { ReactSelectComponent } from '../../../../components/ReactSelectComponent';
 import { useBrasilStates } from '../../../../hooks/useBrasilStates';
 import { useBrasilCities } from '../../../../hooks/useBrasilCities';
@@ -42,7 +42,7 @@ export const ModalCreateRegion = ({ setModal, onThenRequest }: IModalCreateRegio
   const [onQuery, setOnQuery] = useState<boolean>(false);
   const [tempState, setTempState] = useState('');
 
-  const { cities } = useBrasilCities({ UF: tempState });
+  const { cities } = useBrasilCities({ UF: convertStateName(tempState) });
 
   return (
     <Modal setModal={setModal} title="Cadastrar região">
@@ -98,9 +98,9 @@ export const ModalCreateRegion = ({ setModal, onThenRequest }: IModalCreateRegio
                   label="Estados"
                   id="state"
                   name="state"
-                  options={states.map(({ sigla }) => ({
-                    label: sigla,
-                    value: sigla,
+                  options={states.map(({ nome }) => ({
+                    label: nome,
+                    value: nome,
                   }))}
                   placeholder="Selecione"
                   isMulti
@@ -120,9 +120,9 @@ export const ModalCreateRegion = ({ setModal, onThenRequest }: IModalCreateRegio
                     label="Estado"
                     id="state2"
                     name="state2"
-                    options={states.map(({ sigla }) => ({
-                      label: sigla,
-                      value: sigla,
+                    options={states.map(({ nome }) => ({
+                      label: nome,
+                      value: nome,
                     }))}
                     placeholder="Selecione"
                     onChange={(evt) => {
