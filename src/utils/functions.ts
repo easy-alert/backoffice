@@ -112,6 +112,7 @@ export const applyMask = ({
 };
 
 export const unMask = (value: string) => value.replace(/[^a-zA-Z0-9]/g, '');
+export const unMaskBRL = (value: string) => value.replace(/[^0-9]/g, '');
 
 export const capitalizeFirstLetter = (value: string) =>
   value.charAt(0).toUpperCase() + value.slice(1);
@@ -125,6 +126,21 @@ export const convertToUrlString = (value: string) =>
     .toLowerCase()
     .replaceAll('--', '-')
     .replaceAll('---', '-');
+
+export const replaceInitialURLSlashes = (url: string) =>
+  url.startsWith('//') ? url.slice(2) : url;
+
+export const addInitialSlashesToURL = (url: string) =>
+  url.startsWith('https://') || url.startsWith('http://') || url.startsWith('//')
+    ? url
+    : `//${url}`;
+
+export const isURLValid = (url: string) =>
+  url.startsWith('www.') ||
+  url.startsWith('https://') ||
+  url.startsWith('http://') ||
+  url.startsWith('//');
+
 // #endregion
 
 // #region REQUESTS

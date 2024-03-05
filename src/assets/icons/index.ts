@@ -30,6 +30,7 @@ import upTriangle from './upTriangle.svg';
 import bell from './bell.svg';
 import access from './access.svg';
 import count from './count.svg';
+import suppliers from './suppliers.svg';
 
 export const icon = {
   leftArrow,
@@ -64,4 +65,5 @@ export const icon = {
   bell,
   access,
   count,
+  suppliers,
 };
