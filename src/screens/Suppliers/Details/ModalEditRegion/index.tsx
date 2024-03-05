@@ -81,6 +81,11 @@ export const ModalEditRegion = ({ setModal, onThenRequest, region }: IModalEditR
                 name="type"
                 label="Tipo"
                 error={touched.type && errors.type ? errors.type : null}
+                onChange={(evt) => {
+                  setFieldValue('type', evt.target.value);
+                  setFieldValue('states', []);
+                  setFieldValue('cities', []);
+                }}
               >
                 <option value="" disabled hidden>
                   Selecione
@@ -130,6 +135,7 @@ export const ModalEditRegion = ({ setModal, onThenRequest, region }: IModalEditR
                     onChange={(evt) => {
                       setTempState(evt.value);
                       setFieldValue('states', [{ state: evt.value }]);
+                      setFieldValue('cities', []);
                     }}
                     defaultValue={region.states.map(({ state }) => ({
                       label: state,
@@ -148,6 +154,10 @@ export const ModalEditRegion = ({ setModal, onThenRequest, region }: IModalEditR
                     }))}
                     placeholder="Selecione"
                     isMulti
+                    value={values.cities?.map(({ city }) => ({
+                      label: city,
+                      value: city,
+                    }))}
                     onChange={(evt) => {
                       const newCities = evt?.map(({ value }: { value: string }) => ({
                         city: value,

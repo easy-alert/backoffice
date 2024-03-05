@@ -78,6 +78,11 @@ export const ModalCreateRegion = ({ setModal, onThenRequest }: IModalCreateRegio
                 name="type"
                 label="Tipo"
                 error={touched.type && errors.type ? errors.type : null}
+                onChange={(evt) => {
+                  setFieldValue('type', evt.target.value);
+                  setFieldValue('states', []);
+                  setFieldValue('cities', []);
+                }}
               >
                 <option value="" disabled hidden>
                   Selecione
@@ -123,6 +128,7 @@ export const ModalCreateRegion = ({ setModal, onThenRequest }: IModalCreateRegio
                     onChange={(evt) => {
                       setTempState(evt.value);
                       setFieldValue('states', [{ state: evt.value }]);
+                      setFieldValue('cities', []);
                     }}
                   />
 
@@ -137,6 +143,10 @@ export const ModalCreateRegion = ({ setModal, onThenRequest }: IModalCreateRegio
                     }))}
                     placeholder="Selecione"
                     isMulti
+                    value={values.cities?.map(({ city }) => ({
+                      label: city,
+                      value: city,
+                    }))}
                     onChange={(evt) => {
                       const newCities = evt?.map(({ value }: { value: string }) => ({
                         city: value,
