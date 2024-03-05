@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -11,9 +12,18 @@ import { ReturnButton } from '../../../components/Buttons/ReturnButton';
 import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
 import { theme } from '../../../styles/theme';
 import { Image } from '../../../components/Image';
-// eslint-disable-next-line import/no-cycle
 import { ModalEditSupplier } from './ModalEditSupplier';
 import { ColorfulTable, ColorfulTableContent } from '../../../components/ColorfulTable';
+import { ModalCreateRegion } from './ModalCreateRegion';
+import { ModalEditRegion } from './ModalEditRegion';
+
+export interface IRegion {
+  id: string;
+  type: string;
+
+  cities: { city: string }[];
+  states: { state: string }[];
+}
 
 export interface ISupplier {
   id: string;
@@ -26,6 +36,8 @@ export interface ISupplier {
   contractedValue: number | null;
   phone: string | null;
   email: string | null;
+
+  regions: IRegion[];
 }
 
 export const SupplierDetails = () => {
@@ -34,7 +46,11 @@ export const SupplierDetails = () => {
 
   const [loading, setLoading] = useState(true);
   const [onQuery, setOnQuery] = useState<boolean>(false);
+  const [onRegionQuery, setOnRegionQuery] = useState<boolean>(false);
   const [modalEditSupplierOpen, setModalEditSupplierOpen] = useState(false);
+  const [modalCreateRegionOpen, setModalCreateRegionOpen] = useState(false);
+  const [modalEditRegionOpen, setModalEditRegionOpen] = useState(false);
+  const [selectedRegion, setSelectedRegion] = useState<IRegion>();
 
   const [supplier, setSupplier] = useState<ISupplier>({
     contractedValue: 0,
@@ -46,7 +62,24 @@ export const SupplierDetails = () => {
     name: '',
     occupationArea: '',
     phone: '',
+    regions: [],
   });
+
+  const handleRegionType = (type: string) => {
+    switch (type) {
+      case 'country':
+        return 'Brasil';
+
+      case 'state':
+        return 'Estado';
+
+      case 'city':
+        return 'Cidade';
+
+      default:
+        return '';
+    }
+  };
 
   const deleteSupplier = async () => {
     setOnQuery(true);
@@ -77,6 +110,22 @@ export const SupplierDetails = () => {
       });
   };
 
+  const deleteSupplierRegion = async (regionId: string) => {
+    setOnRegionQuery(true);
+
+    await Api.delete(`/suppliers/regions/${regionId}`)
+      .then((res) => {
+        toast.success(res.data.ServerMessage.message);
+        findSupplierById();
+      })
+      .catch((err) => {
+        catchHandler(err);
+      })
+      .finally(() => {
+        setOnRegionQuery(false);
+      });
+  };
+
   useEffect(() => {
     findSupplierById();
   }, []);
@@ -92,6 +141,19 @@ export const SupplierDetails = () => {
               setModal={setModalEditSupplierOpen}
               onThenRequest={findSupplierById}
               supplier={supplier}
+            />
+          )}
+          {modalCreateRegionOpen && (
+            <ModalCreateRegion
+              setModal={setModalCreateRegionOpen}
+              onThenRequest={findSupplierById}
+            />
+          )}
+          {modalEditRegionOpen && selectedRegion && (
+            <ModalEditRegion
+              setModal={setModalEditRegionOpen}
+              onThenRequest={findSupplierById}
+              region={selectedRegion}
             />
           )}
           <Style.Header>
@@ -184,56 +246,76 @@ export const SupplierDetails = () => {
                 icon={icon.plusWithBg}
                 label="Cadastrar região"
                 onClick={() => {
-                  // setModalEditCompanyAndOwnerIsOpen(true);
+                  setModalCreateRegionOpen(true);
                 }}
               />
             </Style.RegionsHeader>
             <Style.TableDiv>
-              <ColorfulTable
-                colsHeader={[
-                  { label: 'Tipo' },
-                  { label: 'Estado' },
-                  { label: 'Cidade' },
-                  { label: '' },
-                ]}
-              >
-                <ColorfulTableContent
-                  colsBody={[
-                    { cell: 'coluna' },
-                    { cell: 'coluna' },
-                    { cell: 'coluna' },
-                    {
-                      cell: (
-                        <Style.ButtonsDiv>
-                          <PopoverButton
-                            disabled={onQuery}
-                            actionButtonBgColor={theme.color.actionDanger}
-                            type="IconButton"
-                            label="Excluir"
-                            hiddenIconButtonLabel
-                            buttonIconSize="16px"
-                            buttonIcon={icon.trash}
-                            message={{
-                              title: 'Deseja excluir essa região?',
-                              content: 'Atenção, essa ação não poderá ser desfeita posteriormente.',
-                              contentColor: theme.color.danger,
-                            }}
-                            actionButtonClick={deleteSupplier}
-                          />
-
-                          <IconButton
-                            size="16px"
-                            icon={icon.edit}
-                            onClick={() => {
-                              // setModalEditCompanyAndOwnerIsOpen(true);
-                            }}
-                          />
-                        </Style.ButtonsDiv>
-                      ),
-                    },
+              {supplier.regions.length > 0 ? (
+                <ColorfulTable
+                  colsHeader={[
+                    { label: 'Tipo' },
+                    { label: 'Estados' },
+                    { label: 'Cidades' },
+                    { label: '' },
                   ]}
-                />
-              </ColorfulTable>
+                >
+                  {supplier.regions.map((region) => (
+                    <ColorfulTableContent
+                      key={region.id}
+                      colsBody={[
+                        { cell: handleRegionType(region.type), cssProps: { width: '10%' } },
+                        {
+                          cell: region.states.map(({ state }) => state).join(', ') || '-',
+                          cssProps: { width: 'fit-content' },
+                        },
+                        {
+                          cell: region.cities.map(({ city }) => city).join(', ') || '-',
+                          cssProps: { width: '60%' },
+                        },
+                        {
+                          cell: (
+                            <Style.ButtonsDiv>
+                              <PopoverButton
+                                disabled={onRegionQuery}
+                                actionButtonBgColor={theme.color.actionDanger}
+                                type="IconButton"
+                                label="Excluir"
+                                hiddenIconButtonLabel
+                                buttonIconSize="16px"
+                                buttonIcon={icon.trash}
+                                message={{
+                                  title: 'Deseja excluir essa região?',
+                                  content:
+                                    'Atenção, essa ação não poderá ser desfeita posteriormente.',
+                                  contentColor: theme.color.danger,
+                                }}
+                                actionButtonClick={() => {
+                                  deleteSupplierRegion(region.id);
+                                }}
+                              />
+
+                              <IconButton
+                                size="16px"
+                                icon={icon.edit}
+                                onClick={() => {
+                                  setSelectedRegion(region);
+                                  setModalEditRegionOpen(true);
+                                }}
+                              />
+                            </Style.ButtonsDiv>
+                          ),
+                        },
+                      ]}
+                    />
+                  ))}
+                </ColorfulTable>
+              ) : (
+                <Style.NoData>
+                  <Image img={icon.paper} size="60px" radius="0" />
+                  <h6>Nenhuma região cadastrada.</h6>
+                </Style.NoData>
+              )}
             </Style.TableDiv>
           </Style.RegionsWrapper>
         </>

@@ -27,6 +27,7 @@ export const Card = styled.div`
 
   > a {
     color: ${theme.color.black};
+    width: fit-content;
   }
 
   @media (max-width: 900px) {
@@ -67,4 +68,17 @@ export const ButtonsDiv = styled.div`
   gap: ${theme.size.sm};
   width: fit-content;
   margin-left: auto;
+`;
+
+export const NoData = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 80%;
+  gap: ${theme.size.xxsm};
+  > h6 {
+    color: ${theme.color.gray4};
+    text-align: center;
+  }
 `;
