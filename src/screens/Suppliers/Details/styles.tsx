@@ -43,10 +43,28 @@ export const Footer = styled.footer`
 
 export const RegionsWrapper = styled.div`
   margin-top: ${theme.size.md};
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.size.sm};
 `;
 
 export const RegionsHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const TableDiv = styled.div`
+  background-color: ${theme.color.white};
+  padding: ${theme.size.sm};
+  border-radius: ${theme.size.xxsm};
+`;
+
+export const ButtonsDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: ${theme.size.sm};
+  width: fit-content;
+  margin-left: auto;
 `;

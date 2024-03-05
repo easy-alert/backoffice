@@ -13,6 +13,7 @@ import { theme } from '../../../styles/theme';
 import { Image } from '../../../components/Image';
 // eslint-disable-next-line import/no-cycle
 import { ModalEditSupplier } from './ModalEditSupplier';
+import { ColorfulTable, ColorfulTableContent } from '../../../components/ColorfulTable';
 
 export interface ISupplier {
   id: string;
@@ -187,6 +188,53 @@ export const SupplierDetails = () => {
                 }}
               />
             </Style.RegionsHeader>
+            <Style.TableDiv>
+              <ColorfulTable
+                colsHeader={[
+                  { label: 'Tipo' },
+                  { label: 'Estado' },
+                  { label: 'Cidade' },
+                  { label: '' },
+                ]}
+              >
+                <ColorfulTableContent
+                  colsBody={[
+                    { cell: 'coluna' },
+                    { cell: 'coluna' },
+                    { cell: 'coluna' },
+                    {
+                      cell: (
+                        <Style.ButtonsDiv>
+                          <PopoverButton
+                            disabled={onQuery}
+                            actionButtonBgColor={theme.color.actionDanger}
+                            type="IconButton"
+                            label="Excluir"
+                            hiddenIconButtonLabel
+                            buttonIconSize="16px"
+                            buttonIcon={icon.trash}
+                            message={{
+                              title: 'Deseja excluir essa região?',
+                              content: 'Atenção, essa ação não poderá ser desfeita posteriormente.',
+                              contentColor: theme.color.danger,
+                            }}
+                            actionButtonClick={deleteSupplier}
+                          />
+
+                          <IconButton
+                            size="16px"
+                            icon={icon.edit}
+                            onClick={() => {
+                              // setModalEditCompanyAndOwnerIsOpen(true);
+                            }}
+                          />
+                        </Style.ButtonsDiv>
+                      ),
+                    },
+                  ]}
+                />
+              </ColorfulTable>
+            </Style.TableDiv>
           </Style.RegionsWrapper>
         </>
       )}
