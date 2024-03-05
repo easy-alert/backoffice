@@ -45,7 +45,8 @@ export const ModalEditRegion = ({ setModal, onThenRequest, region }: IModalEditR
   const [tempState, setTempState] = useState('');
 
   const { cities } = useBrasilCities({
-    UF: convertStateName(tempState) || convertStateName(region.states[0].state) || '',
+    UF:
+      convertStateName(tempState ?? '') || convertStateName(region?.states?.[0]?.state ?? '') || '',
   });
 
   return (
