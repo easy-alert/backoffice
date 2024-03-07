@@ -18,6 +18,7 @@ export interface ICompany {
   isBlocked: boolean;
   createdAt: string;
   isNotifyingOnceAWeek: boolean;
+  canAccessChecklists: boolean;
   UserCompanies: IUserCompanies[];
 }
 
@@ -39,6 +40,7 @@ export interface IFormDataCompany {
   contactNumber: string;
   CNPJorCPF: string;
   isNotifyingOnceAWeek: string;
+  canAccessChecklists: boolean;
 
   password: string;
   confirmPassword: string;
@@ -53,6 +55,7 @@ export interface IFormDataCompanyForEdit {
   CNPJ: string;
   CPF: string;
   isNotifyingOnceAWeek: string;
+  canAccessChecklists: boolean;
 
   password: string;
   confirmPassword: string;

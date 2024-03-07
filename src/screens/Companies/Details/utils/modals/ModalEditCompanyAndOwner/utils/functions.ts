@@ -40,6 +40,7 @@ export const requestEditCompanyAndOwner = async ({
     contactNumber: unMask(data.contactNumber),
     password: data.password !== '' ? data.password : null,
     isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
+    canAccessChecklists: data.canAccessChecklists,
   })
     .then((res) => {
       const updatedCompany: ICompany = {
@@ -50,6 +51,7 @@ export const requestEditCompanyAndOwner = async ({
         CNPJ: data.CNPJ,
         CPF: data.CPF,
         isBlocked: company.isBlocked,
+        canAccessChecklists: data.canAccessChecklists,
         createdAt: company.createdAt,
         isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
         UserCompanies: [
