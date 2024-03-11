@@ -38,6 +38,7 @@ export const requestCreateCompanyAndOWner = async ({
     CPF: data.CNPJorCPF?.length === 14 ? unMask(data.CNPJorCPF) : null,
     contactNumber: unMask(data.contactNumber),
     isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
+    canAccessChecklists: data.canAccessChecklists,
   })
     .then((res) => {
       requestUsersList({
