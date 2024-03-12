@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Api } from '../services/api';
 import { catchHandler } from '../utils/functions';
+import { Api } from '../services/api';
 
 interface ICity {
   id: number;
