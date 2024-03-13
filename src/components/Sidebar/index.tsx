@@ -40,6 +40,13 @@ export const Sidebar = () => {
       },
     },
     {
+      icon: icon.suppliers,
+      url: '/suppliers',
+      redirectFunction: () => {
+        navigate('/suppliers');
+      },
+    },
+    {
       icon: icon.power,
       url: '/login',
       redirectFunction: () => {

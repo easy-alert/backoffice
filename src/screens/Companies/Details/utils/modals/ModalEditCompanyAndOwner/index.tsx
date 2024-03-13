@@ -21,6 +21,7 @@ import {
   schemaModalEditCompanyAndOwnerWithCPF,
 } from './utils/functions';
 import { FormikSelect } from '../../../../../../components/Form/FormikSelect';
+import { FormikCheckbox } from '../../../../../../components/Form/FormikCheckbox';
 
 export const ModalEditCompanyAndOwner = ({
   setCompany,
@@ -46,6 +47,7 @@ export const ModalEditCompanyAndOwner = ({
           password: '',
           confirmPassword: '',
           isNotifyingOnceAWeek: company.isNotifyingOnceAWeek ? 'semanalmente' : 'diariamente',
+          canAccessChecklists: company.canAccessChecklists,
         }}
         validationSchema={
           company.CPF
@@ -180,6 +182,9 @@ export const ModalEditCompanyAndOwner = ({
                 placeholder="••••••••••"
                 maxLength={120}
               />
+
+              <FormikCheckbox label="Acesso às checklists" name="canAccessChecklists" />
+
               <Button center label="Salvar" type="submit" loading={onQuery} />
             </Form>
           </Style.FormContainer>

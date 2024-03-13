@@ -18,6 +18,7 @@ import { IModalCreateCompanyAndOwner } from './utils/types';
 import { applyMask } from '../../../../../../utils/functions';
 import { requestCreateCompanyAndOWner, schemaModalCreateCompanyAndOwner } from './utils/functions';
 import { FormikSelect } from '../../../../../../components/Form/FormikSelect';
+import { FormikCheckbox } from '../../../../../../components/Form/FormikCheckbox';
 
 export const ModalCreateCompanyAndOwner = ({
   setCompanies,
@@ -40,6 +41,7 @@ export const ModalCreateCompanyAndOwner = ({
           password: '',
           confirmPassword: '',
           isNotifyingOnceAWeek: 'diariamente',
+          canAccessChecklists: false,
         }}
         validationSchema={schemaModalCreateCompanyAndOwner}
         onSubmit={async (data: IFormDataCompany) => {
@@ -164,6 +166,9 @@ export const ModalCreateCompanyAndOwner = ({
                 placeholder="Confirme a senha criada"
                 maxLength={120}
               />
+
+              <FormikCheckbox label="Acesso às checklists" name="canAccessChecklists" />
+
               <Button center label="Cadastrar" type="submit" loading={onQuery} />
             </Form>
           </Style.FormContainer>
