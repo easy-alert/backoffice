@@ -21,7 +21,6 @@ import {
   schemaModalEditCompanyAndOwnerWithCPF,
 } from './utils/functions';
 import { FormikSelect } from '../../../../../../components/Form/FormikSelect';
-import { FormikCheckbox } from '../../../../../../components/Form/FormikCheckbox';
 
 export const ModalEditCompanyAndOwner = ({
   setCompany,
@@ -183,7 +182,7 @@ export const ModalEditCompanyAndOwner = ({
                 maxLength={120}
               />
 
-              <FormikCheckbox label="Acesso às checklists" name="canAccessChecklists" />
+              {/* <FormikCheckbox label="Acesso às checklists" name="canAccessChecklists" /> */}
 
               <Button center label="Salvar" type="submit" loading={onQuery} />
             </Form>
