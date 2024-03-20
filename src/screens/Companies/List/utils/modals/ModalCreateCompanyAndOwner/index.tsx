@@ -18,6 +18,7 @@ import { IModalCreateCompanyAndOwner } from './utils/types';
 import { applyMask } from '../../../../../../utils/functions';
 import { requestCreateCompanyAndOWner, schemaModalCreateCompanyAndOwner } from './utils/functions';
 import { FormikSelect } from '../../../../../../components/Form/FormikSelect';
+import { FormikCheckbox } from '../../../../../../components/Form/FormikCheckbox';
 
 export const ModalCreateCompanyAndOwner = ({
   setCompanies,
@@ -166,7 +167,7 @@ export const ModalCreateCompanyAndOwner = ({
                 maxLength={120}
               />
 
-              {/* <FormikCheckbox label="Acesso às checklists" name="canAccessChecklists" /> */}
+              <FormikCheckbox label="Acesso às checklists" name="canAccessChecklists" />
 
               <Button center label="Cadastrar" type="submit" loading={onQuery} />
             </Form>

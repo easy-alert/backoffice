@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import * as Style from './styles';
 import { Api } from '../../../services/api';
-import { catchHandler } from '../../../utils/functions';
+import { applyMask, catchHandler } from '../../../utils/functions';
 import { Image } from '../../../components/Image';
 import { icon } from '../../../assets/icons';
 import { IconButton } from '../../../components/Buttons/IconButton';
@@ -122,7 +122,9 @@ export const SuppliersList = () => {
 
               <Style.CardFooter>
                 <Style.Line />
-                <p className="p4">{supplier.phone || '-'}</p>
+                <p className="p4">
+                  {supplier.phone ? applyMask({ mask: 'TEL', value: supplier.phone }).value : '-'}
+                </p>
                 <p className="p4">{supplier.email || '-'}</p>
               </Style.CardFooter>
             </Style.Card>
