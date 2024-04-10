@@ -151,6 +151,11 @@ export const CompanyDetails = () => {
               <h6>Acesso às checklists</h6>
               <p className="p2">{company?.canAccessChecklists ? 'Sim' : 'Não'}</p>
             </Style.Card>
+
+            <Style.Card>
+              <h6>Acesso aos tickets</h6>
+              <p className="p2">{company?.canAccessTickets ? 'Sim' : 'Não'}</p>
+            </Style.Card>
           </Style.CardSection>
 
           <Style.Footer disabled={onQuery}>

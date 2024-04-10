@@ -48,6 +48,7 @@ export const ModalEditCompanyAndOwner = ({
           confirmPassword: '',
           isNotifyingOnceAWeek: company.isNotifyingOnceAWeek ? 'semanalmente' : 'diariamente',
           canAccessChecklists: company.canAccessChecklists,
+          canAccessTickets: company.canAccessTickets,
         }}
         validationSchema={
           company.CPF
@@ -184,6 +185,8 @@ export const ModalEditCompanyAndOwner = ({
               />
 
               <FormikCheckbox label="Acesso às checklists" name="canAccessChecklists" />
+
+              <FormikCheckbox label="Acesso aos tickets" name="canAccessTickets" />
 
               <Button center label="Salvar" type="submit" loading={onQuery} />
             </Form>
