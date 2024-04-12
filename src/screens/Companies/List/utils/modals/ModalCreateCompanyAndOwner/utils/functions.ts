@@ -39,6 +39,7 @@ export const requestCreateCompanyAndOWner = async ({
     contactNumber: unMask(data.contactNumber),
     isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
     canAccessChecklists: data.canAccessChecklists,
+    canAccessTickets: data.canAccessTickets,
   })
     .then((res) => {
       requestUsersList({
