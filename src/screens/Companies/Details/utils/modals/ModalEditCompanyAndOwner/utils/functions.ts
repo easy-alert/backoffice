@@ -41,9 +41,11 @@ export const requestEditCompanyAndOwner = async ({
     password: data.password !== '' ? data.password : null,
     isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
     canAccessChecklists: data.canAccessChecklists,
+    canAccessTickets: data.canAccessTickets,
   })
     .then((res) => {
       const updatedCompany: ICompany = {
+        canAccessTickets: data.canAccessTickets,
         id: company.id,
         image: imageUrl,
         name: data.companyName,
