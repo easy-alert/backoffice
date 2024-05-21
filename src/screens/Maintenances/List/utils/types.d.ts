@@ -43,6 +43,7 @@ export interface ICategories {
 export interface IRequestCategories {
   setLoading?: (setLoading: boolean) => void;
   setCategories: React.Dispatch<React.SetStateAction<ICategories[]>>;
+  setCategoriesForFilter: React.Dispatch<React.SetStateAction<ICategories[]>>;
   filter?: string;
 }
 
@@ -53,4 +54,10 @@ export interface ICategoriesOptions {
 
 export interface IRequestCategoriesForSelect {
   setCategoriesOptions: React.Dispatch<React.SetStateAction<ICategoriesOptions[]>>;
+}
+
+export interface IFilterFunction {
+  setCategories: React.Dispatch<React.SetStateAction<ICategories[]>>;
+  categoriesForFilter: ICategories[];
+  filter: string;
 }
