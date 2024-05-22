@@ -42,6 +42,8 @@ export const requestEditCompanyAndOwner = async ({
     isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
     canAccessChecklists: data.canAccessChecklists,
     canAccessTickets: data.canAccessTickets,
+    receiveDailyDueReports: data.receiveDailyDueReports,
+    receivePreviousMonthReports: data.receivePreviousMonthReports,
   })
     .then((res) => {
       const updatedCompany: ICompany = {
@@ -56,6 +58,8 @@ export const requestEditCompanyAndOwner = async ({
         canAccessChecklists: data.canAccessChecklists,
         createdAt: company.createdAt,
         isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
+        receiveDailyDueReports: data.receiveDailyDueReports,
+        receivePreviousMonthReports: data.receivePreviousMonthReports,
         UserCompanies: [
           {
             User: {

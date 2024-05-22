@@ -43,6 +43,8 @@ export const ModalCreateCompanyAndOwner = ({
           isNotifyingOnceAWeek: 'diariamente',
           canAccessChecklists: false,
           canAccessTickets: false,
+          receiveDailyDueReports: false,
+          receivePreviousMonthReports: false,
         }}
         validationSchema={schemaModalCreateCompanyAndOwner}
         onSubmit={async (data: IFormDataCompany) => {
@@ -171,6 +173,13 @@ export const ModalCreateCompanyAndOwner = ({
               <FormikCheckbox label="Acesso às checklists" name="canAccessChecklists" />
 
               <FormikCheckbox label="Acesso aos tickets" name="canAccessTickets" />
+
+              <FormikCheckbox label="Receber relatórios mensais" name="receiveDailyDueReports" />
+
+              <FormikCheckbox
+                label="Receber vencimentos diários"
+                name="receivePreviousMonthReports"
+              />
 
               <Button center label="Cadastrar" type="submit" loading={onQuery} />
             </Form>

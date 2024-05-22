@@ -49,6 +49,8 @@ export const ModalEditCompanyAndOwner = ({
           isNotifyingOnceAWeek: company.isNotifyingOnceAWeek ? 'semanalmente' : 'diariamente',
           canAccessChecklists: company.canAccessChecklists,
           canAccessTickets: company.canAccessTickets,
+          receiveDailyDueReports: company.receiveDailyDueReports,
+          receivePreviousMonthReports: company.receivePreviousMonthReports,
         }}
         validationSchema={
           company.CPF
@@ -187,6 +189,13 @@ export const ModalEditCompanyAndOwner = ({
               <FormikCheckbox label="Acesso às checklists" name="canAccessChecklists" />
 
               <FormikCheckbox label="Acesso aos tickets" name="canAccessTickets" />
+
+              <FormikCheckbox label="Receber relatórios mensais" name="receiveDailyDueReports" />
+
+              <FormikCheckbox
+                label="Receber vencimentos diários"
+                name="receivePreviousMonthReports"
+              />
 
               <Button center label="Salvar" type="submit" loading={onQuery} />
             </Form>
