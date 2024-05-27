@@ -156,6 +156,16 @@ export const CompanyDetails = () => {
               <h6>Acesso aos tickets</h6>
               <p className="p2">{company?.canAccessTickets ? 'Sim' : 'Não'}</p>
             </Style.Card>
+
+            <Style.Card>
+              <h6>Receber relatórios mensais</h6>
+              <p className="p2">{company?.receiveDailyDueReports ? 'Sim' : 'Não'}</p>
+            </Style.Card>
+
+            <Style.Card>
+              <h6>Receber vencimentos diários</h6>
+              <p className="p2">{company?.receivePreviousMonthReports ? 'Sim' : 'Não'}</p>
+            </Style.Card>
           </Style.CardSection>
 
           <Style.Footer disabled={onQuery}>

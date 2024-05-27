@@ -40,6 +40,8 @@ export const requestCreateCompanyAndOWner = async ({
     isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
     canAccessChecklists: data.canAccessChecklists,
     canAccessTickets: data.canAccessTickets,
+    receiveDailyDueReports: data.receiveDailyDueReports,
+    receivePreviousMonthReports: data.receivePreviousMonthReports,
   })
     .then((res) => {
       requestUsersList({

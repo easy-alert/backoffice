@@ -19,6 +19,8 @@ export interface ICompany {
   createdAt: string;
   isNotifyingOnceAWeek: boolean;
   canAccessChecklists: boolean;
+  receivePreviousMonthReports: boolean;
+  receiveDailyDueReports: boolean;
   canAccessTickets: boolean;
   UserCompanies: IUserCompanies[];
 }
@@ -43,6 +45,8 @@ export interface IFormDataCompany {
   isNotifyingOnceAWeek: string;
   canAccessChecklists: boolean;
   canAccessTickets: boolean;
+  receivePreviousMonthReports: boolean;
+  receiveDailyDueReports: boolean;
 
   password: string;
   confirmPassword: string;
@@ -59,6 +63,8 @@ export interface IFormDataCompanyForEdit {
   isNotifyingOnceAWeek: string;
   canAccessChecklists: boolean;
   canAccessTickets: boolean;
+  receivePreviousMonthReports: boolean;
+  receiveDailyDueReports: boolean;
 
   password: string;
   confirmPassword: string;
