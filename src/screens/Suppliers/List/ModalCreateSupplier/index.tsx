@@ -50,7 +50,7 @@ export const schemaCreateSupplier = yup
 
     description: yup.string().required('Campo obrigatório.'),
 
-    link: yup.string().required('Campo osbrigatório.'),
+    link: yup.string().required('Campo obrigatório.'),
 
     occupationArea: yup.string().required('Campo obrigatório.'),
 

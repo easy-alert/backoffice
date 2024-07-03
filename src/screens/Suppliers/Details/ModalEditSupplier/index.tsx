@@ -55,7 +55,7 @@ export const schemaEditSupplier = yup
 
     description: yup.string().required('Campo obrigatório.'),
 
-    link: yup.string().required('Campo osbrigatório.'),
+    link: yup.string().required('Campo obrigatório.'),
 
     occupationArea: yup.string().required('Campo obrigatório.'),
 
