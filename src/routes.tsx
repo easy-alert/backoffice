@@ -11,8 +11,6 @@ import { Login } from './screens/Authentication/Login';
 import { CompaniesList } from './screens/Companies/List';
 import { CompanyDetails } from './screens/Companies/Details';
 import { MaintenancesList } from './screens/Maintenances/List';
-import { SuppliersList } from './screens/Suppliers/List';
-import { SupplierDetails } from './screens/Suppliers/Details';
 
 // CATEGORIES
 
@@ -39,10 +37,11 @@ const AppRoutes = () => (
 
           <Route path="/maintenances" element={<MaintenancesList />} />
 
-          <Route path="/suppliers" element={<Outlet />}>
+          {/* Desativado em função das tasks SA-6535 em diante que mudou isso pra company */}
+          {/* <Route path="/suppliers" element={<Outlet />}>
             <Route index element={<SuppliersList />} />
             <Route path=":supplierId" element={<SupplierDetails />} />
-          </Route>
+          </Route> */}
         </Route>
       </Routes>
     </BrowserRouter>

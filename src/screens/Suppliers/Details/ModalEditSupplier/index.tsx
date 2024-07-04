@@ -55,7 +55,7 @@ export const schemaEditSupplier = yup
 
     description: yup.string().required('Campo obrigatório.'),
 
-    link: yup.string().required('Campo osbrigatório.'),
+    link: yup.string().required('Campo obrigatório.'),
 
     occupationArea: yup.string().required('Campo obrigatório.'),
 
@@ -156,7 +156,6 @@ export const ModalEditSupplier = ({ setModal, onThenRequest, supplier }: IModalE
               />
 
               <FormikTextArea
-                maxLength={400}
                 name="description"
                 error={touched.description && errors.description ? errors.description : null}
                 label="Descrição *"
