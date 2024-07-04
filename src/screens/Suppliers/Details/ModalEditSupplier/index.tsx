@@ -156,7 +156,6 @@ export const ModalEditSupplier = ({ setModal, onThenRequest, supplier }: IModalE
               />
 
               <FormikTextArea
-                maxLength={400}
                 name="description"
                 error={touched.description && errors.description ? errors.description : null}
                 label="Descrição *"

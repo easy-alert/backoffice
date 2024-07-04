@@ -97,7 +97,6 @@ export const CompaniesList = () => {
                 />
                 <input
                   type="text"
-                  maxLength={80}
                   placeholder="Procurar"
                   value={filter}
                   onChange={(evt) => {

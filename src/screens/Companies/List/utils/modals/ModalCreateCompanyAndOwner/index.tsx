@@ -79,7 +79,6 @@ export const ModalCreateCompanyAndOwner = ({
                 value={values.name}
                 error={touched.name && errors.name ? errors.name : null}
                 placeholder="Ex: João Silva"
-                maxLength={40}
               />
               <FormikInput
                 label="E-mail"
@@ -87,7 +86,6 @@ export const ModalCreateCompanyAndOwner = ({
                 value={values.email}
                 error={touched.email && errors.email ? errors.email : null}
                 placeholder="Ex:  joao.silva@easyalert.com"
-                maxLength={40}
               />
               <FormikInput
                 label="Nome da empresa"
@@ -95,7 +93,6 @@ export const ModalCreateCompanyAndOwner = ({
                 value={values.companyName}
                 error={touched.companyName && errors.companyName ? errors.companyName : null}
                 placeholder="Ex: Easy Alert"
-                maxLength={40}
               />
 
               <FormikInput
