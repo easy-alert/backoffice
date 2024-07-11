@@ -22,4 +22,5 @@ export interface IReactSelectComponent {
     label: string;
     value: string;
   }[];
+  selectPlaceholderValue: any;
 }

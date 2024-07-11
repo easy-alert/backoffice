@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { theme } from '../../styles/theme';
 
-export const ReactSelectDiv = styled.div`
+export const ReactSelectDiv = styled.div<{ selectPlaceholderValue: any }>`
   width: 100%;
   font-weight: 400;
   font-size: 14px;
@@ -16,5 +17,17 @@ export const ReactSelectDiv = styled.div`
 
   > h6 {
     margin-bottom: 3px;
+  }
+
+  .css-4tefbm-control {
+    ${({ selectPlaceholderValue }) =>
+      selectPlaceholderValue === 'Selecione' || !selectPlaceholderValue
+        ? `
+        border-color: ${theme.color.gray3};
+        color: #757575
+      `
+        : `
+          border-color: ${theme.color.gray4};
+      `}
   }
 `;
