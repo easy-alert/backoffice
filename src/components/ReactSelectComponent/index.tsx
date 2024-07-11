@@ -57,14 +57,15 @@ export const ReactSelectComponent = ({
   onChange,
   options,
   placeholder,
-  isClearable = true,
+  isClearable = false,
   isMulti = false,
   value,
   isOptionDisabled,
   newCustomStyle,
   defaultValue,
+  selectPlaceholderValue,
 }: IReactSelectComponent) => (
-  <Style.ReactSelectDiv>
+  <Style.ReactSelectDiv selectPlaceholderValue={selectPlaceholderValue}>
     {label && <h6>{label}</h6>}
 
     <Select
