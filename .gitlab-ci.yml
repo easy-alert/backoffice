@@ -1,4 +1,4 @@
-image: node:16.13.0
+image: node:19.0.1
 
 stages:
   - staging_bucket_check
@@ -19,7 +19,7 @@ staging_bucket_check:
     - aws s3 mb s3://$S3_BUCKET --region us-east-1 2> /dev/null && aws s3 website s3://$S3_BUCKET --index-document index.html --error-document index.html || echo Bucket exists
   only:
     - develop
-  
+
 production_bucket_check:
   stage: production_bucket_check
   environment: production
@@ -86,3 +86,4 @@ production_deploy:
     - aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
   only:
     - master
+
