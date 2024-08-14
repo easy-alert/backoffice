@@ -18,7 +18,8 @@ export const catchHandler = (err: any) => {
 // #region DATES
 export const dateFormatter = (date: string) => new Date(date).toLocaleDateString('pt-BR');
 
-export const dateTimeFormatter = (date: string) => new Date(date).toLocaleString('pt-BR');
+export const dateTimeFormatter = (date: string) =>
+  new Date(date).toLocaleString('pt-BR').substring(0, 17);
 // #endregion
 
 // #region UPLOAD
