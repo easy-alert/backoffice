@@ -185,7 +185,7 @@ export const ModalEditCompanyAndOwner = ({
 
               <FormikCheckbox label="Acesso às checklists" name="canAccessChecklists" />
 
-              <FormikCheckbox label="Acesso aos tickets" name="canAccessTickets" />
+              <FormikCheckbox label="Acesso aos chamados" name="canAccessTickets" />
 
               <FormikCheckbox label="Receber relatórios mensais" name="receiveDailyDueReports" />
 

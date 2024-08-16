@@ -153,7 +153,7 @@ export const CompanyDetails = () => {
             </Style.Card>
 
             <Style.Card>
-              <h6>Acesso aos tickets</h6>
+              <h6>Acesso aos chamados</h6>
               <p className="p2">{company?.canAccessTickets ? 'Sim' : 'Não'}</p>
             </Style.Card>
 
