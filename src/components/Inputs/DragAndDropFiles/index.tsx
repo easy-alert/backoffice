@@ -8,7 +8,7 @@ import { DotSpinLoading } from '../../Loadings/DotSpinLoading';
 interface IDragAndDropFiles {
   loading?: boolean;
   disabled?: boolean;
-  getAcceptedFiles: (acceptedFiles: File[]) => void;
+  getAcceptedFiles: ({ acceptedFiles }: { acceptedFiles: File[] }) => void;
   onlyImages?: boolean;
   multiple?: boolean;
   error?: any;
@@ -26,7 +26,7 @@ export const DragAndDropFiles = ({
 }: IDragAndDropFiles) => {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      getAcceptedFiles(acceptedFiles);
+      getAcceptedFiles({ acceptedFiles });
     },
     [getAcceptedFiles],
   );
