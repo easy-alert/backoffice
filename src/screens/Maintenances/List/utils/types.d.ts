@@ -30,6 +30,7 @@ interface IMaintenance {
     singularLabel: string;
   };
   observation: string;
+  instructions: { name: string; url: string }[];
 }
 
 export interface ICategories {
