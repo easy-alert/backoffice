@@ -113,4 +113,18 @@ export const MaintenancesMoreGrid = styled.div`
     overflow: hidden;
     word-wrap: break-word;
   }
+
+  .instructions {
+    grid-area: 1 / 3 / 1 / 6;
+    display: flex;
+    align-items: flex-start;
+    gap: 3px;
+  }
+`;
+
+export const FileRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: ${theme.size.xsm};
 `;

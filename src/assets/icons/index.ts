@@ -31,8 +31,20 @@ import bell from './bell.svg';
 import access from './access.svg';
 import count from './count.svg';
 import suppliers from './suppliers.svg';
+import addFile from './addFile.svg';
+import downloadRedBg from './downloadRedBg.svg';
+import smallPaper from './smallPaper.svg';
+import trashWithPrimaryBg from './trashWithPrimaryBg.svg';
+import xBlack from './xBlack.svg';
+import download from './download.svg';
 
 export const icon = {
+  download,
+  xBlack,
+  downloadRedBg,
+  smallPaper,
+  trashWithPrimaryBg,
+  addFile,
   leftArrow,
   paper,
   eye,

@@ -16,6 +16,7 @@ export interface IRequestCreateMaintenance {
   setModal: (setModal: boolean) => void;
   setOnQuery: (setOnQuery: boolean) => void;
   values: {
+    instructions: any;
     customCategoryId: string;
     element: string;
     activity: string;
