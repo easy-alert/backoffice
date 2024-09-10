@@ -12,6 +12,7 @@ import { IMaintenanceCard } from './utils/types';
 
 // MODALS
 import { ModalEditMaintenance } from './utils/ModalEditMaintenance';
+import { ListTag } from '../../../../../../components/ListTag';
 
 export const MaintenanceCard = ({
   maintenance,
@@ -80,6 +81,17 @@ export const MaintenanceCard = ({
                     ? maintenance.PeriodTimeInterval.pluralLabel
                     : maintenance.PeriodTimeInterval.singularLabel
                 }`}
+              </p>
+
+              <p className="p2 instructions">
+                <span>Instruções: </span>
+                <Style.FileRow>
+                  {maintenance.instructions.length > 0
+                    ? maintenance.instructions.map(({ url, name }) => (
+                        <ListTag padding="4px 12px" downloadUrl={url} key={url} label={name} />
+                      ))
+                    : '-'}
+                </Style.FileRow>
               </p>
               {/*
               <Style.PeriodIconWrapper title="Tempo para iniciar a notificação após a entrega da obra.">
