@@ -40,6 +40,7 @@ export const MaintenanceInstructionsComponent = ({
       <Style.FileRow>
         {instructions.map(({ url, name }, i) => (
           <ListTag
+            padding="4px 12px"
             downloadUrl={url}
             key={url}
             label={name}
