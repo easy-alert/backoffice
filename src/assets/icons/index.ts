@@ -36,8 +36,10 @@ import downloadRedBg from './downloadRedBg.svg';
 import smallPaper from './smallPaper.svg';
 import trashWithPrimaryBg from './trashWithPrimaryBg.svg';
 import xBlack from './xBlack.svg';
+import download from './download.svg';
 
 export const icon = {
+  download,
   xBlack,
   downloadRedBg,
   smallPaper,

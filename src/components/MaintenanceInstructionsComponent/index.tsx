@@ -20,7 +20,7 @@ export const MaintenanceInstructionsComponent = ({
     <DragAndDropFiles
       onlyImages={false}
       loading={onFileQuery}
-      multiple={false}
+      multiple
       getAcceptedFiles={async ({ acceptedFiles }) => {
         setOnFileQuery(true);
         const uploadedFiles = await uploadManyFiles(acceptedFiles);
@@ -31,19 +31,23 @@ export const MaintenanceInstructionsComponent = ({
           url: Location,
         }));
 
-        setFieldValue('instructions', formattedUploadedFiles);
+        setFieldValue('instructions', [...instructions, ...formattedUploadedFiles]);
       }}
       label="Instruções"
     />
 
     {instructions.length > 0 && (
       <Style.FileRow>
-        {instructions.map(({ url, name }) => (
+        {instructions.map(({ url, name }, i) => (
           <ListTag
+            downloadUrl={url}
             key={url}
             label={name}
             onClick={() => {
-              setFieldValue('instructions', []);
+              const clonedInstructions = structuredClone(instructions);
+              clonedInstructions.splice(i, 1);
+
+              setFieldValue('instructions', clonedInstructions);
             }}
           />
         ))}
