@@ -13,7 +13,7 @@ export const DragAndDropZone = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 97px;
+  min-width: 97px;
   height: 97px;
 
   &:hover {
