@@ -64,7 +64,7 @@ export async function uploadFile(file: any) {
 // #region ERRORS
 export const handleError = async ({ error }: { error: Error }) => {
   if (import.meta.env.PROD) {
-    axios.post('https://ada-logs.herokuapp.com/api/errors/create', {
+    axios.post('https://ada-logs.herokuapp.com/api/easy-alert/errors/create', {
       projectName: 'EasyAlert',
       environment: window.location.host.includes('sandbox') ? 'Sandbox' : 'Production',
       side: 'Backoffice',
