@@ -1,3 +1,4 @@
+import { IMaintenancePriority } from '../../../../../../../types/IMaintenancePriority';
 import { ITimeInterval } from '../../../../../../../utils/types';
 import { IMaintenance, ICategories } from '../../../types';
 
@@ -7,4 +8,5 @@ export interface IMaintenanceCard {
   categories: ICategories[];
   setCategories: React.Dispatch<React.SetStateAction<ICategories[]>>;
   categoryId: string;
+  maintenancePriorities: IMaintenancePriority[];
 }
