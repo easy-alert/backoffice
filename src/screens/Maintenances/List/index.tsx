@@ -11,10 +11,12 @@ import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
 import { MaintenanceCategory } from './utils/components/MaintenanceCategory';
 
 // TYPES
-import { ICategories, ICategoriesOptions } from './utils/types';
-import { ITimeInterval } from '../../../utils/types';
+import type { ICategories, ICategoriesOptions } from './utils/types';
+import type { ITimeInterval } from '../../../utils/types';
+import type { IMaintenancePriority } from '../../../types/IMaintenancePriority';
 
 // FUNCTIONS
+import { getAllMaintenancePriorities } from '../../../services/apis/getAllMaintenancePriorities';
 import { filterFunction, requestCategories, requestCategoriesForSelect } from './utils/functions';
 import { requestListIntervals } from '../../../utils/functions';
 
@@ -28,15 +30,27 @@ export const MaintenancesList = () => {
   const [categoriesForFilter, setCategoriesForFilter] = useState<ICategories[]>([]);
   const [timeIntervals, setTimeIntervals] = useState<ITimeInterval[]>([]);
   const [categoriesOptions, setCategoriesOptions] = useState<ICategoriesOptions[]>([]);
+  const [maintenancePriorities, setMaintenancePriorities] = useState<IMaintenancePriority[]>([]);
 
   // MODALS
   const [modalCreateCategoryOpen, setModalCreateCategoryOpen] = useState<boolean>(false);
+
+  const handleGetAllMaintenancePriorities = async () => {
+    try {
+      const responseData = await getAllMaintenancePriorities();
+
+      setMaintenancePriorities(responseData.maintenancePriorities);
+    } catch (error) {
+      console.log('🚀 ~ handleGetAllMaintenancePriorities ~ error', error);
+    }
+  };
 
   useEffect(() => {
     requestCategoriesForSelect({ setCategoriesOptions });
   }, [JSON.stringify(categories)]);
 
   useEffect(() => {
+    handleGetAllMaintenancePriorities();
     requestListIntervals({ setTimeIntervals });
     requestCategories({ setLoading, setCategories, setCategoriesForFilter });
   }, []);
@@ -50,6 +64,7 @@ export const MaintenancesList = () => {
           setCategories={setCategories}
         />
       )}
+
       {loading ? (
         <DotSpinLoading />
       ) : (
@@ -58,6 +73,7 @@ export const MaintenancesList = () => {
             <Style.LeftSide>
               <Style.HeaderTitle>
                 <h2>Manutenções</h2>
+
                 <Style.SearchField>
                   <IconButton
                     icon={icon.search}
@@ -110,6 +126,7 @@ export const MaintenancesList = () => {
                   categories={categories}
                   timeIntervals={timeIntervals}
                   categoriesOptions={categoriesOptions}
+                  maintenancePriorities={maintenancePriorities}
                 />
               ))}
             </Style.CategoriesContainer>
