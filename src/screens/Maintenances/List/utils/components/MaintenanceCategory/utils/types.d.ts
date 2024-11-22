@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ICategories, ICategoriesOptions } from '../../../types';
 import { ITimeInterval } from '../../../../../../../utils/types';
+import { IMaintenancePriority } from '../../../../../../../types/IMaintenancePriority';
 
 export interface IMaintenanceCategory {
   category: ICategories;
@@ -8,6 +9,7 @@ export interface IMaintenanceCategory {
   setCategories: React.Dispatch<React.SetStateAction<ICategories[]>>;
   timeIntervals: ITimeInterval[];
   categoriesOptions: ICategoriesOptions[];
+  maintenancePriorities: IMaintenancePriority[];
 }
 
 export interface ISortType {
