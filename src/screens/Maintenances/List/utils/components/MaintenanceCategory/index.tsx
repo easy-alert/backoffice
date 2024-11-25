@@ -29,6 +29,7 @@ export const MaintenanceCategory = ({
   setCategories,
   timeIntervals,
   categoriesOptions,
+  maintenancePriorities,
 }: IMaintenanceCategory) => {
   const [isSorted, setIsSorted] = useState<boolean>(false);
   const [sortType, setSortType] = useState<ISortType>({ type: 'element' });
@@ -47,6 +48,7 @@ export const MaintenanceCategory = ({
           categoriesOptions={categoriesOptions}
         />
       )}
+
       {modalEditCategoryOpen && (
         <ModalEditCategory
           setModal={setModalEditCategoryOpen}
@@ -56,11 +58,13 @@ export const MaintenanceCategory = ({
           setCategories={setCategories}
         />
       )}
+
       <Style.Background>
         <Style.HeaderCategory>
           <Style.HeaderTitle>
             <Style.Container>
               <h5>{category.name}</h5>
+
               <IconButton
                 size="16px"
                 icon={icon.edit}
@@ -215,6 +219,7 @@ export const MaintenanceCategory = ({
               categories={categories}
               setCategories={setCategories}
               categoryId={category.id}
+              maintenancePriorities={maintenancePriorities}
             />
           ))}
         </Style.MaintenancesContainer>

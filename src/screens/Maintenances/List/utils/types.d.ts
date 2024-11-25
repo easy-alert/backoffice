@@ -31,6 +31,13 @@ interface IMaintenance {
   };
   observation: string;
   instructions: { name: string; url: string }[];
+  priorityName: string;
+  priority?: {
+    name: string;
+    label?: string;
+    color?: string;
+    backgroundColor?: string;
+  };
 }
 
 export interface ICategories {

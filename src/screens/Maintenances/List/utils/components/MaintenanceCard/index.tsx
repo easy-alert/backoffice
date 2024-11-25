@@ -20,9 +20,24 @@ export const MaintenanceCard = ({
   categories,
   setCategories,
   categoryId,
+  maintenancePriorities,
 }: IMaintenanceCard) => {
   const [cardIsOpen, setCardIsOpen] = useState<boolean>(false);
   const [modalEditMaintenanceOpen, setModalEditMaintenanceOpen] = useState<boolean>(false);
+
+  const handlePriorityName = (priorityName: string) => {
+    switch (priorityName) {
+      case 'low':
+        return 'Baixa';
+      case 'medium':
+        return 'Média';
+      case 'high':
+        return 'Alta';
+
+      default:
+        return '-';
+    }
+  };
 
   return (
     <>
@@ -34,8 +49,10 @@ export const MaintenanceCard = ({
           categories={categories}
           setCategories={setCategories}
           categoryId={categoryId}
+          maintenancePriorities={maintenancePriorities}
         />
       )}
+
       <Style.MaintenancesCard
         onClick={() => {
           setCardIsOpen((prevState) => !prevState);
@@ -93,6 +110,12 @@ export const MaintenanceCard = ({
                     : '-'}
                 </Style.FileRow>
               </p>
+
+              <p className="p2">
+                <span>Prioridade: </span>
+                {handlePriorityName(maintenance.priorityName)}
+              </p>
+
               {/*
               <Style.PeriodIconWrapper title="Tempo para iniciar a notificação após a entrega da obra.">
                 <Image img={icon.alert} size="16px" />
@@ -100,7 +123,7 @@ export const MaintenanceCard = ({
                   <span>Delay: </span>
                   {maintenance.delay > 0
                     ? `${maintenance.delay} ${
-                        maintenance.delay > 1
+                        maintenance.delay > 1s
                           ? maintenance.DelayTimeInterval.pluralLabel
                           : maintenance.DelayTimeInterval.singularLabel
                       }`

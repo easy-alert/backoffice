@@ -1,3 +1,4 @@
+import { IMaintenancePriority } from '../../../../../../../../../types/IMaintenancePriority';
 import { ITimeInterval } from '../../../../../../../../../utils/types';
 import { IMaintenance, ICategories } from '../../../../../../utils/types';
 
@@ -8,6 +9,7 @@ export interface IModalEditMaintenance {
   setCategories: React.Dispatch<React.SetStateAction<ICategories[]>>;
   categoryId: string;
   setModal: (setModal: boolean) => void;
+  maintenancePriorities: IMaintenancePriority[];
 }
 
 export interface IRequestEditMaintenance {
@@ -26,6 +28,7 @@ export interface IRequestEditMaintenance {
     delayTimeInterval: string;
     observation: string;
     instructions: any;
+    priorityName: string;
   };
   setOnQuery: (setOnQuery: boolean) => void;
   setModal: (setModal: boolean) => void;

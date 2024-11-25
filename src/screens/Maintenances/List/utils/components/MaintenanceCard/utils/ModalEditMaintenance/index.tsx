@@ -34,6 +34,7 @@ export const ModalEditMaintenance = ({
   categories,
   setCategories,
   categoryId,
+  maintenancePriorities,
 }: IModalEditMaintenance) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
   const [onFileQuery, setOnFileQuery] = useState<boolean>(false);
@@ -55,6 +56,7 @@ export const ModalEditMaintenance = ({
           periodTimeInterval: selectedMaintenance.PeriodTimeInterval.id,
           delay: String(selectedMaintenance.delay),
           delayTimeInterval: selectedMaintenance.DelayTimeInterval.id,
+          priorityName: selectedMaintenance.priorityName,
           observation:
             selectedMaintenance.observation && selectedMaintenance.observation !== ''
               ? selectedMaintenance.observation
@@ -98,6 +100,7 @@ export const ModalEditMaintenance = ({
                 placeholder="Ex: Verificar sua integridade e reconstruir os rejuntamentos internos e externos dos pisos"
                 height="82px"
               />
+
               <Style.SelectWrapper>
                 <FormikInput
                   label="Periodicidade"
@@ -113,6 +116,7 @@ export const ModalEditMaintenance = ({
                     );
                   }}
                 />
+
                 <FormikSelect
                   selectPlaceholderValue={values.frequencyTimeInterval}
                   name="frequencyTimeInterval"
@@ -126,6 +130,7 @@ export const ModalEditMaintenance = ({
                   <option value="Selecione" disabled hidden>
                     Selecione
                   </option>
+
                   {timeIntervals.map((element) => (
                     <option key={element.id} value={element.id}>
                       {Number(values.frequency) > 1
@@ -135,6 +140,7 @@ export const ModalEditMaintenance = ({
                   ))}
                 </FormikSelect>
               </Style.SelectWrapper>
+
               <FormikInput
                 label="Responsável"
                 name="responsible"
@@ -158,6 +164,7 @@ export const ModalEditMaintenance = ({
                 error={touched.observation && errors.observation ? errors.observation : null}
                 placeholder="Ex: Atenção no acabamento"
               />
+
               <Style.SelectWrapper>
                 <FormikInput
                   label="Prazo para execução"
@@ -195,6 +202,23 @@ export const ModalEditMaintenance = ({
                   ))}
                 </FormikSelect>
               </Style.SelectWrapper>
+
+              <FormikSelect
+                selectPlaceholderValue={values.priorityName}
+                name="priorityName"
+                label="Prioridade"
+                error={touched.priorityName && errors.priorityName ? errors.priorityName : null}
+              >
+                <option value="" disabled>
+                  Selecione
+                </option>
+
+                {maintenancePriorities.map((priority) => (
+                  <option key={priority.name} value={priority.name}>
+                    {priority.label}
+                  </option>
+                ))}
+              </FormikSelect>
 
               <MaintenanceInstructionsComponent
                 setFieldValue={setFieldValue}
