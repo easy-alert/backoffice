@@ -29,7 +29,7 @@ export const CreateTutorialModal = ({
     description: yup.string(),
     url: yup.string().required('Campo obrigatório'),
     type: yup.string().required('Campo obrigatório'),
-    order: yup.number().required('Campo obrigatório'),
+    order: yup.number().required('Campo obrigatório').min(1, 'O valor mínimo é 1'),
   });
 
   return (
@@ -38,11 +38,12 @@ export const CreateTutorialModal = ({
         validationSchema={createTutorialSchema}
         onSubmit={(values) => handleCreateTutorial(values)}
         initialValues={{
+          id: '',
           title: '',
           description: '',
           url: '',
           thumbnail: '',
-          type: 'video',
+          type: 'video' as 'video' | 'document',
           order: 1,
         }}
       >
@@ -70,20 +71,20 @@ export const CreateTutorialModal = ({
                 name="url"
                 value={values.url}
                 error={touched.url && errors.url ? errors.url : null}
-                placeholder="Ex: https://youtu.be/ZmAId85nywI"
+                placeholder="Ex: https://youtu.be/67AWkVUWpPU"
               />
 
               {/* <FormikImageInput
-                label="Thumbnail"
-                name="thumbnail"
-                value={values.thumbnail}
-                error={touched.thumbnail && errors.thumbnail ? errors.thumbnail : null}
-                setFieldValue={setFieldValue}
+              label="Thumbnail"
+              name="thumbnail"
+              value={values.thumbnail}
+              error={touched.thumbnail && errors.thumbnail ? errors.thumbnail : null}
+              setFieldValue={setFieldValue}
               /> */}
 
               {/* <FormikSelect selectPlaceholderValue={values.type} name="type" label="Tipo">
-                <option value="video">Vídeo</option>
-                <option value="document">Documento</option>
+              <option value="video">Vídeo</option>
+              <option value="document">Documento</option>
               </FormikSelect> */}
 
               <FormikInput
@@ -93,6 +94,7 @@ export const CreateTutorialModal = ({
                 value={values.order}
                 error={touched.order && errors.order ? errors.order : null}
                 placeholder="Ex: 1"
+                min={1}
               />
 
               <Button center label="Cadastrar" type="submit" loading={loading} />
