@@ -37,6 +37,7 @@ import smallPaper from './smallPaper.svg';
 import trashWithPrimaryBg from './trashWithPrimaryBg.svg';
 import xBlack from './xBlack.svg';
 import download from './download.svg';
+import tutorial from './tutorial.svg';
 
 export const icon = {
   download,
@@ -78,4 +79,5 @@ export const icon = {
   access,
   count,
   suppliers,
+  tutorial,
 };

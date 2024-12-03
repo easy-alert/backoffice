@@ -39,6 +39,13 @@ export const Sidebar = () => {
         navigate('/maintenances');
       },
     },
+    {
+      icon: icon.tutorial,
+      url: '/tutorials',
+      redirectFunction: () => {
+        navigate('/tutorials');
+      },
+    },
     // Desativado em função das tasks SA-6535 em diante que mudou isso pra company
     // {
     //   icon: icon.suppliers,
