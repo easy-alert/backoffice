@@ -11,7 +11,7 @@ import { Modal } from '@components/Modal';
 import type { ITutorial } from '@customTypes/ITutorial';
 
 // styles
-import * as Style from './styles';
+import * as Style from '../styles';
 
 interface ICreateTutorialModal {
   tutorial: ITutorial;
@@ -50,7 +50,7 @@ export const EditTutorialModal = ({
         }}
       >
         {({ errors, values, touched }) => (
-          <Style.FormContainer>
+          <Style.ModalFormContainer>
             <Form>
               <FormikInput
                 label="Título do tutorial *"
@@ -101,7 +101,7 @@ export const EditTutorialModal = ({
 
               <Button center label="Atualizar" type="submit" loading={loading} />
             </Form>
-          </Style.FormContainer>
+          </Style.ModalFormContainer>
         )}
       </Formik>
     </Modal>

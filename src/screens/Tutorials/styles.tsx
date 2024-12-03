@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { theme } from '../../styles/theme';
+
+import { theme } from '@styles/theme';
 
 export const Container = styled.div`
   padding-top: ${theme.size.sm};
@@ -14,6 +15,15 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: ${theme.size.sm};
+`;
+
+export const EmptyContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  > h4 {
+    color: ${theme.color.gray4};
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -34,13 +44,13 @@ export const Card = styled.div`
   img {
     width: 100%;
     border-radius: ${theme.size.xsm};
-  }
 
-  cursor: pointer;
-  transition: 0.1s;
+    cursor: pointer;
+    transition: 0.1s;
 
-  :hover {
-    scale: 1.05;
+    :hover {
+      scale: 1.02;
+    }
   }
 
   @media (max-width: 900px) {
@@ -57,5 +67,33 @@ export const Card = styled.div`
 
   > h5 {
     color: ${theme.color.black};
+  }
+`;
+
+export const CardHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: ${theme.size.xsm};
+`;
+
+export const CardHeaderButtons = styled.div`
+  display: flex;
+  gap: ${theme.size.xsm};
+`;
+
+export const CardImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
+
+// MODAL
+
+export const ModalFormContainer = styled.div`
+  button {
+    margin-top: ${theme.size.xsm};
   }
 `;
