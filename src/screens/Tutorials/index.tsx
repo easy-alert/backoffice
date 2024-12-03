@@ -203,6 +203,8 @@ export const Tutorials = () => {
                 >
                   <img alt="" src={tutorial.thumbnail} />
                 </Style.CardImageContainer>
+
+                <p>Ordem: {tutorial.order}</p>
               </Style.Card>
             ))}
           </Style.Wrapper>
