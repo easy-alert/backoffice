@@ -9,7 +9,6 @@ export async function deleteTutorial(id: string) {
 
   try {
     const response = await Api.delete(api);
-    console.log('🚀 ~ response:', response);
 
     toast.success(response.data.ServerMessage.message);
   } catch (error) {
