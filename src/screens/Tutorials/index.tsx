@@ -23,6 +23,7 @@ import { catchHandler } from '@utils/functions';
 import type { ITutorial } from '@customTypes/ITutorial';
 
 // COMPONENTS
+import ChatWidget from '@components/ChatWidget';
 import { CreateTutorialModal } from './CreateTutorialModal';
 import { EditTutorialModal } from './EditTutorialModal';
 
@@ -156,6 +157,8 @@ export const Tutorials = () => {
         </Style.HeaderContainer>
 
         {loading && <DotSpinLoading />}
+
+        <ChatWidget />
 
         {!loading && (
           <Style.Wrapper>
