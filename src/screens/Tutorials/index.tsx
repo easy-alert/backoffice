@@ -15,6 +15,7 @@ import { IconButton } from '@components/Buttons/IconButton';
 import { IFrameModal } from '@components/IFrameModal/IFrameModal';
 import { PopoverButton } from '@components/Buttons/PopoverButton';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
+import ChatWidget from '@components/ChatWidget';
 
 // GLOBAL UTILS
 import { catchHandler } from '@utils/functions';
@@ -156,6 +157,8 @@ export const Tutorials = () => {
         </Style.HeaderContainer>
 
         {loading && <DotSpinLoading />}
+
+        <ChatWidget />
 
         {!loading && (
           <Style.Wrapper>
