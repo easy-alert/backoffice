@@ -1,12 +1,15 @@
 import { ErrorBoundary } from 'react-error-boundary';
 import { ThemeProvider } from 'styled-components';
 import { ToastContainer, Slide } from 'react-toastify';
-import { ErrorFallback } from './components/ErrorFallback';
-import { handleError } from './utils/functions';
+
+import { ErrorFallback } from '@components/ErrorFallback';
+
+import { handleError } from '@utils/functions';
+
+import { theme } from '@styles/theme';
+import GlobalCSS from '@styles/globalCSS';
 
 import AppRoutes from './routes';
-import { theme } from './styles/theme';
-import GlobalCSS from './styles/globalCSS';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -32,6 +35,7 @@ export default function App() {
           pauseOnHover
           transition={Slide}
         />
+
         <AppRoutes />
       </ThemeProvider>
     </ErrorBoundary>
