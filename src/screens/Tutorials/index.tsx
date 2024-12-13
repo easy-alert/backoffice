@@ -15,6 +15,7 @@ import { IconButton } from '@components/Buttons/IconButton';
 import { IFrameModal } from '@components/IFrameModal/IFrameModal';
 import { PopoverButton } from '@components/Buttons/PopoverButton';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
+import ChatWidget from '@components/ChatWidget';
 
 // GLOBAL UTILS
 import { catchHandler } from '@utils/functions';
@@ -23,7 +24,6 @@ import { catchHandler } from '@utils/functions';
 import type { ITutorial } from '@customTypes/ITutorial';
 
 // COMPONENTS
-import ChatWidget from '@components/ChatWidget';
 import { CreateTutorialModal } from './CreateTutorialModal';
 import { EditTutorialModal } from './EditTutorialModal';
 
