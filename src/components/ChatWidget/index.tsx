@@ -24,10 +24,10 @@ export default function ChatWidget() {
   return (
     <Style.ChatWidgetContainer>
       <langflow-chat
+        host_url={import.meta.env.VITE_CHATBOT_HOST_URL}
+        flow_id={import.meta.env.VITE_CHATBOT_FLOW_ID}
         window_title="Izinho Chatbot"
         online_message="Izinho está online e pronto para ajudar!"
-        flow_id="ad64085d-4388-4d80-87f2-99d24350ff74"
-        host_url="https://guiroos-izinho-chatbot.hf.space"
         chat_position="top-left"
         height="500px"
         width="400px"
