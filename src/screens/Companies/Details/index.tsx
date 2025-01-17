@@ -3,23 +3,24 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // COMPONENTS
-import * as Style from './styles';
-import { ReturnButton } from '../../../components/Buttons/ReturnButton';
-import { IconButton } from '../../../components/Buttons/IconButton';
-import { Image } from '../../../components/Image';
-import { Tag } from '../../../components/Tag';
-import { PopoverButton } from '../../../components/Buttons/PopoverButton';
+import { ReturnButton } from '@components/Buttons/ReturnButton';
+import { IconButton } from '@components/Buttons/IconButton';
+import { Image } from '@components/Image';
+import { Tag } from '@components/Tag';
+import { PopoverButton } from '@components/Buttons/PopoverButton';
+import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
 
 // THEMES
-import { theme } from '../../../styles/theme';
+import { theme } from '@styles/theme';
 
 // ICONS
-import { icon } from '../../../assets/icons/index';
+import { icon } from '@assets/icons/index';
 
 // FUNCTIONS
-import { applyMask, dateTimeFormatter } from '../../../utils/functions';
+import { applyMask, dateTimeFormatter } from '@utils/functions';
 
 // TYPES
+import type { IUser } from '@utils/types';
 import { ICompany } from '../List/utils/types';
 
 // MODAIS
@@ -31,7 +32,8 @@ import {
 } from './utils/functions';
 import { ModalEditCompanyAndOwner } from './utils/modals/ModalEditCompanyAndOwner';
 import { ModalBuildingAccessHistories } from './utils/modals/ModalBuildingAccessHistories';
-import { DotSpinLoading } from '../../../components/Loadings/DotSpinLoading';
+
+import * as Style from './styles';
 
 export const CompanyDetails = () => {
   // UTILS
@@ -42,6 +44,7 @@ export const CompanyDetails = () => {
 
   // CONSTS
   const [company, setCompany] = useState<ICompany>();
+  const [companyOwner, setCompanyOwner] = useState<IUser>();
   const [modalEditCompanyAndOwnerIsOpen, setModalEditCompanyAndOwnerIsOpen] =
     useState<boolean>(false);
 
@@ -50,7 +53,7 @@ export const CompanyDetails = () => {
   const { search } = window.location;
 
   useEffect(() => {
-    requestUserDetails({ companyId: companyId!, setCompany, setLoading });
+    requestUserDetails({ companyId: companyId!, setCompany, setCompanyOwner, setLoading });
   }, []);
 
   return (
@@ -248,6 +251,15 @@ export const CompanyDetails = () => {
               onClick={() => {
                 setModalEditCompanyAndOwnerIsOpen(true);
               }}
+            />
+
+            <IconButton
+              className="p4"
+              size="24px"
+              hideLabelOnMedia
+              icon={icon.eyeWithBlueBg}
+              label="Permissões"
+              onClick={() => navigate(`/companies/${company?.id}/permissions/${companyOwner?.id}`)}
             />
           </Style.Footer>
         </>
