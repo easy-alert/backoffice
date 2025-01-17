@@ -25,6 +25,7 @@ export const useBuildings = ({
       companyId,
       search: filter,
       page,
+      checkPerms: false,
     };
 
     try {
