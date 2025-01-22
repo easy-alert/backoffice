@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ICompany } from '../../List/utils/types';
+import type { IUser } from '@utils/types';
+import type { ICompany } from '../../List/utils/types';
 
 export interface IRequestUserDetails {
   setCompany: (setCompany: ICompany) => void;
+  setCompanyOwner: (setCompanyOwner: IUser) => void;
   setLoading: (setLoading: boolean) => void;
   companyId: string;
 }

@@ -10,10 +10,14 @@ import { catchHandler } from '../../../../utils/functions';
 export const requestUserDetails = async ({
   setLoading,
   setCompany,
+  setCompanyOwner,
   companyId,
 }: IRequestUserDetails) => {
   await Api.get(`/companies/list/details/${companyId}`)
     .then((res) => {
+      const owner = res.data.UserCompanies.find((user: any) => user.owner);
+
+      setCompanyOwner(owner.User);
       setCompany(res.data);
       setLoading(false);
     })
