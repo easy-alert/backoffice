@@ -11,6 +11,7 @@ import { Login } from '@screens/Authentication/Login';
 // COMPANIES
 import { CompaniesList } from '@screens/Companies/List';
 import { CompanyDetails } from '@screens/Companies/Details';
+import UserPermissions from '@screens/Companies/UserPermissions';
 import { MaintenancesList } from '@screens/Maintenances/List';
 import { Tutorials } from '@screens/Tutorials';
 
@@ -35,6 +36,7 @@ const AppRoutes = () => (
           <Route path="/companies" element={<Outlet />}>
             <Route index element={<CompaniesList />} />
             <Route path=":companyId" element={<CompanyDetails />} />
+            <Route path=":companyId/permissions/:userId" element={<UserPermissions />} />
           </Route>
 
           <Route path="/maintenances" element={<MaintenancesList />} />
