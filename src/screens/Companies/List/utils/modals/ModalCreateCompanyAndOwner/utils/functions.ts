@@ -31,7 +31,7 @@ export const requestCreateCompanyAndOWner = async ({
   await Api.post('/companies/create', {
     image: imageUrl,
     name: data.name,
-    email: data.email,
+    email: data.email.toLowerCase(),
     password: data.password,
     companyName: data.companyName,
     CNPJ: data.CNPJorCPF?.length === 18 ? unMask(data.CNPJorCPF) : null,
