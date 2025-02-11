@@ -74,21 +74,21 @@ export const ModalCreateCompanyAndOwner = ({
                 }}
               />
               <FormikInput
-                label="Nome do responsável"
+                label="Nome do responsável *"
                 name="name"
                 value={values.name}
                 error={touched.name && errors.name ? errors.name : null}
                 placeholder="Ex: João Silva"
               />
               <FormikInput
-                label="E-mail"
+                label="E-mail *"
                 name="email"
                 value={values.email}
                 error={touched.email && errors.email ? errors.email : null}
                 placeholder="Ex:  joao.silva@easyalert.com"
               />
               <FormikInput
-                label="Nome da empresa"
+                label="Nome da empresa *"
                 name="companyName"
                 value={values.companyName}
                 error={touched.companyName && errors.companyName ? errors.companyName : null}
@@ -96,7 +96,7 @@ export const ModalCreateCompanyAndOwner = ({
               />
 
               <FormikInput
-                label="Telefone"
+                label="Telefone *"
                 name="contactNumber"
                 maxLength={
                   applyMask({
@@ -116,7 +116,7 @@ export const ModalCreateCompanyAndOwner = ({
               />
 
               <FormikInput
-                label="CNPJ/CPF"
+                label="CNPJ/CPF *"
                 name="CNPJorCPF"
                 placeholder="Insira o CNPJ ou CPF"
                 error={touched.CNPJorCPF && errors.CNPJorCPF ? errors.CNPJorCPF : null}
@@ -148,7 +148,7 @@ export const ModalCreateCompanyAndOwner = ({
 
               <FormikInput
                 type="password"
-                label="Senha"
+                label="Senha *"
                 name="password"
                 value={values.password}
                 error={touched.password && errors.password ? errors.password : null}
@@ -157,7 +157,7 @@ export const ModalCreateCompanyAndOwner = ({
               />
               <FormikInput
                 type="password"
-                label="Confirmar senha"
+                label="Confirmar senha *"
                 name="confirmPassword"
                 value={values.confirmPassword}
                 error={
