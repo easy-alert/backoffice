@@ -20,6 +20,12 @@ interface ICreateTutorialModal {
   handleEditTutorialModal: (modalState: boolean) => void;
 }
 
+const fieldLabels: Record<string, string> = {
+  title: 'Título do tutorial',
+  url: 'URL',
+  order: 'Ordem',
+};
+
 export const EditTutorialModal = ({
   tutorial,
   loading,
@@ -27,11 +33,14 @@ export const EditTutorialModal = ({
   handleEditTutorialModal,
 }: ICreateTutorialModal) => {
   const editTutorialSchema = yup.object().shape({
-    title: yup.string().required('Campo obrigatório'),
+    title: yup.string().required(() => `O ${fieldLabels.title.toLowerCase()} deve ser preenchido.`),
     description: yup.string(),
-    url: yup.string().required('Campo obrigatório'),
+    url: yup.string().required(() => `A ${fieldLabels.url.toLowerCase()} deve ser preenchida.`),
     type: yup.string().required('Campo obrigatório'),
-    order: yup.number().required('Campo obrigatório').min(1, 'O valor mínimo é 1'),
+    order: yup
+      .number()
+      .required(() => `A ${fieldLabels.order.toLowerCase()} deve ser preenchida.`)
+      .min(1, 'O valor mínimo é 1'),
   });
 
   return (
