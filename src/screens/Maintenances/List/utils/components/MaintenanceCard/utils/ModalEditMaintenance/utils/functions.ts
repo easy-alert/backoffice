@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 // FUNCTIONS
-import { Api } from '../../../../../../../../../services/api';
-import { catchHandler } from '../../../../../../../../../utils/functions';
+import { Api } from '@services/api';
+import { catchHandler } from '@utils/functions';
 
 // TYPES
 import { IDeleteMaintenance, IRequestEditMaintenance } from './types';
@@ -95,82 +95,95 @@ export const requestDeleteMaintenance = async ({
     });
 };
 
+const fieldLabels = {
+  element: 'Elemento',
+  activity: 'Atividade',
+  frequency: 'Periodicidade',
+  frequencyTimeInterval: 'Unidade da periodicidade',
+  responsible: 'Responsável',
+  source: 'Fonte',
+  period: 'Prazo para execução',
+  periodTimeInterval: 'Unidade do prazo para execução',
+  delay: 'Delay',
+  delayTimeInterval: 'Unidade do delay',
+  observation: 'Observação',
+};
+
 // YUP
-export const schemaEditMaintenance = yup
-  .object({
-    element: yup
-      .string()
-      .required('O elemento deve ser preenchido.')
-      .min(3, 'O elemento deve conter 3 ou mais caracteres.'),
+export const schemaEditMaintenance = yup.object({
+  element: yup
+    .string()
+    .required(() => `O ${fieldLabels.element.toLowerCase()} deve ser preenchido.`)
+    .min(3, `O ${fieldLabels.element.toLowerCase()} deve conter 3 ou mais caracteres.`),
 
-    activity: yup
-      .string()
-      .required('A atividade deve ser preenchida.')
-      .min(3, 'A atividade deve conter 3 ou mais caracteres.'),
+  activity: yup
+    .string()
+    .required(() => `A ${fieldLabels.activity.toLowerCase()} deve ser preenchida.`)
+    .min(3, `A ${fieldLabels.activity.toLowerCase()} deve conter 3 ou mais caracteres.`),
 
-    frequency: yup
-      .string()
-      .required('A periodicidade deve ser preenchida.')
-      .matches(/^\d/, 'A periodicidade deve ser um número.')
-      .test(
-        'greaterThanZero',
-        'A periodicidade deve ser maior que zero.',
-        (value) => Number(value) > 0,
-      ),
+  frequency: yup
+    .string()
+    .required(() => `A ${fieldLabels.frequency.toLowerCase()} deve ser preenchida.`)
+    .matches(/^\d/, `A ${fieldLabels.frequency.toLowerCase()} deve ser um número.`)
+    .test(
+      'greaterThanZero',
+      `A ${fieldLabels.frequency.toLowerCase()} deve ser maior que zero.`,
+      (value) => Number(value) > 0,
+    ),
 
-    frequencyTimeInterval: yup
-      .string()
-      .required('A unidade da periodicidade deve ser preenchida.')
-      .test(
-        'hasValue',
-        'A unidade da periodicidade deve ser preenchida.',
-        (value) => value !== 'Selecione',
-      ),
+  frequencyTimeInterval: yup
+    .string()
+    .required(() => `A ${fieldLabels.frequencyTimeInterval.toLowerCase()} deve ser preenchida.`)
+    .test(
+      'hasValue',
+      `A ${fieldLabels.frequencyTimeInterval.toLowerCase()} deve ser preenchida.`,
+      (value) => value !== 'Selecione',
+    ),
 
-    responsible: yup
-      .string()
-      .required('O nome do responsável deve ser preenchido.')
-      .min(3, 'O nome deve conter 3 ou mais caracteres.'),
+  responsible: yup
+    .string()
+    .required(() => `O ${fieldLabels.responsible.toLowerCase()} deve ser preenchido.`)
+    .min(3, `O ${fieldLabels.responsible.toLowerCase()} deve conter 3 ou mais caracteres.`),
 
-    source: yup
-      .string()
-      .required('A fonte deve ser preenchida.')
-      .min(3, 'A fonte deve conter 3 ou mais caracteres.'),
+  source: yup
+    .string()
+    .required(() => `A ${fieldLabels.source.toLowerCase()} deve ser preenchida.`)
+    .min(3, `A ${fieldLabels.source.toLowerCase()} deve conter 3 ou mais caracteres.`),
 
-    period: yup
-      .string()
-      .required('O prazo para execução deve ser preenchido.')
-      .matches(/^\d/, 'O prazo para execução deve ser um número.')
-      .test(
-        'greaterThanZero',
-        'O prazo para execução deve ser maior que zero.',
-        (value) => Number(value) > 0,
-      ),
+  period: yup
+    .string()
+    .required(() => `O ${fieldLabels.period.toLowerCase()} deve ser preenchido.`)
+    .matches(/^\d/, `O ${fieldLabels.period.toLowerCase()} deve ser um número.`)
+    .test(
+      'greaterThanZero',
+      `O ${fieldLabels.period.toLowerCase()} deve ser maior que zero.`,
+      (value) => Number(value) > 0,
+    ),
 
-    periodTimeInterval: yup
-      .string()
-      .required('A unidade do prazo para execução deve ser preenchida.')
-      .test(
-        'hasValue',
-        'A unidade do prazo para execução deve ser preenchida.',
-        (value) => value !== 'Selecione',
-      ),
+  periodTimeInterval: yup
+    .string()
+    .required(() => `A ${fieldLabels.periodTimeInterval.toLowerCase()} deve ser preenchida.`)
+    .test(
+      'hasValue',
+      `A ${fieldLabels.periodTimeInterval.toLowerCase()} deve ser preenchida.`,
+      (value) => value !== 'Selecione',
+    ),
 
-    delay: yup
-      .string()
-      .required('O delay deve ser preenchido.')
-      .matches(/^\d/, 'O delay deve ser um número.'),
+  delay: yup
+    .string()
+    .required(() => `O ${fieldLabels.delay.toLowerCase()} deve ser preenchido.`)
+    .matches(/^\d/, `O ${fieldLabels.delay.toLowerCase()} deve ser um número.`),
 
-    delayTimeInterval: yup
-      .string()
-      .required('A unidade do delay deve ser preenchida.')
-      .test(
-        'hasValue',
-        'A unidade do delay deve ser preenchida.',
-        (value) => value !== 'Selecione',
-      ),
+  delayTimeInterval: yup
+    .string()
+    .required(() => `A ${fieldLabels.delayTimeInterval.toLowerCase()} deve ser preenchida.`)
+    .test(
+      'hasValue',
+      `A ${fieldLabels.delayTimeInterval.toLowerCase()} deve ser preenchida.`,
+      (value) => value !== 'Selecione',
+    ),
 
-    observation: yup.string().min(3, 'A observação deve conter 3 ou mais caracteres.'),
-  })
-
-  .required();
+  observation: yup
+    .string()
+    .min(3, `A ${fieldLabels.observation.toLowerCase()} deve conter 3 ou mais caracteres.`),
+});
