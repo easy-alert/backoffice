@@ -23,6 +23,7 @@ const fieldLabels: Record<string, string> = {
   title: 'Título do tutorial',
   url: 'URL',
   order: 'Ordem',
+  type: 'number',
 };
 
 export const CreateTutorialModal = ({
@@ -34,7 +35,7 @@ export const CreateTutorialModal = ({
     title: yup.string().required(() => `O ${fieldLabels.title.toLowerCase()} deve ser preenchido.`),
     description: yup.string(),
     url: yup.string().required(() => `A ${fieldLabels.url.toLowerCase()} deve ser preenchida.`),
-    type: yup.string().required('Campo obrigatório'),
+    type: yup.string().required(() => `A ${fieldLabels.type.toLowerCase()} deve ser preenchida.`),
     order: yup
       .number()
       .required(() => `A ${fieldLabels.order.toLowerCase()} deve ser preenchida.`)
