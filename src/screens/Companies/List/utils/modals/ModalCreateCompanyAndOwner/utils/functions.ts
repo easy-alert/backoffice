@@ -3,12 +3,12 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 // FUNCTIONS
-import { Api } from '../../../../../../../services/api';
-import { catchHandler, unMask, uploadFile } from '../../../../../../../utils/functions';
-import { requestUsersList } from '../../../functions';
+import { Api } from '@services/api';
+import { catchHandler, unMask, uploadFile } from '@utils/functions';
 
 // TYPES
 import { IRequestCreateCompanyAndOWner } from './types';
+import { requestUsersList } from '../../../functions';
 
 export const requestCreateCompanyAndOWner = async ({
   data,
@@ -103,7 +103,7 @@ export const schemaModalCreateCompanyAndOwner = yup
 
     CNPJorCPF: yup
       .string()
-      .required('Um CNPJ ou um CPF deve ser informado.')
+      .required('Um CNPJ ou um CPF deve ser preenchido.')
       .test(
         'len',
         'Informe um CNPJ ou um CPF válido.',
@@ -112,12 +112,12 @@ export const schemaModalCreateCompanyAndOwner = yup
 
     password: yup
       .string()
-      .required('Informe a senha.')
+      .required('A senha deve ser preenchida.')
       .min(8, 'Sua senha deve possuir 8 ou mais caracteres.'),
 
     confirmPassword: yup
       .string()
-      .required('Informe a senha.')
+      .required('O confirmar senha deve ser preenchido.')
       .min(8, 'Sua senha deve possuir 8 ou mais caracteres.')
       .oneOf([yup.ref('password'), null], 'As senhas não coincidem.'),
   })
