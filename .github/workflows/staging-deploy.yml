@@ -31,7 +31,7 @@ jobs:
           aws s3 website s3://$S3_BUCKET --index-document index.html --error-document index.html || echo "Website configuration done"
 
   staging_build:
-    name: Staging Deploy
+    name: Staging Build
     runs-on: ubuntu-latest
     environment: staging  # 👉 Aqui define que este job usará o ambiente 'staging'
     needs: staging_bucket_check
@@ -61,7 +61,7 @@ jobs:
     name: Staging Deploy
     runs-on: ubuntu-latest
     environment: staging  # 👉 Aqui define que este job usará o ambiente 'staging'
-    needs: staging_bucket_check
+    needs: staging_build
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
