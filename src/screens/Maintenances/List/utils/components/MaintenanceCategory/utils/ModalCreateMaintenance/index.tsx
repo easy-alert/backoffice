@@ -83,7 +83,7 @@ export const ModalCreateMaintenance = ({
               </FormikSelect>
 
               <FormikTextArea
-                label="Elemento"
+                label="Elemento *"
                 name="element"
                 value={values.element}
                 error={touched.element && errors.element ? errors.element : null}
@@ -92,7 +92,7 @@ export const ModalCreateMaintenance = ({
               />
 
               <FormikTextArea
-                label="Atividade"
+                label="Atividade *"
                 name="activity"
                 value={values.activity}
                 error={touched.activity && errors.activity ? errors.activity : null}
@@ -101,7 +101,7 @@ export const ModalCreateMaintenance = ({
               />
               <Style.SelectWrapper>
                 <FormikInput
-                  label="Periodicidade"
+                  label="Periodicidade *"
                   name="frequency"
                   value={values.frequency}
                   error={touched.frequency && errors.frequency ? errors.frequency : null}
@@ -117,7 +117,7 @@ export const ModalCreateMaintenance = ({
                 <FormikSelect
                   selectPlaceholderValue={values.frequencyTimeInterval}
                   name="frequencyTimeInterval"
-                  label="Unidade"
+                  label="Unidade *"
                   error={
                     touched.frequencyTimeInterval && errors.frequencyTimeInterval
                       ? errors.frequencyTimeInterval
@@ -137,7 +137,7 @@ export const ModalCreateMaintenance = ({
                 </FormikSelect>
               </Style.SelectWrapper>
               <FormikInput
-                label="Responsável"
+                label="Responsável *"
                 name="responsible"
                 value={values.responsible}
                 error={touched.responsible && errors.responsible ? errors.responsible : null}
@@ -145,7 +145,7 @@ export const ModalCreateMaintenance = ({
               />
 
               <FormikInput
-                label="Fonte"
+                label="Fonte *"
                 name="source"
                 value={values.source}
                 error={touched.source && errors.source ? errors.source : null}
@@ -161,7 +161,7 @@ export const ModalCreateMaintenance = ({
               />
               <Style.SelectWrapper>
                 <FormikInput
-                  label="Prazo para execução"
+                  label="Prazo para execução *"
                   name="period"
                   value={values.period}
                   error={touched.period && errors.period ? errors.period : null}
@@ -177,7 +177,7 @@ export const ModalCreateMaintenance = ({
                 <FormikSelect
                   selectPlaceholderValue={values.periodTimeInterval}
                   name="periodTimeInterval"
-                  label="Unidade"
+                  label="Unidade *"
                   error={
                     touched.periodTimeInterval && errors.periodTimeInterval
                       ? errors.periodTimeInterval
