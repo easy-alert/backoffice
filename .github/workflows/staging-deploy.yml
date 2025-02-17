@@ -9,6 +9,7 @@ jobs:
   staging_bucket_check:
     name: Staging Bucket Check
     runs-on: ubuntu-latest
+    environment: staging  # 👉 Aqui define que este job usará o ambiente 'staging'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -32,6 +33,7 @@ jobs:
   staging_deploy:
     name: Staging Deploy
     runs-on: ubuntu-latest
+    environment: staging  # 👉 Aqui define que este job usará o ambiente 'staging'
     needs: staging_bucket_check
     steps:
       - name: Checkout Repository
