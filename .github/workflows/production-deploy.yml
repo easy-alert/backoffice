@@ -9,6 +9,7 @@ jobs:
   production_bucket_check:
     name: Production Bucket Check
     runs-on: ubuntu-latest
+    environment: production  # 👉 Aqui define que este job usará o ambiente 'production'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -29,10 +30,38 @@ jobs:
           aws s3 mb s3://$S3_BUCKET --region us-east-1 2> /dev/null || echo "Bucket already exists"
           aws s3 website s3://$S3_BUCKET --index-document index.html --error-document index.html || echo "Website configuration done"
 
+  production_build:
+    name: Production Build
+    runs-on: ubuntu-latest
+    environment: production  # 👉 Aqui define que este job usará o ambiente 'production'
+    needs: production_bucket_check
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build Project
+        run: yarn build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+
   production_deploy:
     name: Production Deploy
     runs-on: ubuntu-latest
-    needs: production_bucket_check
+    environment: production  # 👉 Aqui define que este job usará o ambiente 'production'
+    needs: production_build
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
