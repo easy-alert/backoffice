@@ -11,6 +11,26 @@ export default createGlobalStyle`
     font-family: DM Sans;
   }
 
+  ::-webkit-scrollbar {
+    width: 8px; 
+    height: 8px; 
+  }
+
+  ::-webkit-scrollbar-track {
+    background: ${theme.color.gray1}; 
+    border-radius: 4px; 
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${theme.color.gray4}; 
+    border-radius: 4px; 
+    transition: background 0.3s ease; 
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: ${theme.color.primary}; 
+  }
+
   a {
     font-style: normal;
     font-weight: normal;
