@@ -4,6 +4,10 @@ import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 
 export default defineConfig({
+  server: {
+    port: 3002,
+  },
+
   build: {
     chunkSizeWarningLimit: 1000,
     rollupOptions: {

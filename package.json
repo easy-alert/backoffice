@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --port 3002",
+    "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -51,6 +51,6 @@
     "pinst": "^3.0.0",
     "prettier": "^2.7.1",
     "typescript": "^4.6.3",
-    "vite": "^2.9.9"
+    "vite": "^3.2.11"
   }
 }
