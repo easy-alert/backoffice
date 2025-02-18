@@ -43,7 +43,13 @@ export default defineConfig({
   plugins: [
     react(),
     checker({
-      typescript: true,
+      typescript: {
+        root: __dirname,
+        tsconfigPath: './tsconfig.json',
+      },
+      eslint: {
+        lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
+      },
     }),
   ],
 });
