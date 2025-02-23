@@ -55,7 +55,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build package
+      - name: Build Project
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_AUTH_KEY: ${{ secrets.VITE_AUTH_KEY }}
         run: npm run build
 
       - name: Upload Build Artifact
