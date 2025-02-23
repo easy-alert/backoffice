@@ -111,9 +111,7 @@ export const PopoverButton = ({
                 arrowStyle={getArrowStyle(position, arrowSize)}
               >
                 <Style.PopoverBackground>
-                  <Style.PopoverBody
-                    contentColor={message.contentColor ?? theme.color.gray4}
-                  >
+                  <Style.PopoverBody contentColor={message.contentColor ?? theme.color.gray4}>
                     <h2>
                       {label}
                       <IconButton

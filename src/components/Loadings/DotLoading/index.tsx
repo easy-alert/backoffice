@@ -6,10 +6,7 @@ interface IDotLoading {
   bgColor?: string;
 }
 
-export const DotLoading = ({
-  label,
-  bgColor = theme.color.primary,
-}: IDotLoading) => (
+export const DotLoading = ({ label, bgColor = theme.color.primary }: IDotLoading) => (
   <LoadingContainer bgColor={bgColor}>
     <LoadingWrapper>
       <h4>{label}</h4>
