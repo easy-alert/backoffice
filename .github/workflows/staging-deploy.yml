@@ -58,7 +58,7 @@ jobs:
       - name: Build Project
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
-          VITE_AUTH_KEY: ${{ secrets.VITE_AUTH_KEY }}
+          VITE_COMPANY_URL: ${{ secrets.VITE_COMPANY_URL }}
         run: npm run build
 
       - name: Upload Build Artifact
