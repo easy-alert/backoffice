@@ -45,10 +45,21 @@ jobs:
           restore-keys: |
             node-modules-${{ runner.os }}-
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Build package
+      - name: Debug Environment Variables
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_COMPANY_URL: ${{ vars.VITE_COMPANY_URL }}
+        run: |
+          echo "VITE_API_URL: $VITE_API_URL"
+          echo "VITE_COMPANY_URL: $VITE_COMPANY_URL"
+
+      - name: Build Project
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_COMPANY_URL: ${{ vars.VITE_COMPANY_URL }}
         run: npm run build
 
       - name: Upload Build Artifact
