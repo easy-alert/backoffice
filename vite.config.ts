@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+
 import checker from 'vite-plugin-checker';
 
 export default defineConfig({
@@ -9,18 +10,20 @@ export default defineConfig({
   },
 
   build: {
-    target: 'esnext',
-    minify: 'esbuild',
-    sourcemap: true,
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return id.toString().split('node_modules/')[1].split('/')[0].toString();
-          }
-
-          return 'other';
+        manualChunks:{
+          react: ['react', 'react-dom', 'react-router-dom'],
+          formik: ['formik', 'yup'],
+          axios: ['axios'],
+          styledComponents: ['styled-components'],
+          reactSelect: ['react-select'],
+          reactToastify: ['react-toastify'],
+          reactDropzone: ['react-dropzone'],
+          reactPopover: ['react-tiny-popover'],
+          reactSwitch: ['react-switch'],
+          reactErrorBoundary: ['react-error-boundary'],
         }
       }
     },
