@@ -5,6 +5,14 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 
+# Accept build arguments
+ARG VITE_API_URL
+ARG VITE_COMPANY_URL
+
+# Set environment variables for the build process
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_COMPANY_URL=$VITE_COMPANY_URL
+
 COPY . .
 RUN npm run build
 
