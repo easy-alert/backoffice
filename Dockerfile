@@ -6,7 +6,12 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
+
+RUN ls -la
+
 RUN npm run build
+
+RUN ls -la /app
 
 # Stage 2: Serve the static files
 FROM node:20-alpine
@@ -17,7 +22,7 @@ WORKDIR /app
 RUN npm install -g serve
 
 # Copy the built app from the previous stage
-COPY --from=build /app/build ./build
+COPY --from=build /app/dist ./dist
 
 # Environment variables
 ENV PORT=3000
