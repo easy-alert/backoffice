@@ -6,27 +6,20 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
-
-RUN ls -la
-
 RUN npm run build
-
-RUN ls -la /app
 
 # Stage 2: Serve the static files
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Install a simple static server
+# Install serve
 RUN npm install -g serve
 
-# Copy the built app from the previous stage
+# Copy the built app from Vite (dist directory instead of build)
 COPY --from=build /app/dist ./dist
 
-# Environment variables
 ENV PORT=8080
-
 EXPOSE 8080
 
-CMD ["serve", "-s", "build", "-l", "8080"]
+CMD ["serve", "-s", "dist", "-l", "8080"]
