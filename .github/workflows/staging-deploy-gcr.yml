@@ -7,10 +7,10 @@ on:
 
 env:
   PROJECT_ID: 'easy-alert-dev'
-  GAR_NAME: 'backoffice-dev'
-  GAR_LOCATION: 'southamerica-east1'
+  SERVICE: 'backoffice-gh-sandbox'
   REGION: 'southamerica-east1'
-  SERVICE: 'github-dev-deploy'
+  GAR_LOCATION: 'southamerica-east1'
+  GAR_NAME: 'backoffice-sandbox'
 
 jobs:
   build:
