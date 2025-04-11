@@ -7,19 +7,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 
-app.use(express.static(path.join(__dirname, 'dist')));
+// Servir arquivos estáticos (build do Vite)
+app.use('/assets', express.static(path.join(__dirname, 'dist', 'assets')));
 
-// Para rotas SPA (React Router), tratando para que só o index.html seja retornado
+// Rota para SPA (React Router)
 app.get('*', (req, res) => {
-  const filePath = path.join(__dirname, 'dist', req.url);
-  res.sendFile(filePath, (err) => {
-    if (err) {
-      // Se o arquivo não for encontrado, servir o index.html
-      res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-    }
-  });
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(port, () => {
