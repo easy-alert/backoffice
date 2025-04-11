@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
+    "start": "node index.js",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
