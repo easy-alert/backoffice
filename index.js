@@ -11,7 +11,7 @@ const port = process.env.PORT || 8081;
 
 // Servir arquivos estáticos (build do Vite)
 app.use((req, res, next) => {
-  if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path)) {
+  if (/(.ico|.js|.css|.jpg|.png|.map|.svg)$/i.test(req.path)) {
       next();
   } else {
       res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
