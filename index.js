@@ -1,26 +1,20 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const express = require('express');
-const path = require('path'); // Import the 'path' module
+/* eslint-disable no-underscore-dangle */
 
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+const port = process.env.PORT || 8080;
 
-app.use(express.json());
-
-// Serve static files from the 'frontend/dist' directory
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Handle all other requests by serving index.html from the correct location
-app.get('/Analytics', (req, res) => {
+// Para rotas SPA (React Router)
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
-
-// Handle all other requests by serving index.html from the correct location
-app.get('/Quiz', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
-const port = process.env.PORT || 8081;
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}...`);
+  console.log(`Servidor rodando na porta ${port}`);
 });
