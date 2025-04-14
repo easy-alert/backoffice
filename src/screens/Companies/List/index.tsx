@@ -79,7 +79,7 @@ export const CompaniesList = () => {
         <>
           <Style.Header>
             <Style.LeftSide>
-              <h2>Usuários</h2>
+              <h2>Empresas</h2>
 
               <Style.SearchField>
                 <IconButton

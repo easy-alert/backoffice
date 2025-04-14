@@ -18,7 +18,7 @@ import type { IMaintenancePriority } from '../../../types/IMaintenancePriority';
 // FUNCTIONS
 import { getAllMaintenancePriorities } from '../../../services/apis/getAllMaintenancePriorities';
 import { filterFunction, requestCategories, requestCategoriesForSelect } from './utils/functions';
-import { catchHandler, requestListIntervals } from '../../../utils/functions';
+import { requestListIntervals } from '../../../utils/functions';
 
 // MODALS
 import { ModalCreateCategory } from './utils/ModalCreateCategory';
@@ -41,7 +41,7 @@ export const MaintenancesList = () => {
 
       setMaintenancePriorities(responseData.maintenancePriorities);
     } catch (error) {
-      catchHandler(error);
+      console.log('🚀 ~ handleGetAllMaintenancePriorities ~ error', error);
     }
   };
 

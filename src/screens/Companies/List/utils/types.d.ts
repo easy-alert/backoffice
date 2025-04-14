@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IUserCompanies {
+  owner?: boolean;
   User: {
     id: string;
     name: string;
