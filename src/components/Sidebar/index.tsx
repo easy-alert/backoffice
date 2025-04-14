@@ -33,6 +33,20 @@ export const Sidebar = () => {
       },
     },
     {
+      icon: icon.users,
+      url: '/users',
+      redirectFunction: () => {
+        navigate('/users');
+      },
+    },
+    {
+      icon: icon.building,
+      url: '/buildings',
+      redirectFunction: () => {
+        navigate('/buildings');
+      },
+    },
+    {
       icon: icon.maintenances,
       url: '/maintenances',
       redirectFunction: () => {

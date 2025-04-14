@@ -21,7 +21,7 @@ import { applyMask, dateTimeFormatter } from '@utils/functions';
 
 // TYPES
 import type { IUser } from '@utils/types';
-import { ICompany } from '../List/utils/types';
+import type { ICompany } from '../List/utils/types';
 
 // MODAIS
 
@@ -76,99 +76,99 @@ export const CompanyDetails = () => {
       {loading && <DotSpinLoading />}
 
       {!loading && (
-        <>
-          <Style.Header>
-            <h2>Detalhes de usuário</h2>
-          </Style.Header>
-
+        <Style.Container>
+          <h2>Detalhes da empresa</h2>
           <ReturnButton path={`/companies${search}`} />
+
           <Style.CardSection>
-            <Style.Card>
-              <h6>Logo</h6>
-              <Image img={company?.image} size="80px" />
-            </Style.Card>
-
-            <Style.Card>
-              <h6>Nome do responsável</h6>
-              <p className="p2">{company?.UserCompanies[0].User.name}</p>
-            </Style.Card>
-
-            <Style.Card>
-              <h6>E-mail</h6>
-              <p className="p2">{company?.UserCompanies[0].User.email}</p>
-            </Style.Card>
-
-            <Style.Card>
-              <h6>Nome da empresa</h6>
-              <p className="p2">{company?.name}</p>
-            </Style.Card>
-
-            <Style.Card>
-              <h6>Telefone</h6>
-              <p className="p2">
-                {applyMask({ value: company?.contactNumber ?? '', mask: 'TEL' }).value}
-              </p>
-            </Style.Card>
-
-            {company?.CPF && (
+            <Style.Image>
+              <Image img={company?.image} width="100%" height="100%" />
+            </Style.Image>
+            <Style.Details>
               <Style.Card>
-                <h6>CPF</h6>
-                <p className="p2">{applyMask({ value: company?.CPF, mask: 'CPF' }).value}</p>
+                <h6>Nome do responsável</h6>
+                <p className="p2">{company?.UserCompanies[0].User.name}</p>
               </Style.Card>
-            )}
 
-            {company?.CNPJ && (
               <Style.Card>
-                <h6>CNPJ</h6>
-                <p className="p2">{applyMask({ value: company?.CNPJ, mask: 'CNPJ' }).value}</p>
+                <h6>E-mail</h6>
+                <p className="p2">{company?.UserCompanies[0].User.email}</p>
               </Style.Card>
-            )}
 
-            <Style.Card>
-              <h6>Status</h6>
-              <Tag isInvalid={company?.isBlocked ?? false} />
-            </Style.Card>
+              <Style.Card>
+                <h6>Nome da empresa</h6>
+                <p className="p2">{company?.name}</p>
+              </Style.Card>
 
-            <Style.Card>
-              <h6>Data de cadastro</h6>
-              <p className="p2">
-                {company?.createdAt ? dateTimeFormatter(company?.createdAt) : '-'}
-              </p>
-            </Style.Card>
+              <Style.Card>
+                <h6>Telefone</h6>
+                <p className="p2">
+                  {applyMask({ value: company?.contactNumber ?? '', mask: 'TEL' }).value}
+                </p>
+              </Style.Card>
 
-            <Style.Card>
-              <h6>Último acesso</h6>
-              <p className="p2">
-                {company?.UserCompanies[0].User.lastAccess
-                  ? dateTimeFormatter(company?.UserCompanies[0].User.lastAccess)
-                  : '-'}
-              </p>
-            </Style.Card>
+              {company?.CPF && (
+                <Style.Card>
+                  <h6>CPF</h6>
+                  <p className="p2">{applyMask({ value: company?.CPF, mask: 'CPF' }).value}</p>
+                </Style.Card>
+              )}
 
-            <Style.Card>
-              <h6>Frequência de notificações</h6>
-              <p className="p2">{company?.isNotifyingOnceAWeek ? 'Semanalmente' : 'Diariamente'}</p>
-            </Style.Card>
+              {company?.CNPJ && (
+                <Style.Card>
+                  <h6>CNPJ</h6>
+                  <p className="p2">{applyMask({ value: company?.CNPJ, mask: 'CNPJ' }).value}</p>
+                </Style.Card>
+              )}
 
-            <Style.Card>
-              <h6>Acesso às checklists</h6>
-              <p className="p2">{company?.canAccessChecklists ? 'Sim' : 'Não'}</p>
-            </Style.Card>
+              <Style.Card>
+                <h6>Status</h6>
+                <Tag isInvalid={company?.isBlocked ?? false} />
+              </Style.Card>
 
-            <Style.Card>
-              <h6>Acesso aos chamados</h6>
-              <p className="p2">{company?.canAccessTickets ? 'Sim' : 'Não'}</p>
-            </Style.Card>
+              <Style.Card>
+                <h6>Data de cadastro</h6>
+                <p className="p2">
+                  {company?.createdAt ? dateTimeFormatter(company?.createdAt) : '-'}
+                </p>
+              </Style.Card>
 
-            <Style.Card>
-              <h6>Receber relatórios mensais</h6>
-              <p className="p2">{company?.receiveDailyDueReports ? 'Sim' : 'Não'}</p>
-            </Style.Card>
+              <Style.Card>
+                <h6>Último acesso</h6>
+                <p className="p2">
+                  {company?.UserCompanies[0].User.lastAccess
+                    ? dateTimeFormatter(company?.UserCompanies[0].User.lastAccess)
+                    : '-'}
+                </p>
+              </Style.Card>
 
-            <Style.Card>
-              <h6>Receber vencimentos diários</h6>
-              <p className="p2">{company?.receivePreviousMonthReports ? 'Sim' : 'Não'}</p>
-            </Style.Card>
+              <Style.Card>
+                <h6>Frequência de notificações</h6>
+                <p className="p2">
+                  {company?.isNotifyingOnceAWeek ? 'Semanalmente' : 'Diariamente'}
+                </p>
+              </Style.Card>
+
+              <Style.Card>
+                <h6>Acesso às checklists</h6>
+                <p className="p2">{company?.canAccessChecklists ? 'Sim' : 'Não'}</p>
+              </Style.Card>
+
+              <Style.Card>
+                <h6>Acesso aos chamados</h6>
+                <p className="p2">{company?.canAccessTickets ? 'Sim' : 'Não'}</p>
+              </Style.Card>
+
+              <Style.Card>
+                <h6>Receber relatórios mensais</h6>
+                <p className="p2">{company?.receiveDailyDueReports ? 'Sim' : 'Não'}</p>
+              </Style.Card>
+
+              <Style.Card>
+                <h6>Receber vencimentos diários</h6>
+                <p className="p2">{company?.receivePreviousMonthReports ? 'Sim' : 'Não'}</p>
+              </Style.Card>
+            </Style.Details>
           </Style.CardSection>
 
           <Style.Footer disabled={onQuery}>
@@ -177,9 +177,7 @@ export const CompanyDetails = () => {
               hideLabelOnMedia
               icon={icon.count}
               label="Contagem"
-              onClick={() => {
-                setModalBuildingAccessHistories(true);
-              }}
+              onClick={() => setModalBuildingAccessHistories(true)}
             />
 
             <IconButton
@@ -190,10 +188,8 @@ export const CompanyDetails = () => {
               onClick={() => {
                 window.open(
                   `${
-                    import.meta.env.VITE_COMPANY_URL ?? 'http://localhost:3000/account'
-                  }?backofficeToken=${localStorage.getItem('authToken')}&userId=${
-                    company?.UserCompanies[0].User.id
-                  }
+                    import.meta.env.VITE_COMPANY_URL ?? 'http://localhost:3000/home'
+                  }?backofficeToken=${localStorage.getItem('authToken')}&userId=${companyOwner?.id}
                   `,
                   '_blank',
                 );
@@ -248,9 +244,7 @@ export const CompanyDetails = () => {
               hideLabelOnMedia
               icon={icon.editWithBg}
               label="Editar"
-              onClick={() => {
-                setModalEditCompanyAndOwnerIsOpen(true);
-              }}
+              onClick={() => setModalEditCompanyAndOwnerIsOpen(true)}
             />
 
             <IconButton
@@ -262,7 +256,7 @@ export const CompanyDetails = () => {
               onClick={() => navigate(`/companies/${company?.id}/permissions/${companyOwner?.id}`)}
             />
           </Style.Footer>
-        </>
+        </Style.Container>
       )}
     </>
   );

@@ -12,7 +12,7 @@ export const requestCompanyBuildingAccessHistories = async ({
   setLoading,
   companyId,
 }: IRequestCompanyBuildingAccessHistories) => {
-  await Api.get(`/companies/list/access-history/${companyId}`)
+  await Api.get(`/account/companies/list/access-history/${companyId}`)
     .then((res) => {
       setData(res.data);
       setLoading(false);

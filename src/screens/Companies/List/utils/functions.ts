@@ -7,14 +7,15 @@ import { IRequestUsersList } from './types';
 
 // REQUESTS
 export const requestUsersList = async ({
+  page,
+  filter = '',
   setCompanies,
   setLoading,
-  page,
   setCount,
-  filter = '',
   setPage,
 }: IRequestUsersList) => {
-  const uri = `/companies/list`;
+  const uri = `/account/companies/list`;
+
   const params = {
     page,
     search: filter,
@@ -24,6 +25,7 @@ export const requestUsersList = async ({
     .then((res) => {
       setCompanies(res.data.companiesAndOwners);
       setCount(res.data.companiesCount);
+
       if (setLoading) setLoading(false);
       if (setPage) setPage(1);
     })

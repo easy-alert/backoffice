@@ -13,11 +13,9 @@ export const requestUserDetails = async ({
   setCompanyOwner,
   companyId,
 }: IRequestUserDetails) => {
-  await Api.get(`/companies/list/details/${companyId}`)
+  await Api.get(`/account/companies/list/details/${companyId}`)
     .then((res) => {
-      const owner = res.data.UserCompanies.find((user: any) => user.owner);
-
-      setCompanyOwner(owner.User);
+      setCompanyOwner(res.data.UserCompanies[0].User);
       setCompany(res.data);
       setLoading(false);
     })
@@ -34,7 +32,7 @@ export const requestChangeIsBlocked = async ({
 }: IRequestChangeIsActive) => {
   toast.loading('Atualizando...');
   setOnQuery(true);
-  await Api.put('/companies/change/isBlocked', {
+  await Api.put('/account/companies/change/isBlocked', {
     companyId: company?.id,
   })
     .then((res) => {
@@ -56,7 +54,7 @@ export const requestDeleteCompany = async ({
 }: IRequestChangeIsDeleted) => {
   toast.loading('Atualizando...');
   setOnQuery(true);
-  await Api.delete('/companies/delete', {
+  await Api.delete('/account/companies/delete', {
     data: { companyId: company?.id },
   })
     .then((res) => {
