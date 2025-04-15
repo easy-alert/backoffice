@@ -1,9 +1,11 @@
+import building from './building.svg';
 import leftArrow from './leftArrow.svg';
 import paper from './paper.svg';
 import eye from './eye.svg';
 import eyeWithBlueBg from './eyeWithBlueBg.svg';
 import plusWithBg from './plusWithBackground.svg';
 import user from './user.svg';
+import users from './users.svg';
 import power from './power.svg';
 import x from './x.svg';
 import list from './list.svg';
@@ -39,8 +41,10 @@ import trashWithPrimaryBg from './trashWithPrimaryBg.svg';
 import xBlack from './xBlack.svg';
 import download from './download.svg';
 import tutorial from './tutorial.svg';
+import personPlaceholder from './personPlaceholder.svg';
 
 export const icon = {
+  building,
   download,
   xBlack,
   downloadRedBg,
@@ -53,6 +57,7 @@ export const icon = {
   eyeWithBlueBg,
   plusWithBg,
   user,
+  users,
   power,
   x,
   list,
@@ -82,4 +87,5 @@ export const icon = {
   count,
   suppliers,
   tutorial,
+  personPlaceholder,
 };

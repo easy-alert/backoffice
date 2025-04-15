@@ -12,13 +12,26 @@ export const requestUserDetails = async ({
   setCompany,
   setCompanyOwner,
   companyId,
+  setLinkedUsers,
+  setLinkedCompanies,
 }: IRequestUserDetails) => {
-  await Api.get(`/companies/list/details/${companyId}`)
+  await Api.get(`/account/companies/list/details/${companyId}`)
     .then((res) => {
-      const owner = res.data.UserCompanies.find((user: any) => user.owner);
+      const companyData = res.data;
+      const companyOwner = companyData.UserCompanies[0]?.User;
 
-      setCompanyOwner(owner.User);
-      setCompany(res.data);
+      const linkedUsers = companyData.UserCompanies.map((item: any) => ({
+        id: item.User.id,
+        email: item.User.email,
+        lastAccess: item.User.lastAccess,
+        name: item.User.name,
+        owner: item.owner,
+      }));
+
+      setCompanyOwner(companyOwner);
+      setCompany(companyData);
+      setLinkedUsers(linkedUsers);
+      setLinkedCompanies(companyData.Buildings);
       setLoading(false);
     })
     .catch((err) => {
@@ -34,7 +47,7 @@ export const requestChangeIsBlocked = async ({
 }: IRequestChangeIsActive) => {
   toast.loading('Atualizando...');
   setOnQuery(true);
-  await Api.put('/companies/change/isBlocked', {
+  await Api.put('/account/companies/change/isBlocked', {
     companyId: company?.id,
   })
     .then((res) => {
@@ -56,7 +69,7 @@ export const requestDeleteCompany = async ({
 }: IRequestChangeIsDeleted) => {
   toast.loading('Atualizando...');
   setOnQuery(true);
-  await Api.delete('/companies/delete', {
+  await Api.delete('/account/companies/delete', {
     data: { companyId: company?.id },
   })
     .then((res) => {

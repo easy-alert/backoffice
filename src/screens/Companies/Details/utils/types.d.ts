@@ -1,12 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { IUser } from '@utils/types';
-import type { ICompany } from '../../List/utils/types';
+import type { ICompany } from '@List/utils/types';
 
+export interface ILinkedUsers {
+  id: string;
+  email: string;
+  lastAccess: string;
+  name: string;
+  owner: boolean;
+}
+
+export interface ILinkedCompanies {
+  id: string;
+  name: string;
+  Buildings: IBuilding[];
+}
 export interface IRequestUserDetails {
-  setCompany: (setCompany: ICompany) => void;
-  setCompanyOwner: (setCompanyOwner: IUser) => void;
-  setLoading: (setLoading: boolean) => void;
+  setCompany: (company: ICompany) => void;
+  setCompanyOwner: (companyOwner: IUser) => void;
+  setLoading: (loading: boolean) => void;
   companyId: string;
+  setLinkedUsers: (users: ILinkedUsers[]) => void;
+  setLinkedCompanies: (companies: ILinkedCompanies[]) => void;
 }
 
 export interface IRequestChangeIsActive {

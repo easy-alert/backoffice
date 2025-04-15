@@ -1,3 +1,3 @@
 export interface ITag {
-  isInvalid: boolean;
+  isInvalid?: boolean;
 }

@@ -1,10 +1,15 @@
 import react from '@vitejs/plugin-react';
+
 import { resolve } from 'path';
 import { defineConfig } from 'vite'
 
 import checker from 'vite-plugin-checker';
 
 export default defineConfig({
+  base: '/',
+  publicDir: 'public',
+  cacheDir: 'node_modules/.vite',
+
   server: {
     port: 3002,
   },
