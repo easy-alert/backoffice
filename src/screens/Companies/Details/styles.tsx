@@ -169,19 +169,18 @@ export const CompanyInfo = styled.div`
 export const DetailItem = styled.div`
   display: flex;
   flex-direction: column;
-  
 
   h2 {
     font-size: 0.875rem;
-    color: ${ theme.color.gray4};
-    padding-top: ${ theme.size.xsm};
+    color: ${theme.color.gray4};
+    padding-top: ${theme.size.xsm};
   }
 
   p {
     font-size: 1rem;
 
-    padding: ${ theme.size.xsm} 0;
-    border-bottom: 1px solid ${ theme.color.gray2};
+    padding: ${theme.size.xsm} 0;
+    border-bottom: 1px solid ${theme.color.gray2};
   }
 `;
 

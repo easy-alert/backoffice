@@ -7,7 +7,7 @@ export interface ILinkedUsers {
   email: string;
   lastAccess: string;
   name: string;
-  owner: boolean; 
+  owner: boolean;
 }
 
 export interface ILinkedCompanies {

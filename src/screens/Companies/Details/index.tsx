@@ -268,7 +268,7 @@ export const CompanyDetails = () => {
           </Style.Footer>
 
           <h2>Usuários Vinculados</h2>
-          
+
           <Style.CompaniesSection>
             {linkedUsers?.length > 0 ? (
               linkedUsers.map((user) => (

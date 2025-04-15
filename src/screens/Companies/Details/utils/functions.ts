@@ -31,7 +31,7 @@ export const requestUserDetails = async ({
       setCompanyOwner(companyOwner);
       setCompany(companyData);
       setLinkedUsers(linkedUsers);
-      setLinkedCompanies(companyData.Buildings); 
+      setLinkedCompanies(companyData.Buildings);
       setLoading(false);
     })
     .catch((err) => {
@@ -40,12 +40,10 @@ export const requestUserDetails = async ({
     });
 };
 
-
 export const requestChangeIsBlocked = async ({
   company,
   setCompany,
   setOnQuery,
-
 }: IRequestChangeIsActive) => {
   toast.loading('Atualizando...');
   setOnQuery(true);
