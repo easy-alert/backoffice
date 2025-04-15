@@ -12,11 +12,26 @@ export const requestUserDetails = async ({
   setCompany,
   setCompanyOwner,
   companyId,
+  setLinkedUsers,
+  setLinkedCompanies,
 }: IRequestUserDetails) => {
   await Api.get(`/account/companies/list/details/${companyId}`)
     .then((res) => {
-      setCompanyOwner(res.data.UserCompanies[0].User);
-      setCompany(res.data);
+      const companyData = res.data;
+      const companyOwner = companyData.UserCompanies[0]?.User;
+
+      const linkedUsers = companyData.UserCompanies.map((item: any) => ({
+        id: item.User.id,
+        email: item.User.email,
+        lastAccess: item.User.lastAccess,
+        name: item.User.name,
+        owner: item.owner,
+      }));
+
+      setCompanyOwner(companyOwner);
+      setCompany(companyData);
+      setLinkedUsers(linkedUsers);
+      setLinkedCompanies(companyData.Buildings); 
       setLoading(false);
     })
     .catch((err) => {
@@ -25,10 +40,12 @@ export const requestUserDetails = async ({
     });
 };
 
+
 export const requestChangeIsBlocked = async ({
   company,
   setCompany,
   setOnQuery,
+
 }: IRequestChangeIsActive) => {
   toast.loading('Atualizando...');
   setOnQuery(true);

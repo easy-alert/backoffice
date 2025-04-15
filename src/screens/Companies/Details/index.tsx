@@ -34,6 +34,7 @@ import { ModalEditCompanyAndOwner } from './utils/modals/ModalEditCompanyAndOwne
 import { ModalBuildingAccessHistories } from './utils/modals/ModalBuildingAccessHistories';
 
 import * as Style from './styles';
+import { ILinkedCompanies, ILinkedUsers } from './utils/types';
 
 export const CompanyDetails = () => {
   // UTILS
@@ -47,13 +48,22 @@ export const CompanyDetails = () => {
   const [companyOwner, setCompanyOwner] = useState<IUser>();
   const [modalEditCompanyAndOwnerIsOpen, setModalEditCompanyAndOwnerIsOpen] =
     useState<boolean>(false);
+  const [linkedUsers, setLinkedUsers] = useState<ILinkedUsers[]>([]);
+  const [linkedCompanies, setLinkedCompanies] = useState<ILinkedCompanies[]>([]);
 
   const [modalBuildingAccessHistories, setModalBuildingAccessHistories] = useState<boolean>(false);
 
   const { search } = window.location;
 
   useEffect(() => {
-    requestUserDetails({ companyId: companyId!, setCompany, setCompanyOwner, setLoading });
+    requestUserDetails({
+      companyId: companyId!,
+      setCompany,
+      setCompanyOwner,
+      setLoading,
+      setLinkedUsers,
+      setLinkedCompanies,
+    });
   }, []);
 
   return (
@@ -256,6 +266,57 @@ export const CompanyDetails = () => {
               onClick={() => navigate(`/companies/${company?.id}/permissions/${companyOwner?.id}`)}
             />
           </Style.Footer>
+
+          <h2>Usuários Vinculados</h2>
+          
+          <Style.CompaniesSection>
+            {linkedUsers?.length > 0 ? (
+              linkedUsers.map((user) => (
+                <Style.CompanyCard key={user.id} onClick={() => navigate(`/users/${user.id}`)}>
+                  <Style.CompanyInfo>
+                    <Style.DetailItem>
+                      <h2>Nome</h2>
+                      <p>{user.name}</p>
+                    </Style.DetailItem>
+
+                    <Style.DetailItem>
+                      <h2>Email</h2>
+                      <p>{user.email}</p>
+                    </Style.DetailItem>
+
+                    <Style.DetailItem>
+                      <h2>Último acesso</h2>
+                      <p>{user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-'}</p>
+                    </Style.DetailItem>
+                  </Style.CompanyInfo>
+                </Style.CompanyCard>
+              ))
+            ) : (
+              <p>Nenhum usuário vinculado.</p>
+            )}
+          </Style.CompaniesSection>
+
+          <h2>Edificações Vinculadas</h2>
+
+          <Style.CompaniesSection>
+            {linkedCompanies?.length > 0 ? (
+              linkedCompanies.map((building) => (
+                <Style.CompanyCard
+                  key={building.id}
+                  onClick={() => navigate(`/buildings/${building.id}`)}
+                >
+                  <Style.CompanyInfo>
+                    <Style.DetailItem>
+                      <h2>Nome da edificação</h2>
+                      <p>{building.name}</p>
+                    </Style.DetailItem>
+                  </Style.CompanyInfo>
+                </Style.CompanyCard>
+              ))
+            ) : (
+              <p>Nenhuma edificação vinculada.</p>
+            )}
+          </Style.CompaniesSection>
         </Style.Container>
       )}
     </>
