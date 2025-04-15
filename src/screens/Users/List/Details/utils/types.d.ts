@@ -4,6 +4,11 @@ export interface IUserCompany {
   image?: string;
   isBlocked?: boolean;
 }
+export interface IUserEdification {
+  id: string;
+  name: string;
+  image?: string;
+}
 
 export interface IUserDetails {
   id: string;
@@ -15,4 +20,5 @@ export interface IUserDetails {
   lastAccess?: string;
   image?: string;
   companies?: IUserCompany[];
+  edifications?: IUserEdification[];
 }
