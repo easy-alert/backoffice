@@ -15,6 +15,12 @@ export const fetchUserDetails = async (userId: string): Promise<{ user: IUserDet
             image: company.image,
             isBlocked: company.isBlocked,
           })) || [],
+        edifications:
+          data.user.Buildings?.map((building: any) => ({
+            id: building.id,
+            name: building.name,
+            image: building.image,
+          })) || [],
       },
     };
 

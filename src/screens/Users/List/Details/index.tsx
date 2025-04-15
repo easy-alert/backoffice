@@ -137,6 +137,40 @@ export const UserDetails = () => {
           </table>
         )}
       </Style.CompaniesSection>
+
+      <h2>Edificações Vinculassdas</h2>
+
+      <Style.CompaniesSection>
+        {user.edifications && user.edifications.length > 0 && (
+          <table>
+            {user.edifications.map((edification) => (
+              <Style.CompanyCard
+                key={edification.id}
+                onClick={() => navigate(`/buildings/${edification.id}`)}
+              >
+                <Style.CompanyLogo>
+                  {edification.image && (
+                    <img
+                      src={edification.image}
+                      alt={`Logo ${edification.name}`}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  )}
+                </Style.CompanyLogo>
+
+                <Style.CompanyInfo>
+                  <Style.DetailItem>
+                    <h2>Nome da edificação</h2>
+                    <p>{edification.name}</p>
+                  </Style.DetailItem>
+                </Style.CompanyInfo>
+              </Style.CompanyCard>
+            ))}
+          </table>
+        )}
+      </Style.CompaniesSection>
     </Style.Container>
   );
 };
