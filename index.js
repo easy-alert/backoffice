@@ -10,18 +10,24 @@ const app = express();
 const port = process.env.PORT || 8081;
 
 // Servir arquivos estáticos (build do Vite)
-app.use((req, res, next) => {
-  if (/(.ico|.js|.css|.jpg|.png|.map|.svg)$/i.test(req.path)) {
-      next();
-  } else {
-      res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-      res.header('Expires', '-1');
-      res.header('Pragma', 'no-cache');
-      res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-  }
-});
+// app.use((req, res, next) => {
+//   if (/(.ico|.js|.css|.jpg|.png|.map|.svg)$/i.test(req.path)) {
+//       next();
+//   } else {
+//       res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+//       res.header('Expires', '-1');
+//       res.header('Pragma', 'no-cache');
+//       res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+//   }
+// });
 
-app.use(express.static(path.join(__dirname, 'dist')))
+// app.use(express.static(path.join(__dirname, 'dist')))
+
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
