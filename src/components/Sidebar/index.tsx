@@ -31,6 +31,7 @@ export const Sidebar = () => {
       redirectFunction: () => {
         navigate('/companies');
       },
+      label: 'Empresas',
     },
     {
       icon: icon.users,
@@ -38,6 +39,7 @@ export const Sidebar = () => {
       redirectFunction: () => {
         navigate('/users');
       },
+      label: 'Usuários',
     },
     {
       icon: icon.building,
@@ -45,6 +47,7 @@ export const Sidebar = () => {
       redirectFunction: () => {
         navigate('/buildings');
       },
+      label: 'Edificações',
     },
     {
       icon: icon.maintenances,
@@ -52,6 +55,7 @@ export const Sidebar = () => {
       redirectFunction: () => {
         navigate('/maintenances');
       },
+      label: 'Manutenções',
     },
     {
       icon: icon.tutorial,
@@ -59,7 +63,9 @@ export const Sidebar = () => {
       redirectFunction: () => {
         navigate('/tutorials');
       },
+      label: 'Tutoriais',
     },
+
     // Desativado em função das tasks SA-6535 em diante que mudou isso pra company
     // {
     //   icon: icon.suppliers,
@@ -126,6 +132,7 @@ export const Sidebar = () => {
             <IconButton
               fontWeight="400"
               className="p5"
+              label={element.label}
               labelPos="bottom"
               opacity="0.5"
               icon={element.icon}
