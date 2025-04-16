@@ -138,7 +138,7 @@ export const UserDetails = () => {
         )}
       </Style.CompaniesSection>
 
-      <h2>Edificações Vinculassdas</h2>
+      <h2>Edificações Vinculadas</h2>
 
       <Style.CompaniesSection>
         {user.edifications && user.edifications.length > 0 && (
@@ -149,15 +149,14 @@ export const UserDetails = () => {
                 onClick={() => navigate(`/buildings/${edification.id}`)}
               >
                 <Style.CompanyLogo>
-                  {edification.image && (
-                    <img
-                      src={edification.image}
-                      alt={`Logo ${edification.name}`}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
-                    />
-                  )}
+                  <img
+                    src={edification.image || icon.personPlaceholder}
+                    alt={`Logo ${edification.name}`}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = icon.personPlaceholder;
+                    }}
+                  />
                 </Style.CompanyLogo>
 
                 <Style.CompanyInfo>

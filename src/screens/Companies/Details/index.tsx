@@ -273,6 +273,16 @@ export const CompanyDetails = () => {
             {linkedUsers?.length > 0 ? (
               linkedUsers.map((user) => (
                 <Style.CompanyCard key={user.id} onClick={() => navigate(`/users/${user.id}`)}>
+                  <Style.Avatar>
+                    <Image
+                      size="100%"
+                      width="100%"
+                      height="100%"
+                      img={user.image || icon.personPlaceholder}
+                      key={user.id}
+                      radius="50%"
+                    />
+                  </Style.Avatar>
                   <Style.CompanyInfo>
                     <Style.DetailItem>
                       <h2>Nome</h2>
@@ -305,6 +315,15 @@ export const CompanyDetails = () => {
                   key={building.id}
                   onClick={() => navigate(`/buildings/${building.id}`)}
                 >
+                  <Style.Avatar>
+                    <Image
+                      size="100%"
+                      width="100%"
+                      height="100%"
+                      img={building.image || icon.personPlaceholder}
+                      radius="50%"
+                    />
+                  </Style.Avatar>
                   <Style.CompanyInfo>
                     <Style.DetailItem>
                       <h2>Nome da edificação</h2>
