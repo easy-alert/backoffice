@@ -18,7 +18,9 @@ export const requestUserDetails = async ({
   await Api.get(`/account/companies/list/details/${companyId}`)
     .then((res) => {
       const companyData = res.data;
-      const companyOwner = companyData.UserCompanies[0]?.User;
+      const companyOwner = companyData.UserCompanies.find(
+        (userCompany: any) => userCompany.owner === true,
+      ).User;
 
       const linkedUsers = companyData.UserCompanies.map((item: any) => ({
         id: item.User.id,

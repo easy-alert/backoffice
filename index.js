@@ -15,8 +15,16 @@ app.set('trust proxy', 1); // Trust first proxy
 // Initialize the rate limiter
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // max 100 requests per windowMs
-  message: 'Muitas requisições feitas. Tente novamente mais tarde.',
+  max: 200, // max 200 requests per windowMs
+  message: 'Muitas requisições feitas. Tente novamente mais tarde.', // message to send when rate limit is exceeded
+  skip: (req) => req.path !== '/login', // skip rate limiting for the login path
+  handler: (req, res, next, options) => {
+    console.warn(`Rate limit exceeded for ${req.ip} on ${req.path}`);
+
+    res.status(options.statusCode).json({
+      message: options.message,
+    });
+  },
 });
 
 // Apply the rate limiter to all requests
@@ -31,7 +39,7 @@ app.get('*', (req, res) => {
 });
 
 // Start the server
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 3002;
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
