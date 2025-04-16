@@ -24,8 +24,9 @@ import { FormikSelect } from '../../../../../../components/Form/FormikSelect';
 import { FormikCheckbox } from '../../../../../../components/Form/FormikCheckbox';
 
 export const ModalEditCompanyAndOwner = ({
-  setCompany,
   company,
+  companyOwner,
+  setCompany,
   setModal,
 }: IModalEditCompanyAndOwner) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
@@ -35,8 +36,8 @@ export const ModalEditCompanyAndOwner = ({
       <Formik
         initialValues={{
           image: company.image,
-          name: company.UserCompanies[0].User.name,
-          email: company.UserCompanies[0].User.email,
+          name: companyOwner.name,
+          email: companyOwner.email,
           companyName: company.name,
           contactNumber: applyMask({
             value: company.contactNumber,
