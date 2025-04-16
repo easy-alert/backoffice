@@ -71,6 +71,7 @@ export const CompanyDetails = () => {
       {modalEditCompanyAndOwnerIsOpen && company && (
         <ModalEditCompanyAndOwner
           company={company}
+          companyOwner={companyOwner!}
           setCompany={setCompany}
           setModal={setModalEditCompanyAndOwnerIsOpen}
         />
@@ -97,12 +98,12 @@ export const CompanyDetails = () => {
             <Style.Details>
               <Style.Card>
                 <h6>Nome do responsável</h6>
-                <p className="p2">{company?.UserCompanies[0].User.name}</p>
+                <p className="p2">{companyOwner?.name}</p>
               </Style.Card>
 
               <Style.Card>
                 <h6>E-mail</h6>
-                <p className="p2">{company?.UserCompanies[0].User.email}</p>
+                <p className="p2">{companyOwner?.email}</p>
               </Style.Card>
 
               <Style.Card>
@@ -146,9 +147,7 @@ export const CompanyDetails = () => {
               <Style.Card>
                 <h6>Último acesso</h6>
                 <p className="p2">
-                  {company?.UserCompanies[0].User.lastAccess
-                    ? dateTimeFormatter(company?.UserCompanies[0].User.lastAccess)
-                    : '-'}
+                  {companyOwner?.lastAccess ? dateTimeFormatter(companyOwner?.lastAccess) : '-'}
                 </p>
               </Style.Card>
 
