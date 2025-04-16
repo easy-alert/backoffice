@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ICompany, IFormDataCompanyForEdit } from '../../../../../List/utils/types';
+import type { IUser } from '@utils/types';
+import type { ICompany, IFormDataCompanyForEdit } from '../../../../../List/utils/types';
 
 export interface IModalEditCompanyAndOwner {
   company: ICompany;
+  companyOwner: IUser;
+
   setCompany: (setCompany: ICompany) => void;
   setModal: (setModal: boolean) => void;
 }
