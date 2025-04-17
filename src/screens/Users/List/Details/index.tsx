@@ -47,20 +47,13 @@ export const UserDetails = () => {
 
   return (
     <Style.Container>
-      <h2>Perfil do Usuário</h2>
+      <h2>Perfil do usuário</h2>
       <ReturnButton path={`/users${search}`} />
 
       <Style.ProfileSection>
         <Style.ProfileContent>
           <Style.Avatar>
-            <Image
-              size="100%"
-              width="100%"
-              height="100%"
-              img={user.image || icon.personPlaceholder}
-              key={user.id}
-              radius="50%"
-            />
+            <Image width="80%" height="80%" img={user.image || icon.user} key={user.id} />
           </Style.Avatar>
 
           <Style.DetailsContainer>
@@ -99,7 +92,7 @@ export const UserDetails = () => {
         </Style.ProfileContent>
       </Style.ProfileSection>
 
-      <h2>Empresas Vinculadas</h2>
+      <h2>Empresas vinculadas</h2>
 
       <Style.CompaniesSection>
         {user.companies && user.companies.length > 0 && (
@@ -109,17 +102,14 @@ export const UserDetails = () => {
                 key={company.id}
                 onClick={() => navigate(`/companies/${company.id}`)}
               >
-                <Style.CompanyLogo>
-                  {company.image && (
-                    <img
-                      src={company.image}
-                      alt={`Logo ${company.name}`}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
-                    />
-                  )}
-                </Style.CompanyLogo>
+                <Style.Avatar>
+                  <Image
+                    width="100%"
+                    height="80%"
+                    img={company.image || icon.enterprise}
+                    key={company.id}
+                  />
+                </Style.Avatar>
 
                 <Style.CompanyInfo>
                   <Style.DetailItem>
@@ -138,7 +128,7 @@ export const UserDetails = () => {
         )}
       </Style.CompaniesSection>
 
-      <h2>Edificações Vinculassdas</h2>
+      <h2>Edificações vinculadas</h2>
 
       <Style.CompaniesSection>
         {user.edifications && user.edifications.length > 0 && (
@@ -148,17 +138,14 @@ export const UserDetails = () => {
                 key={edification.id}
                 onClick={() => navigate(`/buildings/${edification.id}`)}
               >
-                <Style.CompanyLogo>
-                  {edification.image && (
-                    <img
-                      src={edification.image}
-                      alt={`Logo ${edification.name}`}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
-                    />
-                  )}
-                </Style.CompanyLogo>
+                <Style.Avatar>
+                  <Image
+                    width="100%"
+                    height="80%"
+                    img={edification.image || icon.building}
+                    key={edification.id}
+                  />
+                </Style.Avatar>
 
                 <Style.CompanyInfo>
                   <Style.DetailItem>

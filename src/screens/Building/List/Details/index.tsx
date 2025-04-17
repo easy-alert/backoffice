@@ -49,9 +49,6 @@ export const BuildingDetails = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // API ainda será definida, então simulação por enquanto
-      // const data = await fetchBuildingDetails(buildingId);
-      // setBuilding(data);
       setBuilding({
         id: '1',
         users: [
@@ -69,15 +66,15 @@ export const BuildingDetails = () => {
 
   return (
     <Style.Container>
-      <h2>Detalhes da Edificação</h2>
+      <h2>Detalhes da edificação</h2>
       <ReturnButton path={`/buildings${search}`} />
       <Style.DetailsBox>
         <Style.DetailGrid>
           <Style.Avatar>
             <Image
-              width="100%"
-              height="100%"
-              img={icon.personPlaceholder}
+              width="80%"
+              height="80%"
+              img={icon.building}
               //   key={user.id}
             />
           </Style.Avatar>
@@ -150,20 +147,14 @@ export const BuildingDetails = () => {
         </Style.DetailGrid>
       </Style.DetailsBox>
 
-      <h2>Usuários Vinculados</h2>
+      <h2>Usuários vinculados</h2>
       <Style.DetailsBox>
         <Style.CardGrid>
           {building.users.map((user) => (
             <Style.CompanyCard key={user.id} onClick={() => navigate(`/users/${user.id}`)}>
-              <Style.CompanyLogo>
-                <Image
-                  size="100%"
-                  width="100%"
-                  height="100%"
-                  img={user.image || icon.personPlaceholder}
-                  radius="50%"
-                />
-              </Style.CompanyLogo>
+              <Style.Avatar>
+                <Image width="80%" height="80%" img={user.image || icon.user} />
+              </Style.Avatar>
               <Style.CompanyInfo>
                 <Style.DetailItem>
                   <h2>Nome</h2>
@@ -179,7 +170,7 @@ export const BuildingDetails = () => {
         </Style.CardGrid>
       </Style.DetailsBox>
 
-      <h2>Empresa Relacionada</h2>
+      <h2>Empresa vinculada</h2>
       <Style.DetailsBox>
         <Style.CardGrid>
           {building.companies.map((company) => (
@@ -187,19 +178,9 @@ export const BuildingDetails = () => {
               key={company.id}
               onClick={() => navigate(`/companies/${company.id}`)}
             >
-              <Style.CompanyLogo>
-                {company.image ? (
-                  <img
-                    src={company.image}
-                    alt={`Logo ${company.name}`}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none';
-                    }}
-                  />
-                ) : (
-                  <img src={icon.block} alt="Placeholder" />
-                )}
-              </Style.CompanyLogo>
+              <Style.Avatar>
+                <Image width="80%" height="80%" img={company.image || icon.enterprise} />
+              </Style.Avatar>
 
               <Style.CompanyInfo>
                 <Style.DetailItem>

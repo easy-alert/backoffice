@@ -68,12 +68,13 @@ export const Image = styled.div`
 export const Details = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: ${theme.size.md};
   margin-top: ${theme.size.xxlg};
 
   @media (max-width: 768px) {
     justify-items: center;
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -81,18 +82,25 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.size.xsm};
+  height: 100%;
 
   h6 {
     font-size: 0.875rem;
     color: ${theme.color.gray4};
     gap: ${theme.size.xxlg};
+    margin-bottom: 4px;
   }
 
   p {
+    word-break: break-word;
+    white-space: normal;
     font-size: 1rem;
     margin: 0;
     padding: ${theme.size.xsm} 0;
     border-bottom: 1px solid ${theme.color.gray2};
+    display: flex;
+    align-items: center;
+    flex: 1;
   }
 
   @media (max-width: 768px) {
@@ -150,9 +158,10 @@ export const CompanyCard = styled.div`
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
+    text-align: center;
 
     h2 {
       padding-top: ${theme.size.sm};
@@ -163,7 +172,17 @@ export const CompanyCard = styled.div`
 export const CompanyInfo = styled.div`
   flex: 1;
   min-width: 0;
-  padding-left: ${theme.size.sm};
+  padding-left: ${theme.size.xlg};
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.size.sm};
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    padding-left: 0;
+    align-items: center;
+    text-align: center;
+  }
 `;
 
 export const DetailItem = styled.div`
@@ -173,17 +192,35 @@ export const DetailItem = styled.div`
   h2 {
     font-size: 0.875rem;
     color: ${theme.color.gray4};
-    padding-top: ${theme.size.xsm};
+    margin: 0;
   }
 
   p {
     font-size: 1rem;
-
     padding: ${theme.size.xsm} 0;
     border-bottom: 1px solid ${theme.color.gray2};
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 0.75rem;
+    }
+
+    p {
+      font-size: 0.875rem;
+    }
   }
 `;
-
 export const CompaniesSection = styled.section`
   background: ${theme.color.white};
   border-radius: 12px;
@@ -196,11 +233,13 @@ export const CompaniesSection = styled.section`
   @media (max-width: 768px) {
     padding: ${theme.size.md};
     border-radius: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   }
 
   @media (max-width: 480px) {
     padding: ${theme.size.sm};
     margin-top: ${theme.size.md};
+    grid-template-columns: 1fr;
 
     table {
       grid-template-columns: 1fr;

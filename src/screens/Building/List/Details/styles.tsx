@@ -36,22 +36,23 @@ export const DetailGrid = styled.div`
 `;
 
 export const Avatar = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   position: relative;
+  background: ${({ theme }) => theme.color.gray2};
 
   .image-container {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
 
     img {
-      width: 100%;
-      height: 100%;
+      width: 80%;
+      height: 80%;
       object-fit: cover;
     }
   }
@@ -112,28 +113,6 @@ export const CompanyCard = styled.div`
   @media (max-width: 500px) {
     flex-direction: column;
     align-items: center;
-  }
-`;
-
-export const CompanyLogo = styled.div`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: ${({ theme }) => theme.color.gray1};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  @media (max-width: 500px) {
-    margin-bottom: ${({ theme }) => theme.size.sm};
   }
 `;
 

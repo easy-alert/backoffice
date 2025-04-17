@@ -42,8 +42,10 @@ import xBlack from './xBlack.svg';
 import download from './download.svg';
 import tutorial from './tutorial.svg';
 import personPlaceholder from './personPlaceholder.svg';
+import enterprise from './enterprise.svg';
 
 export const icon = {
+  enterprise,
   building,
   download,
   xBlack,
