@@ -199,6 +199,10 @@ export const DetailItem = styled.div`
     font-size: 1rem;
     padding: ${theme.size.xsm} 0;
     border-bottom: 1px solid ${theme.color.gray2};
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
   }
 
   @media (max-width: 768px) {
@@ -240,33 +244,5 @@ export const CompaniesSection = styled.section`
     table {
       grid-template-columns: 1fr;
     }
-  }
-`;
-
-export const Avatar = styled.div`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: ${theme.color.gray1};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-
-  .image-container {
-    width: 100%;
-    height: 100%;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-
-  @media (max-width: 768px) {
-    width: 80px;
-    height: 80px;
   }
 `;
