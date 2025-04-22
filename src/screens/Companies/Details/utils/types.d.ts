@@ -8,11 +8,13 @@ export interface ILinkedUsers {
   lastAccess: string;
   name: string;
   owner: boolean;
+  image?: string;
 }
 
 export interface ILinkedCompanies {
   id: string;
   name: string;
+  image?: string;
   Buildings: IBuilding[];
 }
 export interface IRequestUserDetails {

@@ -26,7 +26,7 @@ export const Sidebar = () => {
 
   const SidebarContent: SidebarContentProps[] = [
     {
-      icon: icon.user,
+      icon: icon.enterprise,
       url: '/companies',
       redirectFunction: () => {
         navigate('/companies');

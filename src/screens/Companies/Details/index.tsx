@@ -266,12 +266,15 @@ export const CompanyDetails = () => {
             />
           </Style.Footer>
 
-          <h2>Usuários Vinculados</h2>
+          <h2>Usuários vinculados</h2>
 
           <Style.CompaniesSection>
             {linkedUsers?.length > 0 ? (
               linkedUsers.map((user) => (
                 <Style.CompanyCard key={user.id} onClick={() => navigate(`/users/${user.id}`)}>
+                  <Style.Image>
+                    <Image width="80%" height="80%" img={user.image || icon.user} key={user.id} />
+                  </Style.Image>
                   <Style.CompanyInfo>
                     <Style.DetailItem>
                       <h2>Nome</h2>
@@ -295,7 +298,7 @@ export const CompanyDetails = () => {
             )}
           </Style.CompaniesSection>
 
-          <h2>Edificações Vinculadas</h2>
+          <h2>Edificações vinculadas</h2>
 
           <Style.CompaniesSection>
             {linkedCompanies?.length > 0 ? (
@@ -304,6 +307,9 @@ export const CompanyDetails = () => {
                   key={building.id}
                   onClick={() => navigate(`/buildings/${building.id}`)}
                 >
+                  <Style.Image>
+                    <Image width="80%" height="80%" img={building.image || icon.building} />
+                  </Style.Image>
                   <Style.CompanyInfo>
                     <Style.DetailItem>
                       <h2>Nome da edificação</h2>
