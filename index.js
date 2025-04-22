@@ -30,26 +30,23 @@ const limiter = rateLimit({
 // Apply the rate limiter to all requests
 app.use(limiter);
 
-// Serve built assets with tailored cache headers
+// Serve hashed assets with long cache
 app.use(
   express.static(path.join(__dirname, 'dist'), {
-    // Long-term caching for hashed assets (immutable)
-    maxAge: '1y', // equivalent to 31536000000 ms
+    maxAge: '1y',
     setHeaders: (res, filePath) => {
       if (filePath.endsWith('index.html')) {
-        // Always fetch fresh index.html
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-      } else {
-        // Optionally tighten pattern for JS/CSS hashes:
-        // if (/\\.[a-f0-9]{8}\\.(js|css)$/.test(path.basename(filePath))) { ... }
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        // (Optional) tighten index.html caching if needed
+        res.setHeader('Cache-Control', 'no-cache');
       }
     },
-  }),
+  })
 );
 
-// Catch-all route to serve your index.html for a single-page application, for instance
-app.get('*', (req, res) => {
+// Only handle client-side routes (no “.” in path)
+app.get('/*', (req, res, next) => {
+  if (path.extname(req.path)) next();
+
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
