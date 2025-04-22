@@ -40,14 +40,14 @@ app.use(
         res.setHeader('Cache-Control', 'no-cache');
       }
     },
-  })
+  }),
 );
 
 // Only handle client-side routes (no “.” in path)
 app.get('/*', (req, res, next) => {
-  if (path.extname(req.path)) next();
+  if (path.extname(req.path)) return next();
 
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  return res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // Start the server
