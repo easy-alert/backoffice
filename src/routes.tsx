@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 
 // COMPONENTS
 import { AuthProvider } from '@contexts/Auth/AuthProvider';
@@ -27,8 +27,6 @@ const AppRoutes = () => (
       <Routes>
         <Route path="/login" element={<Login />} />
 
-        <Route path="*" element={<Login />} />
-
         <Route
           path="/"
           element={
@@ -37,6 +35,8 @@ const AppRoutes = () => (
             </RequireAuth>
           }
         >
+          <Route index element={<Navigate to="/login" replace />} />
+
           <Route path="/companies" element={<Outlet />}>
             <Route index element={<CompaniesList />} />
             <Route path=":companyId" element={<CompanyDetails />} />
@@ -61,6 +61,8 @@ const AppRoutes = () => (
             <Route index element={<SuppliersList />} />
             <Route path=":supplierId" element={<SupplierDetails />} />
           </Route> */}
+
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Route>
       </Routes>
     </BrowserRouter>

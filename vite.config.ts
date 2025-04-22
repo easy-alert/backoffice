@@ -1,9 +1,11 @@
 import react from '@vitejs/plugin-react';
 
 import { resolve } from 'path';
-import { defineConfig } from 'vite'
+
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 
 import checker from 'vite-plugin-checker';
+import { createHtmlPlugin } from 'vite-plugin-html';
 
 export default defineConfig({
   base: '/',
@@ -14,24 +16,15 @@ export default defineConfig({
     port: 3002,
   },
 
+  define: {
+    _APP_NAME: JSON.stringify(process.env.npm_package_name),
+    _APP_VERSION: JSON.stringify(process.env.npm_package_version),
+    _APP_BUILD_TIME: JSON.stringify(new Date().toISOString()),
+  },
+
   build: {
+    assetsDir: 'assets',
     chunkSizeWarningLimit: 1000,
-    rollupOptions: {
-      output: {
-        manualChunks:{
-          react: ['react', 'react-dom', 'react-router-dom'],
-          formik: ['formik', 'yup'],
-          axios: ['axios'],
-          styledComponents: ['styled-components'],
-          reactSelect: ['react-select'],
-          reactToastify: ['react-toastify'],
-          reactDropzone: ['react-dropzone'],
-          reactPopover: ['react-tiny-popover'],
-          reactSwitch: ['react-switch'],
-          reactErrorBoundary: ['react-error-boundary'],
-        }
-      }
-    },
   },
 
   resolve: {
@@ -50,6 +43,8 @@ export default defineConfig({
 
   plugins: [
     react(),
+    splitVendorChunkPlugin(), // auto‑splits vendor code into logical chunks
+
     checker({
       typescript: {
         root: __dirname,
@@ -57,6 +52,15 @@ export default defineConfig({
       },
       eslint: {
         lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
+      },
+    }),
+    createHtmlPlugin({
+      inject: {
+        data: {
+          appName: process.env.npm_package_name,
+          appVersion: process.env.npm_package_version,
+          buildTime: new Date().toISOString(),
+        },
       },
     }),
   ],
