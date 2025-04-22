@@ -1,9 +1,11 @@
 import react from '@vitejs/plugin-react';
 
 import { resolve } from 'path';
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
 
 import checker from 'vite-plugin-checker';
+import { createHtmlPlugin } from 'vite-plugin-html';
+
 
 export default defineConfig({
   base: '/',
@@ -14,11 +16,18 @@ export default defineConfig({
     port: 3002,
   },
 
+  define: {
+    _APP_NAME: JSON.stringify(process.env.npm_package_name),
+    _APP_VERSION: JSON.stringify(process.env.npm_package_version),
+    _APP_BUILD_TIME: JSON.stringify(new Date().toISOString()),
+  },
+
   build: {
+    assetsDir: 'assets',
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks:{
+        manualChunks: {
           react: ['react', 'react-dom', 'react-router-dom'],
           formik: ['formik', 'yup'],
           axios: ['axios'],
@@ -29,8 +38,8 @@ export default defineConfig({
           reactPopover: ['react-tiny-popover'],
           reactSwitch: ['react-switch'],
           reactErrorBoundary: ['react-error-boundary'],
-        }
-      }
+        },
+      },
     },
   },
 
@@ -57,6 +66,15 @@ export default defineConfig({
       },
       eslint: {
         lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
+      },
+    }),
+    createHtmlPlugin({
+      inject: {
+        data: {
+          appName: process.env.npm_package_name,
+          appVersion: process.env.npm_package_version,
+          buildTime: new Date().toISOString(),
+        },
       },
     }),
   ],
