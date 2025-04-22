@@ -37,15 +37,15 @@ app.use(
     setHeaders: (res, filePath) => {
       if (filePath.endsWith('index.html')) {
         // (Optional) tighten index.html caching if needed
-        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Cache-Control', 'no-cache', 'public, max-age=31536000, immutable');
       }
     },
   }),
 );
 
-// Only handle client-side routes (no “.” in path)
-app.get('/*', (req, res, next) => {
-  if (path.extname(req.path)) return next();
+// Skip fallback for actual files with an extension (like .js, .css, .svg)
+app.get('/*', (req, res) => {
+  if (path.extname(req.path)) return res.status(404).end(); // or next()
 
   return res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
