@@ -55,7 +55,7 @@ export const ProfileHeader = styled.div`
 export const ProfileContent = styled.div`
   display: flex;
   gap: ${theme.size.xlg};
-  align-items: flex-start;
+  align-items: center;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -65,8 +65,8 @@ export const ProfileContent = styled.div`
 `;
 
 export const Avatar = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   background: ${theme.color.gray1};
   display: flex;
@@ -191,32 +191,6 @@ export const CompanyCard = styled.div`
     h2 {
       padding-top: ${theme.size.sm};
     }
-  }
-`;
-
-export const CompanyLogo = styled.div`
-  width: 80px;
-  height: 80px;
-  background: ${theme.color.gray1};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: ${theme.size.sm};
-  overflow: hidden;
-  flex-shrink: 0;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-  }
-
-  @media (max-width: 500px) {
-    width: 120px;
-    height: 120px;
-    margin-right: 0;
-    margin-bottom: ${theme.size.sm};
   }
 `;
 
