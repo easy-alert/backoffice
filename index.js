@@ -30,8 +30,23 @@ const limiter = rateLimit({
 // Apply the rate limiter to all requests
 app.use(limiter);
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'dist')));
+// Serve built assets with tailored cache headers
+app.use(
+  express.static(path.join(__dirname, 'dist'), {
+    // Long-term caching for hashed assets (immutable)
+    maxAge: '1y', // equivalent to 31536000000 ms
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('index.html')) {
+        // Always fetch fresh index.html
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      } else {
+        // Optionally tighten pattern for JS/CSS hashes:
+        // if (/\\.[a-f0-9]{8}\\.(js|css)$/.test(path.basename(filePath))) { ... }
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      }
+    },
+  }),
+);
 
 // Catch-all route to serve your index.html for a single-page application, for instance
 app.get('*', (req, res) => {
