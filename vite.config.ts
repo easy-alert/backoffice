@@ -44,7 +44,6 @@ export default defineConfig({
   plugins: [
     react(),
     splitVendorChunkPlugin(), // auto‑splits vendor code into logical chunks
-
     checker({
       typescript: {
         root: __dirname,
