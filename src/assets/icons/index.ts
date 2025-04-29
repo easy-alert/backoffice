@@ -43,6 +43,7 @@ import download from './download.svg';
 import tutorial from './tutorial.svg';
 import personPlaceholder from './personPlaceholder.svg';
 import enterprise from './enterprise.svg';
+import dashboard from './dashboard.svg';
 
 export const icon = {
   enterprise,
@@ -90,4 +91,5 @@ export const icon = {
   suppliers,
   tutorial,
   personPlaceholder,
+  dashboard,
 };
