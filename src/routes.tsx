@@ -18,6 +18,7 @@ import { UsersList } from '@screens/Users/List';
 import { UserDetails } from '@screens/Users/List/Details';
 import { BuildingsList } from '@screens/Building/List';
 import { BuildingDetails } from '@screens/Building/List/Details';
+import Dashboard from '@screens/Dashboard';
 
 // CATEGORIES
 
@@ -36,6 +37,8 @@ const AppRoutes = () => (
           }
         >
           <Route index element={<Navigate to="/login" replace />} />
+
+          <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/companies" element={<Outlet />}>
             <Route index element={<CompaniesList />} />
