@@ -94,7 +94,7 @@ function UserPermissions() {
     setLoading(true);
 
     try {
-      const responseData = await getUserBuildingsPermissionsById(userId);
+      const responseData = await getUserBuildingsPermissionsById({ companyId, userId });
 
       setUserBuildingsPermissions(responseData.userBuildingsPermissions);
     } catch (error: any) {
@@ -115,6 +115,7 @@ function UserPermissions() {
       });
 
       await putUserBuildingsPermissionsById({
+        companyId,
         userId,
         userBuildingsPermissions,
       });
