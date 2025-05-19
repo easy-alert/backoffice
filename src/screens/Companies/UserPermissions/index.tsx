@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 // LIBS
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // HOOKS
 import { useBuildingsForSelect } from '@hooks/useBuildingsForSelect';
@@ -45,6 +45,7 @@ interface IUserBuildingsPermissions {
 }
 
 function UserPermissions() {
+  const navigate = useNavigate();
   const { companyId, userId } = useParams() as { companyId: string; userId: string };
 
   const { buildingsForSelect } = useBuildingsForSelect({ companyId, checkPerms: false });
@@ -79,7 +80,7 @@ function UserPermissions() {
     setLoading(true);
 
     try {
-      const responseData = await getUserPermissionsById(userId);
+      const responseData = await getUserPermissionsById({ companyId, userId });
 
       setUserPermissions(responseData.userPermissions);
     } catch (error: any) {
@@ -93,7 +94,7 @@ function UserPermissions() {
     setLoading(true);
 
     try {
-      const responseData = await getUserBuildingsPermissionsById(userId);
+      const responseData = await getUserBuildingsPermissionsById({ companyId, userId });
 
       setUserBuildingsPermissions(responseData.userBuildingsPermissions);
     } catch (error: any) {
@@ -108,11 +109,13 @@ function UserPermissions() {
 
     try {
       await putUserPermissionsById({
+        companyId,
         userId,
         userPermissions,
       });
 
       await putUserBuildingsPermissionsById({
+        companyId,
         userId,
         userBuildingsPermissions,
       });
@@ -120,6 +123,7 @@ function UserPermissions() {
       handleToastify(error);
     } finally {
       setLoading(false);
+      navigate(`/companies/${companyId}`);
     }
   };
   // #endregion
