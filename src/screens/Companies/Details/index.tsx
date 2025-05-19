@@ -198,7 +198,9 @@ export const CompanyDetails = () => {
                 window.open(
                   `${
                     import.meta.env.VITE_COMPANY_URL ?? 'http://localhost:3000/home'
-                  }?backofficeToken=${localStorage.getItem('authToken')}&userId=${companyOwner?.id}
+                  }?companyId=${companyId}&backofficeToken=${localStorage.getItem(
+                    'authToken',
+                  )}&userId=${companyOwner?.id}
                   `,
                   '_blank',
                 );
