@@ -10,13 +10,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 
-// 1. Configuração essencial
-app.set('trust proxy', true);
+app.enable('trust proxy');
+app.use((req, res, next) => {
+  // Debug: log dos cabeçalhos
+  console.log('Headers recebidos:', req.headers);
+  next();
+});
 
-// 2. Middlewares
 app.use(compression());
 
-// 3. Rate limiter
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -27,7 +29,6 @@ app.use(
   }),
 );
 
-// 4. Servir arquivos estáticos
 app.use(
   express.static(path.join(__dirname, 'dist'), {
     etag: true,
@@ -41,7 +42,6 @@ app.use(
   }),
 );
 
-// 5. Rota explícita para a raiz - SOLUÇÃO CHAVE!
 app.get('/', (req, res) => {
   const indexPath = path.join(__dirname, 'dist', 'index.html');
 
@@ -54,7 +54,6 @@ app.get('/', (req, res) => {
   return res.status(500).send('Erro interno: index.html não encontrado');
 });
 
-// 6. Fallback SPA para outras rotas
 app.get('*', (req, res) => {
   const indexPath = path.join(__dirname, 'dist', 'index.html');
 
@@ -66,12 +65,10 @@ app.get('*', (req, res) => {
   return res.status(404).send('Página não encontrada');
 });
 
-// 7. Inicialização do servidor
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
   console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
 
-  // Log adicional para debug
   console.log('Caminho completo para index.html:', path.join(__dirname, 'dist', 'index.html'));
 });
