@@ -4,6 +4,7 @@ import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -48,8 +49,21 @@ app.use(
 
 // 5. Fallback SPA corrigido para Cloud Run
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  const indexPath = path.join(__dirname, 'dist', 'index.html');
+
+  // Verifica se o arquivo existe
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+
+  console.error(`Arquivo index.html não encontrado em: ${indexPath}`);
+  return res.status(500).send('Erro interno: index.html não encontrado');
 });
+
+console.log('Estrutura de diretórios:');
+console.log(fs.readdirSync(__dirname));
+console.log('Conteúdo da pasta dist:');
+console.log(fs.readdirSync(path.join(__dirname, 'dist')));
 
 // 6. Inicialização do servidor
 const port = process.env.PORT || 3002;
