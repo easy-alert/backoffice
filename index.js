@@ -4,14 +4,14 @@ import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
+import fs from 'fs'; // Adicione esta linha
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 
-// 1. Configuração essencial para Cloud Run
-app.set('trust proxy', true); // Confia em todos os proxies
+// 1. Configuração essencial
+app.set('trust proxy', true);
 
 // 2. Middlewares
 app.use(compression());
@@ -27,7 +27,7 @@ app.use(
   }),
 );
 
-// 4. Servir arquivos estáticos com cache inteligente
+// 4. Servir arquivos estáticos
 app.use(
   express.static(path.join(__dirname, 'dist'), {
     etag: true,
@@ -35,39 +35,43 @@ app.use(
     maxAge: '1y',
     setHeaders: (res, filePath) => {
       if (filePath.includes('index.html')) {
-        // Desabilita cache para index.html
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-        res.setHeader('Pragma', 'no-cache');
-        res.setHeader('Expires', '0');
-      } else if (/\.[a-f0-9]{8,}\.(js|css|png|svg|woff2?)$/i.test(filePath)) {
-        // Assets com hash: cache longo
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
       }
     },
   }),
 );
 
-// 5. Fallback SPA corrigido para Cloud Run
-app.get('*', (req, res) => {
+// 5. Rota explícita para a raiz - SOLUÇÃO CHAVE!
+app.get('/', (req, res) => {
   const indexPath = path.join(__dirname, 'dist', 'index.html');
 
-  // Verifica se o arquivo existe
   if (fs.existsSync(indexPath)) {
     return res.sendFile(indexPath);
   }
 
-  console.error(`Arquivo index.html não encontrado em: ${indexPath}`);
+  console.error(`index.html não encontrado em: ${indexPath}`);
+  res.status(500).send('Erro interno: index.html não encontrado');
   return res.status(500).send('Erro interno: index.html não encontrado');
 });
 
-console.log('Estrutura de diretórios:');
-console.log(fs.readdirSync(__dirname));
-console.log('Conteúdo da pasta dist:');
-console.log(fs.readdirSync(path.join(__dirname, 'dist')));
+// 6. Fallback SPA para outras rotas
+app.get('*', (req, res) => {
+  const indexPath = path.join(__dirname, 'dist', 'index.html');
 
-// 6. Inicialização do servidor
-const port = process.env.PORT || 3002;
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+
+  res.status(404).send('Página não encontrada');
+  return res.status(404).send('Página não encontrada');
+});
+
+// 7. Inicialização do servidor
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
   console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+
+  // Log adicional para debug
+  console.log('Caminho completo para index.html:', path.join(__dirname, 'dist', 'index.html'));
 });
