@@ -1,0 +1,12 @@
+[[build.env]]
+name = "NPM_RUN_BUILD"
+value = "true"
+
+[build]
+  [[build.buildpacks]]
+    id = "heroku/nodejs"
+    version = "0.4.0"
+
+  [[build.buildpacks]]
+    id = "heroku/procfile"
+    version = "0.6.2"
