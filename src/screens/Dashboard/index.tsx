@@ -1,13 +1,9 @@
-/* eslint-disable no-underscore-dangle */
 import { useEffect, useState } from 'react';
-
-import { Api } from '@services/api';
 
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
 
 import { handleToastify } from '@utils/toastifyResponses';
-
-import { Input } from '@components/Inputs/Input';
+import { Api } from '@services/api';
 import * as Style from './styles';
 
 interface IDashboardLoadings {
@@ -17,15 +13,6 @@ interface IDashboardLoadings {
   blockedBuildings: boolean;
   activeUsers: boolean;
   blockedUsers: boolean;
-  mostActiveCompanies: boolean;
-}
-
-interface IMostActiveCompany {
-  id: string;
-  name: string;
-  _count: {
-    MaintenancesHistory: number;
-  };
 }
 
 function Dashboard() {
@@ -41,9 +28,6 @@ function Dashboard() {
     activeUsers: 0,
     blockedUsers: 0,
   });
-  const [mostActiveCompanies, setMostActiveCompanies] = useState<IMostActiveCompany[]>([]);
-
-  const [mostActiveCompaniesTake, setMostActiveCompaniesTake] = useState(10);
 
   const [dashboardLoadings, setDashboardLoadings] = useState<IDashboardLoadings>({
     activeCompanies: false,
@@ -52,7 +36,6 @@ function Dashboard() {
     blockedBuildings: false,
     activeUsers: false,
     blockedUsers: false,
-    mostActiveCompanies: false,
   });
 
   // #region api functions
@@ -136,43 +119,13 @@ function Dashboard() {
       }));
     }
   };
-
-  const handleGetMostActiveCompanies = async () => {
-    setDashboardLoadings((prevState) => ({
-      ...prevState,
-      mostActiveCompanies: true,
-    }));
-
-    const params = {
-      take: mostActiveCompaniesTake,
-    };
-
-    try {
-      const response = await Api.get('/dashboard/companies/ranking/most-active', { params });
-
-      const { companies } = response.data as {
-        companies: IMostActiveCompany[];
-      };
-
-      setMostActiveCompanies(companies);
-    } catch (error: any) {
-      handleToastify(error);
-
-      setMostActiveCompanies([]);
-    } finally {
-      setDashboardLoadings((prevState) => ({
-        ...prevState,
-        mostActiveCompanies: false,
-      }));
-    }
-  };
   // #endregion
 
   // #region dashboard functions
   const handleGetAllCompaniesQuantity = async () => {
     try {
-      handleGetCompaniesQuantity('active');
-      handleGetCompaniesQuantity('blocked');
+      await handleGetCompaniesQuantity('active');
+      await handleGetCompaniesQuantity('blocked');
     } catch (error: any) {
       handleToastify(error);
     }
@@ -180,8 +133,8 @@ function Dashboard() {
 
   const handleGetAllBuildingsQuantity = async () => {
     try {
-      handleGetBuildingsQuantity('active');
-      handleGetBuildingsQuantity('blocked');
+      await handleGetBuildingsQuantity('active');
+      await handleGetBuildingsQuantity('blocked');
     } catch (error: any) {
       handleToastify(error);
     }
@@ -189,8 +142,8 @@ function Dashboard() {
 
   const handleGetAllUsersQuantity = async () => {
     try {
-      handleGetUsersQuantity('active');
-      handleGetUsersQuantity('blocked');
+      await handleGetUsersQuantity('active');
+      await handleGetUsersQuantity('blocked');
     } catch (error: any) {
       handleToastify(error);
     }
@@ -205,9 +158,6 @@ function Dashboard() {
 
     // get active and blocked users quantity
     handleGetAllUsersQuantity();
-
-    // get most active companies
-    handleGetMostActiveCompanies();
   };
   // #endregion
 
@@ -293,68 +243,6 @@ function Dashboard() {
             )}
           </Style.QuantityCard>
         </Style.QuantitiesCards>
-
-        <Style.StyledTableWrapper>
-          <Style.TableHeader>
-            <h3>Empresas mais ativas</h3>
-
-            <div>
-              <Input
-                type="number"
-                label="Quantidade de empresas"
-                value={mostActiveCompaniesTake}
-                onChange={(e) => setMostActiveCompaniesTake(Number(e.target.value))}
-                min={1}
-                max={100}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    if (mostActiveCompaniesTake < 1) {
-                      setMostActiveCompaniesTake(1);
-                    } else if (mostActiveCompaniesTake > 100) {
-                      setMostActiveCompaniesTake(100);
-                    }
-                    handleGetMostActiveCompanies();
-                  }
-                }}
-                onBlur={() => {
-                  if (mostActiveCompaniesTake < 1) {
-                    setMostActiveCompaniesTake(1);
-                  } else if (mostActiveCompaniesTake > 100) {
-                    setMostActiveCompaniesTake(100);
-                  }
-                  handleGetMostActiveCompanies();
-                }}
-                placeholder="Digite a quantidade de empresas"
-              />
-            </div>
-          </Style.TableHeader>
-
-          <Style.StyledTable>
-            <Style.StyledThead>
-              <Style.StyledTr>
-                <Style.StyledTh>Empresa</Style.StyledTh>
-                <Style.StyledTh>Atividades</Style.StyledTh>
-              </Style.StyledTr>
-            </Style.StyledThead>
-
-            {dashboardLoadings.mostActiveCompanies ? (
-              <Style.StyledTr>
-                <Style.StyledTd colSpan={2}>
-                  <DotSpinLoading />
-                </Style.StyledTd>
-              </Style.StyledTr>
-            ) : (
-              <tbody>
-                {mostActiveCompanies.map((company) => (
-                  <Style.StyledTr key={company.id}>
-                    <Style.StyledTd>{company.name}</Style.StyledTd>
-                    <Style.StyledTd>{company._count.MaintenancesHistory}</Style.StyledTd>
-                  </Style.StyledTr>
-                ))}
-              </tbody>
-            )}
-          </Style.StyledTable>
-        </Style.StyledTableWrapper>
       </Style.Wrappers>
     </Style.Container>
   );
