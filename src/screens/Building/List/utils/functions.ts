@@ -1,4 +1,3 @@
-
 import { Api } from '@services/api';
 import type { IBuildingsListResponse } from './types';
 
@@ -17,8 +16,8 @@ export const requestBuildingsList = async ({
     params: { page, search: filter },
   });
 
-return {
-  buildings: response.data.buildings,
-  buildingsCount: response.data.totalBuildings, 
-};
+  return {
+    buildings: response.data.buildings,
+    buildingsCount: response.data.totalBuildings,
+  };
 };
