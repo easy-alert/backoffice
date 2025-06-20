@@ -1,33 +1,39 @@
-# Stage 1: Build the React app
-FROM node:20-alpine as build
+# Estágio de build: compila a aplicação
+FROM node:20-alpine AS builder
 
 WORKDIR /app
+
+# 1. Copia apenas os arquivos necessários para instalação
 COPY package.json package-lock.json ./
-RUN npm install
 
-# Accept build arguments
-ARG VITE_API_URL
-ARG VITE_COMPANY_URL
+# 2. Instala todas as dependências (incluindo devDependencies)
+RUN npm ci
 
-# Set environment variables for the build process
-ENV VITE_API_URL=$VITE_API_URL
-ENV VITE_COMPANY_URL=$VITE_COMPANY_URL
-
+# 3. Copia o restante do código
 COPY . .
+
+# 4. Executa o build (TypeScript + Vite)
 RUN npm run build
 
-# Stage 2: Serve the static files
+# Estágio de produção: imagem leve
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Install serve
-RUN npm install -g serve
+# 5. Copia apenas o necessário para produção
+COPY package.json package-lock.json ./
 
-# Copy the built app from Vite (dist directory instead of build)
-COPY --from=build /app/dist ./dist
+# 6. Instala apenas dependências de produção (IGNORA scripts)
+RUN npm ci --production --ignore-scripts
 
+# 7. Copia os artefatos de build
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/index.js ./
+
+# 8. Configura variáveis de ambiente
 ENV PORT=8080
-EXPOSE 8080
+ENV NODE_ENV=production
 
-CMD ["serve", "-s", "dist", "-l", "8080"]
+# 9. Expõe a porta e inicia o servidor
+EXPOSE $PORT
+CMD ["node", "index.js"]

@@ -1,59 +1,74 @@
 /* eslint-disable no-underscore-dangle */
 import express from 'express';
 import rateLimit from 'express-rate-limit';
-import compression from 'compression'; // optional gzip/Brotli
+import compression from 'compression';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs'; // Adicione esta linha
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 
-// Trust proxies (for Cloud Run)
-app.set('trust proxy', 1);
+app.enable('trust proxy');
+app.use((req, res, next) => {
+  // Debug: log dos cabeçalhos
+  console.log('Headers recebidos:', req.headers);
+  next();
+});
 
-// Compress responses
 app.use(compression());
 
-// Rate limiter (your existing config)
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 200,
-    message: 'Muitas requisições feitas. Tente novamente mais tarde.',
     skip: (req) => req.path !== '/login',
+    standardHeaders: true,
+    legacyHeaders: false,
   }),
 );
 
-// Serve static assets with strong caching
 app.use(
   express.static(path.join(__dirname, 'dist'), {
-    // 1 year in ms
+    etag: true,
+    lastModified: true,
     maxAge: '1y',
-    immutable: true, // Express >=5.x or use setHeaders for Express 4.x
     setHeaders: (res, filePath) => {
-      if (filePath.endsWith('index.html')) {
-        // Always revalidate app shell
+      if (filePath.includes('index.html')) {
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-      } else if (/\.[a-f0-9]{8,}\.(js|css|png|svg|woff2?)$/.test(filePath)) {
-        // Fingerprinted assets: long, immutable cache
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
       }
     },
   }),
 );
 
-// SPA fallback: only for “clean” URLs (no file extensions)
-app.get('/*', (req, res) => {
-  if (path.extname(req.path)) {
-    // Let missing files 404
-    return res.status(404).end();
+app.get('/', (req, res) => {
+  const indexPath = path.join(__dirname, 'dist', 'index.html');
+
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
   }
 
-  return res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  console.error(`index.html não encontrado em: ${indexPath}`);
+  res.status(500).send('Erro interno: index.html não encontrado');
+  return res.status(500).send('Erro interno: index.html não encontrado');
 });
 
-const port = process.env.PORT || 3002;
+app.get('*', (req, res) => {
+  const indexPath = path.join(__dirname, 'dist', 'index.html');
+
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+
+  res.status(404).send('Página não encontrada');
+  return res.status(404).send('Página não encontrada');
+});
+
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+
+  console.log('Caminho completo para index.html:', path.join(__dirname, 'dist', 'index.html'));
 });
