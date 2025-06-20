@@ -3,6 +3,8 @@ export interface IBuilding {
   buildingTypeId?: string;
   companyId?: string;
   nanoId?: string;
+  image?: string | null;
+  isBlocked?: boolean;
 
   name?: string;
   cep?: string;
