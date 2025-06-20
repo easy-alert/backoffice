@@ -1,6 +1,10 @@
 /* eslint-disable no-shadow */
+// REACT
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+
+// SERVICES
+import { getBuildings } from '@services/apis/getBuildings';
 
 // GLOBAL COMPONENTS
 import { IconButton } from '@components/Buttons/IconButton';
@@ -19,12 +23,11 @@ import { theme } from '@styles/theme';
 // GLOBAL ASSETS
 import { icon } from '@assets/icons/index';
 
+// GLOBAL TYPES
+import { IBuilding } from '@customTypes/IBuilding';
+
 // STYLES
 import * as Style from './styles';
-
-// UTILS
-import { requestBuildingsList } from './utils/functions';
-import type { IBuilding } from './utils/types';
 
 export const BuildingsList = () => {
   const [search] = useSearchParams();
@@ -40,14 +43,14 @@ export const BuildingsList = () => {
   const queryPage = Number(search.get('page'));
   const queryFilter = search.get('filter');
 
-  const loadBuildings = async ({
+  const handleGetBuildings = async ({
     searchPage,
     searchFilter,
   }: { searchPage?: number; searchFilter?: string } = {}) => {
     try {
       setLoading(true);
 
-      const responseData = await requestBuildingsList({
+      const responseData = await getBuildings({
         page: searchPage ?? page,
         filter: searchFilter ?? filter,
       });
@@ -62,14 +65,14 @@ export const BuildingsList = () => {
   };
 
   useEffect(() => {
-    loadBuildings({ searchPage: page, searchFilter: filter });
+    handleGetBuildings({ searchPage: page, searchFilter: filter });
   }, [page, filter]);
 
   useEffect(() => {
     if (queryPage) setPage(queryPage);
     if (queryFilter) setFilter(queryFilter);
 
-    loadBuildings({});
+    handleGetBuildings({});
   }, []);
 
   if (loading) return <DotSpinLoading />;
