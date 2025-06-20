@@ -1,39 +1,54 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+// SERVICES
+import { getBuildingById } from '@services/apis/getBuildingById';
+
+// GLOBAL COMPONENTS
 import { ReturnButton } from '@components/Buttons/ReturnButton';
 import { Image } from '@components/Image';
 import { Tag } from '@components/Tag';
 
+// GLOBAL ASSETS
 import { icon } from '@assets/icons';
-import * as Style from './styles';
 
-import { requestBuildingDetails } from './utils/functions';
-import type { IBuildingDetails, IUser } from './utils/types';
+// GLOBAL TYPES
+import { IUser } from '@utils/types';
+import { IBuilding } from '@customTypes/IBuilding';
+
+// STYLES
+import * as Style from './styles';
 
 export const BuildingDetails = () => {
   const { buildingId } = useParams();
   const navigate = useNavigate();
   const { search } = window.location;
 
-  const [building, setBuilding] = useState<IBuildingDetails | null>(null);
+  const [building, setBuilding] = useState<IBuilding | null>(null);
+  const [users, setUsers] = useState<IUser[]>([]);
+
+  const handleGetBuildingById = async (id?: string) => {
+    if (!id) return;
+    try {
+      const data = await getBuildingById(id);
+
+      const usersList: IUser[] = Array.isArray(data.UserBuildingsPermissions)
+        ? data.UserBuildingsPermissions.filter((ubp: any) => ubp && ubp.User).map(
+            (ubp: any) => ubp.User,
+          )
+        : [];
+
+      setBuilding(data);
+      setUsers(usersList);
+    } catch (err) {
+      setBuilding(null);
+      setUsers([]);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!buildingId) return;
-      try {
-        const data = await requestBuildingDetails(buildingId);
-        setBuilding(data);
-      } catch (err) {
-        setBuilding(null);
-      }
-    };
-    fetchData();
+    handleGetBuildingById(buildingId);
   }, [buildingId]);
-
-  const users: IUser[] = Array.isArray(building?.UserBuildingsPermissions)
-    ? building.UserBuildingsPermissions.map((ubp: any) => ubp.User)
-    : [];
 
   return (
     <Style.Container>
