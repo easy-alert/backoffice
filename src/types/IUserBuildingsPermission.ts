@@ -1,4 +1,4 @@
-import { IUser } from "@utils/types";
+import { IUser } from '@utils/types';
 
 export interface IUserBuildingsPermission {
   User: IUser;
