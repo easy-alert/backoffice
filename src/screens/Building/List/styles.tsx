@@ -13,6 +13,12 @@ export const Header = styled.header`
     flex-direction: column;
     gap: ${theme.size.sm};
   }
+
+  @media (max-width: 600px) {
+    padding-top: ${theme.size.xxsm};
+    margin-bottom: ${theme.size.xxsm};
+    gap: ${theme.size.xxsm};
+  }
 `;
 
 export const LeftSide = styled.div`
@@ -21,6 +27,7 @@ export const LeftSide = styled.div`
   width: 30%;
   > h2 {
     margin-right: ${theme.size.sm};
+    font-size: 1.5rem;
   }
 
   @media (max-width: 900px) {
@@ -28,6 +35,16 @@ export const LeftSide = styled.div`
     flex-direction: row;
     align-items: center;
     margin-bottom: ${theme.size.sm};
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+    > h2 {
+      margin-right: 0;
+      margin-bottom: ${theme.size.xxsm};
+      font-size: 1.2rem;
+    }
   }
 `;
 
@@ -52,6 +69,15 @@ export const SearchField = styled.div`
       width: 100%;
     }
   }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 4px;
+    > input {
+      font-size: 0.95rem;
+      height: 28px;
+    }
+  }
 `;
 
 export const PaginationFooter = styled.footer`
@@ -60,6 +86,11 @@ export const PaginationFooter = styled.footer`
   height: fit-content;
   display: flex;
   justify-content: flex-end;
+
+  @media (max-width: 600px) {
+    justify-content: center;
+    margin-top: 4px;
+  }
 `;
 
 export const Container = styled.div`
@@ -69,10 +100,21 @@ export const Container = styled.div`
   flex-direction: column;
   height: 80%;
   gap: ${theme.size.xxsm};
+  padding: 0 8px;
 
   > h3 {
     color: ${theme.color.gray4};
     text-align: center;
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 600px) {
+    height: auto;
+    gap: 4px;
+    padding: 0 2px;
+    > h3 {
+      font-size: 1rem;
+    }
   }
 `;
 
@@ -90,6 +132,20 @@ export const Content = styled.div`
       display: block;
       overflow-x: auto;
       white-space: nowrap;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 600px) {
+    min-height: unset;
+    padding: 0 2px;
+
+    table {
+      font-size: 0.95rem;
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+      width: 100%;
     }
   }
 `;

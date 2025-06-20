@@ -1,7 +1,5 @@
 /* eslint-disable no-shadow */
 import { useEffect, useState } from 'react';
-
-// LIBS
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // GLOBAL COMPONENTS
@@ -24,32 +22,9 @@ import { icon } from '@assets/icons/index';
 // STYLES
 import * as Style from './styles';
 
-// TYPES
-interface IBuilding {
-  id: string;
-  name: string;
-  address?: string;
-  createdAt?: string;
-  isActive?: boolean;
-}
-
-// MOCK
-const mockBuildings: IBuilding[] = [
-  {
-    id: '1',
-    name: 'Edifício Central',
-    address: 'Rua das Flores, 123',
-    createdAt: '2024-04-01T10:00:00Z',
-    isActive: true,
-  },
-  {
-    id: '2',
-    name: 'Residencial Bela Vista',
-    address: 'Av. Brasil, 456',
-    createdAt: '2024-03-20T14:30:00Z',
-    isActive: false,
-  },
-];
+// UTILS
+import { requestBuildingsList } from './utils/functions';
+import type { IBuilding } from './utils/types';
 
 export const BuildingsList = () => {
   const [search] = useSearchParams();
@@ -65,19 +40,20 @@ export const BuildingsList = () => {
   const queryPage = Number(search.get('page'));
   const queryFilter = search.get('filter');
 
-  const loadBuildings = async ({ searchPage = 1 }: { searchPage?: number }) => {
+  const loadBuildings = async ({
+    searchPage,
+    searchFilter,
+  }: { searchPage?: number; searchFilter?: string } = {}) => {
     try {
       setLoading(true);
 
-      const filtered = mockBuildings.filter((b) =>
-        b.name.toLowerCase().includes((queryFilter || filter).toLowerCase()),
-      );
+      const responseData = await requestBuildingsList({
+        page: searchPage ?? page,
+        filter: searchFilter ?? filter,
+      });
 
-      const startIndex = (searchPage - 1) * offset;
-      const paginated = filtered.slice(startIndex, startIndex + offset);
-
-      setBuildings(paginated);
-      setCount(filtered.length);
+      setBuildings(responseData.buildings);
+      setCount(responseData.buildingsCount);
     } catch (error) {
       console.error('Erro ao carregar edificações:', error);
     } finally {
@@ -86,8 +62,8 @@ export const BuildingsList = () => {
   };
 
   useEffect(() => {
-    loadBuildings({});
-  }, [page]);
+    loadBuildings({ searchPage: page, searchFilter: filter });
+  }, [page, filter]);
 
   useEffect(() => {
     if (queryPage) setPage(queryPage);
@@ -105,27 +81,15 @@ export const BuildingsList = () => {
           <h2>Edificações</h2>
 
           <Style.SearchField>
-            <IconButton
-              icon={icon.search}
-              size="16px"
-              onClick={() => {
-                loadBuildings({ searchPage: 1 });
-              }}
-            />
+            <IconButton icon={icon.search} size="16px" onClick={() => setPage(1)} />
             <input
               type="text"
               placeholder="Procurar"
               value={filter}
-              onChange={(evt) => {
-                setFilter(evt.target.value);
-              }}
-              onBlur={() => {
-                loadBuildings({ searchPage: 1 });
-              }}
+              onChange={(evt) => setFilter(evt.target.value)}
+              onBlur={() => setPage(1)}
               onKeyUp={(evt) => {
-                if (evt.key === 'Enter') {
-                  loadBuildings({ searchPage: 1 });
-                }
+                if (evt.key === 'Enter') setPage(1);
               }}
             />
           </Style.SearchField>
@@ -143,10 +107,12 @@ export const BuildingsList = () => {
               },
               {
                 label: 'Endereço',
-                cssProps: { paddingLeft: theme.size.xsm },
               },
               {
-                label: 'Data de criação',
+                label: 'Cidade',
+              },
+              {
+                label: 'Último acesso',
               },
               {
                 label: 'Status',
@@ -169,7 +135,7 @@ export const BuildingsList = () => {
                     cell: (
                       <Image
                         size="32px"
-                        img={icon.paper || icon.personPlaceholder}
+                        img={building.image || icon.personPlaceholder}
                         key={building.id}
                       />
                     ),
@@ -178,7 +144,7 @@ export const BuildingsList = () => {
                   {
                     cell: building.name,
                     cssProps: {
-                      width: '30%',
+                      width: '20%',
                       paddingLeft: theme.size.xsm,
                       paddingRight: theme.size.sm,
                       overflow: 'hidden',
@@ -188,9 +154,18 @@ export const BuildingsList = () => {
                     },
                   },
                   {
-                    cell: building.address ?? 'Não informado',
+                    cell: building.streetName ?? 'Não informado',
                     cssProps: {
-                      width: '30%',
+                      width: '25%',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                    },
+                  },
+                  {
+                    cell: building.city ?? 'Não informado',
+                    cssProps: {
+                      width: '15%',
                       overflow: 'hidden',
                       whiteSpace: 'nowrap',
                       textOverflow: 'ellipsis',
@@ -199,11 +174,11 @@ export const BuildingsList = () => {
                   {
                     cell: building.createdAt ? dateTimeFormatter(building.createdAt) : '-',
                     cssProps: {
-                      width: '20%',
+                      width: '15%',
                     },
                   },
                   {
-                    cell: <Tag isInvalid={!building.isActive} key={building.id} />,
+                    cell: <Tag isInvalid={building.isBlocked} key={building.id} />,
                     cssProps: { width: '10%' },
                   },
                 ]}
@@ -218,7 +193,6 @@ export const BuildingsList = () => {
               registerPerPage={offset}
               onPageChange={(page) => {
                 setPage(page);
-                loadBuildings({ searchPage: page });
               }}
             />
           </Style.PaginationFooter>

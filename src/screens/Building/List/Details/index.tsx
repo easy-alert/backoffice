@@ -1,68 +1,54 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+// SERVICES
+import { getBuildingById } from '@services/apis/getBuildingById';
+
+// GLOBAL COMPONENTS
 import { ReturnButton } from '@components/Buttons/ReturnButton';
 import { Image } from '@components/Image';
 import { Tag } from '@components/Tag';
 
+// GLOBAL ASSETS
 import { icon } from '@assets/icons';
+
+// GLOBAL TYPES
+import { IUser } from '@utils/types';
+import { IBuilding } from '@customTypes/IBuilding';
+
+// STYLES
 import * as Style from './styles';
-
-// Tipagens fictícias
-type IUser = {
-  id: string;
-  name: string;
-  email: string;
-  image?: string;
-};
-
-type ICompany = {
-  id: string;
-  name: string;
-  isBlocked: boolean;
-  image?: string;
-};
-
-type IBuildingDetails = {
-  id: string;
-  users: IUser[];
-  companies: ICompany[];
-  type?: string;
-  startDate?: string;
-  warrantyEnd?: string;
-  notifyAfterWarranty?: boolean;
-  maintenanceBasedOn?: string;
-  guestCanFinish?: boolean;
-  zipCode?: string;
-  city?: string;
-  neighborhood?: string;
-  street?: string;
-  proofRequired?: boolean;
-  publicLogs?: boolean;
-};
 
 export const BuildingDetails = () => {
   const { buildingId } = useParams();
   const navigate = useNavigate();
-  const [building, setBuilding] = useState<IBuildingDetails | null>(null);
   const { search } = window.location;
 
+  const [building, setBuilding] = useState<IBuilding | null>(null);
+  const [users, setUsers] = useState<IUser[]>([]);
+
+  const handleGetBuildingById = async (id?: string) => {
+    if (!id) return;
+    try {
+      const data = await getBuildingById(id);
+
+      const usersList: IUser[] = Array.isArray(data.UserBuildingsPermissions)
+        ? data.UserBuildingsPermissions.filter((ubp: any) => ubp && ubp.User).map(
+            (ubp: any) => ubp.User,
+          )
+        : [];
+
+      setBuilding(data);
+      setUsers(usersList);
+    } catch (err) {
+      setBuilding(null);
+      setUsers([]);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setBuilding({
-        id: '1',
-        users: [
-          { id: '1', name: 'João Silva', email: 'joao@email.com' },
-          { id: '2', name: 'Maria Souza', email: 'maria@email.com' },
-        ],
-        companies: [{ id: '1', name: 'Empresa Alpha', isBlocked: true }],
-      });
-    };
-
-    fetchData();
+    handleGetBuildingById(buildingId);
   }, [buildingId]);
-
-  if (!building) return null;
 
   return (
     <Style.Container>
@@ -71,131 +57,96 @@ export const BuildingDetails = () => {
       <Style.DetailsBox>
         <Style.DetailGrid>
           <Style.Avatar>
-            <Image
-              width="80%"
-              height="80%"
-              img={icon.building}
-              //   key={user.id}
-            />
+            <Image width="80%" height="80%" img={building?.image || icon.building} />
           </Style.Avatar>
 
           <Style.DetailsWrapper>
             <Style.DetailItem>
               <h2>Nome</h2>
+              <p>{building?.name || ''}</p>
             </Style.DetailItem>
-
             <Style.DetailItem>
-              <h2>Tipo</h2>
-              <p>{building.type || 'Não informado'}</p>
+              <h2>Data de Criação</h2>
+              <p>{building?.createdAt ? new Date(building.createdAt).toLocaleString() : ''}</p>
             </Style.DetailItem>
-
+            <Style.DetailItem>
+              <h2>Status</h2>
+              <Tag isInvalid={building?.isBlocked} />
+            </Style.DetailItem>
             <Style.DetailItem>
               <h2>CEP</h2>
-              <p>{building.zipCode || 'Não informado'}</p>
+              <p>{building?.cep || ''}</p>
             </Style.DetailItem>
-
             <Style.DetailItem>
               <h2>Logradouro</h2>
-              <p>{building.street || 'Não informado'}</p>
+              <p>{building?.streetName || ''}</p>
             </Style.DetailItem>
-
             <Style.DetailItem>
-              <h2>Bairro</h2>
-              <p>{building.neighborhood || 'Não informado'}</p>
-            </Style.DetailItem>
-
-            <Style.DetailItem>
-              <h2>Local</h2>
-              <p>{building.city || 'Não informado'}</p>
-            </Style.DetailItem>
-
-            <Style.DetailItem>
-              <h2>Data de Início</h2>
-              <p>{building.startDate || 'Não informado'}</p>
-            </Style.DetailItem>
-
-            <Style.DetailItem>
-              <h2>Término da Garantia</h2>
-              <p>{building.warrantyEnd || 'Não informado'}</p>
-            </Style.DetailItem>
-
-            <Style.DetailItem>
-              <h2>Notificar Após Garantia</h2>
-              <p>{building.notifyAfterWarranty ? 'Sim' : 'Não'}</p>
-            </Style.DetailItem>
-
-            <Style.DetailItem>
-              <h2>Próxima Manutenção Baseada em</h2>
-              <p>{building.maintenanceBasedOn || 'Não informado'}</p>
-            </Style.DetailItem>
-
-            <Style.DetailItem>
-              <h2>Convidado Pode Concluir Manutenção</h2>
-              <p>{building.guestCanFinish ? 'Sim' : 'Não'}</p>
-            </Style.DetailItem>
-
-            <Style.DetailItem>
-              <h2>Comprovante de Relato Obrigatório</h2>
-              <p>{building.proofRequired ? 'Sim' : 'Não'}</p>
-            </Style.DetailItem>
-
-            <Style.DetailItem>
-              <h2>Tornar Logs de Atividades Públicos?</h2>
-              <p>{building.publicLogs ? 'Sim' : 'Não'}</p>
+              <h2>Cidade</h2>
+              <p>{building?.city || ''}</p>
             </Style.DetailItem>
           </Style.DetailsWrapper>
         </Style.DetailGrid>
       </Style.DetailsBox>
 
-      <h2>Usuários vinculados</h2>
-      <Style.DetailsBox>
-        <Style.CardGrid>
-          {building.users.map((user) => (
-            <Style.CompanyCard key={user.id} onClick={() => navigate(`/users/${user.id}`)}>
-              <Style.Avatar>
-                <Image width="80%" height="80%" img={user.image || icon.user} />
-              </Style.Avatar>
-              <Style.CompanyInfo>
-                <Style.DetailItem>
-                  <h2>Nome</h2>
-                  <p>{user.name}</p>
-                </Style.DetailItem>
-                <Style.DetailItem>
-                  <h2>Email</h2>
-                  <p>{user.email}</p>
-                </Style.DetailItem>
-              </Style.CompanyInfo>
-            </Style.CompanyCard>
-          ))}
-        </Style.CardGrid>
-      </Style.DetailsBox>
+      {users.length > 0 && (
+        <>
+          <h2>Usuários vinculados</h2>
+          <Style.DetailsBox>
+            <Style.CardGrid>
+              {users.map((user: IUser) => (
+                <Style.CompanyCard key={user.id} onClick={() => navigate(`/users/${user.id}`)}>
+                  <Style.Avatar>
+                    <Image width="80%" height="80%" img={user.image || icon.user} />
+                  </Style.Avatar>
+                  <Style.CompanyInfo>
+                    <Style.DetailItem>
+                      <h2>Nome</h2>
+                      <p>{user.name}</p>
+                    </Style.DetailItem>
+                    <Style.DetailItem>
+                      <h2>Email</h2>
+                      <p>{user.email}</p>
+                    </Style.DetailItem>
+                    <Style.DetailItem>
+                      <h2>Último acesso</h2>
+                      <p>{user.lastAccess ? new Date(user.lastAccess).toLocaleString() : '-'}</p>
+                    </Style.DetailItem>
+                  </Style.CompanyInfo>
+                </Style.CompanyCard>
+              ))}
+            </Style.CardGrid>
+          </Style.DetailsBox>
+        </>
+      )}
 
-      <h2>Empresa vinculada</h2>
-      <Style.DetailsBox>
-        <Style.CardGrid>
-          {building.companies.map((company) => (
-            <Style.CompanyCard
-              key={company.id}
-              onClick={() => navigate(`/companies/${company.id}`)}
-            >
-              <Style.Avatar>
-                <Image width="80%" height="80%" img={company.image || icon.enterprise} />
-              </Style.Avatar>
-
-              <Style.CompanyInfo>
-                <Style.DetailItem>
-                  <h2>Nome da empresa</h2>
-                  <p>{company.name}</p>
-                </Style.DetailItem>
-                <Style.DetailItem>
-                  <h2>Status</h2>
-                  <Tag isInvalid={company.isBlocked} />
-                </Style.DetailItem>
-              </Style.CompanyInfo>
-            </Style.CompanyCard>
-          ))}
-        </Style.CardGrid>
-      </Style.DetailsBox>
+      {building?.Company && (
+        <>
+          <h2>Empresa vinculada</h2>
+          <Style.DetailsBox>
+            <Style.CardGrid>
+              <Style.CompanyCard
+                key={building.Company.id}
+                onClick={() => navigate(`/companies/${building.Company?.id}`)}
+              >
+                <Style.Avatar>
+                  <Image width="80%" height="80%" img={building.Company.image || icon.enterprise} />
+                </Style.Avatar>
+                <Style.CompanyInfo>
+                  <Style.DetailItem>
+                    <h2>Nome da empresa</h2>
+                    <p>{building.Company.name}</p>
+                  </Style.DetailItem>
+                  <Style.DetailItem>
+                    <h2>Status</h2>
+                    <Tag isInvalid={building.Company.isBlocked} />
+                  </Style.DetailItem>
+                </Style.CompanyInfo>
+              </Style.CompanyCard>
+            </Style.CardGrid>
+          </Style.DetailsBox>
+        </>
+      )}
     </Style.Container>
   );
 };
