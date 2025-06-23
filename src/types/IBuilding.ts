@@ -3,12 +3,12 @@ import { IUserBuildingsPermission } from './IUserBuildingsPermission';
 
 export interface IBuilding {
   id?: string;
+
   buildingTypeId?: string;
   companyId?: string;
   nanoId?: string;
-  image?: string | null;
-  isBlocked?: boolean;
 
+  image?: string | null;
   name?: string;
   cep?: string;
   city?: string;
@@ -22,6 +22,7 @@ export interface IBuilding {
   mandatoryReportProof?: boolean;
   isActivityLogPublic?: boolean;
   guestCanCompleteMaintenance?: boolean;
+  isBlocked?: boolean;
 
   residentPassword?: string;
   syndicPassword?: string;
@@ -31,9 +32,7 @@ export interface IBuilding {
   createdAt?: string;
   updatedAt?: string;
 
-  image?: string | null;
 
-  isBlocked?: boolean;
   Company?: ICompany;
   UserBuildingsPermissions?: IUserBuildingsPermission[];
 
