@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { theme } from '../../../styles/theme';
-import teste from '../../../assets/images/teste.jpg';
+import bannerLogin from '../../../assets/images/bannerLogin.jpg';
 
 export const Background = styled.div`
   width: 100%;
@@ -10,7 +10,7 @@ export const Background = styled.div`
   align-items: center;
   background-color: #2e2e2e;
 
-  background-image: url(${teste});
+  background-image: url(${bannerLogin});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
