@@ -45,6 +45,7 @@ export const Avatar = styled.div`
   overflow: hidden;
   position: relative;
   background: ${({ theme }) => theme.color.gray2};
+  flex-shrink: 0;
 
   .image-container {
     width: 80%;
@@ -88,10 +89,10 @@ export const ProfileHeader = styled.div`
 
 export const CardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: ${({ theme }) => theme.size.md};
 
-  @media (max-width: 480px) {
+  @media (max-width: 990px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -105,17 +106,19 @@ export const CompanyCard = styled.div`
   transition: all 0.2s;
   cursor: pointer;
   background: ${({ theme }) => theme.color.white};
+  min-width: 300px;
+  flex: 1;
 
   &:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
+    text-align: center;
   }
 `;
-
 export const CompanyInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -123,7 +126,7 @@ export const CompanyInfo = styled.div`
   padding-left: ${({ theme }) => theme.size.md};
   flex: 1;
 
-  @media (max-width: 500px) {
+  @media (max-width: 990px) {
     padding-left: 0;
     align-items: center;
     text-align: center;
@@ -146,5 +149,8 @@ export const DetailItem = styled.div`
     margin: 0;
     padding: ${({ theme }) => theme.size.xsm} 0;
     border-bottom: 1px solid ${({ theme }) => theme.color.gray2};
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 `;

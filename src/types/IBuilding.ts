@@ -1,8 +1,13 @@
+import { ICompany } from '@screens/Companies/List/utils/types';
+import { IUserBuildingsPermission } from './IUserBuildingsPermission';
+
 export interface IBuilding {
   id?: string;
   buildingTypeId?: string;
   companyId?: string;
   nanoId?: string;
+  image?: string | null;
+  isBlocked?: boolean;
 
   name?: string;
   cep?: string;
@@ -25,6 +30,12 @@ export interface IBuilding {
 
   createdAt?: string;
   updatedAt?: string;
+
+  image?: string | null;
+
+  isBlocked?: boolean;
+  Company?: ICompany;
+  UserBuildingsPermissions?: IUserBuildingsPermission[];
 
   // BuildingType?: IBuildingType;
   // Company?: ICompany;
