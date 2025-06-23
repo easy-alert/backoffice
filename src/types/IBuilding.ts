@@ -32,7 +32,6 @@ export interface IBuilding {
   createdAt?: string;
   updatedAt?: string;
 
-
   Company?: ICompany;
   UserBuildingsPermissions?: IUserBuildingsPermission[];
 
