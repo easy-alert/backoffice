@@ -23,6 +23,7 @@ import { icon } from '@assets/icons/index';
 
 // UTILS
 import { requestUsersList } from './utils/functions';
+import { UserCreateModal } from './utils/modals';
 
 // STYLES
 import * as Style from './styles';
@@ -41,6 +42,7 @@ export const UsersList = () => {
   const [page, setPage] = useState(1);
 
   const [loading, setLoading] = useState(true);
+  const [showUserModal, setShowUserModal] = useState(false);
 
   const offset = 20;
   const queryPage = Number(search.get('page'));
@@ -120,7 +122,22 @@ export const UsersList = () => {
             />
           </Style.SearchField>
         </Style.LeftSide>
+        <IconButton
+          hideLabelOnMedia
+          fontWeight="500"
+          label="Cadastrar"
+          className="p2"
+          icon={icon.plusWithBg}
+          onClick={() => setShowUserModal(true)}
+        />
       </Style.Header>
+
+      {showUserModal && (
+        <UserCreateModal
+          setModal={setShowUserModal}
+          reloadUsers={() => loadUsers({ searchPage: 1 })}
+        />
+      )}
 
       {users?.length ? (
         <Style.Content>
