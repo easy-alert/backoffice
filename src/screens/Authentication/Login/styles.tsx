@@ -23,39 +23,6 @@ export const Background = styled.div`
 
 export const LeftSide = styled.div`
   flex: 0.6;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: ${theme.size.lg};
-  color: ${theme.color.black};
-
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
-
-  > img {
-    width: 80%;
-    max-width: 300px;
-    margin-bottom: ${theme.size.md};
-  }
-
-  h2 {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: ${theme.size.sm};
-  }
-
-  p {
-    font-size: 1.1rem;
-    text-align: center;
-    max-width: 350px;
-  }
-
-  @media (max-width: 768px) {
-    border-radius: 12px 12px 0 0;
-    flex: none;
-    width: 100%;
-  }
 `;
 
 export const RightSide = styled.div`
@@ -65,6 +32,7 @@ export const RightSide = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 100vh;
   align-items: center;
   gap: ${theme.size.md};
   background-color: ${theme.color.primary};
