@@ -80,7 +80,7 @@ export const Login = () => {
                   error={touched.password && errors.password ? errors.password : null}
                 />
               </Style.InputWrapper>
-              <Button center label="Login" loading={onQuery} type="submit" />
+              <Button center label="Acesse sua conta" loading={onQuery} type="submit" />
             </Form>
           )}
         </Formik>
