@@ -73,6 +73,14 @@ export const Sidebar = () => {
       },
       label: 'Tutoriais',
     },
+    {
+      icon: icon.access,
+      url: '/chatbot',
+      redirectFunction: () => {
+        navigate('/chatbot');
+      },
+      label: 'Chatbot',
+    },
 
     // Desativado em função das tasks SA-6535 em diante que mudou isso pra company
     // {
