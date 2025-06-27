@@ -77,6 +77,10 @@ export const UsersList = () => {
     loadUsers({});
   }, []);
 
+  const handleUserModalChange = (isOpen: boolean) => {
+    setShowUserModal(isOpen);
+  };
+
   const formatPhoneNumber = (contactNumber: string | undefined) => {
     if (!contactNumber) return 'Não informado';
     return applyMask({ mask: 'TEL', value: contactNumber }).value;
@@ -128,13 +132,13 @@ export const UsersList = () => {
           label="Cadastrar"
           className="p2"
           icon={icon.plusWithBg}
-          onClick={() => setShowUserModal(true)}
+          onClick={() => handleUserModalChange(true)}
         />
       </Style.Header>
 
       {showUserModal && (
         <UserCreateModal
-          setModal={setShowUserModal}
+          onModalChange={handleUserModalChange}
           reloadUsers={() => loadUsers({ searchPage: 1 })}
         />
       )}
