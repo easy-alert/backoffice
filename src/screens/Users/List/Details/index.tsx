@@ -7,7 +7,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 // GLOBAL COMPONENTS
 import { Tag } from '@components/Tag';
 import { ReturnButton } from '@components/Buttons/ReturnButton';
+import { IconButton } from '@components/Buttons/IconButton';
 import { Image } from '@components/Image';
+import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
 
 // GLOBAL UTILS
 import { applyMask } from '@utils/functions';
@@ -22,9 +24,14 @@ import { fetchUserDetails, formatDate, formatDateTime } from './utils/functions'
 // TYPES
 import type { IUserDetails } from './utils/types';
 
+// MODALS
+import { ModalEditUser } from './modals/ModalEditUser';
+
 export const UserDetails = () => {
   const { userId } = useParams();
   const [user, setUser] = useState<IUserDetails | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [modalEditUser, setModalEditUser] = useState<boolean>(false);
   const { search } = window.location;
   const navigate = useNavigate();
 
@@ -35,129 +42,159 @@ export const UserDetails = () => {
       try {
         const response = await fetchUserDetails(userId);
         setUser(response.user);
+        setLoading(false);
       } catch (error) {
         console.error('Failed to load user data:', error);
+        setLoading(false);
       }
     };
 
     loadUserData();
   }, [userId]);
 
-  if (!user) return null;
+  const handleModals = (modal: string, modalState: boolean) => {
+    if (modal === 'updateUser') {
+      setModalEditUser(modalState);
+    }
+  };
 
   return (
-    <Style.Container>
-      <h2>Perfil do usuário</h2>
-      <ReturnButton path={`/users${search}`} />
+    <>
+      {modalEditUser && user && (
+        <ModalEditUser
+          selectedUser={user}
+          handleModals={handleModals}
+          onUserUpdated={(updatedUser) => {
+            setUser(updatedUser as IUserDetails);
+          }}
+        />
+      )}
+      {loading && <DotSpinLoading />}
 
-      <Style.ProfileSection>
-        <Style.ProfileContent>
-          <Style.Avatar>
-            <Image width="80%" height="80%" img={user.image || icon.user} key={user.id} />
-          </Style.Avatar>
+      {!loading && user && (
+        <Style.Container>
+          <h2>Perfil do usuário</h2>
+          <ReturnButton path={`/users${search}`} />
 
-          <Style.DetailsContainer>
-            <Style.DetailItem>
-              <h2>Nome</h2>
-              <p>{user.name}</p>
-            </Style.DetailItem>
+          <Style.ProfileSection>
+            <Style.ProfileContent>
+              <Style.Avatar>
+                <Image width="80%" height="80%" img={user.image || icon.user} key={user.id} />
+              </Style.Avatar>
 
-            <Style.DetailItem>
-              <h2>Email</h2>
-              <p>{user.email || '-'}</p>
-            </Style.DetailItem>
+              <Style.DetailsContainer>
+                <Style.DetailItem>
+                  <h2>Nome</h2>
+                  <p>{user.name}</p>
+                </Style.DetailItem>
 
-            <Style.DetailItem>
-              <h2>Data de cadastro</h2>
-              <p>{user.createdAt ? formatDate(user.createdAt) : '-'}</p>
-            </Style.DetailItem>
+                <Style.DetailItem>
+                  <h2>Email</h2>
+                  <p>{user.email || '-'}</p>
+                </Style.DetailItem>
 
-            <Style.DetailItem>
-              <h2>Cargo</h2>
-              <p>{user.role || '-'}</p>
-            </Style.DetailItem>
+                <Style.DetailItem>
+                  <h2>Data de cadastro</h2>
+                  <p>{user.createdAt ? formatDate(user.createdAt) : '-'}</p>
+                </Style.DetailItem>
 
-            <Style.DetailItem>
-              <h2>Telefone</h2>
-              <p>
-                {user.phoneNumber ? applyMask({ mask: 'TEL', value: user.phoneNumber }).value : '-'}
-              </p>
-            </Style.DetailItem>
+                <Style.DetailItem>
+                  <h2>Cargo</h2>
+                  <p>{user.role || '-'}</p>
+                </Style.DetailItem>
 
-            <Style.DetailItem>
-              <h2>Último acesso</h2>
-              <p>{user.lastAccess ? formatDateTime(user.lastAccess) : '-'}</p>
-            </Style.DetailItem>
-          </Style.DetailsContainer>
-        </Style.ProfileContent>
-      </Style.ProfileSection>
+                <Style.DetailItem>
+                  <h2>Telefone</h2>
+                  <p>
+                    {user.phoneNumber
+                      ? applyMask({ mask: 'TEL', value: user.phoneNumber }).value
+                      : '-'}
+                  </p>
+                </Style.DetailItem>
 
-      <h2>Empresas vinculadas</h2>
+                <Style.DetailItem>
+                  <h2>Último acesso</h2>
+                  <p>{user.lastAccess ? formatDateTime(user.lastAccess) : '-'}</p>
+                </Style.DetailItem>
+              </Style.DetailsContainer>
+            </Style.ProfileContent>
+          </Style.ProfileSection>
 
-      <Style.CompaniesSection>
-        {user.companies && user.companies.length > 0 && (
-          <table>
-            {user.companies.map((company) => (
-              <Style.CompanyCard
-                key={company.id}
-                onClick={() => navigate(`/companies/${company.id}`)}
-              >
-                <Style.Avatar>
-                  <Image
-                    width="100%"
-                    height="80%"
-                    img={company.image || icon.enterprise}
-                    key={company.id}
-                  />
-                </Style.Avatar>
+          <IconButton
+            hideLabelOnMedia
+            icon={icon.editWithBg}
+            label="Editar"
+            onClick={() => setModalEditUser(true)}
+          />
 
-                <Style.CompanyInfo>
-                  <Style.DetailItem>
-                    <h2>Nome da empresa</h2>
-                    <p>{company.name}</p>
-                  </Style.DetailItem>
+          <h2>Empresas vinculadas</h2>
 
-                  <Style.DetailItem>
-                    <h2>Status</h2>
-                    <Tag isInvalid={company.isBlocked} />
-                  </Style.DetailItem>
-                </Style.CompanyInfo>
-              </Style.CompanyCard>
-            ))}
-          </table>
-        )}
-      </Style.CompaniesSection>
+          <Style.CompaniesSection>
+            {user.companies && user.companies.length > 0 ? (
+              user.companies.map((company) => (
+                <Style.CompanyCard
+                  key={company.id}
+                  onClick={() => navigate(`/companies/${company.id}`)}
+                >
+                  <Style.Avatar>
+                    <Image
+                      width="100%"
+                      height="80%"
+                      img={company.image || icon.enterprise}
+                      key={company.id}
+                    />
+                  </Style.Avatar>
 
-      <h2>Edificações vinculadas</h2>
+                  <Style.CompanyInfo>
+                    <Style.DetailItem>
+                      <h2>Nome da empresa</h2>
+                      <p>{company.name}</p>
+                    </Style.DetailItem>
 
-      <Style.CompaniesSection>
-        {user.edifications && user.edifications.length > 0 && (
-          <table>
-            {user.edifications.map((edification) => (
-              <Style.CompanyCard
-                key={edification.id}
-                onClick={() => navigate(`/buildings/${edification.id}`)}
-              >
-                <Style.Avatar>
-                  <Image
-                    width="100%"
-                    height="80%"
-                    img={edification.image || icon.building}
-                    key={edification.id}
-                  />
-                </Style.Avatar>
+                    <Style.DetailItem>
+                      <h2>Status</h2>
+                      <Tag isInvalid={company.isBlocked} />
+                    </Style.DetailItem>
+                  </Style.CompanyInfo>
+                </Style.CompanyCard>
+              ))
+            ) : (
+              <p>Nenhuma empresa vinculada.</p>
+            )}
+          </Style.CompaniesSection>
 
-                <Style.CompanyInfo>
-                  <Style.DetailItem>
-                    <h2>Nome da edificação</h2>
-                    <p>{edification.name}</p>
-                  </Style.DetailItem>
-                </Style.CompanyInfo>
-              </Style.CompanyCard>
-            ))}
-          </table>
-        )}
-      </Style.CompaniesSection>
-    </Style.Container>
+          <h2>Edificações vinculadas</h2>
+
+          <Style.CompaniesSection>
+            {user.edifications && user.edifications.length > 0 ? (
+              user.edifications.map((edification) => (
+                <Style.CompanyCard
+                  key={edification.id}
+                  onClick={() => navigate(`/buildings/${edification.id}`)}
+                >
+                  <Style.Avatar>
+                    <Image
+                      width="100%"
+                      height="80%"
+                      img={edification.image || icon.building}
+                      key={edification.id}
+                    />
+                  </Style.Avatar>
+
+                  <Style.CompanyInfo>
+                    <Style.DetailItem>
+                      <h2>Nome da edificação</h2>
+                      <p>{edification.name}</p>
+                    </Style.DetailItem>
+                  </Style.CompanyInfo>
+                </Style.CompanyCard>
+              ))
+            ) : (
+              <p>Nenhuma edificação vinculada.</p>
+            )}
+          </Style.CompaniesSection>
+        </Style.Container>
+      )}
+    </>
   );
 };

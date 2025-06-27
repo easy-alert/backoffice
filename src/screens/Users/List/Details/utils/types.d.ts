@@ -17,6 +17,7 @@ export interface IUserDetails {
   phoneNumber?: string;
   role?: string;
   createdAt?: string;
+  isBlocked: boolean;
   lastAccess?: string;
   image?: string;
   companies?: IUserCompany[];
