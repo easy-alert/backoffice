@@ -19,6 +19,7 @@ import { UserDetails } from '@screens/Users/List/Details';
 import { BuildingsList } from '@screens/Building/List';
 import { BuildingDetails } from '@screens/Building/List/Details';
 import Dashboard from '@screens/Dashboard';
+import Chatbot from '@screens/Chatbot';
 
 // CATEGORIES
 
@@ -58,6 +59,8 @@ const AppRoutes = () => (
 
           <Route path="/maintenances" element={<MaintenancesList />} />
           <Route path="/tutorials" element={<Tutorials />} />
+
+          <Route path="/chatbot" element={<Chatbot />} />
 
           {/* Desativado em função das tasks SA-6535 em diante que mudou isso pra company */}
           {/* <Route path="/suppliers" element={<Outlet />}>
