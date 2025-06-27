@@ -3,9 +3,10 @@ import { useState } from 'react';
 
 // LIBS
 import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 
 // SERVICES
-import { createUser, schemaUserCreate } from '@services/apis/createUser';
+import { createUser } from '@services/apis/createUser';
 
 // GLOBAL COMPONENTS
 import { Modal } from '@components/Modal';
@@ -13,22 +14,29 @@ import { FormikImageInput } from '@components/Form/FormikImageInput';
 import { FormikInput } from '@components/Form/FormikInput';
 import { Button } from '@components/Buttons/Button';
 
-// GLOBAL UTILS
-import { handleToastify } from '@utils/toastifyResponses';
-
 // STYLES
 import * as Style from './styles';
 
+const schemaUserCreate = Yup.object().shape({
+  name: Yup.string().required('Nome obrigatório'),
+  email: Yup.string().email('E-mail inválido').required('E-mail obrigatório'),
+  phoneNumber: Yup.string().required('Telefone obrigatório'),
+  password: Yup.string().min(6, 'Mínimo 6 caracteres').required('Senha obrigatória'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password')], 'As senhas não coincidem')
+    .required('Confirme a senha'),
+});
+
 interface IModalCreateUser {
-  setModal: (open: boolean) => void;
+  onModalChange: (open: boolean) => void;
   reloadUsers?: () => void;
 }
 
-export const UserCreateModal = ({ setModal, reloadUsers }: IModalCreateUser) => {
+export const UserCreateModal = ({ onModalChange, reloadUsers }: IModalCreateUser) => {
   const [onQuery, setOnQuery] = useState(false);
 
   return (
-    <Modal title="Cadastrar usuário" setModal={setModal}>
+    <Modal title="Cadastrar usuário" setModal={onModalChange}>
       <Formik
         initialValues={{
           name: '',
@@ -43,30 +51,13 @@ export const UserCreateModal = ({ setModal, reloadUsers }: IModalCreateUser) => 
         onSubmit={async (data, { resetForm }) => {
           setOnQuery(true);
           try {
-            const response = await createUser(data);
-            handleToastify({
-              status: 200,
-              data: {
-                ServerMessage: {
-                  message: response?.ServerMessage?.message,
-                },
-              },
-            });
+            await createUser(data);
             if (reloadUsers) reloadUsers();
-            setModal(false);
+            onModalChange(false);
             resetForm();
-          } catch (err: any) {
-            handleToastify({
-              status: err?.response?.status || 400,
-              data: {
-                ServerMessage: {
-                  message:
-                    err?.response?.data?.ServerMessage?.message ||
-                    err?.response?.data?.message ||
-                    'Erro ao cadastrar usuário.',
-                },
-              },
-            });
+          } catch (error) {
+            // Erro já foi tratado no service com handleToastify
+            // Aqui você pode adicionar lógica adicional se necessário
           } finally {
             setOnQuery(false);
           }
