@@ -3,9 +3,9 @@ import { theme } from '../../styles/theme';
 import * as Style from './styles';
 import { IColorfulTableBody, IColorfulTableHeader } from './types';
 
-export const ColorfulTable = ({ colsHeader, children }: IColorfulTableHeader) => (
+export const ColorfulTable = ({ colsHeader, children, cssProps }: IColorfulTableHeader) => (
   <Style.TableBackground>
-    <Style.TableContainer>
+    <Style.TableContainer $cssProps={cssProps || ''}>
       <Style.TableHead>
         <Style.TableRowHead>
           {colsHeader.map((col) => (

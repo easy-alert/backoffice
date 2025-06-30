@@ -19,6 +19,7 @@ import { UserDetails } from '@screens/Users/List/Details';
 import { BuildingsList } from '@screens/Building/List';
 import { BuildingDetails } from '@screens/Building/List/Details';
 import Dashboard from '@screens/Dashboard';
+import { HomeFeed } from '@screens/HomeFeed';
 
 // CATEGORIES
 
@@ -58,12 +59,7 @@ const AppRoutes = () => (
 
           <Route path="/maintenances" element={<MaintenancesList />} />
           <Route path="/videos" element={<PlatformVideos />} />
-
-          {/* Desativado em função das tasks SA-6535 em diante que mudou isso pra company */}
-          {/* <Route path="/suppliers" element={<Outlet />}>
-            <Route index element={<SuppliersList />} />
-            <Route path=":supplierId" element={<SupplierDetails />} />
-          </Route> */}
+          <Route path="/feed" element={<HomeFeed />} />
 
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Route>
