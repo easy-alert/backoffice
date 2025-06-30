@@ -45,7 +45,7 @@ export const ModalEditPlatformVideo = ({
   handleEditPlatformVideo,
   handleModalEditTutorialModal,
 }: ICreateTutorialModal) => (
-  <Modal title="Criar um tutorial" setModal={handleModalEditTutorialModal}>
+  <Modal title="Atualizar um tutorial" setModal={handleModalEditTutorialModal}>
     <Formik
       validationSchema={editPlatformVideoSchema}
       onSubmit={(values) => handleEditPlatformVideo(platformVideo.id || '', values)}
