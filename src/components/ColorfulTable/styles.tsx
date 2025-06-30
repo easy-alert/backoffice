@@ -6,9 +6,11 @@ export const TableBackground = styled.div`
   width: 100%;
 `;
 
-export const TableContainer = styled.table`
+export const TableContainer = styled.table<{ $cssProps: any }>`
   width: 100%;
   border-spacing: 0;
+
+  ${({ $cssProps }) => $cssProps}
 `;
 
 export const TableHead = styled.thead``;
@@ -18,6 +20,8 @@ export const TableBody = styled.tbody``;
 export const TableRowHead = styled.tr<{ bgColor?: string }>``;
 
 export const TableRow = styled.tr<{ $bgColor?: string }>`
+  white-space: nowrap;
+
   ${({ $bgColor }) =>
     $bgColor &&
     css`
@@ -25,19 +29,19 @@ export const TableRow = styled.tr<{ $bgColor?: string }>`
     `};
 
   > td {
-    border-top: 1px solid ${theme.color.gray2};
+    border-top: 1px solid #d5d5d5;
 
     &:first-child {
-      border-left: 1px solid ${theme.color.gray2};
+      border-left: 1px solid #d5d5d5;
     }
 
     &:last-child {
-      border-right: 1px solid ${theme.color.gray2};
+      border-right: 1px solid #d5d5d5;
     }
   }
 
   &:last-child td {
-    border-bottom: 1px solid ${theme.color.gray2};
+    border-bottom: 1px solid #d5d5d5;
 
     &:first-child {
       border-bottom-left-radius: ${theme.size.xxsm};
@@ -50,21 +54,21 @@ export const TableRow = styled.tr<{ $bgColor?: string }>`
 `;
 
 export const TableColHeader = styled.th<{ $cssProps: any; $cssOnMedia: any }>`
-  color: ${theme.color.gray5};
+  color: ${theme.color.black};
   text-align: start;
-
-  &:first-child {
-    border-top-left-radius: ${theme.size.xxsm};
-    border-left: 1px solid ${theme.color.gray2};
-  }
 
   background-color: #fafafa;
   padding: ${theme.size.xsm} ${theme.size.sm};
-  border-top: 1px solid ${theme.color.gray2};
+  border-top: 1px solid #d5d5d5;
+
+  &:first-child {
+    border-top-left-radius: ${theme.size.xxsm};
+    border-left: 1px solid #d5d5d5;
+  }
 
   &:last-child {
     border-top-right-radius: ${theme.size.xxsm};
-    border-right: 1px solid ${theme.color.gray2};
+    border-right: 1px solid #d5d5d5;
   }
 
   ${({ $cssProps }) => $cssProps}
