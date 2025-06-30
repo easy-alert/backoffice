@@ -2,10 +2,10 @@
 import { useEffect, useState } from 'react';
 
 // SERVICES
-import { getTutorials } from '@services/apis/getTutorials';
-import { createTutorial } from '@services/apis/createTutorial';
-import { updateTutorial } from '@services/apis/updateTutorial';
-import { deleteTutorial } from '@services/apis/deleteTutorial';
+import { getPlatformVideos } from '@services/apis/getPlatformVideos';
+import { createPlatformVideo } from '@services/apis/createPlatformVideo';
+import { updatePlatformVideo } from '@services/apis/updatePlatformVideo';
+import { deletePlatformVideo } from '@services/apis/deletePlatformVideo';
 
 // GLOBAL ASSETS
 import { icon } from '@assets/icons';
@@ -15,38 +15,38 @@ import { IconButton } from '@components/Buttons/IconButton';
 import { IFrameModal } from '@components/IFrameModal/IFrameModal';
 import { PopoverButton } from '@components/Buttons/PopoverButton';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
-import ChatWidget from '@components/ChatWidget';
 
 // GLOBAL UTILS
 import { catchHandler } from '@utils/functions';
 
 // GLOBAL TYPES
-import type { ITutorial } from '@customTypes/ITutorial';
+import type { IPlatformVideo } from '@customTypes/IPlatformVideo';
 
 // COMPONENTS
-import { CreateTutorialModal } from './CreateTutorialModal';
-import { EditTutorialModal } from './EditTutorialModal';
+import { ModalCreatePlatformVideo } from './ModalCreatePlatformVideo';
+import { ModalEditPlatformVideo } from './ModalEditPlatformVideo';
 
 // STYLES
 import * as Style from './styles';
 
-export const Tutorials = () => {
-  const [tutorials, setTutorials] = useState<ITutorial[]>([]);
+export const PlatformVideos = () => {
+  const [platformVideos, setPlatformVideos] = useState<IPlatformVideo[]>([]);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const [createTutorialModal, setCreateTutorialModal] = useState(false);
-  const [editTutorialModal, setEditTutorialModal] = useState(false);
+  const [modalCreatePlatformVideo, setModalCreatePlatformVideo] = useState(false);
+  const [modalEditTutorialModal, setModalEditTutorialModal] = useState(false);
   const [iFrameModal, setIFrameModal] = useState(false);
 
   const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
-  const handleCreateTutorialModal = (modalState: boolean) => {
-    setCreateTutorialModal(modalState);
+  const handleModalCreatePlatformVideo = (modalState: boolean) => {
+    setModalCreatePlatformVideo(modalState);
   };
 
-  const handleEditTutorialModal = (modalState: boolean) => {
-    setEditTutorialModal(modalState);
+  const handleModalEditTutorialModal = (modalState: boolean) => {
+    setModalEditTutorialModal(modalState);
   };
 
   const handleIFrameModal = (modalState: boolean) => {
@@ -57,13 +57,14 @@ export const Tutorials = () => {
     setSelectedIndex(index);
   };
 
-  const handleGetTutorials = async () => {
+  // #region api
+  const handleGetPlatformVideos = async () => {
     setLoading(true);
 
     try {
-      const responseData = await getTutorials();
+      const responseData = await getPlatformVideos();
 
-      setTutorials(responseData.tutorials);
+      setPlatformVideos(responseData.platformVideos);
     } catch (error) {
       catchHandler(error);
     } finally {
@@ -71,114 +72,107 @@ export const Tutorials = () => {
     }
   };
 
-  const handleCreateTutorial = async (values: ITutorial) => {
+  const handleCreatePlatformVideo = async (values: IPlatformVideo) => {
     setLoading(true);
 
     try {
-      await createTutorial(values);
+      await createPlatformVideo(values);
 
-      handleCreateTutorialModal(false);
-    } catch (error) {
-      catchHandler(error);
-    } finally {
-      handleGetTutorials();
-      setLoading(false);
-    }
-  };
-
-  const handleEditTutorial = async (id: string, values: ITutorial) => {
-    setLoading(true);
-
-    try {
-      await updateTutorial(id, values);
-
-      handleEditTutorialModal(false);
-      handleGetTutorials();
-    } catch (error) {
-      catchHandler(error);
+      setRefresh(!refresh);
+      handleModalCreatePlatformVideo(false);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDeleteTutorial = async (id: string) => {
+  const handleEditPlatformVideo = async (id: string, values: IPlatformVideo) => {
     setLoading(true);
 
     try {
-      await deleteTutorial(id);
-    } catch (error) {
-      catchHandler(error);
+      await updatePlatformVideo(id, values);
+
+      setRefresh(!refresh);
+      handleModalEditTutorialModal(false);
     } finally {
-      handleGetTutorials();
       setLoading(false);
     }
   };
+
+  const handleDeletePlatformVideo = async (id: string) => {
+    setLoading(true);
+
+    try {
+      await deletePlatformVideo(id);
+      setRefresh(!refresh);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // #endregion
 
   useEffect(() => {
-    handleGetTutorials();
-  }, []);
+    handleGetPlatformVideos();
+  }, [refresh]);
 
   return (
     <>
       {iFrameModal && selectedIndex !== null && (
         <IFrameModal
-          name={tutorials[selectedIndex].title}
-          link={tutorials[selectedIndex].url}
+          name={platformVideos[selectedIndex].title || ''}
+          link={platformVideos[selectedIndex].url || ''}
           handleIFrameModal={handleIFrameModal}
         />
       )}
 
-      {createTutorialModal && (
-        <CreateTutorialModal
+      {modalCreatePlatformVideo && (
+        <ModalCreatePlatformVideo
           loading={loading}
-          handleCreateTutorial={handleCreateTutorial}
-          handleCreateTutorialModal={handleCreateTutorialModal}
+          handleCreatePlatformVideo={handleCreatePlatformVideo}
+          handleModalCreatePlatformVideo={handleModalCreatePlatformVideo}
         />
       )}
 
-      {editTutorialModal && (
-        <EditTutorialModal
-          tutorial={tutorials[selectedIndex]}
+      {modalEditTutorialModal && (
+        <ModalEditPlatformVideo
+          platformVideo={platformVideos[selectedIndex]}
           loading={loading}
-          handleEditTutorial={handleEditTutorial}
-          handleEditTutorialModal={handleEditTutorialModal}
+          handleEditPlatformVideo={handleEditPlatformVideo}
+          handleModalEditTutorialModal={handleModalEditTutorialModal}
         />
       )}
 
       <Style.Container>
         <Style.HeaderContainer>
-          <h2>Tutoriais</h2>
+          <h2>Vídeos</h2>
 
           <IconButton
             icon={icon.plus}
             label="Adicionar"
-            onClick={() => handleCreateTutorialModal(true)}
+            onClick={() => handleModalCreatePlatformVideo(true)}
           />
         </Style.HeaderContainer>
 
         {loading && <DotSpinLoading />}
 
-        <ChatWidget />
-
         {!loading && (
           <Style.Wrapper>
-            {tutorials.length === 0 && (
+            {platformVideos.length === 0 && (
               <Style.EmptyContainer>
-                <h4>Nenhum tutorial encontrado</h4>
+                <h4>Nenhum vídeo encontrado</h4>
               </Style.EmptyContainer>
             )}
 
-            {tutorials.map((tutorial, index) => (
-              <Style.Card key={tutorial.id}>
+            {platformVideos.map((platformVideo, index) => (
+              <Style.Card key={platformVideo.id}>
                 <Style.CardHeader>
-                  <h5>{tutorial.title}</h5>
+                  <h5>{platformVideo.title}</h5>
 
                   <Style.CardHeaderButtons>
                     <IconButton
                       icon={icon.editWithBg}
                       onClick={() => {
                         handleSelectedIndex(index);
-                        handleEditTutorialModal(true);
+                        handleModalEditTutorialModal(true);
                       }}
                     />
 
@@ -191,9 +185,7 @@ export const Tutorials = () => {
                         title: 'Tem certeza que deseja excluir este tutorial?',
                         content: '',
                       }}
-                      actionButtonClick={() => {
-                        handleDeleteTutorial(tutorial.id);
-                      }}
+                      actionButtonClick={() => handleDeletePlatformVideo(platformVideo.id || '')}
                     />
                   </Style.CardHeaderButtons>
                 </Style.CardHeader>
@@ -204,10 +196,12 @@ export const Tutorials = () => {
                     handleIFrameModal(true);
                   }}
                 >
-                  <img alt="" src={tutorial.thumbnail} />
+                  <img alt="" src={platformVideo.thumbnail} />
                 </Style.CardImageContainer>
 
-                <p>Ordem: {tutorial.order}</p>
+                <p>
+                  {platformVideo.type} - {platformVideo.status} - {platformVideo.order}
+                </p>
               </Style.Card>
             ))}
           </Style.Wrapper>

@@ -75,6 +75,8 @@ export const CardHeader = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  gap: ${theme.size.xsm};
+
   margin-bottom: ${theme.size.xsm};
 `;
 
