@@ -8,7 +8,7 @@ export interface IUser {
   phoneNumber?: string;
 }
 
-export interface IFormDataUser {
+export interface ICreateUser {
   name: string;
   image?: string;
   role: string;

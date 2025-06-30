@@ -1,7 +1,10 @@
 import { Api } from '@services/api';
+
 import { handleToastify } from '@utils/toastifyResponses';
 
-export async function createUser(data: any) {
+import type { ICreateUser } from '@customTypes/IUser';
+
+export async function createUser(data: ICreateUser) {
   const uri = 'users';
 
   try {
