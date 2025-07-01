@@ -27,3 +27,12 @@ export const TableButtons = styled.div`
   justify-content: flex-end;
   gap: ${({ theme }) => theme.size.sm};
 `;
+
+export const EmptyContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  > h4 {
+    color: ${({ theme }) => theme.color.gray4};
+  }
+`;

@@ -150,58 +150,75 @@ export const HomeFeed = () => {
             { label: 'Ações', cssProps: { width: '1%', textAlign: 'center' } },
           ]}
         >
-          {feedItems.map((item) => (
+          {feedItems.length === 0 && !loading && (
             <ColorfulTableContent
-              key={item.id}
               colsBody={[
-                { cell: <TableCell type="string" value={item.title || ''} /> },
                 {
+                  colSpan: 7,
                   cell: (
-                    <TableCell
-                      type="string"
-                      value={item.description || ''}
-                      style={{
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'break-spaces',
-                      }}
-                    />
-                  ),
-                },
-                { cell: <TableCell type="string" value={handleTranslate(item.type || '')} /> },
-                {
-                  cell: <TableCell value={item.startsAt} type="date" alignItems="center" />,
-                },
-                {
-                  cell: <TableCell value={item.expiresAt} type="date" alignItems="center" />,
-                },
-                {
-                  cell: <TableCell value={item.isPinned ? 'Sim' : 'Não'} />,
-                },
-                {
-                  cell: (
-                    <Style.TableButtons>
-                      <IconButton
-                        icon={icon.editWithBg}
-                        size="16px"
-                        hideLabelOnMedia
-                        onClick={() => {
-                          handleSelectedIndex(feedItems.indexOf(item));
-                          handleModalEditFeedItem(true);
-                        }}
-                      />
-
-                      <IconButton
-                        icon={icon.trashWithBg}
-                        size="16px"
-                        hideLabelOnMedia
-                        onClick={() => handleDeleteFeedItem(item.id || '')}
-                      />
-                    </Style.TableButtons>
+                    <Style.EmptyContainer>
+                      <h4>Nenhuma notícia encontrada</h4>
+                    </Style.EmptyContainer>
                   ),
                 },
               ]}
             />
-          ))}
+          )}
+
+          {feedItems.length > 0 &&
+            !loading &&
+            feedItems.map((item) => (
+              <ColorfulTableContent
+                key={item.id}
+                colsBody={[
+                  { cell: <TableCell type="string" value={item.title || ''} /> },
+                  {
+                    cell: (
+                      <TableCell
+                        type="string"
+                        value={item.description || ''}
+                        style={{
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'break-spaces',
+                        }}
+                      />
+                    ),
+                  },
+                  { cell: <TableCell type="string" value={handleTranslate(item.type || '')} /> },
+                  {
+                    cell: <TableCell value={item.startsAt} type="date" alignItems="center" />,
+                  },
+                  {
+                    cell: <TableCell value={item.expiresAt} type="date" alignItems="center" />,
+                  },
+                  {
+                    cell: <TableCell value={item.isPinned ? 'Sim' : 'Não'} />,
+                  },
+                  {
+                    cell: (
+                      <Style.TableButtons>
+                        <IconButton
+                          icon={icon.editWithBg}
+                          size="16px"
+                          hideLabelOnMedia
+                          onClick={() => {
+                            handleSelectedIndex(feedItems.indexOf(item));
+                            handleModalEditFeedItem(true);
+                          }}
+                        />
+
+                        <IconButton
+                          icon={icon.trashWithBg}
+                          size="16px"
+                          hideLabelOnMedia
+                          onClick={() => handleDeleteFeedItem(item.id || '')}
+                        />
+                      </Style.TableButtons>
+                    ),
+                  },
+                ]}
+              />
+            ))}
         </ColorfulTable>
       </Style.Container>
     </>
