@@ -93,5 +93,5 @@ export const icon = {
   tutorial,
   personPlaceholder,
   dashboard,
-  chatbot
+  chatbot,
 };
