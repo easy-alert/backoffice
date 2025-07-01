@@ -67,11 +67,19 @@ export const Sidebar = () => {
     },
     {
       icon: icon.tutorial,
-      url: '/tutorials',
+      url: '/videos',
       redirectFunction: () => {
-        navigate('/tutorials');
+        navigate('/videos');
       },
-      label: 'Tutoriais',
+      label: 'Vídeos',
+    },
+    {
+      icon: icon.enterprise,
+      url: '/feed',
+      redirectFunction: () => {
+        navigate('/feed');
+      },
+      label: 'Notícias',
     },
     {
       icon: icon.access,

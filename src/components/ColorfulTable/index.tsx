@@ -3,9 +3,9 @@ import { theme } from '../../styles/theme';
 import * as Style from './styles';
 import { IColorfulTableBody, IColorfulTableHeader } from './types';
 
-export const ColorfulTable = ({ colsHeader, children }: IColorfulTableHeader) => (
+export const ColorfulTable = ({ colsHeader, children, cssProps }: IColorfulTableHeader) => (
   <Style.TableBackground>
-    <Style.TableContainer>
+    <Style.TableContainer $cssProps={cssProps || ''}>
       <Style.TableHead>
         <Style.TableRowHead>
           {colsHeader.map((col) => (
@@ -34,6 +34,7 @@ export const ColorfulTableContent = ({
         key={col.cell + Math.floor(Math.random() * 10000) + 1}
         $cssOnMedia={col.cssOnMedia}
         $cssProps={col.cssProps}
+        colSpan={col.colSpan || 1}
       >
         {col.cell}
       </Style.TableColBody>

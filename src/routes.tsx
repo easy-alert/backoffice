@@ -13,13 +13,14 @@ import { CompaniesList } from '@screens/Companies/List';
 import { CompanyDetails } from '@screens/Companies/Details';
 import UserPermissions from '@screens/Companies/UserPermissions';
 import { MaintenancesList } from '@screens/Maintenances/List';
-import { Tutorials } from '@screens/Tutorials';
+import { PlatformVideos } from '@screens/PlatformVideos';
 import { UsersList } from '@screens/Users/List';
 import { UserDetails } from '@screens/Users/List/Details';
 import { BuildingsList } from '@screens/Building/List';
 import { BuildingDetails } from '@screens/Building/List/Details';
 import Dashboard from '@screens/Dashboard';
 import Chatbot from '@screens/Chatbot';
+import { HomeFeed } from '@screens/HomeFeed';
 
 // CATEGORIES
 
@@ -58,15 +59,10 @@ const AppRoutes = () => (
           </Route>
 
           <Route path="/maintenances" element={<MaintenancesList />} />
-          <Route path="/tutorials" element={<Tutorials />} />
+          <Route path="/videos" element={<PlatformVideos />} />
 
           <Route path="/chatbot" element={<Chatbot />} />
-
-          {/* Desativado em função das tasks SA-6535 em diante que mudou isso pra company */}
-          {/* <Route path="/suppliers" element={<Outlet />}>
-            <Route index element={<SuppliersList />} />
-            <Route path=":supplierId" element={<SupplierDetails />} />
-          </Route> */}
+          <Route path="/feed" element={<HomeFeed />} />
 
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Route>
