@@ -3,9 +3,13 @@ import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 
 // global COMPONENTS
-import { FormikInput } from '@components/Form/FormikInput';
-import { Button } from '@components/Buttons/Button';
 import { Modal } from '@components/Modal';
+import { Button } from '@components/Buttons/Button';
+import { FormikInput } from '@components/Form/FormikInput';
+import { FormikSelect } from '@components/Form/FormikSelect';
+
+// GLOBAL UTILS
+import { handleTranslate } from '@utils/handleTranslate';
 
 // GLOBAL TYPES
 import { PLATFORM_VIDEO_TYPE_VALUES } from '@customTypes/TPlatformVideoType';
@@ -13,7 +17,6 @@ import { PLATFORM_VIDEO_STATUS_VALUES } from '@customTypes/TPlatformVideoStatus'
 import type { IPlatformVideo } from '@customTypes/IPlatformVideo';
 
 // styles
-import { FormikSelect } from '@components/Form/FormikSelect';
 import * as Style from '../styles';
 
 interface ICreateTutorialModal {
@@ -116,15 +119,20 @@ export const ModalEditPlatformVideo = ({
             />
 
             <FormikSelect selectPlaceholderValue={values.type} name="type" label="Tipo">
-              <option value="tutorial">Tutorial</option>
-              <option value="news">Novidades</option>
-              <option value="feature">Funcionalidade</option>
+              {PLATFORM_VIDEO_TYPE_VALUES.map((type) => (
+                <option key={type} value={type}>
+                  {handleTranslate(type).slice(0, 1).toUpperCase() + handleTranslate(type).slice(1)}
+                </option>
+              ))}
             </FormikSelect>
 
             <FormikSelect selectPlaceholderValue={values.status} name="status" label="Status">
-              <option value="draft">Rascunho</option>
-              <option value="published">Publicado</option>
-              <option value="archived">Arquivado</option>
+              {PLATFORM_VIDEO_STATUS_VALUES.map((status) => (
+                <option key={status} value={status}>
+                  {handleTranslate(status).slice(0, 1).toUpperCase() +
+                    handleTranslate(status).slice(1)}
+                </option>
+              ))}
             </FormikSelect>
 
             <FormikInput
