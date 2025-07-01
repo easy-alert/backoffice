@@ -82,7 +82,7 @@ export const Sidebar = () => {
       label: 'Notícias',
     },
     {
-      icon: icon.access,
+      icon: icon.chatbot,
       url: '/chatbot',
       redirectFunction: () => {
         navigate('/chatbot');
