@@ -13,6 +13,7 @@ export interface IColorfulTableHeader {
 export interface IColorfulTableBody {
   colsBody: {
     cell: any;
+    colSpan?: number;
     cssProps?: CSSProperties;
     cssOnMedia?: CSSProperties;
   }[];

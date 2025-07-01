@@ -34,6 +34,7 @@ export const ColorfulTableContent = ({
         key={col.cell + Math.floor(Math.random() * 10000) + 1}
         $cssOnMedia={col.cssOnMedia}
         $cssProps={col.cssProps}
+        colSpan={col.colSpan || 1}
       >
         {col.cell}
       </Style.TableColBody>
