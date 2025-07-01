@@ -44,6 +44,7 @@ import tutorial from './tutorial.svg';
 import personPlaceholder from './personPlaceholder.svg';
 import enterprise from './enterprise.svg';
 import dashboard from './dashboard.svg';
+import chatbot from './chatbot.svg';
 
 export const icon = {
   enterprise,
@@ -92,4 +93,5 @@ export const icon = {
   tutorial,
   personPlaceholder,
   dashboard,
+  chatbot,
 };

@@ -13,7 +13,7 @@ import * as Style from './styles';
 import { theme } from '../../../styles/theme';
 
 // ICONS
-import { icon } from '../../../assets/icons';
+import logoWhite from '../../../assets/images/logoWhite.png';
 
 // FUNCTIONS
 import { schema } from './utils/functions';
@@ -32,59 +32,59 @@ export const Login = () => {
 
   return (
     <Style.Background>
-      <Formik
-        initialValues={{ email: '', password: '' }}
-        validationSchema={schema}
-        onSubmit={async (data: IFormData) => {
-          setOnQuery(true);
-          await Api.post('/auth/login', {
-            email: data.email,
-            password: data.password,
-          })
-            .then((res) => {
-              signin(res.data);
-              navigate('/companies');
-            })
-            .catch((err) => {
-              setOnQuery(false);
-              catchHandler(err);
-            });
-        }}
-      >
-        {({ errors, values, touched }) => (
-          <>
-            <img src={icon.logoTextWhite} alt="" />
-            <Style.LoginContainer>
-              <Form>
-                <Style.InputWrapper>
-                  <h2>Login/Backoffice</h2>
-                  <FormikInput
-                    labelColor={theme.color.white}
-                    errorColor={theme.color.white}
-                    name="email"
-                    label="E-mail"
-                    placeholder="Insira seu e-mail"
-                    value={values.email}
-                    error={touched.email && errors.email ? errors.email : null}
-                  />
+      <Style.LeftSide />
 
-                  <FormikInput
-                    labelColor={theme.color.white}
-                    errorColor={theme.color.white}
-                    name="password"
-                    label="Senha"
-                    type="password"
-                    value={values.password}
-                    placeholder="Insira sua senha"
-                    error={touched.password && errors.password ? errors.password : null}
-                  />
-                </Style.InputWrapper>
-                <Button center label="Login" loading={onQuery} type="submit" />
-              </Form>
-            </Style.LoginContainer>
-          </>
-        )}
-      </Formik>
+      <Style.RightSide>
+        <img src={logoWhite} alt="Logo" />
+        <h2>Tornamos o desafio com manutenções, em seu maior diferencial!</h2>
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          validationSchema={schema}
+          onSubmit={async (data: IFormData) => {
+            setOnQuery(true);
+            await Api.post('/auth/login', {
+              email: data.email,
+              password: data.password,
+            })
+              .then((res) => {
+                signin(res.data);
+                navigate('/companies');
+              })
+              .catch((err) => {
+                setOnQuery(false);
+                catchHandler(err);
+              });
+          }}
+        >
+          {({ errors, values, touched }) => (
+            <Form>
+              <Style.InputWrapper>
+                <FormikInput
+                  labelColor={theme.color.white}
+                  errorColor={theme.color.white}
+                  name="email"
+                  label="E-mail"
+                  placeholder="Insira seu e-mail"
+                  value={values.email}
+                  error={touched.email && errors.email ? errors.email : null}
+                />
+
+                <FormikInput
+                  labelColor={theme.color.white}
+                  errorColor={theme.color.white}
+                  name="password"
+                  label="Senha"
+                  type="password"
+                  value={values.password}
+                  placeholder="Insira sua senha"
+                  error={touched.password && errors.password ? errors.password : null}
+                />
+              </Style.InputWrapper>
+              <Button center label="Acesse sua conta" loading={onQuery} type="submit" />
+            </Form>
+          )}
+        </Formik>
+      </Style.RightSide>
     </Style.Background>
   );
 };
