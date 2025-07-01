@@ -8,13 +8,14 @@ import { Button } from '@components/Buttons/Button';
 import { FormikInput } from '@components/Form/FormikInput';
 import { FormikSelect } from '@components/Form/FormikSelect';
 import { FormikCheckbox } from '@components/Form/FormikCheckbox';
+import { FormikTextArea } from '@components/Form/FormikTextArea';
 
 // GLOBAL UTILS
 import { handleTranslate } from '@utils/handleTranslate';
 
 // GLOBAL TYPES
 import { FEED_ITEM_TYPE_VALUES } from '@customTypes/TFeedItemType';
-import { IFeedItem } from '@customTypes/IFeedItem';
+import type { IFeedItem } from '@customTypes/IFeedItem';
 
 // STYLES
 import * as Style from '../styles';
@@ -80,12 +81,13 @@ export const ModalCreateFeedItem = ({
               placeholder="Ex: Bem vindo à Easy Alert!"
             />
 
-            <FormikInput
+            <FormikTextArea
               label="Descrição"
               name="description"
               value={values.description}
               error={touched.description && errors.description ? errors.description : null}
               placeholder="Ex: A Easy Alert é uma plataforma de alertas..."
+              rows={4}
             />
 
             <FormikInput
@@ -123,7 +125,7 @@ export const ModalCreateFeedItem = ({
             <FormikSelect name="type" label="Tipo *" selectPlaceholderValue={values.type}>
               {FEED_ITEM_TYPE_VALUES.map((type) => (
                 <option key={type} value={type}>
-                  {handleTranslate(type)}
+                  {handleTranslate(type).slice(0, 1).toUpperCase() + handleTranslate(type).slice(1)}
                 </option>
               ))}
             </FormikSelect>
