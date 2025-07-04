@@ -154,3 +154,9 @@ export const DetailItem = styled.div`
     word-break: break-word;
   }
 `;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+`;

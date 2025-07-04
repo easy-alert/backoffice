@@ -172,7 +172,7 @@ export const BuildingDetails = () => {
           }}
           actionButtonClick={() => {
             requestChangeIsBlocked({
-              building, 
+              building,
               setBuilding,
               setOnQuery,
             });
@@ -184,7 +184,6 @@ export const BuildingDetails = () => {
           label="Editar"
           onClick={handleEditClick}
         />
-
       </Style.ButtonsContainer>
 
       {users.length > 0 && (
