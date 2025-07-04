@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme } from '../../styles/theme';
+import { theme } from '@styles/theme';
 
 export const Background = styled.div`
   position: fixed;
@@ -41,7 +41,9 @@ export const Background = styled.div`
 
 export const Body = styled.div<{ bodyWidth?: string }>`
   width: ${({ bodyWidth }) => bodyWidth ?? '460px'};
-  margin: ${theme.size.xxlg} 0;
+  margin: ${theme.size.md} 0;
+
+  overflow-y: auto;
 
   animation: fade-in-scale 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both;
   @keyframes fade-in-scale {
