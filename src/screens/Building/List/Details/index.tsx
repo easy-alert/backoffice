@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTheme } from 'styled-components';
 
 // SERVICES
 import { getBuildingById } from '@services/apis/getBuildingById';
@@ -9,6 +10,7 @@ import { ReturnButton } from '@components/Buttons/ReturnButton';
 import { Image } from '@components/Image';
 import { Tag } from '@components/Tag';
 import { IconButton } from '@components/Buttons/IconButton';
+import { PopoverButton } from '@components/Buttons/PopoverButton';
 
 // GLOBAL ASSETS
 import { icon } from '@assets/icons';
@@ -16,6 +18,7 @@ import { icon } from '@assets/icons';
 // GLOBAL TYPES
 import { IUser } from '@utils/types';
 import { IBuilding } from '@customTypes/IBuilding';
+import { requestChangeIsBlocked } from '@utils/updateBuildingBlockedStatus';
 
 // COMPONENTS
 import { ModalEditBuilding } from './Utils/modals/ModalEditBuilding';
@@ -27,10 +30,12 @@ export const BuildingDetails = () => {
   const { buildingId } = useParams();
   const navigate = useNavigate();
   const { search } = window.location;
+  const theme = useTheme();
 
   const [building, setBuilding] = useState<IBuilding | null>(null);
   const [users, setUsers] = useState<IUser[]>([]);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [onQuery, setOnQuery] = useState<boolean>(false);
 
   const handleGetBuildingById = async (id?: string) => {
     if (!id) return;
@@ -61,6 +66,8 @@ export const BuildingDetails = () => {
   useEffect(() => {
     handleGetBuildingById(buildingId);
   }, [buildingId]);
+
+  if (!building) return null;
 
   return (
     <Style.Container>
@@ -151,12 +158,34 @@ export const BuildingDetails = () => {
         </Style.DetailGrid>
       </Style.DetailsBox>
 
-      <IconButton
-        hideLabelOnMedia
-        icon={icon.editWithBg}
-        label="Editar"
-        onClick={handleEditClick}
-      />
+      <Style.ButtonsContainer>
+        <PopoverButton
+          disabled={onQuery}
+          actionButtonBgColor={building?.isBlocked ? theme.color.success : theme.color.actionDanger}
+          type="IconButton"
+          label={building?.isBlocked ? 'Ativar' : 'Desativar'}
+          buttonIcon={building?.isBlocked ? icon.checked : icon.block}
+          message={{
+            title: `Deseja ${building?.isBlocked ? 'ativar' : 'desativar'} esta edificação?`,
+            content: 'Esta ação poderá ser desfeita posteriormente.',
+            contentColor: theme.color.danger,
+          }}
+          actionButtonClick={() => {
+            requestChangeIsBlocked({
+              building, 
+              setBuilding,
+              setOnQuery,
+            });
+          }}
+        />
+        <IconButton
+          hideLabelOnMedia
+          icon={icon.editWithBg}
+          label="Editar"
+          onClick={handleEditClick}
+        />
+
+      </Style.ButtonsContainer>
 
       {users.length > 0 && (
         <>
