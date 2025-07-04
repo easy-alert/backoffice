@@ -42,3 +42,8 @@ export const formatDateTime = (dateString?: string): string => {
   const date = new Date(dateString);
   return date.toLocaleString('pt-BR');
 };
+
+export const updateUserBlockedStatus = async (userId: string) => {
+  const { data } = await Api.put('/account/users/changeIsBlockedUser', { userId });
+  return data.updatedUser;
+};
