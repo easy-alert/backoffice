@@ -13,10 +13,16 @@ import { FormikCheckbox } from '@components/Form/FormikCheckbox';
 import { theme } from '@styles/theme';
 
 // TYPES
-import { IBuilding, IUpdateBuildingData } from '@customTypes/IBuilding';
+import { IBuilding } from '@customTypes/IBuilding';
 
 // SERVICES
 import { putEditBuilding } from '@services/apis/putEditBuilding';
+import {
+  applyMask,
+  capitalizeFirstLetter,
+  convertToFormikDate,
+  uploadFile,
+} from '@utils/functions';
 
 // STYLES
 import * as Style from './styles';
@@ -33,21 +39,6 @@ interface IModalEditBuilding {
   requestBuildingDetailsCall?: () => void;
 }
 
-// UTILITÁRIOS
-const applyMask = ({ mask, value }: { mask: string; value: string }) => {
-  if (mask === 'CEP') {
-    const onlyNumbers = value.replace(/\D/g, '');
-    return {
-      value: onlyNumbers.replace(/(\d{5})(\d{3})/, '$1-$2'),
-      length: 9,
-    };
-  }
-  return { value, length: value.length };
-};
-
-const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-const convertToFormikDate = (date: Date) => date.toISOString().split('T')[0];
-
 const schemaModalEditBuilding = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
   buildingTypeId: Yup.string().required('Tipo é obrigatório'),
@@ -56,55 +47,21 @@ const schemaModalEditBuilding = Yup.object().shape({
   city: Yup.string().required('Cidade é obrigatória'),
   warrantyExpiration: Yup.string().required('Término da garantia é obrigatório'),
   nextMaintenanceCreationBasis: Yup.string().required('Campo obrigatório'),
+  image: Yup.mixed()
+    .test(
+      'fileSize',
+      'Imagem muito grande (máx. 2MB)',
+      (value) => !value || (value.size && value.size <= 2 * 1024 * 1024),
+    )
+    .test(
+      'fileType',
+      'Formato inválido',
+      (value) =>
+        !value ||
+        typeof value === 'string' ||
+        ['image/jpeg', 'image/png', 'image/webp'].includes(value.type),
+    ),
 });
-
-const requestEditBuilding = async ({
-  buildingId,
-  setModal,
-  setOnQuery,
-  values,
-  requestBuildingDetailsCall,
-}: any) => {
-  setOnQuery(true);
-
-  try {
-    const buildingData: Partial<IUpdateBuildingData> = {
-      name: values.name?.trim() || '',
-      buildingTypeId: values.buildingTypeId || '',
-      cep: values.cep?.replace(/\D/g, '') || '',
-      state: values.state?.trim() || '',
-      city: values.city?.trim() || '',
-      warrantyExpiration: values.warrantyExpiration
-        ? new Date(values.warrantyExpiration)
-        : undefined,
-
-      nextMaintenanceCreationBasis: values.nextMaintenanceCreationBasis || '',
-      neighborhood: values.neighborhood?.trim() || undefined,
-      streetName: values.streetName?.trim() || undefined,
-      deliveryDate: values.deliveryDate ? new Date(values.deliveryDate) : undefined,
-      keepNotificationAfterWarrantyEnds: values.keepNotificationAfterWarrantyEnds,
-      mandatoryReportProof: values.mandatoryReportProof,
-      isActivityLogPublic: values.isActivityLogPublic,
-      guestCanCompleteMaintenance: values.guestCanCompleteMaintenance,
-    };
-
-    if (values.image && typeof values.image === 'string') {
-      buildingData.image = values.image;
-    }
-
-    await putEditBuilding({
-      buildingId,
-      buildingData,
-    });
-
-    setModal(false);
-    if (requestBuildingDetailsCall) requestBuildingDetailsCall();
-  } catch (error) {
-    console.error('Erro ao editar edificação:', error);
-  } finally {
-    setOnQuery(false);
-  }
-};
 
 export const ModalEditBuilding = ({
   setModal,
@@ -115,7 +72,6 @@ export const ModalEditBuilding = ({
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   if (!building) return null;
-  console.log('building', building);
 
   return (
     <Modal title="Editar edificação" setModal={setModal}>
@@ -144,13 +100,27 @@ export const ModalEditBuilding = ({
         }}
         validationSchema={schemaModalEditBuilding}
         onSubmit={async (values) => {
-          await requestEditBuilding({
-            buildingId: building.id,
-            setModal,
-            setOnQuery,
-            values,
-            requestBuildingDetailsCall,
-          });
+          setOnQuery(true);
+          try {
+            let imageUrl = values.image;
+
+            if (values.image && typeof values.image !== 'string') {
+              const uploadResponse = await uploadFile(values.image);
+              imageUrl = uploadResponse?.url || '';
+            }
+
+            await putEditBuilding(building.id ?? '', {
+              ...values,
+              image: imageUrl,
+            });
+
+            setModal(false);
+            if (requestBuildingDetailsCall) requestBuildingDetailsCall();
+          } catch (error) {
+            console.error(error);
+          } finally {
+            setOnQuery(false);
+          }
         }}
       >
         {({ errors, values, touched, setFieldValue }) => (
@@ -163,7 +133,8 @@ export const ModalEditBuilding = ({
                 defaultImage={values.image}
                 onChange={(event: any) => {
                   if (event.target.files?.length) {
-                    setFieldValue('image', event.target.files[0]);
+                    const file = event.target.files[0];
+                    setFieldValue('image', file);
                   }
                 }}
               />
@@ -208,9 +179,9 @@ export const ModalEditBuilding = ({
                 value={values.cep}
                 error={touched.cep && errors.cep ? errors.cep : null}
                 placeholder="Ex: 88801-010"
-                maxLength={applyMask({ value: values.cep, mask: 'CEP' }).length}
+                maxLength={9}
                 onChange={(e) => {
-                  setFieldValue('cep', applyMask({ value: e.target.value, mask: 'CEP' }).value);
+                  setFieldValue('cep', applyMask({ mask: 'CEP', value: e.target.value }).value);
                 }}
               />
 
