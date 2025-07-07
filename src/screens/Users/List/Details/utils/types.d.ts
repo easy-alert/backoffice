@@ -1,25 +1,23 @@
+import { IUser } from '@utils/types';
+
 export interface IUserCompany {
   id: string;
   name: string;
   image?: string;
   isBlocked?: boolean;
 }
+
 export interface IUserEdification {
   id: string;
   name: string;
   image?: string;
 }
 
-export interface IUserDetails {
-  id: string;
-  name: string;
+export interface IUserDetails extends Omit<IUser, 'email' | 'image'> {
   email?: string;
+  image?: string;
   phoneNumber?: string;
   role?: string;
-  createdAt?: string;
-  isBlocked: boolean;
-  lastAccess?: string;
-  image?: string;
   companies?: IUserCompany[];
   edifications?: IUserEdification[];
 }
