@@ -18,6 +18,7 @@ export interface IUser {
 export interface IUploadFile {
   Location: string;
   originalname: string;
+  url: string;
 }
 
 export interface IMask {
