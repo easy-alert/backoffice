@@ -36,14 +36,11 @@ export const BuildingDetails = () => {
     if (!id) return;
     try {
       const data = await getBuildingById(id);
-      console.log('data', data);
-
       const usersList: IUser[] = Array.isArray(data.UserBuildingsPermissions)
         ? data.UserBuildingsPermissions.filter((ubp: any) => ubp && ubp.User).map(
             (ubp: any) => ubp.User,
           )
         : [];
-
       setBuilding(data);
       setUsers(usersList);
     } catch (err) {
@@ -221,6 +218,7 @@ export const BuildingDetails = () => {
         <ModalEditBuilding
           setModal={setShowEditModal}
           building={building}
+          buildingTypes={building?.BuildingType ? [building.BuildingType] : []}
           requestBuildingDetailsCall={() => handleGetBuildingById(buildingId)}
         />
       )}
