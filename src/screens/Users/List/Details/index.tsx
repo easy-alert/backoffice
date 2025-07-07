@@ -29,11 +29,12 @@ import { ModalEditUser } from './modals/ModalEditUser';
 
 export const UserDetails = () => {
   const { userId } = useParams();
-  const [user, setUser] = useState<IUserDetails | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [modalEditUser, setModalEditUser] = useState<boolean>(false);
-  const { search } = window.location;
   const navigate = useNavigate();
+  const { search } = window.location;
+
+  const [user, setUser] = useState<IUserDetails | null>(null);
+  const [modalEditUser, setModalEditUser] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -42,9 +43,9 @@ export const UserDetails = () => {
       try {
         const response = await fetchUserDetails(userId);
         setUser(response.user);
-        setLoading(false);
       } catch (error) {
         console.error('Failed to load user data:', error);
+      } finally {
         setLoading(false);
       }
     };
