@@ -148,6 +148,8 @@ export const applyMask = ({
 export const unMask = (value: string) => value.replace(/[^a-zA-Z0-9]/g, '');
 export const unMaskBRL = (value: string) => value.replace(/[^0-9]/g, '');
 
+export const convertToFormikDate = (date: Date) => date.toISOString().split('T')[0];
+
 export const capitalizeFirstLetter = (value: string) =>
   value.charAt(0).toUpperCase() + value.slice(1);
 
