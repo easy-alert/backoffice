@@ -16,16 +16,16 @@ import { applyMask } from '@utils/functions';
 
 // GLOBAL STYLES
 import { icon } from '@assets/icons';
+import { IUserDetails } from '@utils/types';
+import { getUserDetails, formatDate, formatDateTime } from '@services/apis/getUserDetails';
 import * as Style from './styles';
 
 // SERVICES
-import { fetchUserDetails, formatDate, formatDateTime } from './utils/functions';
 
 // TYPES
-import type { IUserDetails } from './utils/types';
+import { ModalEditUser } from './components';
 
 // MODALS
-import { ModalEditUser } from './modals/ModalEditUser';
 
 export const UserDetails = () => {
   const { userId } = useParams();
@@ -41,7 +41,7 @@ export const UserDetails = () => {
       if (!userId) return;
 
       try {
-        const response = await fetchUserDetails(userId);
+        const response = await getUserDetails(userId);
         setUser(response.user);
       } catch (error) {
         console.error('Failed to load user data:', error);
