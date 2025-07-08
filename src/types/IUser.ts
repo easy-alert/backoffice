@@ -27,4 +27,16 @@ export interface IUpdateUserResponse {
     statusCode: number;
     message: string;
   };
+  role?: string;
+  phoneNumber?: string;
+}
+
+export interface ICreateUser {
+  name: string;
+  image?: string;
+  role: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+  confirmPassword: string;
 }

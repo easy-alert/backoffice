@@ -67,11 +67,27 @@ export const Sidebar = () => {
     },
     {
       icon: icon.tutorial,
-      url: '/tutorials',
+      url: '/videos',
       redirectFunction: () => {
-        navigate('/tutorials');
+        navigate('/videos');
       },
-      label: 'Tutoriais',
+      label: 'Vídeos',
+    },
+    {
+      icon: icon.enterprise,
+      url: '/feed',
+      redirectFunction: () => {
+        navigate('/feed');
+      },
+      label: 'Notícias',
+    },
+    {
+      icon: icon.chatbot,
+      url: '/chatbot',
+      redirectFunction: () => {
+        navigate('/chatbot');
+      },
+      label: 'Chatbot',
     },
 
     // Desativado em função das tasks SA-6535 em diante que mudou isso pra company
