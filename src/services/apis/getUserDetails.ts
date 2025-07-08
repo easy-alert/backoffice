@@ -1,7 +1,7 @@
 import { Api } from '@services/api';
-import { IUserDetails } from '../../screens/Users/Detalhes/utils/types';
+import { IUserDetails } from '@utils/types';
 
-export const fetchUserDetails = async (userId: string): Promise<{ user: IUserDetails }> => {
+export const getUserDetails = async (userId: string): Promise<{ user: IUserDetails }> => {
   try {
     const { data } = await Api.get(`/account/users/details/${userId}`);
 
