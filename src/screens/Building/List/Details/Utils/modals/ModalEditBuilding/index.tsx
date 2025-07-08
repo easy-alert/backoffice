@@ -165,12 +165,6 @@ export const ModalEditBuilding = ({
                       {capitalizeFirstLetter(type.name)}
                     </option>
                   ))}
-                {!buildingTypes?.some((type) => type.id === values.buildingTypeId) &&
-                  building.BuildingType && (
-                    <option key={building.BuildingType.id} value={building.BuildingType.id}>
-                      {capitalizeFirstLetter(building.BuildingType.name)}
-                    </option>
-                  )}
               </FormikSelect>
 
               <FormikInput
