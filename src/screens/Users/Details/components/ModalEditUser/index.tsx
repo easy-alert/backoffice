@@ -28,6 +28,7 @@ import { icon } from '@assets/icons';
 import type { UpdateUserValues } from '@customTypes/IUser';
 import type { IUser } from '@utils/types';
 
+// STYLES
 import * as Style from './styles';
 
 interface ISelectedUser {
@@ -64,6 +65,7 @@ const userUpdateSchema = Yup.object().shape({
     otherwise: (schema) => schema.notRequired(),
   }),
 });
+
 export const ModalEditUser = ({ selectedUser, handleModals, onUserUpdated }: IModalUpdateUser) => {
   const { user, setUser } = useAuthContext();
 
