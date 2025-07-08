@@ -30,15 +30,3 @@ export const getUserDetails = async (userId: string): Promise<{ user: IUserDetai
     throw error;
   }
 };
-
-export const formatDate = (dateString?: string): string => {
-  if (!dateString) return '-';
-  const date = new Date(dateString);
-  return date.toLocaleDateString('pt-BR');
-};
-
-export const formatDateTime = (dateString?: string): string => {
-  if (!dateString) return '-';
-  const date = new Date(dateString);
-  return date.toLocaleString('pt-BR');
-};
