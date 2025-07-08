@@ -1,5 +1,6 @@
 import { Api } from '@services/api';
-import { IUserDetails } from '@utils/types';
+
+import type { IUserDetails } from '@utils/types';
 
 export const getUserDetails = async (userId: string): Promise<{ user: IUserDetails }> => {
   try {

@@ -1,6 +1,8 @@
-import { UpdateUserValues, IUpdateUserResponse } from '@customTypes/IUser';
 import { Api } from '@services/api';
+
 import { handleToastify } from '@utils/toastifyResponses';
+
+import type { UpdateUserValues, IUpdateUserResponse } from '@customTypes/IUser';
 
 export async function updateUser(data: UpdateUserValues): Promise<IUpdateUserResponse> {
   const { id, ...updateData } = data;
