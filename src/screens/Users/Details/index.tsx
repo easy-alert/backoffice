@@ -23,7 +23,7 @@ import * as Style from './styles';
 // SERVICES
 
 // TYPES
-import { ModalEditUser } from './components';
+import { ModalEditUser } from './components/ModalEditUser';
 
 // MODALS
 
