@@ -15,10 +15,10 @@ import UserPermissions from '@screens/Companies/UserPermissions';
 import { MaintenancesList } from '@screens/Maintenances/List';
 import { Tutorials } from '@screens/Tutorials';
 import { UsersList } from '@screens/Users/List';
-import { UserDetails } from '@screens/Users/List/Details';
+import { UserDetails } from '@screens/Users/Detalhes';
 import { BuildingsList } from '@screens/Building/List';
-import { BuildingDetails } from '@screens/Building/List/Details';
 import Dashboard from '@screens/Dashboard';
+import { BuildingDetails } from '@screens/Building/Detalhes';
 
 // CATEGORIES
 
