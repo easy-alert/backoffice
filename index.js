@@ -77,7 +77,7 @@ app.get('/*', (req, res) => {
   return res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-const port = process.env.PORT || 3001; // Cloud Run prefers PORT from environment
+const port = process.env.PORT || 3002; // Cloud Run prefers PORT from environment
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
