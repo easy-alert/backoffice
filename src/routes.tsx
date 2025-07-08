@@ -15,7 +15,7 @@ import UserPermissions from '@screens/Companies/UserPermissions';
 import { MaintenancesList } from '@screens/Maintenances/List';
 import { Tutorials } from '@screens/Tutorials';
 import { UsersList } from '@screens/Users/List';
-import { UserDetails } from '@screens/Users/Detalhes';
+import { UserDetails } from '@screens/Users/Details';
 import { BuildingsList } from '@screens/Building/List';
 import Dashboard from '@screens/Dashboard';
 import { BuildingDetails } from '@screens/Building/Detalhes';
