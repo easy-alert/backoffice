@@ -18,7 +18,7 @@ import { UsersList } from '@screens/Users/List';
 import { UserDetails } from '@screens/Users/Details';
 import { BuildingsList } from '@screens/Building/List';
 import Dashboard from '@screens/Dashboard';
-import { BuildingDetails } from '@screens/Building/Detalhes';
+import { BuildingDetails } from '@screens/Building/Details';
 
 // CATEGORIES
 
