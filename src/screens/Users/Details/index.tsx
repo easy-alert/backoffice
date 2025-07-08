@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 // LIBS
 import { useNavigate, useParams } from 'react-router-dom';
 
+// SERVICES
+import { getUserDetails } from '@services/apis/getUserDetails';
+
 // GLOBAL COMPONENTS
 import { Tag } from '@components/Tag';
 import { ReturnButton } from '@components/Buttons/ReturnButton';
@@ -12,20 +15,19 @@ import { Image } from '@components/Image';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
 
 // GLOBAL UTILS
-import { applyMask } from '@utils/functions';
+import { applyMask, dateTimeFormatter } from '@utils/functions';
 
-// GLOBAL STYLES
+// GLOBAL ASSETS
 import { icon } from '@assets/icons';
-import { IUserDetails } from '@utils/types';
-import { getUserDetails, formatDate, formatDateTime } from '@services/apis/getUserDetails';
-import * as Style from './styles';
 
-// SERVICES
+// GLOBAL TYPES
+import type { IUserDetails } from '@utils/types';
 
-// TYPES
+// COMPONENTS
 import { ModalEditUser } from './components/ModalEditUser';
 
-// MODALS
+// STYLES
+import * as Style from './styles';
 
 export const UserDetails = () => {
   const { userId } = useParams();
@@ -96,7 +98,7 @@ export const UserDetails = () => {
 
                 <Style.DetailItem>
                   <h2>Data de cadastro</h2>
-                  <p>{user.createdAt ? formatDate(user.createdAt) : '-'}</p>
+                  <p>{user.createdAt ? dateTimeFormatter(user.createdAt) : '-'}</p>
                 </Style.DetailItem>
 
                 <Style.DetailItem>
@@ -115,7 +117,7 @@ export const UserDetails = () => {
 
                 <Style.DetailItem>
                   <h2>Último acesso</h2>
-                  <p>{user.lastAccess ? formatDateTime(user.lastAccess) : '-'}</p>
+                  <p>{user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-'}</p>
                 </Style.DetailItem>
               </Style.DetailsContainer>
             </Style.ProfileContent>
