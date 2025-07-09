@@ -1,4 +1,4 @@
-import { IUpdateBuildingData } from '@customTypes/IBuilding';
+import type { IUpdateBuildingData } from '@customTypes/IBuilding';
 import { Api } from '@services/api';
 import { handleToastify } from '@utils/toastifyResponses';
 
