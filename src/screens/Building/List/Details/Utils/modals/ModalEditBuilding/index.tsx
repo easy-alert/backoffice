@@ -13,7 +13,7 @@ import { FormikCheckbox } from '@components/Form/FormikCheckbox';
 import { theme } from '@styles/theme';
 
 // TYPES
-import { IBuilding } from '@customTypes/IBuilding';
+import type { IBuilding } from '@customTypes/IBuilding';
 
 // SERVICES
 import { putEditBuilding } from '@services/apis/putEditBuilding';
@@ -33,7 +33,7 @@ interface IBuildingType {
 }
 
 interface IModalEditBuilding {
-  setModal: (value: boolean) => void;
+  onClose: () => void;
   building?: IBuilding;
   buildingTypes?: IBuildingType[];
   requestBuildingDetailsCall?: () => void;
@@ -64,7 +64,7 @@ const schemaModalEditBuilding = Yup.object().shape({
 });
 
 export const ModalEditBuilding = ({
-  setModal,
+  onClose,
   building,
   buildingTypes,
   requestBuildingDetailsCall,
@@ -85,7 +85,7 @@ export const ModalEditBuilding = ({
   if (!building) return null;
 
   return (
-    <Modal title="Editar edificação" setModal={setModal}>
+    <Modal title="Editar edificação" setModal={onClose}>
       <Formik
         initialValues={{
           id: building.id || '',
@@ -125,7 +125,7 @@ export const ModalEditBuilding = ({
               image: imageUrl,
             });
 
-            setModal(false);
+            onClose();
             if (requestBuildingDetailsCall) requestBuildingDetailsCall();
           } catch (error) {
             console.error(error);
