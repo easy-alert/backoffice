@@ -71,6 +71,17 @@ export const ModalEditBuilding = ({
 }: IModalEditBuilding) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
+  const getNextMaintenanceCreationBasis = () => {
+    if (!building) return 'executionDate';
+    if (
+      building.nextMaintenanceCreationBasis === 'executionDate' ||
+      building.nextMaintenanceCreationBasis === 'notificationDate'
+    ) {
+      return building.nextMaintenanceCreationBasis;
+    }
+    return 'executionDate';
+  };
+
   if (!building) return null;
 
   return (
@@ -93,7 +104,7 @@ export const ModalEditBuilding = ({
             : '',
           keepNotificationAfterWarrantyEnds: building.keepNotificationAfterWarrantyEnds || false,
           mandatoryReportProof: building.mandatoryReportProof || false,
-          nextMaintenanceCreationBasis: building.nextMaintenanceCreationBasis || 'executionDate',
+          nextMaintenanceCreationBasis: getNextMaintenanceCreationBasis(),
           isActivityLogPublic: building.isActivityLogPublic || false,
           guestCanCompleteMaintenance: building.guestCanCompleteMaintenance || false,
           image: building.image || '',
