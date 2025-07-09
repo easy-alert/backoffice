@@ -5,7 +5,7 @@ import { theme } from '@styles/theme';
 import * as Style from './styles';
 
 interface ITableCell extends React.HTMLAttributes<HTMLTableCellElement> {
-  value?: string | null;
+  value?: string | number | null | undefined;
   type?: 'string' | 'date' | 'datetime' | 'time' | 'currency' | 'phone';
 
   textSize?: keyof typeof theme.size;
@@ -38,7 +38,7 @@ function TableCellDate({
     );
   }
 
-  const date = dateTimeFormatter(value).split(',');
+  const date = dateTimeFormatter(value.toString()).split(',');
 
   return (
     <Style.TableCellContainer alignItems={alignItems} {...props}>
@@ -78,7 +78,7 @@ function TableCell({
     case 'phone':
       return (
         <TableCellString
-          value={applyMask({ value, mask: 'TEL' }).value}
+          value={applyMask({ value: value.toString(), mask: 'TEL' }).value}
           textSize={textSize}
           alignItems={alignItems}
           {...props}

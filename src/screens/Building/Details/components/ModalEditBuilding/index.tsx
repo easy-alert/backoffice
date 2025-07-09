@@ -3,26 +3,30 @@ import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
-// COMPONENTS
+// GLOBAL SERVICES
+import { putEditBuilding } from '@services/apis/putEditBuilding';
+
+// GLOBAL COMPONENTS
+import { Modal } from '@components/Modal';
 import { Button } from '@components/Buttons/Button';
 import { FormikImageInput } from '@components/Form/FormikImageInput';
 import { FormikInput } from '@components/Form/FormikInput';
-import { Modal } from '@components/Modal';
 import { FormikSelect } from '@components/Form/FormikSelect';
 import { FormikCheckbox } from '@components/Form/FormikCheckbox';
-import { theme } from '@styles/theme';
 
-// TYPES
-import type { IBuilding } from '@customTypes/IBuilding';
-
-// SERVICES
-import { putEditBuilding } from '@services/apis/putEditBuilding';
+// GLOBAL UTILS
 import {
   applyMask,
   capitalizeFirstLetter,
   convertToFormikDate,
   uploadFile,
 } from '@utils/functions';
+
+// GLOBAL STYLES
+import { theme } from '@styles/theme';
+
+// GLOBAL TYPES
+import type { IBuilding } from '@customTypes/IBuilding';
 
 // STYLES
 import * as Style from './styles';

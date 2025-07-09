@@ -66,3 +66,35 @@ export const QuantityCardContent = styled.div`
     flex-direction: column;
   }
 `;
+
+export const CompletedMaintenancesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  gap: ${({ theme }) => theme.size.sm};
+`;
+
+export const CompletedMaintenancesHeader = styled.div`
+  display: flex;
+  align-items: center;
+
+  gap: ${({ theme }) => theme.size.sm};
+
+  > div {
+    width: 100%;
+    max-width: 80px;
+
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size.xsm};
+  }
+`;
+
+export const EmptyContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  > h4 {
+    color: ${({ theme }) => theme.color.gray4};
+  }
+`;
