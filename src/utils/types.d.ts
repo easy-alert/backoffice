@@ -36,3 +36,8 @@ export interface ITimeInterval {
 export interface IRequestListIntervals {
   setTimeIntervals: (setTimeIntervals: ITimeInterval[]) => void;
 }
+
+export interface IBuildingType {
+  id: string;
+  name: string;
+}
