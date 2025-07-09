@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // SERVICES
-import { getBuildingById } from '@services/apis/getBuildingById';
+import { getBuildingById, getBuildingTypes } from '@services/apis/getBuildingById';
 
 // GLOBAL COMPONENTS
 import { ReturnButton } from '@components/Buttons/ReturnButton';
@@ -14,7 +14,7 @@ import { IconButton } from '@components/Buttons/IconButton';
 import { icon } from '@assets/icons';
 
 // GLOBAL TYPES
-import { IUser } from '@utils/types';
+import { IUser, IBuildingType } from '@utils/types';
 import { IBuilding } from '@customTypes/IBuilding';
 
 // COMPONENTS
@@ -31,6 +31,7 @@ export const BuildingDetails = () => {
   const [building, setBuilding] = useState<IBuilding | null>(null);
   const [users, setUsers] = useState<IUser[]>([]);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [buildingTypes, setBuildingTypes] = useState<IBuildingType[]>([]);
 
   const handleGetBuildingById = async (id?: string) => {
     if (!id) return;
@@ -56,6 +57,7 @@ export const BuildingDetails = () => {
   };
 
   useEffect(() => {
+    getBuildingTypes().then(setBuildingTypes);
     handleGetBuildingById(buildingId);
   }, [buildingId]);
 
@@ -218,7 +220,7 @@ export const BuildingDetails = () => {
         <ModalEditBuilding
           setModal={setShowEditModal}
           building={building}
-          buildingTypes={building?.BuildingType ? [building.BuildingType] : []}
+          buildingTypes={buildingTypes}
           requestBuildingDetailsCall={() => handleGetBuildingById(buildingId)}
         />
       )}
