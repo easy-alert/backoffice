@@ -15,12 +15,12 @@ import UserPermissions from '@screens/Companies/UserPermissions';
 import { MaintenancesList } from '@screens/Maintenances/List';
 import { PlatformVideos } from '@screens/PlatformVideos';
 import { UsersList } from '@screens/Users/List';
-import { UserDetails } from '@screens/Users/List/Details';
+import { UserDetails } from '@screens/Users/Details';
 import { BuildingsList } from '@screens/Building/List';
-import { BuildingDetails } from '@screens/Building/List/Details';
 import Dashboard from '@screens/Dashboard';
 import Chatbot from '@screens/Chatbot';
 import { HomeFeed } from '@screens/HomeFeed';
+import { BuildingDetails } from '@screens/Building/Details';
 
 // CATEGORIES
 
