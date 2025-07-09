@@ -29,10 +29,10 @@ export const BuildingDetails = () => {
   const { search } = window.location;
 
   const [building, setBuilding] = useState<IBuilding | null>(null);
-  console.log('🚀 ~ BuildingDetails ~ building:', building);
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [buildingTypes, setBuildingTypes] = useState<IBuildingType[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
+
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
 
   const handleGetBuildingById = async (id?: string) => {
     if (!id) return;
