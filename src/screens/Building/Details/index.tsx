@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // SERVICES
-import { getBuildingById, getBuildingTypes } from '@services/apis/getBuildingById';
+import { getBuildingById } from '@services/apis/getBuildingById';
+import { getBuildingTypes } from '@services/apis/getBuildingTypes';
 
 // GLOBAL COMPONENTS
 import { ReturnButton } from '@components/Buttons/ReturnButton';
@@ -37,30 +38,34 @@ export const BuildingDetails = () => {
   const handleGetBuildingById = async (id?: string) => {
     if (!id) return;
 
-    try {
-      const data = await getBuildingById(id);
-      const usersList: IUser[] = Array.isArray(data.UserBuildingsPermissions)
-        ? data.UserBuildingsPermissions.filter((ubp: any) => ubp && ubp.User).map(
-            (ubp: any) => ubp.User,
-          )
-        : [];
-
-      setBuilding(data);
-      setUsers(usersList);
-    } catch (err) {
+    const data = await getBuildingById({ buildingId: id });
+    if (!data) {
       setBuilding(null);
       setUsers([]);
+      return;
+    }
+
+    const usersList: IUser[] = Array.isArray(data.UserBuildingsPermissions)
+      ? data.UserBuildingsPermissions.filter((ubp: any) => ubp && ubp.User).map(
+          (ubp: any) => ubp.User,
+        )
+      : [];
+
+    setBuilding(data);
+    setUsers(usersList);
+  };
+
+  const handleGetBuildingTypes = async () => {
+    try {
+      const types = await getBuildingTypes();
+      setBuildingTypes(types);
+    } catch (err) {
+      setBuildingTypes([]);
     }
   };
 
-  const handleEditClick = async () => {
-    if (!buildingId) return;
-    await handleGetBuildingById(buildingId);
-    setShowEditModal(true);
-  };
-
   useEffect(() => {
-    getBuildingTypes().then(setBuildingTypes);
+    handleGetBuildingTypes();
     handleGetBuildingById(buildingId);
   }, [buildingId]);
 
@@ -68,7 +73,7 @@ export const BuildingDetails = () => {
     <>
       {showEditModal && building && (
         <ModalEditBuilding
-          setModal={setShowEditModal}
+          onClose={() => setShowEditModal(false)}
           building={building}
           buildingTypes={buildingTypes}
           requestBuildingDetailsCall={() => handleGetBuildingById(buildingId)}
@@ -170,7 +175,7 @@ export const BuildingDetails = () => {
           hideLabelOnMedia
           icon={icon.editWithBg}
           label="Editar"
-          onClick={handleEditClick}
+          onClick={() => setShowEditModal(true)}
         />
 
         {users.length > 0 && (
