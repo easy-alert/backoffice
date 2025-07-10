@@ -93,11 +93,11 @@ export const BuildingDetails = () => {
             <Style.DetailsWrapper>
               <Style.DetailItem>
                 <h2>Nome</h2>
-                <p>{building?.name || ''}</p>
+                <p>{building?.name || '-'}</p>
               </Style.DetailItem>
               <Style.DetailItem>
                 <h2>Tipo</h2>
-                <p>{building?.BuildingType?.name || ''}</p>
+                <p>{building?.BuildingType?.name || '-'}</p>
               </Style.DetailItem>
               <Style.DetailItem>
                 <h2>Status</h2>
@@ -105,23 +105,23 @@ export const BuildingDetails = () => {
               </Style.DetailItem>
               <Style.DetailItem>
                 <h2>CEP</h2>
-                <p>{building?.cep || ''}</p>
+                <p>{building?.cep || '-'}</p>
               </Style.DetailItem>
               <Style.DetailItem>
                 <h2>Logradouro</h2>
-                <p>{building?.streetName || ''}</p>
+                <p>{building?.streetName || '-'}</p>
               </Style.DetailItem>
               <Style.DetailItem>
                 <h2>Bairro</h2>
-                <p>{building?.neighborhood || ''}</p>
+                <p>{building?.neighborhood || '-'}</p>
               </Style.DetailItem>
               <Style.DetailItem>
                 <h2>Cidade</h2>
-                <p>{building?.city || ''}</p>
+                <p>{building?.city || '-'}</p>
               </Style.DetailItem>
               <Style.DetailItem>
                 <h2>Estado</h2>
-                <p>{building?.state || ''}</p>
+                <p>{building?.state || '-'}</p>
               </Style.DetailItem>
               <Style.DetailItem>
                 <h2>Próxima manutenção baseada em</h2>
@@ -136,19 +136,19 @@ export const BuildingDetails = () => {
                 <p>
                   {building?.deliveryDate
                     ? new Date(building.deliveryDate).toLocaleDateString()
-                    : ''}
+                    : '-'}
                 </p>
               </Style.DetailItem>
               <Style.DetailItem>
                 <h2>Data de Criação</h2>
-                <p>{building?.createdAt ? new Date(building.createdAt).toLocaleString() : ''}</p>
+                <p>{building?.createdAt ? new Date(building.createdAt).toLocaleString() : '-'}</p>
               </Style.DetailItem>
               <Style.DetailItem>
                 <h2>Término da garantia</h2>
                 <p>
                   {building?.warrantyExpiration
                     ? new Date(building.warrantyExpiration).toLocaleDateString()
-                    : ''}
+                    : '-'}
                 </p>
               </Style.DetailItem>
               <Style.DetailItem>
