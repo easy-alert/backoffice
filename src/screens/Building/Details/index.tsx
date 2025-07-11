@@ -192,12 +192,38 @@ export const BuildingDetails = () => {
               </Style.DetailsWrapper>
             </Style.DetailGrid>
           </Style.DetailsBox>
-          <IconButton
-            hideLabelOnMedia
-            icon={icon.editWithBg}
-            label="Editar"
-            onClick={() => setShowEditModal(true)}
-          />
+
+          <Style.ButtonsContainer>
+            {/* <PopoverButton
+              disabled={onQuery}
+              actionButtonBgColor={
+                building?.isBlocked ? theme.color.success : theme.color.actionDanger
+              }
+              type="IconButton"
+              label={building?.isBlocked ? 'Ativar' : 'Desativar'}
+              buttonIcon={building?.isBlocked ? icon.checked : icon.block}
+              message={{
+                title: `Deseja ${building?.isBlocked ? 'ativar' : 'desativar'} esta edificação?`,
+                content: 'Esta ação poderá ser desfeita posteriormente.',
+                contentColor: theme.color.danger,
+              }}
+              actionButtonClick={() => {
+                requestChangeIsBlocked({
+                  building,
+                  setBuilding,
+                  setOnQuery,
+                });
+              }}
+            /> */}
+
+            <IconButton
+              hideLabelOnMedia
+              icon={icon.editWithBg}
+              label="Editar"
+              onClick={() => setShowEditModal(true)}
+            />
+          </Style.ButtonsContainer>
+
           {users.length > 0 && (
             <>
               <h2>Usuários vinculados</h2>

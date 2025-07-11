@@ -70,3 +70,17 @@ export interface IUpdateBuildingData {
   isActivityLogPublic?: boolean;
   guestCanCompleteMaintenance?: boolean;
 }
+
+export interface IRequestChangeIsBlockedBuilding {
+  building: IBuilding;
+  setBuilding: (building: IBuilding) => void;
+  setOnQuery: (loading: boolean) => void;
+}
+
+export interface IUpdateBuildingBlockedStatusResponse {
+  updatedBuilding: IBuilding;
+  ServerMessage: {
+    statusCode: number;
+    message: string;
+  };
+}
