@@ -18,6 +18,7 @@ export interface IUser {
 export interface IUploadFile {
   Location: string;
   originalname: string;
+  url: string;
 }
 
 export interface IMask {
@@ -56,4 +57,15 @@ export interface IUserDetails extends Omit<IUser, 'email' | 'image'> {
   role?: string;
   companies?: IUserCompany[];
   edifications?: IUserEdification[];
+}
+
+export interface IBuildingType {
+  id: string;
+  name: string;
+}
+
+export interface IRequestAddressData {
+  cep: string;
+  setFieldValue: (field: string, value: any) => void;
+  setApiError: (value: boolean) => void;
 }

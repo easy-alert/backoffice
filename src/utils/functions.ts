@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Api } from '../services/api';
-import { IMask, IUploadFile, IRequestListIntervals } from './types';
+import type { IMask, IUploadFile, IRequestListIntervals, IRequestAddressData } from './types';
 // #endregion
 
 export const catchHandler = (err: any) => {
@@ -148,6 +148,8 @@ export const applyMask = ({
 export const unMask = (value: string) => value.replace(/[^a-zA-Z0-9]/g, '');
 export const unMaskBRL = (value: string) => value.replace(/[^0-9]/g, '');
 
+export const convertToFormikDate = (date: Date) => date.toISOString().split('T')[0];
+
 export const capitalizeFirstLetter = (value: string) =>
   value.charAt(0).toUpperCase() + value.slice(1);
 
@@ -268,6 +270,99 @@ export const convertStateName = (stateName: string) => {
   return UF;
 };
 
+export const convertStateAcronym = (UF: string) => {
+  let stateName = '';
+
+  switch (UF) {
+    case 'AC':
+      stateName = 'Acre';
+      break;
+    case 'AL':
+      stateName = 'Alagoas';
+      break;
+    case 'AP':
+      stateName = 'Amapá';
+      break;
+    case 'AM':
+      stateName = 'Amazonas';
+      break;
+    case 'BA':
+      stateName = 'Bahia';
+      break;
+    case 'CE':
+      stateName = 'Ceará';
+      break;
+    case 'ES':
+      stateName = 'Espírito Santo';
+      break;
+    case 'GO':
+      stateName = 'Goiás';
+      break;
+    case 'MA':
+      stateName = 'Maranhão';
+      break;
+    case 'MT':
+      stateName = 'Mato Grosso';
+      break;
+    case 'MS':
+      stateName = 'Mato Grosso do Sul';
+      break;
+    case 'MG':
+      stateName = 'Minas Gerais';
+      break;
+    case 'PA':
+      stateName = 'Pará';
+      break;
+    case 'PB':
+      stateName = 'Paraíba';
+      break;
+    case 'PR':
+      stateName = 'Paraná';
+      break;
+    case 'PE':
+      stateName = 'Pernambuco';
+      break;
+    case 'PI':
+      stateName = 'Piauí';
+      break;
+    case 'RJ':
+      stateName = 'Rio de Janeiro';
+      break;
+    case 'RN':
+      stateName = 'Rio Grande do Norte';
+      break;
+    case 'RS':
+      stateName = 'Rio Grande do Sul';
+      break;
+    case 'RO':
+      stateName = 'Rondônia';
+      break;
+    case 'RR':
+      stateName = 'Roraima';
+      break;
+    case 'SC':
+      stateName = 'Santa Catarina';
+      break;
+    case 'SP':
+      stateName = 'São Paulo';
+      break;
+    case 'SE':
+      stateName = 'Sergipe';
+      break;
+    case 'TO':
+      stateName = 'Tocantins';
+      break;
+    case 'DF':
+      stateName = 'Distrito Federal';
+      break;
+
+    default:
+      break;
+  }
+
+  return stateName;
+};
+
 // #endregion
 
 // #region REQUESTS
@@ -279,6 +374,32 @@ export const requestListIntervals = async ({ setTimeIntervals }: IRequestListInt
     })
     .catch((err) => {
       catchHandler(err);
+    });
+};
+
+export const requestAddressData = async ({
+  cep,
+  setFieldValue,
+  setApiError,
+}: IRequestAddressData) => {
+  toast.dismiss();
+  await axios
+    .get(`https://viacep.com.br/ws/${unMask(cep)}/json`)
+    .then((res) => {
+      if (res?.data?.erro) {
+        toast.error('Erro ao buscar dados do CEP.');
+        setApiError(true);
+      } else {
+        setFieldValue('city', res.data.localidade ?? '');
+        setFieldValue('neighborhood', res.data.bairro ?? '');
+        setFieldValue('streetName', res.data.logradouro ?? '');
+        setFieldValue('state', res.data.uf ? convertStateAcronym(res.data.uf) : '');
+        setApiError(false);
+      }
+    })
+    .catch(() => {
+      toast.error('Erro ao buscar dados do CEP.');
+      setApiError(true);
     });
 };
 // #endregion
