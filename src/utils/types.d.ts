@@ -63,3 +63,9 @@ export interface IBuildingType {
   id: string;
   name: string;
 }
+
+export interface IRequestAddressData {
+  cep: string;
+  setFieldValue: (field: string, value: any) => void;
+  setApiError: (value: boolean) => void;
+}
