@@ -1,4 +1,3 @@
-// REACT
 import { useState, useEffect } from 'react';
 
 // LIBS
@@ -13,9 +12,14 @@ import { Tag } from '@components/Tag';
 import { ReturnButton } from '@components/Buttons/ReturnButton';
 import { Image } from '@components/Image';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
+import { PopoverButton } from '@components/Buttons/PopoverButton';
+import { IconButton } from '@components/Buttons/IconButton';
 
 // GLOBAL UTILS
 import { applyMask, dateTimeFormatter } from '@utils/functions';
+
+// GLOBAL STYLES
+import { theme } from '@styles/theme';
 
 // GLOBAL ASSETS
 import { icon } from '@assets/icons';
@@ -24,18 +28,12 @@ import { icon } from '@assets/icons';
 import type { IUserDetails } from '@utils/types';
 
 // COMPONENTS
-import { PopoverButton } from '@components/Buttons/PopoverButton';
-import { theme } from '@styles/theme';
-import { IconButton } from '@components/Buttons/IconButton';
 import { ModalEditUser } from './components/ModalEditUser';
 
+// STYLES
 import * as Style from './styles';
 
-export const UserDetails = ({
-  onUserUpdate,
-}: {
-  onUserUpdate?: (user: Partial<IUserDetails>) => void;
-}) => {
+export const UserDetails = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const { search } = window.location;
@@ -74,14 +72,10 @@ export const UserDetails = ({
 
     try {
       const response = await putIsBlockedUser(user.id);
-      setUser((prev) =>
-        prev
-          ? {
-              ...prev,
-              isBlocked: response?.isBlocked ?? !prev.isBlocked,
-            }
-          : prev,
-      );
+      setUser((prev) => ({
+        ...prev!,
+        isBlocked: response?.isBlocked ?? !prev!.isBlocked,
+      }));
     } catch (error) {
       console.error('Erro ao alterar status do usuário:', error);
     } finally {
@@ -97,16 +91,6 @@ export const UserDetails = ({
           handleModals={handleModals}
           onUserUpdated={(updatedUser) => {
             setUser(updatedUser as IUserDetails);
-
-            if (onUserUpdate) {
-              onUserUpdate({
-                id: updatedUser.id,
-                name: updatedUser.name,
-                email: updatedUser.email,
-                image: updatedUser.image,
-                isBlocked: updatedUser.isBlocked,
-              });
-            }
           }}
         />
       )}
