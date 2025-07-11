@@ -207,3 +207,18 @@ export const InfoLabel = styled.h2`
   color: #718096;
   padding-left: 20px;
 `;
+
+export const ActionsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${theme.size.sm};
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-end;
+
+    button {
+      width: 100%;
+    }
+  }
+`;

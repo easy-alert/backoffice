@@ -24,7 +24,7 @@ import { theme } from '@styles/theme';
 import { icon } from '@assets/icons/index';
 
 // GLOBAL TYPES
-import { IBuilding } from '@customTypes/IBuilding';
+import type { IBuilding } from '@customTypes/IBuilding';
 
 // STYLES
 import * as Style from './styles';

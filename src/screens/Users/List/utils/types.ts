@@ -5,9 +5,8 @@ export interface IUser {
   image?: string;
   phoneNumber?: string;
   email: string;
-  status: 'active' | 'inactive' | 'blocked';
   lastAccess: string;
-  isBlocked?: boolean;
+  isBlocked: boolean;
 }
 
 export interface IRequestUsersList {
