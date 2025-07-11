@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Api } from '../services/api';
-import { IMask, IUploadFile, IRequestListIntervals } from './types';
+import type { IMask, IUploadFile, IRequestListIntervals, IRequestAddressData } from './types';
 // #endregion
 
 export const catchHandler = (err: any) => {
@@ -281,6 +281,32 @@ export const requestListIntervals = async ({ setTimeIntervals }: IRequestListInt
     })
     .catch((err) => {
       catchHandler(err);
+    });
+};
+
+export const requestAddressData = async ({
+  cep,
+  setFieldValue,
+  setApiError,
+}: IRequestAddressData) => {
+  toast.dismiss();
+  await axios
+    .get(`https://viacep.com.br/ws/${unMask(cep)}/json`)
+    .then((res) => {
+      if (res?.data?.erro) {
+        toast.error('Erro ao buscar dados do CEP.');
+        setApiError(true);
+      } else {
+        setFieldValue('city', res.data.localidade ?? '');
+        setFieldValue('neighborhood', res.data.bairro ?? '');
+        setFieldValue('streetName', res.data.logradouro ?? '');
+        setFieldValue('state', res.data.uf ? convertStateName(res.data.uf) : '');
+        setApiError(false);
+      }
+    })
+    .catch(() => {
+      toast.error('Erro ao buscar dados do CEP.');
+      setApiError(true);
     });
 };
 // #endregion
