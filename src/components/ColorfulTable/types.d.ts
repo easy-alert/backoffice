@@ -2,16 +2,18 @@ import { CSSProperties } from 'styled-components';
 
 export interface IColorfulTableHeader {
   colsHeader: {
-    label: string;
+    label: any;
     cssProps?: CSSProperties;
     cssOnMedia?: CSSProperties;
   }[];
   children: React.ReactNode[] | React.ReactNode;
+  cssProps?: CSSProperties;
 }
 
 export interface IColorfulTableBody {
   colsBody: {
     cell: any;
+    colSpan?: number;
     cssProps?: CSSProperties;
     cssOnMedia?: CSSProperties;
   }[];
