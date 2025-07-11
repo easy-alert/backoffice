@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 // SERVICES
 import { getUserDetails } from '@services/apis/getUserDetails';
+import { putIsBlockedUser } from '@services/apis/putIsblockedUser';
 
 // GLOBAL COMPONENTS
 import { Tag } from '@components/Tag';
@@ -23,12 +24,18 @@ import { icon } from '@assets/icons';
 import type { IUserDetails } from '@utils/types';
 
 // COMPONENTS
+import { PopoverButton } from '@components/Buttons/PopoverButton';
+import { theme } from '@styles/theme';
+import { IconButton } from '@components/Buttons/IconButton';
 import { ModalEditUser } from './components/ModalEditUser';
 
-// STYLES
 import * as Style from './styles';
 
-export const UserDetails = () => {
+export const UserDetails = ({
+  onUserUpdate,
+}: {
+  onUserUpdate?: (user: Partial<IUserDetails>) => void;
+}) => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const { search } = window.location;
@@ -36,6 +43,7 @@ export const UserDetails = () => {
   const [user, setUser] = useState<IUserDetails | null>(null);
   const [modalEditUser, setModalEditUser] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [onQuery, setOnQuery] = useState(false);
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -60,34 +68,26 @@ export const UserDetails = () => {
     }
   };
 
-  // const requestChangeIsBlocked = async () => {
-  //   if (!user) return;
-  //   setOnQuery(true);
+  const requestChangeIsBlocked = async () => {
+    if (!user) return;
+    setOnQuery(true);
 
-  //   try {
-  //     const response = await updateUserBlockedStatus(user.id);
-
-  //     setUser((prev) =>
-  //       prev
-  //         ? {
-  //             ...prev,
-  //             isBlocked: response.isBlocked,
-  //           }
-  //         : prev,
-  //     );
-
-  //     if (onUserUpdate) {
-  //       onUserUpdate({
-  //         id: user.id,
-  //         isBlocked: response.isBlocked,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error('Erro ao alterar status do usuário:', error);
-  //   } finally {
-  //     setOnQuery(false);
-  //   }
-  // };
+    try {
+      const response = await putIsBlockedUser(user.id);
+      setUser((prev) =>
+        prev
+          ? {
+              ...prev,
+              isBlocked: response?.isBlocked ?? !prev.isBlocked,
+            }
+          : prev,
+      );
+    } catch (error) {
+      console.error('Erro ao alterar status do usuário:', error);
+    } finally {
+      setOnQuery(false);
+    }
+  };
 
   return (
     <>
@@ -98,15 +98,15 @@ export const UserDetails = () => {
           onUserUpdated={(updatedUser) => {
             setUser(updatedUser as IUserDetails);
 
-            // if (onUserUpdate) {
-            //   onUserUpdate({
-            //     id: updatedUser.id,
-            //     name: updatedUser.name,
-            //     email: updatedUser.email,
-            //     image: updatedUser.image,
-            //     isBlocked: updatedUser.isBlocked,
-            //   });
-            // }
+            if (onUserUpdate) {
+              onUserUpdate({
+                id: updatedUser.id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                image: updatedUser.image,
+                isBlocked: updatedUser.isBlocked,
+              });
+            }
           }}
         />
       )}
@@ -161,7 +161,7 @@ export const UserDetails = () => {
             </Style.ProfileContent>
           </Style.ProfileSection>
 
-          {/* <Style.ActionsWrapper>
+          <Style.ActionsWrapper>
             <PopoverButton
               disabled={onQuery}
               actionButtonBgColor={user?.isBlocked ? theme.color.success : theme.color.actionDanger}
@@ -182,7 +182,7 @@ export const UserDetails = () => {
               label="Editar"
               onClick={() => setModalEditUser(true)}
             />
-          </Style.ActionsWrapper> */}
+          </Style.ActionsWrapper>
 
           <h2>Empresas vinculadas</h2>
 
