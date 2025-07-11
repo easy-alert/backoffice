@@ -141,6 +141,10 @@ export const UserDetails = () => {
                   <h2>Último acesso</h2>
                   <p>{user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-'}</p>
                 </Style.DetailItem>
+                 <Style.DetailItem>
+                  <h2>Status</h2>
+                  <Tag isInvalid={user.isBlocked} />
+                </Style.DetailItem>
               </Style.DetailsContainer>
             </Style.ProfileContent>
           </Style.ProfileSection>
