@@ -19,6 +19,7 @@ import {
   applyMask,
   capitalizeFirstLetter,
   convertToFormikDate,
+  requestAddressData,
   uploadFile,
 } from '@utils/functions';
 
@@ -74,6 +75,7 @@ export const ModalEditBuilding = ({
   requestBuildingDetailsCall,
 }: IModalEditBuilding) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<boolean | null>(null);
 
   const getNextMaintenanceCreationBasis = () => {
     if (!building) return 'executionDate';
@@ -188,13 +190,18 @@ export const ModalEditBuilding = ({
                 value={values.cep}
                 error={touched.cep && errors.cep ? errors.cep : null}
                 placeholder="Ex: 88801-010"
-                maxLength={9}
+                maxLength={applyMask({ value: values.cep, mask: 'CEP' }).length}
                 onChange={(e) => {
-                  setFieldValue('cep', applyMask({ mask: 'CEP', value: e.target.value }).value);
+                  const maskedCep = applyMask({ value: e.target.value, mask: 'CEP' }).value;
+                  setFieldValue('cep', maskedCep);
+                  if (maskedCep.length === 9) {
+                    requestAddressData({ cep: maskedCep, setFieldValue, setApiError });
+                  }
                 }}
               />
 
               <FormikInput
+                disabled={!apiError}
                 label="Estado *"
                 name="state"
                 value={values.state}
@@ -203,6 +210,7 @@ export const ModalEditBuilding = ({
               />
 
               <FormikInput
+                disabled={!apiError}
                 label="Cidade *"
                 name="city"
                 value={values.city}
