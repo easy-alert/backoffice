@@ -220,7 +220,7 @@ export const UsersList = () => {
                     cssProps: { width: '15%' },
                   },
                   {
-                    cell: <Tag isInvalid={user.isBlocked} key={user.id} />,
+                    cell: <Tag isInvalid={user.isBlocked} />,
                     cssProps: { width: '10%' },
                   },
                 ]}
