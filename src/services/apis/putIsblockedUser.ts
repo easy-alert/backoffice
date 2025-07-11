@@ -11,8 +11,9 @@ export interface IPutIsBlockedUser {
 }
 
 export async function putIsBlockedUser(userId: string): Promise<IPutIsBlockedUser | undefined> {
+  const uri = '/account/users/changeIsBlockedUser';
   try {
-    const response = await Api.put('/account/users/changeIsBlockedUser', { userId });
+    const response = await Api.put(uri, { userId });
     handleToastify(response);
     return response.data;
   } catch (error: any) {
