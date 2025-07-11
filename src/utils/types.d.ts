@@ -18,6 +18,7 @@ export interface IUser {
 export interface IUploadFile {
   Location: string;
   originalname: string;
+  url: string;
 }
 
 export interface IMask {
@@ -34,4 +35,37 @@ export interface ITimeInterval {
 
 export interface IRequestListIntervals {
   setTimeIntervals: (setTimeIntervals: ITimeInterval[]) => void;
+}
+
+export interface IUserCompany {
+  id: string;
+  name: string;
+  image?: string;
+  isBlocked?: boolean;
+}
+
+export interface IUserEdification {
+  id: string;
+  name: string;
+  image?: string;
+}
+
+export interface IUserDetails extends Omit<IUser, 'email' | 'image'> {
+  email?: string;
+  image?: string;
+  phoneNumber?: string;
+  role?: string;
+  companies?: IUserCompany[];
+  edifications?: IUserEdification[];
+}
+
+export interface IBuildingType {
+  id: string;
+  name: string;
+}
+
+export interface IRequestAddressData {
+  cep: string;
+  setFieldValue: (field: string, value: any) => void;
+  setApiError: (value: boolean) => void;
 }

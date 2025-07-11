@@ -3,20 +3,31 @@ import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
-// COMPONENTS
+// GLOBAL SERVICES
+import { putEditBuilding } from '@services/apis/putEditBuilding';
+
+// GLOBAL COMPONENTS
+import { Modal } from '@components/Modal';
 import { Button } from '@components/Buttons/Button';
 import { FormikImageInput } from '@components/Form/FormikImageInput';
 import { FormikInput } from '@components/Form/FormikInput';
-import { Modal } from '@components/Modal';
 import { FormikSelect } from '@components/Form/FormikSelect';
 import { FormikCheckbox } from '@components/Form/FormikCheckbox';
+
+// GLOBAL UTILS
+import {
+  applyMask,
+  capitalizeFirstLetter,
+  convertToFormikDate,
+  requestAddressData,
+  uploadFile,
+} from '@utils/functions';
+
+// GLOBAL STYLES
 import { theme } from '@styles/theme';
 
-// TYPES
-import { IBuilding, IUpdateBuildingData } from '@customTypes/IBuilding';
-
-// SERVICES
-import { putEditBuilding } from '@services/apis/putEditBuilding';
+// GLOBAL TYPES
+import type { IBuilding } from '@customTypes/IBuilding';
 
 // STYLES
 import * as Style from './styles';
@@ -27,26 +38,11 @@ interface IBuildingType {
 }
 
 interface IModalEditBuilding {
-  setModal: (value: boolean) => void;
+  onClose: () => void;
   building?: IBuilding;
   buildingTypes?: IBuildingType[];
   requestBuildingDetailsCall?: () => void;
 }
-
-// UTILITÁRIOS
-const applyMask = ({ mask, value }: { mask: string; value: string }) => {
-  if (mask === 'CEP') {
-    const onlyNumbers = value.replace(/\D/g, '');
-    return {
-      value: onlyNumbers.replace(/(\d{5})(\d{3})/, '$1-$2'),
-      length: 9,
-    };
-  }
-  return { value, length: value.length };
-};
-
-const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-const convertToFormikDate = (date: Date) => date.toISOString().split('T')[0];
 
 const schemaModalEditBuilding = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
@@ -56,69 +52,46 @@ const schemaModalEditBuilding = Yup.object().shape({
   city: Yup.string().required('Cidade é obrigatória'),
   warrantyExpiration: Yup.string().required('Término da garantia é obrigatório'),
   nextMaintenanceCreationBasis: Yup.string().required('Campo obrigatório'),
+  image: Yup.mixed()
+    .test(
+      'fileSize',
+      'Imagem muito grande (máx. 2MB)',
+      (value) => !value || (value.size && value.size <= 2 * 1024 * 1024),
+    )
+    .test(
+      'fileType',
+      'Formato inválido',
+      (value) =>
+        !value ||
+        typeof value === 'string' ||
+        ['image/jpeg', 'image/png', 'image/webp'].includes(value.type),
+    ),
 });
 
-const requestEditBuilding = async ({
-  buildingId,
-  setModal,
-  setOnQuery,
-  values,
-  requestBuildingDetailsCall,
-}: any) => {
-  setOnQuery(true);
-
-  try {
-    const buildingData: Partial<IUpdateBuildingData> = {
-      name: values.name?.trim() || '',
-      buildingTypeId: values.buildingTypeId || '',
-      cep: values.cep?.replace(/\D/g, '') || '',
-      state: values.state?.trim() || '',
-      city: values.city?.trim() || '',
-      warrantyExpiration: values.warrantyExpiration
-        ? new Date(values.warrantyExpiration)
-        : undefined,
-
-      nextMaintenanceCreationBasis: values.nextMaintenanceCreationBasis || '',
-      neighborhood: values.neighborhood?.trim() || undefined,
-      streetName: values.streetName?.trim() || undefined,
-      deliveryDate: values.deliveryDate ? new Date(values.deliveryDate) : undefined,
-      keepNotificationAfterWarrantyEnds: values.keepNotificationAfterWarrantyEnds,
-      mandatoryReportProof: values.mandatoryReportProof,
-      isActivityLogPublic: values.isActivityLogPublic,
-      guestCanCompleteMaintenance: values.guestCanCompleteMaintenance,
-    };
-
-    if (values.image && typeof values.image === 'string') {
-      buildingData.image = values.image;
-    }
-
-    await putEditBuilding({
-      buildingId,
-      buildingData,
-    });
-
-    setModal(false);
-    if (requestBuildingDetailsCall) requestBuildingDetailsCall();
-  } catch (error) {
-    console.error('Erro ao editar edificação:', error);
-  } finally {
-    setOnQuery(false);
-  }
-};
-
 export const ModalEditBuilding = ({
-  setModal,
+  onClose,
   building,
   buildingTypes,
   requestBuildingDetailsCall,
 }: IModalEditBuilding) => {
   const [onQuery, setOnQuery] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<boolean | null>(null);
+
+  const getNextMaintenanceCreationBasis = () => {
+    if (!building) return 'executionDate';
+    if (
+      building.nextMaintenanceCreationBasis === 'executionDate' ||
+      building.nextMaintenanceCreationBasis === 'notificationDate'
+    ) {
+      return building.nextMaintenanceCreationBasis;
+    }
+    return 'executionDate';
+  };
 
   if (!building) return null;
-  console.log('building', building);
 
   return (
-    <Modal title="Editar edificação" setModal={setModal}>
+    <Modal title="Editar edificação" setModal={onClose}>
       <Formik
         initialValues={{
           id: building.id || '',
@@ -137,20 +110,34 @@ export const ModalEditBuilding = ({
             : '',
           keepNotificationAfterWarrantyEnds: building.keepNotificationAfterWarrantyEnds || false,
           mandatoryReportProof: building.mandatoryReportProof || false,
-          nextMaintenanceCreationBasis: building.nextMaintenanceCreationBasis || 'executionDate',
+          nextMaintenanceCreationBasis: getNextMaintenanceCreationBasis(),
           isActivityLogPublic: building.isActivityLogPublic || false,
           guestCanCompleteMaintenance: building.guestCanCompleteMaintenance || false,
           image: building.image || '',
         }}
         validationSchema={schemaModalEditBuilding}
         onSubmit={async (values) => {
-          await requestEditBuilding({
-            buildingId: building.id,
-            setModal,
-            setOnQuery,
-            values,
-            requestBuildingDetailsCall,
-          });
+          setOnQuery(true);
+          try {
+            let imageUrl = values.image;
+
+            if (values.image && typeof values.image !== 'string') {
+              const uploadResponse = await uploadFile(values.image);
+              imageUrl = uploadResponse?.url || '';
+            }
+
+            await putEditBuilding(building.id ?? '', {
+              ...values,
+              image: imageUrl,
+            });
+
+            onClose();
+            if (requestBuildingDetailsCall) requestBuildingDetailsCall();
+          } catch (error) {
+            console.error(error);
+          } finally {
+            setOnQuery(false);
+          }
         }}
       >
         {({ errors, values, touched, setFieldValue }) => (
@@ -163,7 +150,8 @@ export const ModalEditBuilding = ({
                 defaultImage={values.image}
                 onChange={(event: any) => {
                   if (event.target.files?.length) {
-                    setFieldValue('image', event.target.files[0]);
+                    const file = event.target.files[0];
+                    setFieldValue('image', file);
                   }
                 }}
               />
@@ -194,12 +182,6 @@ export const ModalEditBuilding = ({
                       {capitalizeFirstLetter(type.name)}
                     </option>
                   ))}
-                {!buildingTypes?.some((type) => type.id === values.buildingTypeId) &&
-                  building.BuildingType && (
-                    <option key={building.BuildingType.id} value={building.BuildingType.id}>
-                      {capitalizeFirstLetter(building.BuildingType.name)}
-                    </option>
-                  )}
               </FormikSelect>
 
               <FormikInput
@@ -210,11 +192,16 @@ export const ModalEditBuilding = ({
                 placeholder="Ex: 88801-010"
                 maxLength={applyMask({ value: values.cep, mask: 'CEP' }).length}
                 onChange={(e) => {
-                  setFieldValue('cep', applyMask({ value: e.target.value, mask: 'CEP' }).value);
+                  const maskedCep = applyMask({ value: e.target.value, mask: 'CEP' }).value;
+                  setFieldValue('cep', maskedCep);
+                  if (maskedCep.length === 9) {
+                    requestAddressData({ cep: maskedCep, setFieldValue, setApiError });
+                  }
                 }}
               />
 
               <FormikInput
+                disabled={!apiError}
                 label="Estado *"
                 name="state"
                 value={values.state}
@@ -223,6 +210,7 @@ export const ModalEditBuilding = ({
               />
 
               <FormikInput
+                disabled={!apiError}
                 label="Cidade *"
                 name="city"
                 value={values.city}
