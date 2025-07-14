@@ -25,9 +25,12 @@ import type { IUser, IBuildingType } from '@utils/types';
 import type { IBuilding } from '@customTypes/IBuilding';
 
 // COMPONENTS
-import { ModalEditBuilding } from './components/ModalEditBuilding';
 
 // STYLES
+import { PopoverButton } from '@components/Buttons/PopoverButton';
+import { updateBuildingBlockedStatus } from '@services/apis/updateBuildingBlockedStatus';
+import { theme } from '@styles/theme';
+import { ModalEditBuilding } from './components/ModalEditBuilding';
 import * as Style from './styles';
 
 export const BuildingDetails = () => {
@@ -41,6 +44,7 @@ export const BuildingDetails = () => {
 
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [onQuery, setOnQuery] = useState<boolean>(false);
 
   const handleGetBuildingById = async (id?: string) => {
     if (!id) return;
@@ -194,27 +198,32 @@ export const BuildingDetails = () => {
           </Style.DetailsBox>
 
           <Style.ButtonsContainer>
-            {/* <PopoverButton
-              disabled={onQuery}
+            <PopoverButton
+              label={building?.isBlocked ? 'Ativar' : 'Desativar'}
               actionButtonBgColor={
                 building?.isBlocked ? theme.color.success : theme.color.actionDanger
               }
               type="IconButton"
-              label={building?.isBlocked ? 'Ativar' : 'Desativar'}
               buttonIcon={building?.isBlocked ? icon.checked : icon.block}
               message={{
                 title: `Deseja ${building?.isBlocked ? 'ativar' : 'desativar'} esta edificação?`,
                 content: 'Esta ação poderá ser desfeita posteriormente.',
                 contentColor: theme.color.danger,
               }}
-              actionButtonClick={() => {
-                requestChangeIsBlocked({
-                  building,
-                  setBuilding,
-                  setOnQuery,
-                });
+              disabled={onQuery}
+              actionButtonClick={async () => {
+                if (!buildingId) return;
+                setOnQuery(true);
+                try {
+                  const updated = await updateBuildingBlockedStatus(buildingId);
+                  setBuilding(updated);
+                } catch (e) {
+                  // erro já tratado pelo handleToastify
+                } finally {
+                  setOnQuery(false);
+                }
               }}
-            /> */}
+            />
 
             <IconButton
               hideLabelOnMedia
