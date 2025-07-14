@@ -5,6 +5,10 @@ export interface IBuilding {
   id?: string;
 
   buildingTypeId?: string;
+  BuildingType?: {
+    id: string;
+    name: string;
+  };
   companyId?: string;
   nanoId?: string;
 
@@ -47,4 +51,36 @@ export interface IBuilding {
   // BuildingsAccessHistory?: IBuildingAccessHistory[];
   // checklists?: IChecklist[];
   // tickets?: ITicket[];
+}
+
+export interface IUpdateBuildingData {
+  name: string;
+  buildingTypeId: string;
+  cep: string;
+  state: string;
+  city: string;
+  neighborhood?: string;
+  streetName?: string;
+  image?: string;
+  deliveryDate?: Date;
+  warrantyExpiration: Date;
+  nextMaintenanceCreationBasis?: string;
+  keepNotificationAfterWarrantyEnds?: boolean;
+  mandatoryReportProof?: boolean;
+  isActivityLogPublic?: boolean;
+  guestCanCompleteMaintenance?: boolean;
+}
+
+export interface IRequestChangeIsBlockedBuilding {
+  building: IBuilding;
+  setBuilding: (building: IBuilding) => void;
+  setOnQuery: (loading: boolean) => void;
+}
+
+export interface IUpdateBuildingBlockedStatusResponse {
+  updatedBuilding: IBuilding;
+  ServerMessage: {
+    statusCode: number;
+    message: string;
+  };
 }

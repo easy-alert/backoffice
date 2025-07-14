@@ -1,4 +1,3 @@
-// REACT
 import { useState, useEffect } from 'react';
 
 // LIBS
@@ -6,16 +5,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 // SERVICES
 import { getUserDetails } from '@services/apis/getUserDetails';
+import { putIsBlockedUser } from '@services/apis/putIsblockedUser';
 
 // GLOBAL COMPONENTS
 import { Tag } from '@components/Tag';
 import { ReturnButton } from '@components/Buttons/ReturnButton';
-import { IconButton } from '@components/Buttons/IconButton';
 import { Image } from '@components/Image';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
+import { PopoverButton } from '@components/Buttons/PopoverButton';
+import { IconButton } from '@components/Buttons/IconButton';
 
 // GLOBAL UTILS
 import { applyMask, dateTimeFormatter } from '@utils/functions';
+
+// GLOBAL STYLES
+import { theme } from '@styles/theme';
 
 // GLOBAL ASSETS
 import { icon } from '@assets/icons';
@@ -37,6 +41,7 @@ export const UserDetails = () => {
   const [user, setUser] = useState<IUserDetails | null>(null);
   const [modalEditUser, setModalEditUser] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [onQuery, setOnQuery] = useState(false);
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -58,6 +63,23 @@ export const UserDetails = () => {
   const handleModals = (modal: string, modalState: boolean) => {
     if (modal === 'updateUser') {
       setModalEditUser(modalState);
+    }
+  };
+
+  const requestChangeIsBlocked = async () => {
+    if (!user) return;
+    setOnQuery(true);
+
+    try {
+      const response = await putIsBlockedUser(user.id);
+      setUser((prev) => ({
+        ...prev!,
+        isBlocked: response?.isBlocked ?? !prev!.isBlocked,
+      }));
+    } catch (error) {
+      console.error('Erro ao alterar status do usuário:', error);
+    } finally {
+      setOnQuery(false);
     }
   };
 
@@ -119,16 +141,36 @@ export const UserDetails = () => {
                   <h2>Último acesso</h2>
                   <p>{user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-'}</p>
                 </Style.DetailItem>
+                <Style.DetailItem>
+                  <h2>Status</h2>
+                  <Tag isInvalid={user.isBlocked} />
+                </Style.DetailItem>
               </Style.DetailsContainer>
             </Style.ProfileContent>
           </Style.ProfileSection>
 
-          <IconButton
-            hideLabelOnMedia
-            icon={icon.editWithBg}
-            label="Editar"
-            onClick={() => setModalEditUser(true)}
-          />
+          <Style.ActionsWrapper>
+            <PopoverButton
+              disabled={onQuery}
+              actionButtonBgColor={user?.isBlocked ? theme.color.success : theme.color.actionDanger}
+              type="IconButton"
+              label={user?.isBlocked ? 'Ativar' : 'Desativar'}
+              buttonIcon={user?.isBlocked ? icon.checked : icon.block}
+              message={{
+                title: `Deseja ${user?.isBlocked ? 'ativar' : 'desativar'} o acesso deste usuário?`,
+                content: 'Esta ação poderá ser desfeita posteriormente.',
+                contentColor: theme.color.danger,
+              }}
+              actionButtonClick={requestChangeIsBlocked}
+            />
+
+            <IconButton
+              hideLabelOnMedia
+              icon={icon.editWithBg}
+              label="Editar"
+              onClick={() => setModalEditUser(true)}
+            />
+          </Style.ActionsWrapper>
 
           <h2>Empresas vinculadas</h2>
 
