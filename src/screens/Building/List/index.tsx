@@ -40,8 +40,8 @@ export const BuildingsList = () => {
   const [loading, setLoading] = useState(true);
 
   const offset = 20;
-  const queryPage = Number(search.get('page'));
-  const queryFilter = search.get('filter');
+  const queryPage = Number(search.get('page')) || 1;
+  const queryFilter = search.get('filter') || '';
 
   const handleGetBuildings = async ({
     searchPage,
@@ -65,14 +65,13 @@ export const BuildingsList = () => {
   };
 
   useEffect(() => {
-    handleGetBuildings({ searchPage: page, searchFilter: filter });
-  }, [page, filter]);
-
-  useEffect(() => {
     if (queryPage) setPage(queryPage);
     if (queryFilter) setFilter(queryFilter);
 
-    handleGetBuildings({});
+    handleGetBuildings({
+      searchPage: queryPage,
+      searchFilter: queryFilter,
+    });
   }, []);
 
   if (loading) return <DotSpinLoading />;
@@ -84,15 +83,36 @@ export const BuildingsList = () => {
           <h2>Edificações</h2>
 
           <Style.SearchField>
-            <IconButton icon={icon.search} size="16px" onClick={() => setPage(1)} />
+            <IconButton
+              icon={icon.search}
+              size="16px"
+              onClick={() =>
+                handleGetBuildings({
+                  searchFilter: filter,
+                  searchPage: 1,
+                })
+              }
+            />
             <input
               type="text"
               placeholder="Procurar"
               value={filter}
-              onChange={(evt) => setFilter(evt.target.value)}
-              onBlur={() => setPage(1)}
+              onChange={(evt) => {
+                setFilter(evt.target.value);
+
+                if (evt.target.value === '') {
+                  handleGetBuildings({
+                    searchFilter: '',
+                    searchPage: 1,
+                  });
+                }
+              }}
               onKeyUp={(evt) => {
-                if (evt.key === 'Enter') setPage(1);
+                if (evt.key === 'Enter')
+                  handleGetBuildings({
+                    searchFilter: filter,
+                    searchPage: 1,
+                  });
               }}
             />
           </Style.SearchField>
