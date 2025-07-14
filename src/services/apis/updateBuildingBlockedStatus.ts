@@ -11,9 +11,11 @@ export interface IUpdateBuildingResponse {
   [key: string]: any;
 }
 
-export async function updateBuildingBlockedStatus(buildingId: string): Promise<IUpdateBuildingResponse | undefined> {
+export async function updateBuildingBlockedStatus(
+  buildingId: string,
+): Promise<IUpdateBuildingResponse | undefined> {
   const uri = '/buildings/changeIsBlockedBuilding';
-  
+
   try {
     const response = await Api.put(uri, { buildingId });
     handleToastify(response);
