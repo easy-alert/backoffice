@@ -6,16 +6,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 // SERVICES
 import { getBuildingById } from '@services/apis/getBuildingById';
 import { getBuildingTypes } from '@services/apis/getBuildingTypes';
+import { updateBuildingBlockedStatus } from '@services/apis/updateBuildingBlockedStatus';
 
 // GLOBAL COMPONENTS
 import { ReturnButton } from '@components/Buttons/ReturnButton';
 import { IconButton } from '@components/Buttons/IconButton';
+import { PopoverButton } from '@components/Buttons/PopoverButton';
 import { Image } from '@components/Image';
 import { Tag } from '@components/Tag';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
 
 // GLOBAL UTILS
 import { applyMask, capitalizeFirstLetter } from '@utils/functions';
+
+// GLOBAL STYLES
+import { theme } from '@styles/theme';
 
 // GLOBAL ASSETS
 import { icon } from '@assets/icons';
@@ -41,6 +46,7 @@ export const BuildingDetails = () => {
 
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [onQuery, setOnQuery] = useState<boolean>(false);
 
   const handleGetBuildingById = async (id?: string) => {
     if (!id) return;
@@ -72,6 +78,23 @@ export const BuildingDetails = () => {
       setBuildingTypes(response);
     } catch (error) {
       setBuildingTypes([]);
+    }
+  };
+
+  const requestChangeIsBlocked = async () => {
+    if (!building || !building.id) return;
+    setOnQuery(true);
+
+    try {
+      const updated = await updateBuildingBlockedStatus(building.id);
+      setBuilding((prev) => ({
+        ...prev!,
+        isBlocked: updated?.isBlocked ?? !prev!.isBlocked,
+      }));
+    } catch (error) {
+      console.error('Erro ao alterar status da edificação:', error);
+    } finally {
+      setOnQuery(false);
     }
   };
 
@@ -192,12 +215,32 @@ export const BuildingDetails = () => {
               </Style.DetailsWrapper>
             </Style.DetailGrid>
           </Style.DetailsBox>
-          <IconButton
-            hideLabelOnMedia
-            icon={icon.editWithBg}
-            label="Editar"
-            onClick={() => setShowEditModal(true)}
-          />
+
+          <Style.ButtonsContainer>
+            <PopoverButton
+              label={building?.isBlocked ? 'Ativar' : 'Desativar'}
+              actionButtonBgColor={
+                building?.isBlocked ? theme.color.success : theme.color.actionDanger
+              }
+              type="IconButton"
+              disabled={onQuery}
+              buttonIcon={building?.isBlocked ? icon.checked : icon.block}
+              message={{
+                title: `Deseja ${building?.isBlocked ? 'ativar' : 'desativar'} esta edificação?`,
+                content: 'Esta ação poderá ser desfeita posteriormente.',
+                contentColor: theme.color.danger,
+              }}
+              actionButtonClick={requestChangeIsBlocked}
+            />
+
+            <IconButton
+              hideLabelOnMedia
+              icon={icon.editWithBg}
+              label="Editar"
+              onClick={() => setShowEditModal(true)}
+            />
+          </Style.ButtonsContainer>
+
           {users.length > 0 && (
             <>
               <h2>Usuários vinculados</h2>
