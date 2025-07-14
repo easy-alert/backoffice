@@ -1,36 +1,25 @@
 import { Api } from '@services/api';
 import { handleToastify } from '@utils/toastifyResponses';
 
-interface IUpdateBuildingResponse {
+export interface IUpdateBuildingResponse {
   updatedBuilding: any;
   ServerMessage: {
     statusCode: number;
     message: string;
   };
+  isBlocked?: boolean;
+  [key: string]: any;
 }
 
-export const updateBuildingBlockedStatus = async (buildingId: string) => {
+export async function updateBuildingBlockedStatus(buildingId: string): Promise<IUpdateBuildingResponse | undefined> {
   const uri = '/buildings/changeIsBlockedBuilding';
-  const payload = { buildingId };
-
+  
   try {
-    const { data } = await Api.put<IUpdateBuildingResponse>(uri, payload);
-
-    const serverResponse = {
-      status: data.ServerMessage.statusCode,
-      statusCode: data.ServerMessage.statusCode,
-      message: data.ServerMessage.message,
-      data: {
-        ServerMessage: {
-          message: data.ServerMessage.message,
-        },
-      },
-    };
-
-    handleToastify(serverResponse);
-    return data.updatedBuilding;
+    const response = await Api.put(uri, { buildingId });
+    handleToastify(response);
+    return response.data;
   } catch (error: any) {
-    handleToastify(error.response?.data?.ServerMessage);
-    throw error;
+    handleToastify(error.response);
+    return undefined;
   }
-};
+}
