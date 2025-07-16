@@ -66,6 +66,14 @@ export const Sidebar = () => {
       label: 'Manutenções',
     },
     {
+      icon: icon.verified,
+      url: '/guarantees',
+      redirectFunction: () => {
+        navigate('/guarantees');
+      },
+      label: 'Garantias',
+    },
+    {
       icon: icon.tutorial,
       url: '/videos',
       redirectFunction: () => {
