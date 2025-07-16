@@ -21,6 +21,7 @@ import Dashboard from '@screens/Dashboard';
 import Chatbot from '@screens/Chatbot';
 import { HomeFeed } from '@screens/HomeFeed';
 import { BuildingDetails } from '@screens/Building/Details';
+import { Guarantees } from '@screens/Guarantees';
 
 // CATEGORIES
 
@@ -60,6 +61,8 @@ const AppRoutes = () => (
 
           <Route path="/maintenances" element={<MaintenancesList />} />
           <Route path="/videos" element={<PlatformVideos />} />
+
+          <Route path="/guarantees" element={<Guarantees />} />
 
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/feed" element={<HomeFeed />} />

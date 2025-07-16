@@ -45,6 +45,7 @@ import personPlaceholder from './personPlaceholder.svg';
 import enterprise from './enterprise.svg';
 import dashboard from './dashboard.svg';
 import chatbot from './chatbot.svg';
+import verified from './verified.svg';
 
 export const icon = {
   enterprise,
@@ -94,4 +95,5 @@ export const icon = {
   personPlaceholder,
   dashboard,
   chatbot,
+  verified,
 };
