@@ -48,6 +48,7 @@ export interface IUserEdification {
   id: string;
   name: string;
   image?: string;
+  isBlocked?: boolean;
 }
 
 export interface IUserDetails extends Omit<IUser, 'email' | 'image'> {

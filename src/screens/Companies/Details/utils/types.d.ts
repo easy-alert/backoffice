@@ -9,6 +9,7 @@ export interface ILinkedUsers {
   name: string;
   owner: boolean;
   image?: string;
+  isBlocked: boolean;
 }
 
 export interface ILinkedCompanies {
@@ -16,6 +17,7 @@ export interface ILinkedCompanies {
   name: string;
   image?: string;
   Buildings: IBuilding[];
+  isBlocked: boolean;
 }
 export interface IRequestUserDetails {
   setCompany: (company: ICompany) => void;
