@@ -18,7 +18,7 @@ import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
 import { CardListDetails } from '@components/CardListDetails';
 
 // GLOBAL UTILS
-import { applyMask, capitalizeFirstLetter } from '@utils/functions';
+import { applyMask, capitalizeFirstLetter, dateTimeFormatter } from '@utils/functions';
 
 // GLOBAL STYLES
 import { theme } from '@styles/theme';
@@ -244,21 +244,25 @@ export const BuildingDetails = () => {
 
           <CardListDetails
             title="Usuários vinculados"
-            items={users.map((user: IUser) => ({
-              id: user.id,
-              image: user.image,
-              icon: icon.user,
-              onClick: () => navigate(`/users/${user.id}`),
-              details: [
-                { label: 'Nome', value: user.name },
-                { label: 'Email', value: user.email },
-                {
-                  label: 'Último acesso',
-                  value: user.lastAccess ? new Date(user.lastAccess).toLocaleString() : '-',
-                },
-              ],
-              status: !user.isBlocked,
-            }))}
+            items={
+              Array.isArray(users) && users.length > 0
+                ? users.map((user: IUser) => ({
+                    id: user.id,
+                    image: user.image,
+                    icon: icon.user,
+                    onClick: () => navigate(`/users/${user.id}`),
+                    details: [
+                      { label: 'Nome', value: user.name },
+                      { label: 'Email', value: user.email },
+                      {
+                        label: 'Último acesso',
+                        value: user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-',
+                      },
+                    ],
+                    status: !user.isBlocked,
+                  }))
+                : []
+            }
             emptyMessage="Nenhum usuário vinculado."
           />
           {building?.Company && (

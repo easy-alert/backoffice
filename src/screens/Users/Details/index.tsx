@@ -176,7 +176,7 @@ export const UserDetails = () => {
           <CardListDetails
             title="Empresas vinculadas"
             items={
-              user.companies
+              Array.isArray(user.companies) && user.companies.length > 0
                 ? user.companies.map((company) => ({
                     id: company.id,
                     image: company.image,
@@ -193,7 +193,7 @@ export const UserDetails = () => {
           <CardListDetails
             title="Edificações vinculadas"
             items={
-              user.edifications
+              Array.isArray(user.edifications) && user.edifications.length > 0
                 ? user.edifications.map((edification) => ({
                     id: edification.id,
                     image: edification.image,
