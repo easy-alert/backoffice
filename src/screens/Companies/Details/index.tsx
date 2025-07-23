@@ -91,7 +91,6 @@ export const CompanyDetails = () => {
         <Style.Container>
           <h2>Detalhes da empresa</h2>
           <ReturnButton path={`/companies${search}`} />
-
           <Style.CardSection>
             <Style.Image>
               <Image img={company?.image} width="100%" height="100%" />
@@ -180,7 +179,6 @@ export const CompanyDetails = () => {
               </Style.Card>
             </Style.Details>
           </Style.CardSection>
-
           <Style.Footer disabled={onQuery}>
             <IconButton
               disabled={onQuery}
@@ -271,34 +269,41 @@ export const CompanyDetails = () => {
 
           <CardListDetails
             title="Usuários vinculados"
-            items={linkedUsers.map((user) => ({
-              id: user.id,
-              image: user.image,
-              icon: icon.user,
-              onClick: () => navigate(`/users/${user.id}`),
-              details: [
-                { label: 'Nome', value: user.name },
-                { label: 'Email', value: user.email },
-                {
-                  label: 'Último acesso',
-                  value: user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-',
-                },
-              ],
-              status: !user.isBlocked,
-            }))}
+            items={
+              linkedUsers && linkedUsers.length > 0
+                ? linkedUsers.map((user) => ({
+                    id: user.id,
+                    image: user.image,
+                    icon: icon.user,
+                    onClick: () => navigate(`/users/${user.id}`),
+                    details: [
+                      { label: 'Nome', value: user.name },
+                      { label: 'Email', value: user.email },
+                      {
+                        label: 'Último acesso',
+                        value: user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-',
+                      },
+                    ],
+                    status: !user.isBlocked,
+                  }))
+                : []
+            }
             emptyMessage="Nenhum usuário vinculado."
           />
-
           <CardListDetails
             title="Edificações vinculadas"
-            items={linkedCompanies.map((building) => ({
-              id: building.id,
-              image: building.image,
-              icon: icon.building,
-              onClick: () => navigate(`/buildings/${building.id}`),
-              details: [{ label: 'Nome da edificação', value: building.name }],
-              status: !building.isBlocked,
-            }))}
+            items={
+              linkedCompanies && linkedCompanies.length > 0
+                ? linkedCompanies.map((building) => ({
+                    id: building.id,
+                    image: building.image,
+                    icon: icon.building,
+                    onClick: () => navigate(`/buildings/${building.id}`),
+                    details: [{ label: 'Nome da edificação', value: building.name }],
+                    status: !building.isBlocked,
+                  }))
+                : []
+            }
             emptyMessage="Nenhuma edificação vinculada."
           />
         </Style.Container>
