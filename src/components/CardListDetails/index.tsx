@@ -5,12 +5,12 @@ import { Image } from '@components/Image';
 
 import * as Style from './styles';
 
-type Detail = {
+interface Detail {
   label: string;
   value: string | React.ReactNode;
-};
+}
 
-type CardListDetailsProps = {
+interface ICardListDetails {
   title: string;
   items: Array<{
     id: string | number;
@@ -21,41 +21,42 @@ type CardListDetailsProps = {
     status?: boolean;
   }>;
   emptyMessage?: string;
-};
+}
 
-export const CardListDetails: React.FC<CardListDetailsProps> = ({
+export const CardListDetails = ({
   title,
   items,
   emptyMessage = 'Nenhum item encontrado.',
-}) => (
+}: ICardListDetails) => (
   <>
     <h2>{title}</h2>
-    <Style.CompaniesSection>
+    <Style.Container>
       {items.length > 0 ? (
-        items.map((item) => (
-          <Style.CompanyCard key={item.id} onClick={item.onClick}>
-            <Style.Image>
-              <Image width="80%" height="80%" img={item.image || item.icon} />
-            </Style.Image>
-            <Style.CompanyInfo>
-              {item.details.map((detail) => (
-                <Style.DetailItem key={`${item.id}-${detail.label}`}>
-                  <h2>{detail.label}</h2>
-                  <p>{detail.value}</p>
-                </Style.DetailItem>
-              ))}
-              {typeof item.status === 'boolean' && (
-                <Style.DetailItem>
-                  <h2>Status</h2>
-                  <Tag isInvalid={!item.status} />
-                </Style.DetailItem>
-              )}
-            </Style.CompanyInfo>
-          </Style.CompanyCard>
-        ))
+        items.map((item) => {
+          const allDetails =
+            item.status !== undefined
+              ? [...item.details, { label: 'Status', value: <Tag isInvalid={!item.status} /> }]
+              : item.details;
+
+          return (
+            <Style.Card key={item.id} onClick={item.onClick}>
+              <Style.Image>
+                <Image width="80%" height="80%" img={item.image || item.icon} />
+              </Style.Image>
+              <Style.Info>
+                {allDetails.map((detail) => (
+                  <Style.DetailItem key={`${item.id}-${detail.label}`}>
+                    <h2>{detail.label}</h2>
+                    <p>{detail.value}</p>
+                  </Style.DetailItem>
+                ))}
+              </Style.Info>
+            </Style.Card>
+          );
+        })
       ) : (
         <p>{emptyMessage}</p>
       )}
-    </Style.CompaniesSection>
+    </Style.Container>
   </>
 );

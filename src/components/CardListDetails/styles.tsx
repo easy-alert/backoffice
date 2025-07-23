@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { theme } from '@styles/theme';
 
-export const CompaniesSection = styled.section`
+export const Container = styled.section`
   background: ${theme.color.white};
-  border-radius: 12px;
+  border-radius: ${theme.size.csm};
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: ${theme.size.xlg};
   display: grid;
@@ -12,14 +12,14 @@ export const CompaniesSection = styled.section`
 
   @media (max-width: 768px) {
     padding: ${theme.size.md};
-    border-radius: 8px;
+    border-radius: ${theme.size.xsm};
     grid-template-columns: 1fr;
   }
 `;
 
-export const CompanyCard = styled.div`
+export const Card = styled.div`
   border: 1px solid ${theme.color.gray2};
-  border-radius: 8px;
+  border-radius: ${theme.size.xsm};
   padding: ${theme.size.sm};
   transition: box-shadow 0.2s;
   display: flex;
@@ -65,7 +65,7 @@ export const Image = styled.div`
   }
 `;
 
-export const CompanyInfo = styled.div`
+export const Info = styled.div`
   flex: 1;
   min-width: 0;
   padding-left: ${theme.size.xlg};
@@ -86,13 +86,13 @@ export const DetailItem = styled.div`
   flex-direction: column;
 
   h2 {
-    font-size: 0.875rem;
+    font-size: ${theme.size.csm2};
     color: ${theme.color.gray4};
     margin: 0;
   }
 
   p {
-    font-size: 1rem;
+    font-size: ${theme.size.sm};
     padding: ${theme.size.xsm} 0;
     border-bottom: 1px solid ${theme.color.gray2};
     word-break: break-word;
@@ -109,11 +109,11 @@ export const DetailItem = styled.div`
 
   @media (max-width: 480px) {
     h2 {
-      font-size: 0.75rem;
+      font-size: ${theme.size.csm};
     }
 
     p {
-      font-size: 0.875rem;
+      font-size: ${theme.size.csm2};
     }
   }
 `;
