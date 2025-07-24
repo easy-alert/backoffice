@@ -9,6 +9,7 @@ import { Image } from '@components/Image';
 import { Tag } from '@components/Tag';
 import { PopoverButton } from '@components/Buttons/PopoverButton';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
+import { CardListDetails } from '@components/CardListDetails';
 
 // THEMES
 import { theme } from '@styles/theme';
@@ -90,7 +91,6 @@ export const CompanyDetails = () => {
         <Style.Container>
           <h2>Detalhes da empresa</h2>
           <ReturnButton path={`/companies${search}`} />
-
           <Style.CardSection>
             <Style.Image>
               <Image img={company?.image} width="100%" height="100%" />
@@ -179,7 +179,6 @@ export const CompanyDetails = () => {
               </Style.Card>
             </Style.Details>
           </Style.CardSection>
-
           <Style.Footer disabled={onQuery}>
             <IconButton
               disabled={onQuery}
@@ -268,62 +267,45 @@ export const CompanyDetails = () => {
             />
           </Style.Footer>
 
-          <h2>Usuários vinculados</h2>
-
-          <Style.CompaniesSection>
-            {linkedUsers?.length > 0 ? (
-              linkedUsers.map((user) => (
-                <Style.CompanyCard key={user.id} onClick={() => navigate(`/users/${user.id}`)}>
-                  <Style.Image>
-                    <Image width="80%" height="80%" img={user.image || icon.user} key={user.id} />
-                  </Style.Image>
-                  <Style.CompanyInfo>
-                    <Style.DetailItem>
-                      <h2>Nome</h2>
-                      <p>{user.name}</p>
-                    </Style.DetailItem>
-
-                    <Style.DetailItem>
-                      <h2>Email</h2>
-                      <p>{user.email}</p>
-                    </Style.DetailItem>
-
-                    <Style.DetailItem>
-                      <h2>Último acesso</h2>
-                      <p>{user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-'}</p>
-                    </Style.DetailItem>
-                  </Style.CompanyInfo>
-                </Style.CompanyCard>
-              ))
-            ) : (
-              <p>Nenhum usuário vinculado.</p>
-            )}
-          </Style.CompaniesSection>
-
-          <h2>Edificações vinculadas</h2>
-
-          <Style.CompaniesSection>
-            {linkedCompanies?.length > 0 ? (
-              linkedCompanies.map((building) => (
-                <Style.CompanyCard
-                  key={building.id}
-                  onClick={() => navigate(`/buildings/${building.id}`)}
-                >
-                  <Style.Image>
-                    <Image width="80%" height="80%" img={building.image || icon.building} />
-                  </Style.Image>
-                  <Style.CompanyInfo>
-                    <Style.DetailItem>
-                      <h2>Nome da edificação</h2>
-                      <p>{building.name}</p>
-                    </Style.DetailItem>
-                  </Style.CompanyInfo>
-                </Style.CompanyCard>
-              ))
-            ) : (
-              <p>Nenhuma edificação vinculada.</p>
-            )}
-          </Style.CompaniesSection>
+          <CardListDetails
+            title="Usuários vinculados"
+            items={
+              Array.isArray(linkedUsers) && linkedUsers.length > 0
+                ? linkedUsers.map((user) => ({
+                    id: user.id,
+                    image: user.image,
+                    icon: icon.user,
+                    onClick: () => navigate(`/users/${user.id}`),
+                    details: [
+                      { label: 'Nome', value: user.name },
+                      { label: 'Email', value: user.email },
+                      {
+                        label: 'Último acesso',
+                        value: user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-',
+                      },
+                    ],
+                    status: !user.isBlocked,
+                  }))
+                : []
+            }
+            emptyMessage="Nenhum usuário vinculado."
+          />
+          <CardListDetails
+            title="Edificações vinculadas"
+            items={
+              Array.isArray(linkedCompanies) && linkedCompanies.length > 0
+                ? linkedCompanies.map((building) => ({
+                    id: building.id,
+                    image: building.image,
+                    icon: icon.building,
+                    onClick: () => navigate(`/buildings/${building.id}`),
+                    details: [{ label: 'Nome da edificação', value: building.name }],
+                    status: !building.isBlocked,
+                  }))
+                : []
+            }
+            emptyMessage="Nenhuma edificação vinculada."
+          />
         </Style.Container>
       )}
     </>

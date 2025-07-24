@@ -14,6 +14,7 @@ import { Image } from '@components/Image';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
 import { PopoverButton } from '@components/Buttons/PopoverButton';
 import { IconButton } from '@components/Buttons/IconButton';
+import { CardListDetails } from '@components/CardListDetails';
 
 // GLOBAL UTILS
 import { applyMask, dateTimeFormatter } from '@utils/functions';
@@ -172,72 +173,39 @@ export const UserDetails = () => {
             />
           </Style.ActionsWrapper>
 
-          <h2>Empresas vinculadas</h2>
+          <CardListDetails
+            title="Empresas vinculadas"
+            items={
+              Array.isArray(user.companies) && user.companies.length > 0
+                ? user.companies.map((company) => ({
+                    id: company.id,
+                    image: company.image,
+                    icon: icon.enterprise,
+                    onClick: () => navigate(`/companies/${company.id}`),
+                    details: [{ label: 'Nome da empresa', value: company.name }],
+                    status: !company.isBlocked,
+                  }))
+                : []
+            }
+            emptyMessage="Nenhuma empresa vinculada."
+          />
 
-          <Style.CompaniesSection>
-            {user.companies && user.companies.length > 0 ? (
-              user.companies.map((company) => (
-                <Style.CompanyCard
-                  key={company.id}
-                  onClick={() => navigate(`/companies/${company.id}`)}
-                >
-                  <Style.Avatar>
-                    <Image
-                      width="100%"
-                      height="80%"
-                      img={company.image || icon.enterprise}
-                      key={company.id}
-                    />
-                  </Style.Avatar>
-
-                  <Style.CompanyInfo>
-                    <Style.DetailItem>
-                      <h2>Nome da empresa</h2>
-                      <p>{company.name}</p>
-                    </Style.DetailItem>
-
-                    <Style.DetailItem>
-                      <h2>Status</h2>
-                      <Tag isInvalid={company.isBlocked} />
-                    </Style.DetailItem>
-                  </Style.CompanyInfo>
-                </Style.CompanyCard>
-              ))
-            ) : (
-              <p>Nenhuma empresa vinculada.</p>
-            )}
-          </Style.CompaniesSection>
-
-          <h2>Edificações vinculadas</h2>
-
-          <Style.CompaniesSection>
-            {user.edifications && user.edifications.length > 0 ? (
-              user.edifications.map((edification) => (
-                <Style.CompanyCard
-                  key={edification.id}
-                  onClick={() => navigate(`/buildings/${edification.id}`)}
-                >
-                  <Style.Avatar>
-                    <Image
-                      width="100%"
-                      height="80%"
-                      img={edification.image || icon.building}
-                      key={edification.id}
-                    />
-                  </Style.Avatar>
-
-                  <Style.CompanyInfo>
-                    <Style.DetailItem>
-                      <h2>Nome da edificação</h2>
-                      <p>{edification.name}</p>
-                    </Style.DetailItem>
-                  </Style.CompanyInfo>
-                </Style.CompanyCard>
-              ))
-            ) : (
-              <p>Nenhuma edificação vinculada.</p>
-            )}
-          </Style.CompaniesSection>
+          <CardListDetails
+            title="Edificações vinculadas"
+            items={
+              Array.isArray(user.edifications) && user.edifications.length > 0
+                ? user.edifications.map((edification) => ({
+                    id: edification.id,
+                    image: edification.image,
+                    icon: icon.building,
+                    onClick: () => navigate(`/buildings/${edification.id}`),
+                    details: [{ label: 'Nome da edificação', value: edification.name }],
+                    status: !edification.isBlocked,
+                  }))
+                : []
+            }
+            emptyMessage="Nenhuma edificação vinculada."
+          />
         </Style.Container>
       )}
     </>
