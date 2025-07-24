@@ -1,77 +1,43 @@
-import { theme } from '@styles/theme';
 import styled from 'styled-components';
 
-export const Header = styled.header`
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  padding: ${theme.size.sm} 0;
-  background-color: ${theme.color.gray1};
-  z-index: 1;
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  @media (max-width: 900px) {
-    height: fit-content;
-    align-items: flex-start;
-  }
-`;
-
-export const Title = styled.div`
-  display: flex;
-  width: 100%;
-  gap: ${theme.size.sm};
-
-  @media (max-width: 900px) {
-    flex-direction: column;
-    gap: 0;
-  }
-`;
-
-export const SearchField = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${theme.size.xxsm};
-  width: 100%;
-  > input {
-    height: 24px;
-    width: 100%;
-    padding: 0;
-    background-color: transparent;
-    border: none !important;
-    outline: none;
-  }
-`;
-
-export const GuaranteesContainer = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.size.md};
+  gap: ${({ theme }) => theme.size.sm};
+  padding: ${({ theme }) => theme.size.sm};
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  scrollbar-width: none;
-  scrollbar-color: transparent;
-  ::-webkit-scrollbar {
-    width: 0;
-    background: transparent;
-  }
 `;
 
-export const NoGuaranteesContainer = styled.div`
+export const ButtonGroup = styled.div`
   display: flex;
-  align-items: center;
+  width: 100%;
+`;
+
+export const ButtonWrapper = styled.div<{ active?: boolean }>`
+  width: 100%;
+  background-color: ${({ active }) => (active ? '#EDEDED' : '#FFFFFF')};
+  color: #000;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+
+  display: flex;
   justify-content: center;
-  flex-direction: column;
-  height: 80%;
-  gap: ${theme.size.xxsm};
-  > h3 {
-    color: ${theme.color.gray4};
+  align-items: center;
+  text-align: center;
 
+  border-top: ${({ active }) => (active ? '2px solid #CCCCCC' : 'none')};
+  border-left: ${({ active }) => (active ? '2px solid #CCCCCC' : 'none')};
+  border-right: ${({ active }) => (active ? '2px solid #CCCCCC' : 'none')};
+  border-bottom: ${({ active }) => (!active ? '2px solid #CCCCCC' : 'none')};
+
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    width: 100%;
     text-align: center;
   }
 `;

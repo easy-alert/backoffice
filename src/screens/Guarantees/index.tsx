@@ -2,76 +2,52 @@
 import { useState } from 'react';
 
 // GLOBAL COMPONENTS
-import { IconButton } from '@components/Buttons/IconButton';
-
-// GLOBAL ASSETS
-import { icon } from '@assets/icons';
+import { Button } from '@components/Buttons/Button';
 
 // COMPONENTS
-import { GuaranteeCategory } from './components/GuaranteeCategory';
-import { ModalCreateGuarantee } from './components/ModalCreateGuarantee';
+import { FailureTypesList } from './FailureTypesList';
 
 // STYLES
 import * as Style from './styles';
 
 // TYPES
-import type { Category } from './components/utils/types';
-
 export const Guarantees = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([
-    {
-      id: crypto.randomUUID(),
-      name: 'Pisos de ambientes internos',
-      guarantees: [],
-    },
-  ]);
+  const [guaranteePage, setGuaranteePage] = useState<'plan' | 'system' | 'failureTypes'>(
+    'plan',
+  );
 
-  const handleCreateCategory = (categoryName: string) => {
-    setCategories((prev) => [
-      { id: crypto.randomUUID(), name: categoryName, guarantees: [] },
-      ...prev,
-    ]);
+  const handleGuaranteePageChange = (page: 'plan' | 'system' | 'failureTypes') => {
+    setGuaranteePage(page);
   };
 
   return (
-    <>
-      <Style.Header>
-        <Style.Title>
-          <h2>Garantias</h2>
-          <Style.SearchField>
-            <IconButton
-              // label='Procurar'
-              icon={icon.search}
-              size="16px"
-              onClick={() => {
-                //  loadUsers({
-                //    searchPage: 1,
-                //  });
-              }}
-            />
-          </Style.SearchField>
-        </Style.Title>
-        <IconButton
-          hideLabelOnMedia
-          fontWeight="500"
-          label="Criar garantia"
-          className="p2"
-          icon={icon.plusWithBg}
-          onClick={() => setShowModal(true)}
-        />
-      </Style.Header>
-      {categories.map((category, idx) => (
-        <GuaranteeCategory
-          key={category.id}
-          category={category}
-          setCategories={setCategories}
-          index={idx}
-        />
-      ))}
-      {showModal && (
-        <ModalCreateGuarantee setModal={setShowModal} onCreate={handleCreateCategory} />
-      )}
-    </>
-  );
+    <Style.Container>
+      <Style.ButtonGroup>
+        <Style.ButtonWrapper
+          active={guaranteePage === 'plan'}
+          onClick={() => handleGuaranteePageChange('plan')}
+        >
+          <Button label="Plano" />
+        </Style.ButtonWrapper>
+
+        <Style.ButtonWrapper
+          active={guaranteePage === 'system'}
+          onClick={() => handleGuaranteePageChange('system')}
+        >
+          <Button label="Sistema" />
+        </Style.ButtonWrapper>
+
+        <Style.ButtonWrapper
+          active={guaranteePage === 'failureTypes'}
+          onClick={() => handleGuaranteePageChange('failureTypes')}
+        >
+          <Button label="Tipos de falha" />
+        </Style.ButtonWrapper>
+      </Style.ButtonGroup>
+
+      {/* {guaranteePage === 'plan' && <MaintenanceReports />} */}
+      {/* {guaranteePage === 'ticket' && <TicketReports />} */}
+      {guaranteePage === 'failureTypes' && <FailureTypesList />}
+    </Style.Container>
+  )
 };
