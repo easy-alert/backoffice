@@ -46,32 +46,19 @@ export const SearchField = styled.div`
   }
 `;
 
-export const GuaranteesContainer = styled.div`
+export const SystemsCategoriesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.size.md};
   width: 100%;
+  gap: ${theme.size.md};
   overflow-x: auto;
   overflow-y: hidden;
 
   scrollbar-width: none;
   scrollbar-color: transparent;
+
   ::-webkit-scrollbar {
     width: 0;
     background: transparent;
-  }
-`;
-
-export const NoGuaranteesContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 80%;
-  gap: ${theme.size.xxsm};
-  > h3 {
-    color: ${theme.color.gray4};
-
-    text-align: center;
   }
 `;
