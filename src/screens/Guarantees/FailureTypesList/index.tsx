@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 
 // SERVICES
 import { getGuaranteeFailureTypes } from '@services/apis/getGuaranteeFailureTypes';
+import { createGuaranteeFailureTypes } from '@services/apis/createGuaranteeFailureTypes';
+import { updateGuaranteeFailureType } from '@services/apis/updateGuaranteeFailureType';
+import { deleteGuaranteeFailureType } from '@services/apis/deleteGuaranteeFailureType';
 
 // GLOBAL COMPONENTS
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
@@ -20,36 +23,40 @@ import { icon } from '@assets/icons';
 import type { IGuaranteeFailureType } from '@customTypes/IGuaranteeFailureType';
 
 // COMPONENTS
-// import { ModalEditFeedItem } from './ModalEditFeedItem';
-// import { ModalCreateFeedItem } from './ModalCreateFeedItem';
+import { ModalCreateFailureType } from './components/ModalCreateFailureType';
+import { ModalEditFailureType } from './components/ModalEditFailureType';
 
 // STYLES
-import { dateTimeFormatter } from '@utils/functions';
 import * as Style from './styles';
 
+interface IExtendedFailureType extends IGuaranteeFailureType {
+  _count: {
+    guarantee: number;
+  };
+}
+
 export const FailureTypesList = () => {
-  const [failureTypes, setFailureTypes] = useState<IGuaranteeFailureType[]>([]);
+  const [failureTypes, setFailureTypes] = useState<IExtendedFailureType[]>([]);
 
-  // const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // const [modalCreateFeedItem, setModalCreateFeedItem] = useState(false);
-  // const [modalEditFeedItem, setModalEditFeedItem] = useState(false);
+  const [modalCreateFailureType, setModalCreateFailureType] = useState(false);
+  const [modalEditFailureType, setModalEditFailureType] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
+  const handleModalCreateFailureType = (modalState: boolean) => {
+    setModalCreateFailureType(modalState);
+  };
 
-  // const handleModalCreateFeedItem = (modalState: boolean) => {
-  //   setModalCreateFeedItem(modalState);
-  // };
+  const handleModalEditFailureType = (modalState: boolean) => {
+    setModalEditFailureType(modalState);
+  };
 
-  // const handleModalEditFeedItem = (modalState: boolean) => {
-  //   setModalEditFeedItem(modalState);
-  // };
-
-  // const handleSelectedIndex = (index: number) => {
-  //   setSelectedIndex(index);
-  // };
+  const handleSelectedIndex = (index: number) => {
+    setSelectedIndex(index);
+  };
 
   // #region api
   const handleGetGuaranteeFailureTypes = async () => {
@@ -60,48 +67,48 @@ export const FailureTypesList = () => {
         companyId: [],
       });
 
-      setFailureTypes(responseData.failureTypes);
+      setFailureTypes(responseData?.failureTypes || []);
     } finally {
       setLoading(false);
     }
   };
 
-  // const handleCreateFeedItem = async (values: IFeedItem) => {
-  //   setLoading(true);
+  const handleCreateGuaranteeFailureType = async (values: { failureTypes: string | string[] }) => {
+    setLoading(true);
 
-  //   try {
-  //     await createFeedItem(values);
+    try {
+      await createGuaranteeFailureTypes(values);
 
-  //     setRefresh(!refresh);
-  //     handleModalCreateFeedItem(false);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      setRefresh(!refresh);
+      handleModalCreateFailureType(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // const handleEditFeedItem = async (id: string, values: IFeedItem) => {
-  //   setLoading(true);
+  const handleEditGuaranteeFailureType = async (id: string, values: { name: string }) => {
+    setLoading(true);
 
-  //   try {
-  //     await updateFeedItem(id, values);
+    try {
+      await updateGuaranteeFailureType(id, values);
 
-  //     setRefresh(!refresh);
-  //     handleModalEditFeedItem(false);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      setRefresh(!refresh);
+      handleModalEditFailureType(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // const handleDeleteFeedItem = async (id: string) => {
-  //   setLoading(true);
+  const handleDeleteGuaranteeFailureType = async (id: string) => {
+    setLoading(true);
 
-  //   try {
-  //     await deleteFeedItem(id);
-  //     setRefresh(!refresh);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+    try {
+      await deleteGuaranteeFailureType(id);
+      setRefresh(!refresh);
+    } finally {
+      setLoading(false);
+    }
+  };
   // #endregion
 
   useEffect(() => {
@@ -110,22 +117,22 @@ export const FailureTypesList = () => {
 
   return (
     <>
-      {/* {modalCreateFeedItem && (
-        <ModalCreateFeedItem
-          handleCreateFeedItem={handleCreateFeedItem}
-          handleModalCreateFeedItem={handleModalCreateFeedItem}
+      {modalCreateFailureType && (
+        <ModalCreateFailureType
           loading={loading}
+          handleCreateGuaranteeFailureType={handleCreateGuaranteeFailureType}
+          handleModalCreateFailureType={handleModalCreateFailureType}
         />
       )}
 
-      {modalEditFeedItem && (
-        <ModalEditFeedItem
-          feedItem={feedItems[selectedIndex]}
-          handleEditFeedItem={handleEditFeedItem}
-          handleModalEditFeedItem={handleModalEditFeedItem}
+      {modalEditFailureType && (
+        <ModalEditFailureType
+          failureType={failureTypes[selectedIndex]}
           loading={loading}
+          handleEditGuaranteeFailureType={handleEditGuaranteeFailureType}
+          handleModalEditFailureType={handleModalEditFailureType}
         />
-      )} */}
+      )}
 
       <Style.Container>
         <Style.HeaderContainer>
@@ -134,7 +141,7 @@ export const FailureTypesList = () => {
           <IconButton
             icon={icon.plus}
             label="Adicionar"
-            onClick={() => console.log('Adicionar')}
+            onClick={() => handleModalCreateFailureType(true)}
           />
         </Style.HeaderContainer>
 
@@ -142,8 +149,11 @@ export const FailureTypesList = () => {
 
         <ColorfulTable
           colsHeader={[
+            { label: '#', cssProps: { width: '1%' } },
             { label: 'Nome' },
-            { label: 'Criado em', cssProps: { width: '1%', textAlign: 'center' } },
+            { label: 'Usada em', cssProps: { width: '1%' } },
+            { label: 'Criada em', cssProps: { width: '1%' } },
+            { label: 'Atualizada em', cssProps: { width: '1%' } },
             { label: 'Ações', cssProps: { width: '1%', textAlign: 'center' } },
           ]}
         >
@@ -168,39 +178,60 @@ export const FailureTypesList = () => {
               <ColorfulTableContent
                 key={item.id}
                 colsBody={[
+                  {
+                    cell: (
+                      <TableCell
+                        type="string"
+                        value={
+                          failureTypes.indexOf(item) + 1 > 9
+                            ? failureTypes.indexOf(item) + 1
+                            : `0${failureTypes.indexOf(item) + 1}`
+                        }
+                      />
+                    ),
+                  },
                   { cell: <TableCell type="string" value={item.name || ''} /> },
                   {
                     cell: (
                       <TableCell
-                        value={dateTimeFormatter(item.createdAt || '')}
-                        type="date"
+                        type="string"
+                        value={item?._count?.guarantee || ''}
                         alignItems="center"
                       />
                     ),
                   },
+                  {
+                    cell: (
+                      <TableCell type="date" value={item.createdAt || ''} alignItems="center" />
+                    ),
+                  },
+                  {
+                    cell: (
+                      <TableCell type="date" value={item.updatedAt || ''} alignItems="center" />
+                    ),
+                  },
+                  {
+                    cell: (
+                      <Style.TableButtons>
+                        <IconButton
+                          icon={icon.editWithBg}
+                          size="16px"
+                          hideLabelOnMedia
+                          onClick={() => {
+                            handleSelectedIndex(failureTypes.indexOf(item));
+                            handleModalEditFailureType(true);
+                          }}
+                        />
 
-                  // {
-                  //   cell: (
-                  //     <Style.TableButtons>
-                  //       <IconButton
-                  //         icon={icon.editWithBg}
-                  //         size="16px"
-                  //         hideLabelOnMedia
-                  //         onClick={() => {
-                  //           handleSelectedIndex(feedItems.indexOf(item));
-                  //           handleModalEditFeedItem(true);
-                  //         }}
-                  //       />
-
-                  //       <IconButton
-                  //         icon={icon.trashWithBg}
-                  //         size="16px"
-                  //         hideLabelOnMedia
-                  //         onClick={() => handleDeleteFeedItem(item.id || '')}
-                  //       />
-                  //     </Style.TableButtons>
-                  //   ),
-                  // },
+                        <IconButton
+                          icon={icon.trashWithBg}
+                          size="16px"
+                          hideLabelOnMedia
+                          onClick={() => handleDeleteGuaranteeFailureType(item.id || '')}
+                        />
+                      </Style.TableButtons>
+                    ),
+                  },
                 ]}
               />
             ))}
