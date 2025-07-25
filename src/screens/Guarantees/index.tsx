@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { Button } from '@components/Buttons/Button';
 
 // COMPONENTS
+import { Plan } from './Plan';
+import { SystemsList } from './SystemsList';
 import { FailureTypesList } from './FailureTypesList';
 
 // STYLES
@@ -12,11 +14,9 @@ import * as Style from './styles';
 
 // TYPES
 export const Guarantees = () => {
-  const [guaranteePage, setGuaranteePage] = useState<'plan' | 'system' | 'failureTypes'>(
-    'plan',
-  );
+  const [guaranteePage, setGuaranteePage] = useState<'plan' | 'systems' | 'failureTypes'>('plan');
 
-  const handleGuaranteePageChange = (page: 'plan' | 'system' | 'failureTypes') => {
+  const handleGuaranteePageChange = (page: 'plan' | 'systems' | 'failureTypes') => {
     setGuaranteePage(page);
   };
 
@@ -31,8 +31,8 @@ export const Guarantees = () => {
         </Style.ButtonWrapper>
 
         <Style.ButtonWrapper
-          active={guaranteePage === 'system'}
-          onClick={() => handleGuaranteePageChange('system')}
+          active={guaranteePage === 'systems'}
+          onClick={() => handleGuaranteePageChange('systems')}
         >
           <Button label="Sistema" />
         </Style.ButtonWrapper>
@@ -45,9 +45,9 @@ export const Guarantees = () => {
         </Style.ButtonWrapper>
       </Style.ButtonGroup>
 
-      {/* {guaranteePage === 'plan' && <MaintenanceReports />} */}
-      {/* {guaranteePage === 'ticket' && <TicketReports />} */}
+      {guaranteePage === 'plan' && <Plan />}
+      {guaranteePage === 'systems' && <SystemsList />}
       {guaranteePage === 'failureTypes' && <FailureTypesList />}
     </Style.Container>
-  )
+  );
 };

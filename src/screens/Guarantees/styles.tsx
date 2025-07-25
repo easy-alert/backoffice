@@ -17,7 +17,7 @@ export const ButtonWrapper = styled.div<{ active?: boolean }>`
   width: 100%;
   background-color: ${({ active }) => (active ? '#EDEDED' : '#FFFFFF')};
   color: #000;
-  padding: 15px 20px;
+  padding: ${({ theme }) => theme.size.csm};
   cursor: pointer;
   transition: background-color 0.2s ease;
   position: relative;
