@@ -6,7 +6,7 @@ import * as Style from './styles';
 
 interface ITableCell extends React.HTMLAttributes<HTMLTableCellElement> {
   value?: string | number | null | undefined;
-  type?: 'string' | 'date' | 'datetime' | 'time' | 'currency' | 'phone';
+  type?: 'string' | 'date' | 'time' | 'currency' | 'phone';
 
   textSize?: keyof typeof theme.size;
   subTextSize?: keyof typeof theme.size;
@@ -75,6 +75,7 @@ function TableCell({
           {...props}
         />
       );
+
     case 'phone':
       return (
         <TableCellString

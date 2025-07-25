@@ -8,12 +8,12 @@ import { IModal } from './utils/types';
 import { theme } from '../../styles/theme';
 import { IconButton } from '../Buttons/IconButton';
 
-export const Modal = ({ children, setModal, bodyWidth, title }: IModal) => (
+export const Modal = ({ children, bodyWidth, title, closeOutside = true, setModal }: IModal) => (
   <Style.Background
     id="background"
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onMouseDown={(evt: any) => {
-      if (evt.target.id === 'background') setModal(false);
+      if (evt.target.id === 'background' && closeOutside) setModal(false);
     }}
   >
     <Style.Body bodyWidth={bodyWidth}>
