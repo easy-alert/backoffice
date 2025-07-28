@@ -21,6 +21,7 @@ export const CardHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  flex-wrap: wrap;
   margin-bottom: ${theme.size.xsm};
 `;
 
@@ -45,17 +46,21 @@ export const CardDetails = styled.div`
 
 export const DetailItem = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  /* justify-content: space-between; */
+  gap: ${theme.size.xsm};
 
   & > span:first-child {
     font-weight: 500;
     color: ${theme.color.black};
+    min-width: fit-content;
   }
 `;
 
 export const FailureTypeTagsContainer = styled.div`
   display: flex;
   gap: ${theme.size.xsm};
+  flex-wrap: wrap;
 `;
 
 export const FailureTypeTag = styled.div`
