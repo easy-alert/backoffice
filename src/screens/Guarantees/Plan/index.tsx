@@ -30,10 +30,13 @@ import { GuaranteeCategory } from './components/GuaranteeCategory';
 
 export const Plan = () => {
   const [guarantees, setGuarantees] = useState<IGuarantee[]>([]);
+  const [guaranteesForSearch, setGuaranteesForSearch] = useState<IGuarantee[]>([]);
   const [systemsCategories, setSystemsCategories] = useState<{ id: string; name: string }[]>([]);
 
   const [systemsToSelect, setSystemsToSelect] = useState<IGuaranteeSystem[]>([]);
   const [failureTypesToSelect, setFailureTypesToSelect] = useState<IGuaranteeFailureType[]>([]);
+
+  const [search, setSearch] = useState('');
 
   const [modalCreateGuarantee, setModalCreateGuarantee] = useState(false);
 
@@ -42,6 +45,42 @@ export const Plan = () => {
 
   const handleModalCreateGuarantee = (state: boolean) => {
     setModalCreateGuarantee(state);
+  };
+
+  const handleSystemsCategories = (responseGuarantees: IGuarantee[]) => {
+    const systemsCategoriesSet = new Set<string>();
+
+    const filteredSystemsCategories = responseGuarantees
+      .map((guarantee) => {
+        const systemId = guarantee.system?.id || '';
+        if (!systemsCategoriesSet.has(systemId)) {
+          systemsCategoriesSet.add(systemId);
+          return { id: systemId, name: guarantee.system?.name || '' };
+        }
+        return null;
+      })
+      .filter((systemCategory) => systemCategory !== null) as { id: string; name: string }[];
+
+    setSystemsCategories(filteredSystemsCategories);
+  };
+
+  const handleSearch = (value: string) => {
+    if (value !== '') {
+      const newGuarantees = guarantees.filter(
+        (guarantee) =>
+          guarantee?.system?.name?.toLowerCase().includes(value?.toLowerCase() || '') ||
+          guarantee?.description?.toLowerCase().includes(value?.toLowerCase() || '') ||
+          guarantee?.failureTypes?.some((failureType) =>
+            failureType?.failureType?.name?.toLowerCase().includes(value?.toLowerCase() || ''),
+          ),
+      );
+
+      setGuaranteesForSearch(newGuarantees);
+      handleSystemsCategories(newGuarantees);
+    } else {
+      setGuaranteesForSearch(guarantees);
+      handleSystemsCategories(guarantees);
+    }
   };
 
   // #region api functions
@@ -54,21 +93,8 @@ export const Plan = () => {
       });
 
       setGuarantees(responseData?.guarantees || []);
-
-      const systemsCategoriesSet = new Set<string>();
-
-      const filteredSystemsCategories = responseData?.guarantees
-        .map((guarantee) => {
-          const systemId = guarantee.system?.id || '';
-          if (!systemsCategoriesSet.has(systemId)) {
-            systemsCategoriesSet.add(systemId);
-            return { id: systemId, name: guarantee.system?.name || '' };
-          }
-          return null;
-        })
-        .filter((systemCategory) => systemCategory !== null) as { id: string; name: string }[];
-
-      setSystemsCategories(filteredSystemsCategories);
+      setGuaranteesForSearch(responseData?.guarantees || []);
+      handleSystemsCategories(responseData?.guarantees || []);
     } finally {
       setLoading(false);
     }
@@ -112,14 +138,14 @@ export const Plan = () => {
     setLoading(true);
 
     try {
-      const responseData = await createGuaranteePlan({
+      await createGuaranteePlan({
         systemId,
         description,
         failureTypesIds,
         warrantyPeriod,
       });
 
-      setGuarantees(responseData?.guarantees || []);
+      handleGetGuaranteePlan();
     } finally {
       setLoading(false);
     }
@@ -131,10 +157,6 @@ export const Plan = () => {
     handleGetGuaranteeSystems();
     handleGetGuaranteeFailureTypes();
   }, []);
-
-  useEffect(() => {
-    handleGetGuaranteePlan();
-  }, [refresh]);
 
   return (
     <>
@@ -156,14 +178,15 @@ export const Plan = () => {
               <h2>Garantias</h2>
 
               <Style.SearchField>
-                <IconButton
-                  // label='Procurar'
-                  icon={icon.search}
-                  size="16px"
-                  onClick={() => {
-                    //  loadUsers({
-                    //    searchPage: 1,
-                    //  });
+                <IconButton icon={icon.search} size="16px" onClick={() => handleSearch(search)} />
+
+                <input
+                  type="text"
+                  placeholder="Procurar"
+                  value={search}
+                  onChange={(evt) => {
+                    setSearch(evt.target.value.trim());
+                    handleSearch(evt.target.value.trim());
                   }}
                 />
               </Style.SearchField>
@@ -184,7 +207,7 @@ export const Plan = () => {
               <GuaranteeCategory
                 key={systemCategory.id}
                 category={systemCategory}
-                guarantees={guarantees}
+                guarantees={guaranteesForSearch}
                 onAddGuarantee={() => {
                   // TODO: Implement add guarantee functionality
                   console.log('Add guarantee for system:', systemCategory.id);

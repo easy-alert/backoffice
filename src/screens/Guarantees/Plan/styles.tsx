@@ -36,6 +36,7 @@ export const SearchField = styled.div`
   align-items: center;
   gap: ${theme.size.xxsm};
   width: 100%;
+
   > input {
     height: 24px;
     width: 100%;
@@ -50,7 +51,7 @@ export const SystemsCategoriesContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: ${theme.size.md};
+  gap: ${theme.size.sm};
   overflow-x: auto;
   overflow-y: hidden;
 
