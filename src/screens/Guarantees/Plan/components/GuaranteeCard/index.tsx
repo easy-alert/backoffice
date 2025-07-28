@@ -28,11 +28,13 @@ export const GuaranteeCard = ({ guarantee, onEdit, onDelete }: IGuaranteeCard) =
       <Style.CardHeader>
         <Style.CardTitle>{guarantee.description || 'Sem descrição'}</Style.CardTitle>
         <Style.CardActions>
-          {onEdit && <IconButton icon={icon.edit} onClick={() => onEdit(guarantee)} size="16px" />}
+          {onEdit && (
+            <IconButton icon={icon.editWithBg} onClick={() => onEdit(guarantee)} size="16px" />
+          )}
 
           {onDelete && (
             <IconButton
-              icon={icon.trash}
+              icon={icon.trashWithBg}
               onClick={() => onDelete(guarantee.id || '')}
               size="16px"
             />
