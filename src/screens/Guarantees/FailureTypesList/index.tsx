@@ -151,9 +151,9 @@ export const FailureTypesList = () => {
           colsHeader={[
             { label: '#', cssProps: { width: '1%' } },
             { label: 'Nome' },
-            { label: 'Usada em', cssProps: { width: '1%' } },
-            { label: 'Criada em', cssProps: { width: '1%' } },
-            { label: 'Atualizada em', cssProps: { width: '1%' } },
+            { label: 'Usada em', cssProps: { width: '1%', textAlign: 'center' } },
+            { label: 'Criada em', cssProps: { width: '1%', textAlign: 'center' } },
+            { label: 'Atualizada em', cssProps: { width: '1%', textAlign: 'center' } },
             { label: 'Ações', cssProps: { width: '1%', textAlign: 'center' } },
           ]}
         >
