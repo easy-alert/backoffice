@@ -9,6 +9,7 @@ export interface IGuarantee {
   systemId?: string;
 
   description?: string;
+  observation?: string;
   standardWarrantyPeriod?: number;
 
   startDate?: string;
@@ -22,7 +23,7 @@ export interface IGuarantee {
   system?: IGuaranteeSystem;
 
   // documents?: IGuaranteeDocument[];
-  failureTypes?: { failureType: IGuaranteeFailureType }[];
+  guaranteeToFailureTypes?: { failureType: IGuaranteeFailureType }[];
 }
 
 // id String @id @default(uuid())
