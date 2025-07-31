@@ -21,6 +21,7 @@ export const getUserDetails = async (userId: string): Promise<{ user: IUserDetai
             id: building.id,
             name: building.name,
             image: building.image,
+            isBlocked: building.isBlocked,
           })) || [],
       },
     };

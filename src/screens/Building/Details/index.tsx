@@ -15,9 +15,10 @@ import { PopoverButton } from '@components/Buttons/PopoverButton';
 import { Image } from '@components/Image';
 import { Tag } from '@components/Tag';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
+import { CardListDetails } from '@components/CardListDetails';
 
 // GLOBAL UTILS
-import { applyMask, capitalizeFirstLetter } from '@utils/functions';
+import { applyMask, capitalizeFirstLetter, dateTimeFormatter } from '@utils/functions';
 
 // GLOBAL STYLES
 import { theme } from '@styles/theme';
@@ -241,68 +242,44 @@ export const BuildingDetails = () => {
             />
           </Style.ButtonsContainer>
 
-          {users.length > 0 && (
-            <>
-              <h2>Usuários vinculados</h2>
-              <Style.DetailsBox>
-                <Style.CardGrid>
-                  {users.map((user: IUser) => (
-                    <Style.CompanyCard key={user.id} onClick={() => navigate(`/users/${user.id}`)}>
-                      <Style.Avatar>
-                        <Image width="80%" height="80%" img={user.image || icon.user} />
-                      </Style.Avatar>
-                      <Style.CompanyInfo>
-                        <Style.DetailItem>
-                          <h2>Nome</h2>
-                          <p>{user.name}</p>
-                        </Style.DetailItem>
-                        <Style.DetailItem>
-                          <h2>Email</h2>
-                          <p>{user.email}</p>
-                        </Style.DetailItem>
-                        <Style.DetailItem>
-                          <h2>Último acesso</h2>
-                          <p>
-                            {user.lastAccess ? new Date(user.lastAccess).toLocaleString() : '-'}
-                          </p>
-                        </Style.DetailItem>
-                      </Style.CompanyInfo>
-                    </Style.CompanyCard>
-                  ))}
-                </Style.CardGrid>
-              </Style.DetailsBox>
-            </>
-          )}
+          <CardListDetails
+            title="Usuários vinculados"
+            items={
+              Array.isArray(users) && users.length > 0
+                ? users.map((user: IUser) => ({
+                    id: user.id,
+                    image: user.image,
+                    icon: icon.user,
+                    onClick: () => navigate(`/users/${user.id}`),
+                    details: [
+                      { label: 'Nome', value: user.name },
+                      { label: 'Email', value: user.email },
+                      {
+                        label: 'Último acesso',
+                        value: user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-',
+                      },
+                    ],
+                    status: !user.isBlocked,
+                  }))
+                : []
+            }
+            emptyMessage="Nenhum usuário vinculado."
+          />
           {building?.Company && (
-            <>
-              <h2>Empresa vinculada</h2>
-              <Style.DetailsBox>
-                <Style.CardGrid>
-                  <Style.CompanyCard
-                    key={building.Company.id}
-                    onClick={() => navigate(`/companies/${building.Company?.id}`)}
-                  >
-                    <Style.Avatar>
-                      <Image
-                        width="80%"
-                        height="80%"
-                        img={building.Company.image || icon.enterprise}
-                      />
-                    </Style.Avatar>
-                    <Style.CompanyInfo>
-                      <Style.DetailItem>
-                        <h2>Nome da empresa</h2>
-                        <p>{building.Company.name}</p>
-                      </Style.DetailItem>
-                      <Style.DetailItem>
-                        <h2>Status</h2>
-                        <Tag isInvalid={building.Company.isBlocked} />
-                      </Style.DetailItem>
-                    </Style.CompanyInfo>
-                  </Style.CompanyCard>
-                </Style.CardGrid>
-              </Style.DetailsBox>
-            </>
+            <CardListDetails
+              title="Empresa vinculada"
+              items={[
+                {
+                  id: building.Company?.id,
+                  image: building.Company?.image,
+                  icon: icon.enterprise,
+                  onClick: () => navigate(`/companies/${building.Company?.id}`),
+                  details: [{ label: 'Nome da empresa', value: building.Company?.name }],
+                  status: !building.Company?.isBlocked,
+                },
+              ]}
+              emptyMessage="Nenhuma empresa vinculada."
+            />
           )}
         </Style.Container>
       )}
