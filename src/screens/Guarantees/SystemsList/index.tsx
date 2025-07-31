@@ -28,17 +28,20 @@ import * as Style from './styles';
 
 interface IExtendedSystem extends IGuaranteeSystem {
   _count: {
-    guarantee: number;
+    guarantees: number;
   };
 }
 
 export const SystemsList = () => {
   const [systems, setSystems] = useState<IExtendedSystem[]>([]);
+  const [systemsForSearch, setSystemsForSearch] = useState<IExtendedSystem[]>([]);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const [modalCreateSystem, setModalCreateSystem] = useState(false);
   const [modalEditSystem, setModalEditSystem] = useState(false);
+
+  const [search, setSearch] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -55,6 +58,18 @@ export const SystemsList = () => {
     setSelectedIndex(index);
   };
 
+  const handleSearch = (value: string) => {
+    if (value !== '') {
+      const newSystems = systems.filter((system) =>
+        system?.name?.toLowerCase().includes(value?.toLowerCase().trim() || ''),
+      );
+
+      setSystemsForSearch(newSystems);
+    } else {
+      setSystemsForSearch(systems);
+    }
+  };
+
   // #region api
   const handleGetGuaranteeSystems = async () => {
     setLoading(true);
@@ -65,6 +80,7 @@ export const SystemsList = () => {
       });
 
       setSystems(responseData?.systems || []);
+      setSystemsForSearch(responseData?.systems || []);
     } finally {
       setLoading(false);
     }
@@ -133,7 +149,23 @@ export const SystemsList = () => {
 
       <Style.Container>
         <Style.HeaderContainer>
-          <h2>Sistemas</h2>
+          <Style.TitleContainer>
+            <h2>Sistemas</h2>
+
+            <Style.SearchField>
+              <IconButton icon={icon.search} size="16px" onClick={() => handleSearch(search)} />
+
+              <input
+                type="text"
+                placeholder="Buscar"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  handleSearch(e.target.value);
+                }}
+              />
+            </Style.SearchField>
+          </Style.TitleContainer>
 
           <IconButton
             icon={icon.plus}
@@ -154,7 +186,7 @@ export const SystemsList = () => {
             { label: 'Ações', cssProps: { width: '1%', textAlign: 'center' } },
           ]}
         >
-          {systems.length === 0 && !loading && (
+          {systemsForSearch.length === 0 && !loading && (
             <ColorfulTableContent
               colsBody={[
                 {
@@ -169,9 +201,9 @@ export const SystemsList = () => {
             />
           )}
 
-          {systems.length > 0 &&
+          {systemsForSearch.length > 0 &&
             !loading &&
-            systems.map((item) => (
+            systemsForSearch.map((item) => (
               <ColorfulTableContent
                 key={item.id}
                 colsBody={[
@@ -192,7 +224,7 @@ export const SystemsList = () => {
                     cell: (
                       <TableCell
                         type="string"
-                        value={item._count.guarantee || ''}
+                        value={item._count.guarantees || ''}
                         alignItems="center"
                       />
                     ),

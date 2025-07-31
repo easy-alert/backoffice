@@ -31,17 +31,20 @@ import * as Style from './styles';
 
 interface IExtendedFailureType extends IGuaranteeFailureType {
   _count: {
-    guarantee: number;
+    guaranteeToFailureTypes: number;
   };
 }
 
 export const FailureTypesList = () => {
   const [failureTypes, setFailureTypes] = useState<IExtendedFailureType[]>([]);
+  const [failureTypesForSearch, setFailureTypesForSearch] = useState<IExtendedFailureType[]>([]);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const [modalCreateFailureType, setModalCreateFailureType] = useState(false);
   const [modalEditFailureType, setModalEditFailureType] = useState(false);
+
+  const [search, setSearch] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -58,6 +61,18 @@ export const FailureTypesList = () => {
     setSelectedIndex(index);
   };
 
+  const handleSearch = (value: string) => {
+    if (value !== '') {
+      const newFailureTypes = failureTypes.filter((failureType) =>
+        failureType?.name?.toLowerCase().includes(value?.toLowerCase().trim() || ''),
+      );
+
+      setFailureTypesForSearch(newFailureTypes);
+    } else {
+      setFailureTypesForSearch(failureTypes);
+    }
+  };
+
   // #region api
   const handleGetGuaranteeFailureTypes = async () => {
     setLoading(true);
@@ -68,6 +83,7 @@ export const FailureTypesList = () => {
       });
 
       setFailureTypes(responseData?.failureTypes || []);
+      setFailureTypesForSearch(responseData?.failureTypes || []);
     } finally {
       setLoading(false);
     }
@@ -134,109 +150,127 @@ export const FailureTypesList = () => {
         />
       )}
 
-      <Style.Container>
-        <Style.HeaderContainer>
-          <h2>Tipos de falha</h2>
+      {loading ? (
+        <DotSpinLoading />
+      ) : (
+        <Style.Container>
+          <Style.HeaderContainer>
+            <Style.TitleContainer>
+              <h2>Tipos de falha</h2>
 
-          <IconButton
-            icon={icon.plus}
-            label="Adicionar"
-            onClick={() => handleModalCreateFailureType(true)}
-          />
-        </Style.HeaderContainer>
+              <Style.SearchField>
+                <IconButton icon={icon.search} size="16px" onClick={() => handleSearch(search)} />
 
-        {loading && <DotSpinLoading />}
+                <input
+                  type="text"
+                  placeholder="Buscar"
+                  value={search}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    handleSearch(e.target.value);
+                  }}
+                />
+              </Style.SearchField>
+            </Style.TitleContainer>
 
-        <ColorfulTable
-          colsHeader={[
-            { label: '#', cssProps: { width: '1%' } },
-            { label: 'Nome' },
-            { label: 'Usada em', cssProps: { width: '1%', textAlign: 'center' } },
-            { label: 'Criada em', cssProps: { width: '1%', textAlign: 'center' } },
-            { label: 'Atualizada em', cssProps: { width: '1%', textAlign: 'center' } },
-            { label: 'Ações', cssProps: { width: '1%', textAlign: 'center' } },
-          ]}
-        >
-          {failureTypes.length === 0 && !loading && (
-            <ColorfulTableContent
-              colsBody={[
-                {
-                  colSpan: 7,
-                  cell: (
-                    <Style.EmptyContainer>
-                      <h4>Nenhum tipo de falha encontrado</h4>
-                    </Style.EmptyContainer>
-                  ),
-                },
-              ]}
+            <IconButton
+              icon={icon.plus}
+              label="Adicionar"
+              onClick={() => handleModalCreateFailureType(true)}
             />
-          )}
+          </Style.HeaderContainer>
 
-          {failureTypes.length > 0 &&
-            !loading &&
-            failureTypes.map((item) => (
+          <ColorfulTable
+            colsHeader={[
+              { label: '#', cssProps: { width: '1%' } },
+              { label: 'Nome' },
+              { label: 'Usada em', cssProps: { width: '1%', textAlign: 'center' } },
+              { label: 'Criada em', cssProps: { width: '1%', textAlign: 'center' } },
+              { label: 'Atualizada em', cssProps: { width: '1%', textAlign: 'center' } },
+              { label: 'Ações', cssProps: { width: '1%', textAlign: 'center' } },
+            ]}
+          >
+            {failureTypesForSearch.length === 0 && !loading && (
               <ColorfulTableContent
-                key={item.id}
                 colsBody={[
                   {
+                    colSpan: 7,
                     cell: (
-                      <TableCell
-                        type="string"
-                        value={
-                          failureTypes.indexOf(item) + 1 > 9
-                            ? failureTypes.indexOf(item) + 1
-                            : `0${failureTypes.indexOf(item) + 1}`
-                        }
-                      />
-                    ),
-                  },
-                  { cell: <TableCell type="string" value={item.name || ''} /> },
-                  {
-                    cell: (
-                      <TableCell
-                        type="string"
-                        value={item?._count?.guarantee || ''}
-                        alignItems="center"
-                      />
-                    ),
-                  },
-                  {
-                    cell: (
-                      <TableCell type="date" value={item.createdAt || ''} alignItems="center" />
-                    ),
-                  },
-                  {
-                    cell: (
-                      <TableCell type="date" value={item.updatedAt || ''} alignItems="center" />
-                    ),
-                  },
-                  {
-                    cell: (
-                      <Style.TableButtons>
-                        <IconButton
-                          icon={icon.editWithBg}
-                          size="16px"
-                          hideLabelOnMedia
-                          onClick={() => {
-                            handleSelectedIndex(failureTypes.indexOf(item));
-                            handleModalEditFailureType(true);
-                          }}
-                        />
-
-                        <IconButton
-                          icon={icon.trashWithBg}
-                          size="16px"
-                          hideLabelOnMedia
-                          onClick={() => handleDeleteGuaranteeFailureType(item.id || '')}
-                        />
-                      </Style.TableButtons>
+                      <Style.EmptyContainer>
+                        <h4>Nenhum tipo de falha encontrado</h4>
+                      </Style.EmptyContainer>
                     ),
                   },
                 ]}
               />
-            ))}
-        </ColorfulTable>
-      </Style.Container>
+            )}
+
+            {failureTypesForSearch.length > 0 &&
+              !loading &&
+              failureTypesForSearch.map((item) => (
+                <ColorfulTableContent
+                  key={item.id}
+                  colsBody={[
+                    {
+                      cell: (
+                        <TableCell
+                          type="string"
+                          value={
+                            failureTypes.indexOf(item) + 1 > 9
+                              ? failureTypes.indexOf(item) + 1
+                              : `0${failureTypes.indexOf(item) + 1}`
+                          }
+                        />
+                      ),
+                    },
+                    { cell: <TableCell type="string" value={item.name || ''} /> },
+                    {
+                      cell: (
+                        <TableCell
+                          type="string"
+                          value={item?._count?.guaranteeToFailureTypes || ''}
+                          alignItems="center"
+                        />
+                      ),
+                    },
+                    {
+                      cell: (
+                        <TableCell type="date" value={item.createdAt || ''} alignItems="center" />
+                      ),
+                    },
+                    {
+                      cell: (
+                        <TableCell type="date" value={item.updatedAt || ''} alignItems="center" />
+                      ),
+                    },
+                    {
+                      cell: (
+                        <Style.TableButtons>
+                          <IconButton
+                            icon={icon.editWithBg}
+                            size="16px"
+                            hideLabelOnMedia
+                            onClick={() => {
+                              handleSelectedIndex(failureTypes.indexOf(item));
+                              handleModalEditFailureType(true);
+                            }}
+                          />
+
+                          <IconButton
+                            icon={icon.trashWithBg}
+                            size="16px"
+                            hideLabelOnMedia
+                            onClick={() => handleDeleteGuaranteeFailureType(item.id || '')}
+                          />
+                        </Style.TableButtons>
+                      ),
+                    },
+                  ]}
+                />
+              ))}
+          </ColorfulTable>
+        </Style.Container>
+      )}
     </>
   );
 };

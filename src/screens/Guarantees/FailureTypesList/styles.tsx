@@ -15,10 +15,40 @@ export const HeaderContainer = styled.div`
   gap: ${({ theme }) => theme.size.sm};
 `;
 
+export const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.size.sm};
+  width: 100%;
+`;
+
+export const SearchField = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.size.xxsm};
+
+  width: 50%;
+
+  > input {
+    height: 24px;
+    width: 100%;
+    padding: 0;
+    background-color: transparent;
+    border: none !important;
+    outline: none;
+  }
+`;
+
 export const ModalFormContainer = styled.div`
   button {
     margin-top: ${({ theme }) => theme.size.xsm};
   }
+`;
+
+export const ModalObservation = styled.p`
+  text-align: justify;
+  font-size: ${({ theme }) => theme.size.csm};
+  color: ${({ theme }) => theme.color.gray4};
 `;
 
 export const TableButtons = styled.div`
