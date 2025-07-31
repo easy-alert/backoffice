@@ -43,12 +43,12 @@ export const GuaranteeCard = ({ guarantee, onEdit, onDelete }: IGuaranteeCard) =
       </Style.CardHeader>
 
       <Style.CardDetails>
-        {guarantee.failureTypes && (
+        {guarantee.guaranteeToFailureTypes && (
           <Style.DetailItem>
             <span>Tipo de falha:</span>
 
             <Style.FailureTypeTagsContainer>
-              {guarantee.failureTypes.map((failureType) => (
+              {guarantee.guaranteeToFailureTypes.map((failureType) => (
                 <Style.FailureTypeTag key={failureType.failureType.id}>
                   {failureType.failureType.name}
                 </Style.FailureTypeTag>
