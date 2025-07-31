@@ -2,7 +2,8 @@ import { Api } from '@services/api';
 
 import { handleToastify } from '@utils/toastifyResponses';
 
-export interface ICreateGuaranteePlan {
+export interface IUpdateGuarantee {
+  id: string;
   systemId: string;
   description: string;
   observation: string;
@@ -10,8 +11,8 @@ export interface ICreateGuaranteePlan {
   warrantyPeriod: number;
 }
 
-export async function createGuaranteePlan(values: ICreateGuaranteePlan) {
-  const api = '/guarantee/plan';
+export async function updateGuarantee(values: IUpdateGuarantee) {
+  const api = `/guarantee/plan/${values.id}`;
 
   const body = {
     systemId: values.systemId,
@@ -22,9 +23,10 @@ export async function createGuaranteePlan(values: ICreateGuaranteePlan) {
   };
 
   try {
-    const response = await Api.post(api, body);
+    const response = await Api.put(api, body);
 
     handleToastify(response);
+
     return response.data;
   } catch (error: any) {
     handleToastify(error.response);
