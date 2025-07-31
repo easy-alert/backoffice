@@ -30,7 +30,13 @@ interface IFormValues {
 
 const createFailureTypeSchema = yup.object().shape({
   name: yup.string(),
-  failureTypes: yup.array().of(yup.string()).required('Tipo de falha é obrigatório'),
+  failureTypes: yup
+    .array()
+    .of(yup.string())
+    .test('at-least-one-failure', 'Pelo menos uma falha deve ser criada', (value) =>
+      Boolean(value && value.length > 0),
+    )
+    .required('Tipo de falha é obrigatório'),
 });
 
 export const ModalCreateFailureType = ({
@@ -83,8 +89,12 @@ export const ModalCreateFailureType = ({
                   setFieldTouched('name', false);
                 }
               }}
-              error={touched.name && errors.name ? errors.name : null}
+              error={touched.failureTypes && errors.failureTypes ? errors.failureTypes : null}
             />
+
+            <Style.ModalObservation>
+              Obs: Para criar um tipo de falha, basta digitar o nome e pressionar enter
+            </Style.ModalObservation>
 
             <Style.ItemList>
               {values.failureTypes.map((failureType, index) => (

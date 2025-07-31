@@ -30,7 +30,13 @@ interface IFormValues {
 
 const createSystemSchema = yup.object().shape({
   name: yup.string(),
-  systems: yup.array().of(yup.string()).required('Sistema é obrigatório'),
+  systems: yup
+    .array()
+    .of(yup.string())
+    .test('at-least-one-system', 'Pelo menos um sistema deve ser criado', (value) =>
+      Boolean(value && value.length > 0),
+    )
+    .required('Sistema é obrigatório'),
 });
 
 export const ModalCreateSystem = ({
@@ -79,8 +85,12 @@ export const ModalCreateSystem = ({
                   setFieldTouched('name', false);
                 }
               }}
-              error={touched.name && errors.name ? errors.name : null}
+              error={touched.systems && errors.systems ? errors.systems : null}
             />
+
+            <Style.ModalObservation>
+              Obs: Para criar um sistema, basta digitar o nome e pressionar enter
+            </Style.ModalObservation>
 
             <Style.ItemList>
               {values.systems.map((system, index) => (
