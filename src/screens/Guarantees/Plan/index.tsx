@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 
 // SERVICES
 import { getGuaranteePlan } from '@services/apis/getGuaranteePlan';
-import { getGuaranteeSystems } from '@services/apis/getGuaranteeSystems';
-import { getGuaranteeFailureTypes } from '@services/apis/getGuaranteeFailureTypes';
-import { createGuaranteePlan, ICreateGuaranteePlan } from '@services/apis/createGuaranteePlan';
+import { createGuaranteePlan, type ICreateGuaranteePlan } from '@services/apis/createGuaranteePlan';
+import { updateGuarantee, type IUpdateGuarantee } from '@services/apis/updateGuarantee';
+import { deleteGuarantee } from '@services/apis/deleteGuarantee';
 
 // GLOBAL COMPONENTS
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
@@ -15,36 +15,39 @@ import { IconButton } from '@components/Buttons/IconButton';
 import { icon } from '@assets/icons';
 
 // GLOBAL TYPES
-import type { IGuaranteeSystem } from '@customTypes/IGuaranteeSystem';
-import type { IGuaranteeFailureType } from '@customTypes/IGuaranteeFailureType';
 import type { IGuarantee } from '@customTypes/IGuarantee';
 
 // COMPONENTS
+import { GuaranteeCategory } from './components/GuaranteeCategory';
 import { ModalCreateGuarantee } from './components/ModalCreateGuarantee';
+import { ModalEditGuarantee } from './components/ModalEditGuarantee';
 
 // STYLES
 import * as Style from './styles';
-import { GuaranteeCategory } from './components/GuaranteeCategory';
-
-// TYPES
 
 export const Plan = () => {
   const [guarantees, setGuarantees] = useState<IGuarantee[]>([]);
   const [guaranteesForSearch, setGuaranteesForSearch] = useState<IGuarantee[]>([]);
   const [systemsCategories, setSystemsCategories] = useState<{ id: string; name: string }[]>([]);
 
-  const [systemsToSelect, setSystemsToSelect] = useState<IGuaranteeSystem[]>([]);
-  const [failureTypesToSelect, setFailureTypesToSelect] = useState<IGuaranteeFailureType[]>([]);
+  const [selectedSystemId, setSelectedSystemId] = useState<string | undefined>();
+  const [selectedGuaranteeId, setSelectedGuaranteeId] = useState<string | undefined>();
 
   const [search, setSearch] = useState('');
 
   const [modalCreateGuarantee, setModalCreateGuarantee] = useState(false);
+  const [modalEditGuarantee, setModalEditGuarantee] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
-  const handleModalCreateGuarantee = (state: boolean) => {
+  const handleModalCreateGuarantee = (state: boolean, systemId?: string) => {
     setModalCreateGuarantee(state);
+    setSelectedSystemId(systemId);
+  };
+
+  const handleModalEditGuarantee = (state: boolean, guaranteeId?: string) => {
+    setModalEditGuarantee(state);
+    setSelectedGuaranteeId(guaranteeId);
   };
 
   const handleSystemsCategories = (responseGuarantees: IGuarantee[]) => {
@@ -68,10 +71,12 @@ export const Plan = () => {
     if (value !== '') {
       const newGuarantees = guarantees.filter(
         (guarantee) =>
-          guarantee?.system?.name?.toLowerCase().includes(value?.toLowerCase() || '') ||
-          guarantee?.description?.toLowerCase().includes(value?.toLowerCase() || '') ||
-          guarantee?.failureTypes?.some((failureType) =>
-            failureType?.failureType?.name?.toLowerCase().includes(value?.toLowerCase() || ''),
+          guarantee?.system?.name?.toLowerCase().includes(value?.toLowerCase().trim() || '') ||
+          guarantee?.description?.toLowerCase().includes(value?.toLowerCase().trim() || '') ||
+          guarantee?.guaranteeToFailureTypes?.some((failureType) =>
+            failureType?.failureType?.name
+              ?.toLowerCase()
+              .includes(value?.toLowerCase().trim() || ''),
           ),
       );
 
@@ -100,38 +105,10 @@ export const Plan = () => {
     }
   };
 
-  const handleGetGuaranteeSystems = async () => {
-    setLoading(true);
-
-    try {
-      const responseData = await getGuaranteeSystems({
-        companyId: [],
-      });
-
-      setSystemsToSelect(responseData?.systems || []);
-      setRefresh(!refresh);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGetGuaranteeFailureTypes = async () => {
-    setLoading(true);
-
-    try {
-      const responseData = await getGuaranteeFailureTypes({
-        companyId: [],
-      });
-
-      setFailureTypesToSelect(responseData?.failureTypes || []);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleCreateGuaranteePlan = async ({
     systemId,
     description,
+    observation,
     failureTypesIds,
     warrantyPeriod,
   }: ICreateGuaranteePlan) => {
@@ -141,9 +118,34 @@ export const Plan = () => {
       await createGuaranteePlan({
         systemId,
         description,
+        observation,
         failureTypesIds,
         warrantyPeriod,
       });
+
+      handleGetGuaranteePlan();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEditGuaranteePlan = async (guarantee: IUpdateGuarantee) => {
+    setLoading(true);
+
+    try {
+      await updateGuarantee(guarantee);
+
+      handleGetGuaranteePlan();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteGuaranteePlan = async (id: string) => {
+    setLoading(true);
+
+    try {
+      await deleteGuarantee(id);
 
       handleGetGuaranteePlan();
     } finally {
@@ -154,18 +156,23 @@ export const Plan = () => {
 
   useEffect(() => {
     handleGetGuaranteePlan();
-    handleGetGuaranteeSystems();
-    handleGetGuaranteeFailureTypes();
   }, []);
 
   return (
     <>
       {modalCreateGuarantee && (
         <ModalCreateGuarantee
-          systems={systemsToSelect}
-          failureTypes={failureTypesToSelect}
+          selectedSystemId={selectedSystemId}
           handleModalCreateGuarantee={handleModalCreateGuarantee}
           handleCreateGuaranteePlan={handleCreateGuaranteePlan}
+        />
+      )}
+
+      {modalEditGuarantee && (
+        <ModalEditGuarantee
+          guarantee={guarantees.find((guarantee) => guarantee.id === selectedGuaranteeId) || {}}
+          handleEditGuaranteePlan={handleEditGuaranteePlan}
+          handleModalEditGuarantee={handleModalEditGuarantee}
         />
       )}
 
@@ -185,8 +192,8 @@ export const Plan = () => {
                   placeholder="Procurar"
                   value={search}
                   onChange={(evt) => {
-                    setSearch(evt.target.value.trim());
-                    handleSearch(evt.target.value.trim());
+                    setSearch(evt.target.value);
+                    handleSearch(evt.target.value);
                   }}
                 />
               </Style.SearchField>
@@ -208,18 +215,9 @@ export const Plan = () => {
                 key={systemCategory.id}
                 category={systemCategory}
                 guarantees={guaranteesForSearch}
-                onAddGuarantee={() => {
-                  // TODO: Implement add guarantee functionality
-                  console.log('Add guarantee for system:', systemCategory.id);
-                }}
-                onEditGuarantee={(guarantee) => {
-                  // TODO: Implement edit guarantee functionality
-                  console.log('Edit guarantee:', guarantee.id);
-                }}
-                onDeleteGuarantee={(guaranteeId) => {
-                  // TODO: Implement delete guarantee functionality
-                  console.log('Delete guarantee:', guaranteeId);
-                }}
+                onAddGuarantee={() => handleModalCreateGuarantee(true, systemCategory.id)}
+                onEditGuarantee={(guarantee) => handleModalEditGuarantee(true, guarantee.id)}
+                onDeleteGuarantee={(guaranteeId) => handleDeleteGuaranteePlan(guaranteeId)}
               />
             ))}
           </Style.SystemsCategoriesContainer>
