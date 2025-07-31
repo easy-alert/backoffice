@@ -63,6 +63,13 @@ export const GuaranteeCard = ({ guarantee, onEdit, onDelete }: IGuaranteeCard) =
             <span>{formatWarrantyPeriod(guarantee.standardWarrantyPeriod)}</span>
           </Style.DetailItem>
         )}
+
+        {guarantee.observation && (
+          <Style.DetailItem>
+            <span>Observação:</span>
+            <span>{guarantee.observation}</span>
+          </Style.DetailItem>
+        )}
       </Style.CardDetails>
     </Style.CardContent>
   </Style.Card>
