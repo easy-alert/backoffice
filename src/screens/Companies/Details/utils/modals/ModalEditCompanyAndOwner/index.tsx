@@ -1,27 +1,38 @@
 // LIBS
 import { useState } from 'react';
 
-// COMPONENTS
+// LIBS
 import { Form, Formik } from 'formik';
-import * as Style from './styles';
-import { Button } from '../../../../../../components/Buttons/Button';
-import { FormikImageInput } from '../../../../../../components/Form/FormikImageInput';
-import { FormikInput } from '../../../../../../components/Form/FormikInput';
-import { Modal } from '../../../../../../components/Modal';
 
-// TYPES
-import { IModalEditCompanyAndOwner } from './utils/types';
+// GLOBAL COMPONENTS
+import { IconButton } from '@components/Buttons/IconButton';
+import { Button } from '@components/Buttons/Button';
+import { FormikImageInput } from '@components/Form/FormikImageInput';
+import { FormikInput } from '@components/Form/FormikInput';
+import { Modal } from '@components/Modal';
+import { FormikSelect } from '@components/Form/FormikSelect';
+import { FormikCheckbox } from '@components/Form/FormikCheckbox';
 
-// FUNCTIONS
-import { IFormDataCompanyForEdit } from '../../../../List/utils/types';
-import { applyMask } from '../../../../../../utils/functions';
+// GLOBAL UTILS
+import { applyMask, unMask } from '@utils/functions';
+
+// GLOBAL ASSETS
+import { icon } from '@assets/icons';
+
+// UTILS
+import { handleToastifyMessage } from '@utils/toastifyResponses';
 import {
   requestEditCompanyAndOwner,
   schemaModalEditCompanyAndOwnerWithCNPJ,
   schemaModalEditCompanyAndOwnerWithCPF,
 } from './utils/functions';
-import { FormikSelect } from '../../../../../../components/Form/FormikSelect';
-import { FormikCheckbox } from '../../../../../../components/Form/FormikCheckbox';
+
+// STYLES
+import * as Style from './styles';
+
+// TYPES
+import type { IFormDataCompanyForEdit } from '../../../../List/utils/types';
+import type { IModalEditCompanyAndOwner } from './utils/types';
 
 export const ModalEditCompanyAndOwner = ({
   company,
@@ -32,7 +43,7 @@ export const ModalEditCompanyAndOwner = ({
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
-    <Modal title="Editar usuário" setModal={setModal}>
+    <Modal title="Editar empresa" setModal={setModal}>
       <Formik
         initialValues={{
           image: company.image,
@@ -45,6 +56,8 @@ export const ModalEditCompanyAndOwner = ({
           }).value,
           CPF: company.CPF ? applyMask({ value: company.CPF, mask: 'CPF' }).value : '',
           CNPJ: company.CNPJ ? applyMask({ value: company.CNPJ, mask: 'CNPJ' }).value : '',
+          externalForPayment: '',
+          linkedExternalForPayment: company.linkedExternalForPayment,
           password: '',
           confirmPassword: '',
           isNotifyingOnceAWeek: company.isNotifyingOnceAWeek ? 'semanalmente' : 'diariamente',
@@ -68,7 +81,7 @@ export const ModalEditCompanyAndOwner = ({
           });
         }}
       >
-        {({ errors, values, touched, setFieldValue }) => (
+        {({ errors, values, touched, setFieldValue, setFieldTouched }) => (
           <Style.FormContainer>
             <Form>
               <FormikImageInput
@@ -83,6 +96,7 @@ export const ModalEditCompanyAndOwner = ({
                   }
                 }}
               />
+
               <FormikInput
                 label="Nome do responsável"
                 name="name"
@@ -90,6 +104,7 @@ export const ModalEditCompanyAndOwner = ({
                 error={touched.name && errors.name ? errors.name : null}
                 placeholder="Ex: João Silva"
               />
+
               <FormikInput
                 label="E-mail"
                 name="email"
@@ -97,6 +112,7 @@ export const ModalEditCompanyAndOwner = ({
                 error={touched.email && errors.email ? errors.email : null}
                 placeholder="Ex: joao.silva@easyalert.com"
               />
+
               <FormikInput
                 label="Nome da empresa"
                 name="companyName"
@@ -104,6 +120,7 @@ export const ModalEditCompanyAndOwner = ({
                 error={touched.companyName && errors.companyName ? errors.companyName : null}
                 placeholder="Ex: Easy Alert"
               />
+
               <FormikInput
                 label="Telefone"
                 name="contactNumber"
@@ -151,6 +168,75 @@ export const ModalEditCompanyAndOwner = ({
                   }}
                 />
               )}
+
+              <div>
+                <FormikInput
+                  name="externalForPayment"
+                  label="Outros pagantes"
+                  maxLength={applyMask({ value: values.externalForPayment, mask: 'CNPJ' }).length}
+                  value={
+                    unMask(values.externalForPayment).length === 14
+                      ? applyMask({ value: values.externalForPayment, mask: 'CNPJ' }).value
+                      : applyMask({ value: values.externalForPayment, mask: 'CPF' }).value
+                  }
+                  error={
+                    touched.externalForPayment && errors.externalForPayment
+                      ? errors.externalForPayment
+                      : null
+                  }
+                  placeholder="Insira o CNPJ ou CPF"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && values.externalForPayment.trim() !== '') {
+                      e.preventDefault();
+
+                      const toAdd: string[] = [];
+
+                      values.externalForPayment.split(',').forEach((externalForPayment) => {
+                        if (values.linkedExternalForPayment.includes(externalForPayment)) {
+                          handleToastifyMessage({
+                            message: 'Tipo de falha já cadastrado',
+                            type: 'warning',
+                          });
+
+                          return;
+                        }
+
+                        toAdd.push(externalForPayment.trim());
+                      });
+
+                      setFieldValue('linkedExternalForPayment', [
+                        ...values.linkedExternalForPayment,
+                        ...toAdd,
+                      ]);
+                      setFieldValue('externalForPayment', '');
+                      setFieldTouched('externalForPayment', false);
+                    }
+                  }}
+                />
+
+                <Style.ItemList>
+                  {values.linkedExternalForPayment.map((externalPayment, index) => (
+                    <Style.ItemContainer key={externalPayment}>
+                      <Style.Item>
+                        {unMask(externalPayment).length === 14
+                          ? applyMask({ value: externalPayment, mask: 'CNPJ' }).value
+                          : applyMask({ value: externalPayment, mask: 'CPF' }).value}
+                      </Style.Item>
+
+                      <IconButton
+                        icon={icon.x}
+                        size="16px"
+                        onClick={() =>
+                          setFieldValue(
+                            'linkedExternalForPayment',
+                            values.linkedExternalForPayment.filter((_, i) => i !== index),
+                          )
+                        }
+                      />
+                    </Style.ItemContainer>
+                  ))}
+                </Style.ItemList>
+              </div>
 
               <FormikSelect
                 selectPlaceholderValue={values.isNotifyingOnceAWeek}
