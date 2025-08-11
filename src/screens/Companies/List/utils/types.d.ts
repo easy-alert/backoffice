@@ -18,6 +18,7 @@ export interface ICompany {
   CPF: string;
   isBlocked: boolean;
   createdAt: string;
+  linkedExternalForPayment: string[];
   isNotifyingOnceAWeek: boolean;
   canAccessChecklists: boolean;
   receivePreviousMonthReports: boolean;
@@ -66,6 +67,9 @@ export interface IFormDataCompanyForEdit {
   canAccessTickets: boolean;
   receivePreviousMonthReports: boolean;
   receiveDailyDueReports: boolean;
+
+  externalForPayment: string;
+  linkedExternalForPayment: string[];
 
   password: string;
   confirmPassword: string;
