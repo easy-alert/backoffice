@@ -177,6 +177,15 @@ export const CompanyDetails = () => {
                 <h6>Receber vencimentos diários</h6>
                 <p className="p2">{company?.receivePreviousMonthReports ? 'Sim' : 'Não'}</p>
               </Style.Card>
+
+              <Style.Card>
+                <h6>Pagantes externos</h6>
+                <p className="p2">
+                  {company?.linkedExternalForPayment.length === 0
+                    ? 'Nenhum'
+                    : company?.linkedExternalForPayment.length}
+                </p>
+              </Style.Card>
             </Style.Details>
           </Style.CardSection>
           <Style.Footer disabled={onQuery}>
