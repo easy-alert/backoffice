@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // LIBS
-import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 // FUNCTIONS
-import { Api } from '../../../../../../../services/api';
-import { catchHandler, unMask, uploadFile } from '../../../../../../../utils/functions';
+import { handleToastify } from '@utils/toastifyResponses';
+import { Api } from '@services/api';
+import { unMask, uploadFile } from '@utils/functions';
 
 // TYPES
-import { ICompany } from '../../../../../List/utils/types';
-import { IRequestEditCompanyAndOwner } from './types';
+import type { ICompany } from '../../../../../List/utils/types';
+import type { IRequestEditCompanyAndOwner } from './types';
 
 export const requestEditCompanyAndOwner = async ({
   data,
@@ -19,6 +19,9 @@ export const requestEditCompanyAndOwner = async ({
   setOnQuery,
 }: IRequestEditCompanyAndOwner) => {
   setOnQuery(true);
+
+  const uri = 'account/companies/edit';
+
   let imageUrl: any;
 
   if (!data.image.length) {
@@ -28,7 +31,7 @@ export const requestEditCompanyAndOwner = async ({
     imageUrl = company.image;
   }
 
-  await Api.put('/account/companies/edit', {
+  const body = {
     userId: company.UserCompanies[0].User.id,
     companyId: company.id,
     image: imageUrl,
@@ -37,6 +40,9 @@ export const requestEditCompanyAndOwner = async ({
     companyName: data.companyName,
     CNPJ: data.CNPJ !== '' ? unMask(data.CNPJ) : null,
     CPF: data.CPF !== '' ? unMask(data.CPF) : null,
+    linkedExternalForPayment: data.linkedExternalForPayment.length
+      ? data.linkedExternalForPayment.map((item) => unMask(item))
+      : null,
     contactNumber: unMask(data.contactNumber),
     password: data.password !== '' ? data.password : null,
     isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
@@ -44,7 +50,9 @@ export const requestEditCompanyAndOwner = async ({
     canAccessTickets: data.canAccessTickets,
     receiveDailyDueReports: data.receiveDailyDueReports,
     receivePreviousMonthReports: data.receivePreviousMonthReports,
-  })
+  };
+
+  await Api.put(uri, body)
     .then((res) => {
       const updatedCompany: ICompany = {
         canAccessTickets: data.canAccessTickets,
@@ -54,6 +62,7 @@ export const requestEditCompanyAndOwner = async ({
         contactNumber: data.contactNumber,
         CNPJ: data.CNPJ,
         CPF: data.CPF,
+        linkedExternalForPayment: data.linkedExternalForPayment,
         isBlocked: company.isBlocked,
         canAccessChecklists: data.canAccessChecklists,
         createdAt: company.createdAt,
@@ -74,11 +83,11 @@ export const requestEditCompanyAndOwner = async ({
 
       setCompany(updatedCompany);
       setModal(false);
-      toast.success(res.data.ServerMessage.message);
+      handleToastify(res);
     })
-    .catch((err) => {
+    .catch((err: any) => {
       setOnQuery(false);
-      catchHandler(err);
+      handleToastify(err.response);
     });
 };
 
@@ -126,6 +135,8 @@ export const schemaModalEditCompanyAndOwnerWithCNPJ = yup
       .min(14, 'O número de telefone deve conter no mínimo 14 caracteres.'),
 
     CNPJ: yup.string().required('O CNPJ deve ser preenchido.').min(18, 'O CNPJ deve ser válido.'),
+
+    linkedExternalForPayment: yup.array().of(yup.string()),
 
     password: yup.string().matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres.'),
 
@@ -183,6 +194,8 @@ export const schemaModalEditCompanyAndOwnerWithCPF = yup
       .min(14, 'O número de telefone deve conter no mínimo 14 caracteres.'),
 
     CPF: yup.string().required('O CPF deve ser preenchido.').min(14, 'O CPF deve ser válido.'),
+
+    linkedExternalForPayment: yup.array().of(yup.string()),
 
     password: yup.string().matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres.'),
 
