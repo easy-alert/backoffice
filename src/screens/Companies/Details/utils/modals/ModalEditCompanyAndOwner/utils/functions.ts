@@ -31,8 +31,10 @@ export const requestEditCompanyAndOwner = async ({
     imageUrl = company.image;
   }
 
+  const ownerUser = company.UserCompanies.find((item) => item.owner);
+
   const body = {
-    userId: company.UserCompanies[0].User.id,
+    userId: ownerUser?.User.id || '',
     companyId: company.id,
     image: imageUrl,
     name: data.name,
@@ -72,10 +74,10 @@ export const requestEditCompanyAndOwner = async ({
         UserCompanies: [
           {
             User: {
-              id: company.UserCompanies[0].User.id,
+              id: company.UserCompanies.find((item) => item.owner)?.User.id || '',
               name: data.name,
               email: data.email,
-              lastAccess: company.UserCompanies[0].User.lastAccess,
+              lastAccess: company.UserCompanies.find((item) => item.owner)?.User.lastAccess || '',
             },
           },
         ],
