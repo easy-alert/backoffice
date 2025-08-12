@@ -28,6 +28,7 @@ export const requestUserDetails = async ({
         lastAccess: item.User.lastAccess,
         name: item.User.name,
         owner: item.owner,
+        image: item.User.image,
         isBlocked: item.User.isBlocked,
       }));
 

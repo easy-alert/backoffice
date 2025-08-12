@@ -71,16 +71,7 @@ export const requestEditCompanyAndOwner = async ({
         isNotifyingOnceAWeek: data.isNotifyingOnceAWeek === 'semanalmente',
         receiveDailyDueReports: data.receiveDailyDueReports,
         receivePreviousMonthReports: data.receivePreviousMonthReports,
-        UserCompanies: [
-          {
-            User: {
-              id: company.UserCompanies.find((item) => item.owner)?.User.id || '',
-              name: data.name,
-              email: data.email,
-              lastAccess: company.UserCompanies.find((item) => item.owner)?.User.lastAccess || '',
-            },
-          },
-        ],
+        UserCompanies: company.UserCompanies,
       };
 
       setCompany(updatedCompany);

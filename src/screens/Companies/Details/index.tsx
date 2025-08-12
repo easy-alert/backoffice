@@ -22,20 +22,21 @@ import { applyMask, dateTimeFormatter } from '@utils/functions';
 
 // TYPES
 import type { IUser } from '@utils/types';
-import type { ICompany } from '../List/utils/types';
 
 // MODAIS
-
 import {
   requestChangeIsBlocked,
   requestDeleteCompany,
   requestUserDetails,
 } from './utils/functions';
+
 import { ModalEditCompanyAndOwner } from './utils/modals/ModalEditCompanyAndOwner';
 import { ModalBuildingAccessHistories } from './utils/modals/ModalBuildingAccessHistories';
 
 import * as Style from './styles';
-import { ILinkedCompanies, ILinkedUsers } from './utils/types';
+
+import type { ILinkedCompanies, ILinkedUsers } from './utils/types';
+import type { ICompany } from '../List/utils/types';
 
 export const CompanyDetails = () => {
   // UTILS
@@ -292,6 +293,7 @@ export const CompanyDetails = () => {
                         label: 'Último acesso',
                         value: user.lastAccess ? dateTimeFormatter(user.lastAccess) : '-',
                       },
+                      ...(user.owner ? [{ label: 'Dono', value: 'Sim' }] : []),
                     ],
                     status: !user.isBlocked,
                   }))

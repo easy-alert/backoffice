@@ -125,6 +125,7 @@ export const BuildingDetails = () => {
         <Style.Container>
           <h2>Detalhes da edificação</h2>
           <ReturnButton path={`/buildings${search}`} />
+
           <Style.DetailsBox>
             <Style.DetailGrid>
               <Style.Avatar>
