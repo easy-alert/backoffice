@@ -7,7 +7,7 @@ export const Container = styled.section`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: ${theme.size.xlg};
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   gap: ${theme.size.md};
 
   @media (max-width: 768px) {
