@@ -4,9 +4,9 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.size.sm};
-  padding: ${({ theme }) => theme.size.md};
-  max-width: 1200px;
-  margin: 0 auto;
+
+  padding-top: ${({ theme }) => theme.size.sm};
+  margin-bottom: ${({ theme }) => theme.size.sm};
 
   @media (max-width: 768px) {
     padding: ${({ theme }) => theme.size.sm};
@@ -23,7 +23,7 @@ export const DetailsBox = styled.div`
 
 export const DetailsWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   width: 100%;
 `;
