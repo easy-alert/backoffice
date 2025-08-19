@@ -84,8 +84,7 @@ export const requestEditCompanyAndOwner = async ({
     });
 };
 
-// YUP
-export const schemaModalEditCompanyAndOwnerWithCNPJ = yup
+export const schemaModalEditCompanyAndOwnerWithCPFAndCNPJ = yup
   .object({
     image: yup
       .mixed()
@@ -127,66 +126,33 @@ export const schemaModalEditCompanyAndOwnerWithCNPJ = yup
       .required('O número de telefone deve ser preenchido.')
       .min(14, 'O número de telefone deve conter no mínimo 14 caracteres.'),
 
-    CNPJ: yup.string().required('O CNPJ deve ser preenchido.').min(18, 'O CNPJ deve ser válido.'),
-
-    linkedExternalForPayment: yup.array().of(yup.string()),
-
-    password: yup.string().matches(/^(|.{8,})$/, 'A senha deve ter pelo menos 8 caracteres.'),
-
-    confirmPassword: yup
+    CPF: yup
       .string()
-      .oneOf([yup.ref('password'), null], 'As senhas não coincidem.')
-      .when('password', {
-        is: (password: string) => password && password.length > 0,
-        then: yup.string().required('Confirme a nova senha.'),
+      .test('cpf-or-cnpj', 'Um CPF ou CNPJ deve ser preenchido', function (value) {
+        const { CNPJ } = this.parent;
+        if (value && value.length > 0) return true;
+        if (CNPJ && CNPJ.length > 0) return true;
+        return false;
+      })
+      .when('$hasCPF', {
+        is: true,
+        then: (schema) => schema.min(14, 'O CPF deve ser válido'),
+        otherwise: (schema) => schema.notRequired(),
       }),
-  })
-  .required();
 
-// YUP
-export const schemaModalEditCompanyAndOwnerWithCPF = yup
-  .object({
-    image: yup
-      .mixed()
-      .nullable()
-      .notRequired()
-      .test(
-        'FileSize',
-        'O tamanho da imagem excedeu o limite.',
-        (value) => value.length || (value && value.size <= 5000000),
-      )
-      .test(
-        'FileType',
-        'Formato inválido.',
-        (value) =>
-          value.length ||
-          (value &&
-            (value.type === 'image/png' ||
-              value.type === 'image/jpeg' ||
-              value.type === 'image/jpg')),
-      ),
-
-    name: yup
+    CNPJ: yup
       .string()
-      .required('O nome deve ser preenchido.')
-      .min(3, 'O nome deve conter 3 ou mais caracteres.'),
-
-    email: yup
-      .string()
-      .email('Informe um e-mail válido.')
-      .required('O e-mail deve ser preenchido.'),
-
-    companyName: yup
-      .string()
-      .required('O nome da empresa deve ser preenchido.')
-      .min(3, 'O nome da empresa deve conter 3 ou mais caracteres.'),
-
-    contactNumber: yup
-      .string()
-      .required('O número de telefone deve ser preenchido.')
-      .min(14, 'O número de telefone deve conter no mínimo 14 caracteres.'),
-
-    CPF: yup.string().required('O CPF deve ser preenchido.').min(14, 'O CPF deve ser válido.'),
+      .test('cpf-or-cnpj', 'Um CPF ou CNPJ deve ser preenchido', function (value) {
+        const { CPF } = this.parent;
+        if (value && value.length > 0) return true;
+        if (CPF && CPF.length > 0) return true;
+        return false;
+      })
+      .when('$hasCNPJ', {
+        is: true,
+        then: (schema) => schema.min(18, 'O CNPJ deve ser válido'),
+        otherwise: (schema) => schema.notRequired(),
+      }),
 
     linkedExternalForPayment: yup.array().of(yup.string()),
 
