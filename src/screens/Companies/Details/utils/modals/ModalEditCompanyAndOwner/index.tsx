@@ -23,8 +23,7 @@ import { icon } from '@assets/icons';
 import { handleToastifyMessage } from '@utils/toastifyResponses';
 import {
   requestEditCompanyAndOwner,
-  schemaModalEditCompanyAndOwnerWithCNPJ,
-  schemaModalEditCompanyAndOwnerWithCPF,
+  schemaModalEditCompanyAndOwnerWithCPFAndCNPJ,
 } from './utils/functions';
 
 // STYLES
@@ -40,6 +39,7 @@ export const ModalEditCompanyAndOwner = ({
   setCompany,
   setModal,
 }: IModalEditCompanyAndOwner) => {
+  console.log('🚀 ~ ModalEditCompanyAndOwner ~ company:', company);
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
@@ -66,11 +66,7 @@ export const ModalEditCompanyAndOwner = ({
           receiveDailyDueReports: company.receiveDailyDueReports,
           receivePreviousMonthReports: company.receivePreviousMonthReports,
         }}
-        validationSchema={
-          company.CPF
-            ? schemaModalEditCompanyAndOwnerWithCPF
-            : schemaModalEditCompanyAndOwnerWithCNPJ
-        }
+        validationSchema={schemaModalEditCompanyAndOwnerWithCPFAndCNPJ}
         onSubmit={async (data: IFormDataCompanyForEdit) => {
           await requestEditCompanyAndOwner({
             data,
@@ -141,33 +137,29 @@ export const ModalEditCompanyAndOwner = ({
                 }}
               />
 
-              {company.CPF && (
-                <FormikInput
-                  name="CPF"
-                  label="CPF"
-                  maxLength={applyMask({ value: values.CPF, mask: 'CPF' }).length}
-                  value={values.CPF}
-                  error={touched.CPF && errors.CPF ? errors.CPF : null}
-                  placeholder="000.000.000-00"
-                  onChange={(e) => {
-                    setFieldValue('CPF', applyMask({ value: e.target.value, mask: 'CPF' }).value);
-                  }}
-                />
-              )}
+              <FormikInput
+                name="CPF"
+                label="CPF"
+                maxLength={applyMask({ value: values.CPF, mask: 'CPF' }).length}
+                value={values.CPF}
+                error={touched.CPF && errors.CPF ? errors.CPF : null}
+                placeholder="000.000.000-00"
+                onChange={(e) =>
+                  setFieldValue('CPF', applyMask({ value: e.target.value, mask: 'CPF' }).value)
+                }
+              />
 
-              {company.CNPJ && (
-                <FormikInput
-                  name="CNPJ"
-                  label="CNPJ"
-                  maxLength={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length}
-                  value={values.CNPJ}
-                  error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
-                  placeholder="00.000.000/0000-00"
-                  onChange={(e) => {
-                    setFieldValue('CNPJ', applyMask({ value: e.target.value, mask: 'CNPJ' }).value);
-                  }}
-                />
-              )}
+              <FormikInput
+                name="CNPJ"
+                label="CNPJ"
+                maxLength={applyMask({ value: values.CNPJ, mask: 'CNPJ' }).length}
+                value={values.CNPJ}
+                error={touched.CNPJ && errors.CNPJ ? errors.CNPJ : null}
+                placeholder="00.000.000/0000-00"
+                onChange={(e) =>
+                  setFieldValue('CNPJ', applyMask({ value: e.target.value, mask: 'CNPJ' }).value)
+                }
+              />
 
               <div>
                 <FormikInput
