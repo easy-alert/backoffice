@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 // LIBS
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // COMPONENTS
@@ -26,6 +26,12 @@ import { dateTimeFormatter } from '../../../utils/functions';
 // MODALS
 import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
 
+const flagColors: Record<string, string> = {
+  red: '#e74c3c',
+  yellow: '#f1c40f',
+  green: '#2ecc71',
+};
+
 export const CompaniesList = () => {
   // UTILS
   const navigate = useNavigate();
@@ -49,13 +55,7 @@ export const CompaniesList = () => {
   const queryPage = Number(search.get('page'));
   const queryFilter = search.get('filter');
 
-  const flagColors: Record<string, string> = {
-    red: '#e74c3c',
-    yellow: '#f1c40f',
-    green: '#2ecc71',
-  };
-
-  const getFlagColor = (flag?: string) => flagColors[flag ?? 'green'];
+  const getFlagColor = useCallback((flag?: string) => flagColors[flag ?? 'green'], [flagColors]);
 
   useEffect(() => {
     if (queryPage) setPage(queryPage);
