@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 // LIBS
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // COMPONENTS
@@ -26,6 +26,13 @@ import { dateTimeFormatter } from '../../../utils/functions';
 // MODALS
 import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
 
+const flagColors: Record<string, string> = {
+  red: '#e74c3c',
+  yellow: '#f1c40f',
+  green: '#2ecc71',
+  gray: '#bdc3c7',
+};
+
 export const CompaniesList = () => {
   // UTILS
   const navigate = useNavigate();
@@ -48,6 +55,8 @@ export const CompaniesList = () => {
   const [search] = useSearchParams();
   const queryPage = Number(search.get('page'));
   const queryFilter = search.get('filter');
+
+  const getFlagColor = useCallback((flag?: string) => flagColors[flag ?? 'green'], [flagColors]);
 
   useEffect(() => {
     if (queryPage) setPage(queryPage);
@@ -156,6 +165,7 @@ export const CompaniesList = () => {
                   },
                   { label: 'Último acesso' },
                   { label: 'Status' },
+                  { label: 'Atividade' },
                 ]}
               >
                 {companies.map((company) => (
@@ -201,6 +211,20 @@ export const CompaniesList = () => {
                       {
                         cell: <Tag isInvalid={company.isBlocked} key={company.id} />,
                         cssProps: { width: '30%' },
+                      },
+                      {
+                        cell: (
+                          <span
+                            style={{
+                              display: 'inline-block',
+                              width: 16,
+                              height: 16,
+                              borderRadius: '50%',
+                              background: getFlagColor(company.maintenanceFlag),
+                            }}
+                          />
+                        ),
+                        cssProps: { width: '5%', textAlign: 'center' },
                       },
                       {
                         cell: <img src={icon.rightArrow} width="16px" height="16px" alt="" />,

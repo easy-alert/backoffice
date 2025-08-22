@@ -25,6 +25,7 @@ export interface ICompany {
   receiveDailyDueReports: boolean;
   canAccessTickets: boolean;
   UserCompanies: IUserCompanies[];
+  maintenanceFlag?: 'green' | 'yellow' | 'red';
 }
 
 export interface IRequestUsersList {
