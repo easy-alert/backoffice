@@ -49,6 +49,14 @@ export const CompaniesList = () => {
   const queryPage = Number(search.get('page'));
   const queryFilter = search.get('filter');
 
+  const flagColors: Record<string, string> = {
+    red: '#e74c3c',
+    yellow: '#f1c40f',
+    green: '#2ecc71',
+  };
+
+  const getFlagColor = (flag?: string) => flagColors[flag ?? 'green'];
+
   useEffect(() => {
     if (queryPage) setPage(queryPage);
     if (queryFilter) setFilter(queryFilter);
@@ -156,6 +164,7 @@ export const CompaniesList = () => {
                   },
                   { label: 'Último acesso' },
                   { label: 'Status' },
+                  { label: 'Atividade' },
                 ]}
               >
                 {companies.map((company) => (
@@ -201,6 +210,20 @@ export const CompaniesList = () => {
                       {
                         cell: <Tag isInvalid={company.isBlocked} key={company.id} />,
                         cssProps: { width: '30%' },
+                      },
+                      {
+                        cell: (
+                          <span
+                            style={{
+                              display: 'inline-block',
+                              width: 16,
+                              height: 16,
+                              borderRadius: '50%',
+                              background: getFlagColor(company.maintenanceFlag),
+                            }}
+                          />
+                        ),
+                        cssProps: { width: '5%', textAlign: 'center' },
                       },
                       {
                         cell: <img src={icon.rightArrow} width="16px" height="16px" alt="" />,
