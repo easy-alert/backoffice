@@ -30,6 +30,7 @@ const flagColors: Record<string, string> = {
   red: '#e74c3c',
   yellow: '#f1c40f',
   green: '#2ecc71',
+  gray: '#bdc3c7',
 };
 
 export const CompaniesList = () => {
