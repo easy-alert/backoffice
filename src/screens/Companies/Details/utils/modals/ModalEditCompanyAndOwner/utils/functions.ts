@@ -52,6 +52,7 @@ export const requestEditCompanyAndOwner = async ({
     canAccessTickets: data.canAccessTickets,
     receiveDailyDueReports: data.receiveDailyDueReports,
     receivePreviousMonthReports: data.receivePreviousMonthReports,
+    clientType: data.clientType,
   };
 
   await Api.put(uri, body)
@@ -72,6 +73,7 @@ export const requestEditCompanyAndOwner = async ({
         receiveDailyDueReports: data.receiveDailyDueReports,
         receivePreviousMonthReports: data.receivePreviousMonthReports,
         UserCompanies: company.UserCompanies,
+        clientType: data.clientType,
       };
 
       setCompany(updatedCompany);
