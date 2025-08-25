@@ -36,6 +36,7 @@ export const ModalCreateCompanyAndOwner = ({
           name: '',
           email: '',
           companyName: '',
+          clientType: '',
           contactNumber: '',
           CNPJorCPF: '',
           password: '',
@@ -94,6 +95,21 @@ export const ModalCreateCompanyAndOwner = ({
                 error={touched.companyName && errors.companyName ? errors.companyName : null}
                 placeholder="Ex: Easy Alert"
               />
+
+              <FormikSelect
+                name="clientType"
+                label="Tipo de cliente *"
+                selectPlaceholderValue={values.clientType}
+                error={touched.clientType && errors.clientType ? errors.clientType : null}
+              >
+                <option value="">Selecione o tipo</option>
+                <option value="síndico morador">Síndico morador</option>
+                <option value="síndico profissional">Síndico profissional</option>
+                <option value="construtora">Construtora</option>
+                <option value="adm">Administradora</option>
+                <option value="outros">Outros</option>
+                <option value="teste">Conta teste</option>
+              </FormikSelect>
 
               <FormikInput
                 label="Telefone *"
