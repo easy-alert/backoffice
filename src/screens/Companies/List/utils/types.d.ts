@@ -25,6 +25,7 @@ export interface ICompany {
   receiveDailyDueReports: boolean;
   canAccessTickets: boolean;
   UserCompanies: IUserCompanies[];
+  clientType?: string;
 }
 
 export interface IRequestUsersList {
@@ -49,7 +50,7 @@ export interface IFormDataCompany {
   canAccessTickets: boolean;
   receivePreviousMonthReports: boolean;
   receiveDailyDueReports: boolean;
-
+  clientType: string;
   password: string;
   confirmPassword: string;
 }
@@ -67,6 +68,7 @@ export interface IFormDataCompanyForEdit {
   canAccessTickets: boolean;
   receivePreviousMonthReports: boolean;
   receiveDailyDueReports: boolean;
+  clientType: string;
 
   externalForPayment: string;
   linkedExternalForPayment: string[];
