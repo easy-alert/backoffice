@@ -185,7 +185,7 @@ export const CompaniesList = () => {
                         },
                       },
                       {
-                        cell: company.clientType && company.clientType ? company.clientType : '',
+                        cell: company.clientType ?? '',
                         cssProps: { width: '15%' },
                       },
                       {
