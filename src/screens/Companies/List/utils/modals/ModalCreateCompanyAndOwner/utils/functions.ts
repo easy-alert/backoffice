@@ -7,17 +7,17 @@ import { Api } from '@services/api';
 import { catchHandler, unMask, uploadFile } from '@utils/functions';
 
 // TYPES
-import { IRequestCreateCompanyAndOWner } from './types';
+import { IRequestCreateCompanyAndOwner } from './types';
 import { requestUsersList } from '../../../functions';
 
-export const requestCreateCompanyAndOWner = async ({
+export const requestCreateCompanyAndOwner = async ({
   data,
   setCompanies,
   page,
   setCount,
   setOnQuery,
   setModal,
-}: IRequestCreateCompanyAndOWner) => {
+}: IRequestCreateCompanyAndOwner) => {
   setOnQuery(true);
   let imageUrl;
 
