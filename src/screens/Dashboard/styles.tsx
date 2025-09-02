@@ -98,3 +98,15 @@ export const EmptyContainer = styled.div`
     color: ${({ theme }) => theme.color.gray4};
   }
 `;
+
+export const ChartsRow = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.size.sm};
+  width: 100%;
+  flex-wrap: wrap;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size.sm};
+  }
+`;

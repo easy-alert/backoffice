@@ -15,6 +15,22 @@ export const ClientEntriesChart: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [years, setYears] = useState<string[]>([]);
 
+  const monthNames = [
+    'Jan',
+    'Fev',
+    'Mar',
+    'Abr',
+    'Mai',
+    'Jun',
+    'Jul',
+    'Ago',
+    'Set',
+    'Out',
+    'Nov',
+    'Dez',
+  ];
+  const months = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
+
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
@@ -61,12 +77,32 @@ export const ClientEntriesChart: React.FC = () => {
     }
   });
 
-  const months = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
   const values = months.map((m) => grouped[m] || 0);
 
   const options = {
-    xaxis: { categories: months.map((m) => `${m}/${selectedYear}`), title: { text: 'Mês' } },
-    title: { text: `Cadastros de Empresas em ${selectedYear}` },
+    chart: {
+      toolbar: { show: false },
+      height: 320,
+      offsetY: 20,
+    },
+    xaxis: {
+      categories: monthNames,
+      title: {
+        text: 'Mês',
+        style: {
+          fontFamily: 'DM Sans, sans-serif',
+          fontWeight: 500,
+          fontSize: '14px',
+        },
+      },
+      labels: {
+        rotate: -45,
+        style: {
+          fontSize: '12px',
+          fontFamily: 'DM Sans, sans-serif',
+        },
+      },
+    },
     colors: ['#008FFB'],
     tooltip: {
       custom({ dataPointIndex }: { dataPointIndex: number }) {
@@ -92,6 +128,7 @@ export const ClientEntriesChart: React.FC = () => {
 
   return (
     <Style.ChartContainer>
+      <h3>Cadastros de Empresas em {selectedYear}</h3>
       <Style.YearSelectWrapper>
         <Style.YearLabel htmlFor="year-select">
           Ano:&nbsp;
@@ -108,7 +145,7 @@ export const ClientEntriesChart: React.FC = () => {
           </Style.YearSelect>
         </Style.YearLabel>
       </Style.YearSelectWrapper>
-      <ApexCharts options={options} series={series} type="bar" height={320} />
+      <ApexCharts options={options} series={series} type="bar" height={320} width="100%" />
     </Style.ChartContainer>
   );
 };

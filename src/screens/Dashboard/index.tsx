@@ -230,8 +230,9 @@ function Dashboard() {
       <Style.HeaderTitle>Dashboard</Style.HeaderTitle>
 
       <Style.Wrappers>
-        {/* Gráfico de cadastros de empresas */}
-        <ClientEntriesChart />
+        <Style.ChartsRow>
+          <ClientEntriesChart />
+        </Style.ChartsRow>
 
         <Style.QuantitiesCards>
           {/* active companies */}
