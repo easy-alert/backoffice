@@ -7,17 +7,17 @@ import { Api } from '@services/api';
 import { catchHandler, unMask, uploadFile } from '@utils/functions';
 
 // TYPES
-import { IRequestCreateCompanyAndOWner } from './types';
+import { IRequestCreateCompanyAndOwner } from './types';
 import { requestUsersList } from '../../../functions';
 
-export const requestCreateCompanyAndOWner = async ({
+export const requestCreateCompanyAndOwner = async ({
   data,
   setCompanies,
   page,
   setCount,
   setOnQuery,
   setModal,
-}: IRequestCreateCompanyAndOWner) => {
+}: IRequestCreateCompanyAndOwner) => {
   setOnQuery(true);
   let imageUrl;
 
@@ -42,6 +42,7 @@ export const requestCreateCompanyAndOWner = async ({
     canAccessTickets: data.canAccessTickets,
     receiveDailyDueReports: data.receiveDailyDueReports,
     receivePreviousMonthReports: data.receivePreviousMonthReports,
+    clientType: data.clientType,
   })
     .then((res) => {
       requestUsersList({
@@ -95,6 +96,8 @@ export const schemaModalCreateCompanyAndOwner = yup
       .string()
       .required('O nome da empresa deve ser preenchido.')
       .min(3, 'O nome da empresa deve conter 3 ou mais caracteres.'),
+
+    clientType: yup.string().required('O tipo de cliente deve ser selecionado.'),
 
     contactNumber: yup
       .string()
