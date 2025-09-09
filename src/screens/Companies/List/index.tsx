@@ -195,10 +195,7 @@ export const CompaniesList = () => {
                         },
                       },
                       {
-                        cell:
-                          company.clientType && company.clientType.trim() !== ''
-                            ? company.clientType
-                            : '-',
+                        cell: company.clientType ?? '',
                         cssProps: { width: '15%' },
                       },
                       {
