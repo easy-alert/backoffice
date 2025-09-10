@@ -228,6 +228,7 @@ export const FailureTypesList = () => {
                       cell: (
                         <TableCell
                           type="string"
+                          // eslint-disable-next-line no-underscore-dangle
                           value={item?._count?.guaranteeToFailureTypes || ''}
                           alignItems="center"
                         />

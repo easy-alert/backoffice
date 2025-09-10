@@ -224,6 +224,7 @@ export const SystemsList = () => {
                     cell: (
                       <TableCell
                         type="string"
+                        // eslint-disable-next-line no-underscore-dangle
                         value={item._count.guarantees || ''}
                         alignItems="center"
                       />
