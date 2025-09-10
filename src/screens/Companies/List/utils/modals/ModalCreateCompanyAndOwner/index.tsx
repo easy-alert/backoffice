@@ -16,7 +16,7 @@ import { IModalCreateCompanyAndOwner } from './utils/types';
 // FUNCTIONS
 
 import { applyMask } from '../../../../../../utils/functions';
-import { requestCreateCompanyAndOWner, schemaModalCreateCompanyAndOwner } from './utils/functions';
+import { requestCreateCompanyAndOwner, schemaModalCreateCompanyAndOwner } from './utils/functions';
 import { FormikSelect } from '../../../../../../components/Form/FormikSelect';
 import { FormikCheckbox } from '../../../../../../components/Form/FormikCheckbox';
 
@@ -49,7 +49,7 @@ export const ModalCreateCompanyAndOwner = ({
         }}
         validationSchema={schemaModalCreateCompanyAndOwner}
         onSubmit={async (data: IFormDataCompany) => {
-          await requestCreateCompanyAndOWner({
+          await requestCreateCompanyAndOwner({
             data,
             setModal,
             setOnQuery,
