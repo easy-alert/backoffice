@@ -158,6 +158,9 @@ export const CompaniesList = () => {
                     },
                   },
                   {
+                    label: 'Tipo de usuário',
+                  },
+                  {
                     label: 'Responsável',
                     cssProps: {
                       paddingRight: theme.size.sm,
@@ -190,6 +193,10 @@ export const CompaniesList = () => {
                           textOverflow: 'ellipsis',
                           maxWidth: '300px',
                         },
+                      },
+                      {
+                        cell: company.clientType ?? '',
+                        cssProps: { width: '15%' },
                       },
                       {
                         cell: company?.UserCompanies[0]?.User.name,

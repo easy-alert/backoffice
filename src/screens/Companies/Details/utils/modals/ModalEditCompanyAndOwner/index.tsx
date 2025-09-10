@@ -65,6 +65,7 @@ export const ModalEditCompanyAndOwner = ({
           canAccessTickets: company.canAccessTickets,
           receiveDailyDueReports: company.receiveDailyDueReports,
           receivePreviousMonthReports: company.receivePreviousMonthReports,
+          clientType: company.clientType || '',
         }}
         validationSchema={schemaModalEditCompanyAndOwnerWithCPFAndCNPJ}
         onSubmit={async (data: IFormDataCompanyForEdit) => {
@@ -116,6 +117,22 @@ export const ModalEditCompanyAndOwner = ({
                 error={touched.companyName && errors.companyName ? errors.companyName : null}
                 placeholder="Ex: Easy Alert"
               />
+
+              <FormikSelect
+                name="clientType"
+                label="Tipo de cliente "
+                value={values.clientType}
+                onChange={(e) => setFieldValue('clientType', e.target.value)}
+                error={touched.clientType && errors.clientType ? errors.clientType : null}
+              >
+                <option value="">Selecione o tipo</option>
+                <option value="síndico morador">Síndico Morador</option>
+                <option value="síndico profissional">Síndico Profissional</option>
+                <option value="construtora">Construtora</option>
+                <option value="adm">Administradora</option>
+                <option value="outros">Outros</option>
+                <option value="teste">Conta Teste</option>
+              </FormikSelect>
 
               <FormikInput
                 label="Telefone"

@@ -113,6 +113,11 @@ export const CompanyDetails = () => {
               </Style.Card>
 
               <Style.Card>
+                <h6>Tipo de cliente</h6>
+                <p className="p2">{company?.clientType ? company.clientType : '-'}</p>
+              </Style.Card>
+
+              <Style.Card>
                 <h6>Telefone</h6>
                 <p className="p2">
                   {applyMask({ value: company?.contactNumber ?? '', mask: 'TEL' }).value}

@@ -7,7 +7,7 @@ export interface IModalCreateCompanyAndOwner {
   setModal: (setModal: boolean) => void;
 }
 
-export interface IRequestCreateCompanyAndOWner {
+export interface IRequestCreateCompanyAndOwner {
   setCount: (setCount: number) => void;
   page: number;
   setCompanies: (setCompanies: ICompany[]) => void;

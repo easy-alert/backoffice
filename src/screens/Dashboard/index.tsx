@@ -5,15 +5,18 @@ import { useEffect, useState } from 'react';
 import { Api } from '@services/api';
 
 // GLOBAL COMPONENTS
-import { Input } from '@components/Inputs/Input';
 import { ColorfulTable, ColorfulTableContent } from '@components/ColorfulTable';
 import { DotSpinLoading } from '@components/Loadings/DotSpinLoading';
+import { Input } from '@components/Inputs/Input';
+import TableCell from '@components/TableCell';
 
 // GLOBAL UTILS
 import { handleToastify } from '@utils/toastifyResponses';
 
+// COMPONENTS
+import { ClientEntriesChart } from './Components';
+
 // STYLES
-import TableCell from '@components/TableCell';
 import * as Style from './styles';
 
 interface IDashboardLoadings {
@@ -227,6 +230,10 @@ function Dashboard() {
       <Style.HeaderTitle>Dashboard</Style.HeaderTitle>
 
       <Style.Wrappers>
+        <Style.ChartsRow>
+          <ClientEntriesChart />
+        </Style.ChartsRow>
+
         <Style.QuantitiesCards>
           {/* active companies */}
           <Style.QuantityCard>
