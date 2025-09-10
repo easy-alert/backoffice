@@ -130,7 +130,7 @@ export const schemaModalEditCompanyAndOwnerWithCPFAndCNPJ = yup
 
     CPF: yup
       .string()
-      .test('cpf-or-cnpj', 'Um CPF ou CNPJ deve ser preenchido', function (value) {
+      .test('cpf-or-cnpj', 'Um CPF ou CNPJ deve ser preenchido', function validateCpfOrCnpj(value) {
         const { CNPJ } = this.parent;
         if (value && value.length > 0) return true;
         if (CNPJ && CNPJ.length > 0) return true;
@@ -144,7 +144,7 @@ export const schemaModalEditCompanyAndOwnerWithCPFAndCNPJ = yup
 
     CNPJ: yup
       .string()
-      .test('cpf-or-cnpj', 'Um CPF ou CNPJ deve ser preenchido', function (value) {
+      .test('cpf-or-cnpj', 'Um CPF ou CNPJ deve ser preenchido', function validateCnpjOrCpf(value) {
         const { CPF } = this.parent;
         if (value && value.length > 0) return true;
         if (CPF && CPF.length > 0) return true;
