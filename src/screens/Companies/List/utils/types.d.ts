@@ -26,6 +26,7 @@ export interface ICompany {
   canAccessTickets: boolean;
   UserCompanies: IUserCompanies[];
   clientType?: string;
+  maintenanceFlag?: string;
 }
 
 export interface IRequestUsersList {
