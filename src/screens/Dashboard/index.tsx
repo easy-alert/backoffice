@@ -14,7 +14,8 @@ import TableCell from '@components/TableCell';
 import { handleToastify } from '@utils/toastifyResponses';
 
 // COMPONENTS
-import { ClientEntriesChart } from './Components';
+import { ClientEntriesChart } from './Components/ClientEntriesChart';
+import { RedFlagsChart } from './Components/RedFlagsChart';
 
 // STYLES
 import * as Style from './styles';
@@ -232,6 +233,7 @@ function Dashboard() {
       <Style.Wrappers>
         <Style.ChartsRow>
           <ClientEntriesChart />
+          <RedFlagsChart />
         </Style.ChartsRow>
 
         <Style.QuantitiesCards>
