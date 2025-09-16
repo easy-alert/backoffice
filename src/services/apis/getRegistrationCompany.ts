@@ -5,6 +5,7 @@ export interface Company {
   id: string;
   name: string;
   createdAt: string;
+  maintenanceFlag?: string;
 }
 
 export async function getRegistrationCompany(): Promise<Company[]> {
