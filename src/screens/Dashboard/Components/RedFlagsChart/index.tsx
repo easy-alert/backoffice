@@ -4,6 +4,9 @@ import ApexCharts from 'react-apexcharts';
 // SERVICES
 import { getRegistrationCompany } from '@services/apis/getRegistrationCompany';
 
+// COMPONENTS
+import { Modal } from '@components/Modal';
+
 // STYLES
 import * as Style from './styles';
 
@@ -22,6 +25,9 @@ const flagColors: Record<string, string> = {
 };
 
 export const RedFlagsChart: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalFlag, setModalFlag] = useState<string | null>(null);
+
   const [flagCounts, setFlagCounts] = useState<Record<string, number>>({
     red: 0,
     yellow: 0,
@@ -29,18 +35,31 @@ export const RedFlagsChart: React.FC = () => {
     gray: 0,
   });
 
+  const [flagCompanyNames, setFlagCompanyNames] = useState<Record<string, string[]>>({
+    red: [],
+    yellow: [],
+    green: [],
+    gray: [],
+  });
+
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
         const companies = await getRegistrationCompany();
         const counts: Record<string, number> = { red: 0, yellow: 0, green: 0, gray: 0 };
-        companies.forEach((company) => {
-          const flag = (company.maintenanceFlag as string) || 'gray';
-          counts[flag] = (counts[flag] || 0) + 1;
-        });
+        const names: Record<string, string[]> = { red: [], yellow: [], green: [], gray: [] };
+        companies
+          .filter((company) => company.isBlocked === false)
+          .forEach((company) => {
+            const flag = (company.maintenanceFlag as string) || 'gray';
+            counts[flag] = (counts[flag] || 0) + 1;
+            names[flag].push(company.name);
+          });
         setFlagCounts(counts);
+        setFlagCompanyNames(names);
       } catch (err) {
         setFlagCounts({ red: 0, yellow: 0, green: 0, gray: 0 });
+        setFlagCompanyNames({ red: [], yellow: [], green: [], gray: [] });
       }
     };
     fetchCompanies();
@@ -53,6 +72,13 @@ export const RedFlagsChart: React.FC = () => {
     chart: {
       type: 'donut' as const,
       height: 320,
+      events: {
+        dataPointSelection: (event: any, chartContext: any, config: any) => {
+          const flag = Object.keys(flagCounts)[config.dataPointIndex];
+          setModalFlag(flag);
+          setModalOpen(true);
+        },
+      },
     },
     labels,
     colors: Object.keys(flagCounts).map((flag) => flagColors[flag]),
@@ -61,8 +87,24 @@ export const RedFlagsChart: React.FC = () => {
       offsetY: 24,
     },
     tooltip: {
-      y: {
-        formatter: (val: number) => `${val} empresas`,
+      enabled: true,
+      custom({ series: chartSeries, seriesIndex }: { series: number[]; seriesIndex: number }) {
+        const flag = Object.keys(flagCounts)[seriesIndex];
+        const names = flagCompanyNames[flag] || [];
+        const maxToShow = 10;
+        const shownNames = names.slice(0, maxToShow);
+        const list = shownNames.map((name) => `<li>${name}</li>`).join('');
+        const more =
+          names.length > maxToShow ? `<li>...e mais ${names.length - maxToShow} empresas</li>` : '';
+        return `
+          <div style="padding:8px; background:#fff; color:#222; border-radius:8px; max-width:350px;">
+            ${chartSeries[seriesIndex]} empresas:
+            <ul style="padding-left:18px; margin:0;">
+              ${list}
+              ${more}
+            </ul>
+          </div>
+        `;
       },
     },
   };
@@ -71,6 +113,15 @@ export const RedFlagsChart: React.FC = () => {
     <Style.ChartContainer>
       <h3>Bandeiras de Atividade</h3>
       <ApexCharts options={options} series={series} type="donut" height={320} width="100%" />
+      {modalOpen && modalFlag && (
+        <Modal setModal={setModalOpen} title={flagLabels[modalFlag]} bodyWidth="460px" closeOutside>
+          <ul>
+            {flagCompanyNames[modalFlag].map((name) => (
+              <li key={name}>{name}</li>
+            ))}
+          </ul>
+        </Modal>
+      )}
     </Style.ChartContainer>
   );
 };
