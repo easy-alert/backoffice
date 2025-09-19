@@ -6,6 +6,7 @@ export interface Company {
   name: string;
   createdAt: string;
   maintenanceFlag?: string;
+  isBlocked?: boolean;
 }
 
 export async function getRegistrationCompany(): Promise<Company[]> {
