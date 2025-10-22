@@ -26,7 +26,7 @@ export const ModalRegisterClient = ({ setModal }: IModalPreRegistrationClient) =
 
   return (
     <Modal
-      title={generatedLink ? 'Link Gerado com Sucesso!' : 'Gerar Link de Pré-cadastro'}
+      title={generatedLink ? 'Link gerado com sucesso!' : 'Gerar link de pré-cadastro'}
       setModal={setModal}
     >
       <Formik
