@@ -34,6 +34,14 @@ const flagColors: Record<string, string> = {
   gray: '#bdc3c7',
 };
 
+const clientTypeLabels: { [key: string]: string } = {
+  residentSyndic: 'Síndico Morador',
+  professionalSyndic: 'Síndico Profissional',
+  constructionCompany: 'Construtora',
+  administrationCompany: 'Administradora',
+  others: 'Outros',
+};
+
 export const CompaniesList = () => {
   // UTILS
   const navigate = useNavigate();
@@ -182,7 +190,7 @@ export const CompaniesList = () => {
                     },
                   },
                   {
-                    label: 'Tipo de usuário',
+                    label: 'Tipo de cliente',
                   },
                   {
                     label: 'Responsável',
@@ -219,7 +227,9 @@ export const CompaniesList = () => {
                         },
                       },
                       {
-                        cell: company.clientType ?? '',
+                        cell: company.clientType
+                          ? clientTypeLabels[company.clientType] || company.clientType
+                          : '',
                         cssProps: { width: '15%' },
                       },
                       {

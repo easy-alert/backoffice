@@ -38,6 +38,14 @@ import * as Style from './styles';
 import type { ILinkedCompanies, ILinkedUsers } from './utils/types';
 import type { ICompany } from '../List/utils/types';
 
+const clientTypeLabels: { [key: string]: string } = {
+  residentSyndic: 'Síndico Morador',
+  professionalSyndic: 'Síndico Profissional',
+  constructionCompany: 'Construtora',
+  administrationCompany: 'Administradora',
+  others: 'Outros',
+};
+
 export const CompanyDetails = () => {
   // UTILS
   const [loading, setLoading] = useState<boolean>(true);
@@ -114,7 +122,11 @@ export const CompanyDetails = () => {
 
               <Style.Card>
                 <h6>Tipo de cliente</h6>
-                <p className="p2">{company?.clientType ? company.clientType : '-'}</p>
+                <p className="p2">
+                  {company && company.clientType
+                    ? clientTypeLabels[company.clientType] || company.clientType
+                    : '-'}
+                </p>
               </Style.Card>
 
               <Style.Card>
