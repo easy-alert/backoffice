@@ -31,11 +31,13 @@ export const ModalRegisterClient = ({ setModal }: IModalPreRegistrationClient) =
     >
       <Formik
         initialValues={{
+          name: '',
           clientType: '',
           condosQty: 1,
           plan: '',
           monthlyValue: '',
           implementationValue: '',
+          implementationDueDate: '',
         }}
         validationSchema={internalDataSchema}
         onSubmit={(formData) => requestGenerateLink({ formData, setOnQuery, setGeneratedLink })}
@@ -44,6 +46,13 @@ export const ModalRegisterClient = ({ setModal }: IModalPreRegistrationClient) =
           <Style.FormContainer>
             {!generatedLink ? (
               <Form>
+                <FormikInput
+                  label="Nome do Cliente *"
+                  name="name"
+                  type="text"
+                  placeholder="Ex: Condomínio Central Park"
+                  error={touched.name && errors.name ? errors.name : null}
+                />
                 <FormikSelect
                   name="clientType"
                   label="Tipo do cliente *"
@@ -91,6 +100,16 @@ export const ModalRegisterClient = ({ setModal }: IModalPreRegistrationClient) =
                   error={
                     touched.implementationValue && errors.implementationValue
                       ? errors.implementationValue
+                      : null
+                  }
+                />
+                <FormikInput
+                  label="Vencimento da implementação *"
+                  name="implementationDueDate"
+                  type="date"
+                  error={
+                    touched.implementationDueDate && errors.implementationDueDate
+                      ? errors.implementationDueDate
                       : null
                   }
                 />

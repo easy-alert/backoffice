@@ -8,11 +8,13 @@ export interface IModalPreRegistrationClient {
 }
 
 export interface IInternalFormData {
+  name: string;
   clientType: string;
   condosQty: number;
   plan: string;
   monthlyValue: string | number;
   implementationValue: string | number;
+  implementationDueDate: string;
 }
 
 export interface IRequestGenerateLink {
