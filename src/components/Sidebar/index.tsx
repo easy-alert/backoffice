@@ -34,6 +34,14 @@ export const Sidebar = () => {
       label: 'Dashboard',
     },
     {
+      icon: icon.register,
+      url: '/pre-register',
+      redirectFunction: () => {
+        navigate('/pre-register');
+      },
+      label: 'Status Pré-Cadastro',
+    },
+    {
       icon: icon.enterprise,
       url: '/companies',
       redirectFunction: () => {

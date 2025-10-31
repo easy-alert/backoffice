@@ -23,6 +23,7 @@ import { HomeFeed } from '@screens/HomeFeed';
 import { BuildingDetails } from '@screens/Building/Details';
 import { Guarantees } from '@screens/Guarantees';
 import { ClientRegistrationPage } from '@screens/Companies/List/utils/modals/ClientRegistrationPage';
+import { StatusPreRegister } from '@screens/StatusPreRegister';
 
 // CATEGORIES
 
@@ -43,6 +44,8 @@ const AppRoutes = () => (
         >
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
+
+          <Route path="/pre-register" element={<StatusPreRegister />} />
 
           <Route path="/companies" element={<Outlet />}>
             <Route index element={<CompaniesList />} />
