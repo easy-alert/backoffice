@@ -83,7 +83,7 @@ export const StatusPreRegister = () => {
 
   return (
     <Style.PageContainer>
-      <h1>Status dos Links de Pré-Cadastro</h1>
+      <h2>Status dos links de pré-cadastro</h2>
 
       <Table colsHeader={colsHeader}>{rows}</Table>
     </Style.PageContainer>

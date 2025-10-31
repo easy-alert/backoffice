@@ -5,10 +5,10 @@ export const PageContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
 
-  h1 {
+  h2 {
     font-size: 24px;
     color: ${({ theme }) => theme.color.gray6};
-    margin-bottom: ${({ theme }) => theme.size.lg};
+    margin-bottom: ${({ theme }) => theme.size.csm2};
   }
 `;
 
