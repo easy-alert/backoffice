@@ -22,6 +22,8 @@ import Chatbot from '@screens/Chatbot';
 import { HomeFeed } from '@screens/HomeFeed';
 import { BuildingDetails } from '@screens/Building/Details';
 import { Guarantees } from '@screens/Guarantees';
+import { ClientRegistrationPage } from '@screens/Companies/List/utils/modals/ClientRegistrationPage';
+import { StatusPreRegister } from '@screens/StatusPreRegister';
 
 // CATEGORIES
 
@@ -30,6 +32,7 @@ const AppRoutes = () => (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/pre-cadastro-cliente" element={<ClientRegistrationPage />} />
 
         <Route
           path="/"
@@ -39,9 +42,10 @@ const AppRoutes = () => (
             </RequireAuth>
           }
         >
-          <Route index element={<Navigate to="/login" replace />} />
-
+          <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
+
+          <Route path="/pre-register" element={<StatusPreRegister />} />
 
           <Route path="/companies" element={<Outlet />}>
             <Route index element={<CompaniesList />} />
@@ -61,13 +65,11 @@ const AppRoutes = () => (
 
           <Route path="/maintenances" element={<MaintenancesList />} />
           <Route path="/videos" element={<PlatformVideos />} />
-
           <Route path="/guarantees" element={<Guarantees />} />
-
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/feed" element={<HomeFeed />} />
 
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -25,12 +25,21 @@ import { dateTimeFormatter } from '../../../utils/functions';
 
 // MODALS
 import { ModalCreateCompanyAndOwner } from './utils/modals/ModalCreateCompanyAndOwner';
+import { ModalRegisterClient } from './utils/modals/ModalRegisterClient';
 
 const flagColors: Record<string, string> = {
   red: '#e74c3c',
   yellow: '#f1c40f',
   green: '#2ecc71',
   gray: '#bdc3c7',
+};
+
+const clientTypeLabels: { [key: string]: string } = {
+  residentSyndic: 'Síndico Morador',
+  professionalSyndic: 'Síndico Profissional',
+  constructionCompany: 'Construtora',
+  administrationCompany: 'Administradora',
+  others: 'Outros',
 };
 
 export const CompaniesList = () => {
@@ -51,6 +60,8 @@ export const CompaniesList = () => {
 
   const [modalCreateCompanyAndOwnerIsOpen, setModalCreateCompanyAndOwnerIsOpen] =
     useState<boolean>(false);
+
+  const [modalRegisterClientIsOpen, setModalRegisterClientIsOpen] = useState<boolean>(false);
 
   const [search] = useSearchParams();
   const queryPage = Number(search.get('page'));
@@ -79,6 +90,15 @@ export const CompaniesList = () => {
           page={page}
           setCount={setCount}
           setModal={setModalCreateCompanyAndOwnerIsOpen}
+        />
+      )}
+
+      {modalRegisterClientIsOpen && (
+        <ModalRegisterClient
+          setCompanies={setCompanies}
+          page={page}
+          setCount={setCount}
+          setModal={setModalRegisterClientIsOpen}
         />
       )}
 
@@ -134,16 +154,28 @@ export const CompaniesList = () => {
                 />
               </Style.SearchField>
             </Style.LeftSide>
-            <IconButton
-              hideLabelOnMedia
-              fontWeight="500"
-              label="Cadastrar"
-              className="p2"
-              icon={icon.plusWithBg}
-              onClick={() => {
-                setModalCreateCompanyAndOwnerIsOpen(true);
-              }}
-            />
+            <Style.ButtonContainer>
+              <IconButton
+                hideLabelOnMedia
+                fontWeight="500"
+                label="Realizar pré cadastro"
+                className="p2"
+                icon={icon.plusWithBg}
+                onClick={() => {
+                  setModalRegisterClientIsOpen(true);
+                }}
+              />
+              <IconButton
+                hideLabelOnMedia
+                fontWeight="500"
+                label="Cadastrar"
+                className="p2"
+                icon={icon.plusWithBg}
+                onClick={() => {
+                  setModalCreateCompanyAndOwnerIsOpen(true);
+                }}
+              />
+            </Style.ButtonContainer>
           </Style.Header>
 
           {companies?.length ? (
@@ -158,7 +190,7 @@ export const CompaniesList = () => {
                     },
                   },
                   {
-                    label: 'Tipo de usuário',
+                    label: 'Tipo de cliente',
                   },
                   {
                     label: 'Responsável',
@@ -195,7 +227,9 @@ export const CompaniesList = () => {
                         },
                       },
                       {
-                        cell: company.clientType ?? '',
+                        cell: company.clientType
+                          ? clientTypeLabels[company.clientType] || company.clientType
+                          : '',
                         cssProps: { width: '15%' },
                       },
                       {

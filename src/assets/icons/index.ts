@@ -46,6 +46,7 @@ import enterprise from './enterprise.svg';
 import dashboard from './dashboard.svg';
 import chatbot from './chatbot.svg';
 import verified from './verified.svg';
+import register from './register.svg';
 
 export const icon = {
   enterprise,
@@ -58,6 +59,7 @@ export const icon = {
   addFile,
   leftArrow,
   paper,
+  register,
   eye,
   eyeWithBlueBg,
   plusWithBg,

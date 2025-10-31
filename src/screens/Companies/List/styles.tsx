@@ -74,3 +74,8 @@ export const Content = styled.div`
     height: calc(100vh - 184px);
   }
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  gap: ${theme.size.csm2};
+`;

@@ -29,7 +29,7 @@ export const ModalCreateCompanyAndOwner = ({
   const [onQuery, setOnQuery] = useState<boolean>(false);
 
   return (
-    <Modal title="Cadastrar usuário" setModal={setModal}>
+    <Modal title="Cadastrar empresa" setModal={setModal}>
       <Formik
         initialValues={{
           image: '',
