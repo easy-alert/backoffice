@@ -53,6 +53,8 @@ export const ClientRegistrationPage = () => {
   const [isFetchingCnpj, setIsFetchingCnpj] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const [submittedName, setSubmittedName] = useState('');
+
   useEffect(() => {
     const token = searchParams.get('token');
     if (!token) {
@@ -81,24 +83,35 @@ export const ClientRegistrationPage = () => {
     const token = searchParams.get('token');
     if (!token) return;
 
+    setSubmittedName(clientData.clientName);
+
+    const digits = clientData.CNPJorCPF?.replace(/[^\d]/g, '') ?? '';
+
+    const finalData = {
+      ...clientData,
+      cnpj: digits.length === 14 ? digits : null,
+      cpf: digits.length === 11 ? digits : null,
+    };
+    delete (finalData as any).CNPJorCPF;
+
     await finalizeRegistration({
-      data: clientData,
+      data: finalData as any,
       token,
       setIsSubmitting,
       setIsSuccess,
     });
   };
 
-  const handleCnpjBlur = async (
+  const handleDocumentBlur = async (
     e: React.FocusEvent<HTMLInputElement>,
     setFieldValue: (field: string, value: any) => void,
   ) => {
-    const cnpj = e.target.value.replace(/[^\d]/g, '');
-    if (cnpj.length !== 14) return;
+    const document = e.target.value.replace(/[^\d]/g, '');
+    if (document.length !== 14) return;
 
     setIsFetchingCnpj(true);
     try {
-      const { data } = await axios.get(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`);
+      const { data } = await axios.get(`https://brasilapi.com.br/api/cnpj/v1/${document}`);
       const address = `${data.logradouro}, ${data.numero} - ${data.bairro}, ${data.municipio} - ${data.uf}`;
       setFieldValue('address', address);
     } catch (err) {
@@ -126,14 +139,53 @@ export const ClientRegistrationPage = () => {
     return (
       <Style.Container>
         <Style.Wrapper>
-          <div style={{ textAlign: 'center' }}>
-            <h2>Cadastro finalizado com Sucesso!</h2>
-            <p style={{ marginTop: '16px', fontSize: '1.1rem', lineHeight: '1.6' }}>
-              Sua solicitação foi recebida.
-              <br />
-              Em breve, nossa equipe entrará em contato para marcar a implementação.
+          <Style.SuccessContainer>
+            <h2>Parabéns! Seu cadastro foi recebido!</h2>
+
+            <p>
+              Olá <strong>{submittedName}</strong>, tudo bem? Parabéns pela escolha da Easy Alert!
+              Esse é o primeiro passo para uma gestão de manutenções descomplicada e eficiente.
             </p>
-          </div>
+
+            <Style.InfoCard>
+              <Style.SectionTitle>
+                <span>📧</span>
+                <h3>Infos importantes do setor financeiro:</h3>
+              </Style.SectionTitle>
+              <p>
+                Boletos são enviados mensalmente pelo e-mail <strong>boleto@nibo.com.br</strong>,
+                com o assunto: “Lembrete de fatura – [{submittedName}]”.
+                <br />
+                Boletos e NFs também ficam disponíveis na aba <strong>Financeiro</strong> da
+                plataforma.
+              </p>
+            </Style.InfoCard>
+
+            <Style.InfoCard>
+              <Style.SectionTitle>
+                <span>🗓️</span>
+                <h3>Próximos Passos</h3>
+              </Style.SectionTitle>
+              <p>
+                O próximo passo é agendar sua primeira reunião de implementação com nossa equipe.
+              </p>
+
+              <div style={{ textAlign: 'center', margin: '16px 0' }}>
+                <Style.CalendlyButton
+                  href="https://calendly.com/suporte-easyalert/suporte-easy-alert"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  👉 Agendar Reunião de Implementação
+                </Style.CalendlyButton>
+              </div>
+              <Style.RequirementList>
+                <li>⏱️ A reunião dura de 1 a 2 horas.</li>
+                <li>💻 Participe por um computador, em local silencioso e com internet estável.</li>
+                <li>📂 Tenha em mãos o histórico de manutenções do condomínio.</li>
+              </Style.RequirementList>
+            </Style.InfoCard>
+          </Style.SuccessContainer>
         </Style.Wrapper>
       </Style.Container>
     );
@@ -168,7 +220,7 @@ export const ClientRegistrationPage = () => {
           initialValues={{
             logo: '',
             clientName: '',
-            cnpj: '',
+            CNPJorCPF: '',
             address: '',
             loginEmail: '',
             password: '',
@@ -180,6 +232,7 @@ export const ClientRegistrationPage = () => {
             cardExpiration: '',
             cardCVV: '',
             dueDay: '',
+            billingEmail: '',
             financialName: '',
             financialPhone: '',
             financialEmail: '',
@@ -219,10 +272,20 @@ export const ClientRegistrationPage = () => {
                 error={touched.contactPhone && errors.contactPhone ? errors.contactPhone : null}
               />
               <FormikInput
-                label="CNPJ *"
-                name="cnpj"
-                onBlur={(e) => handleCnpjBlur(e, setFieldValue)}
-                error={touched.cnpj && errors.cnpj ? errors.cnpj : null}
+                label="CNPJ/CPF *"
+                name="CNPJorCPF"
+                placeholder="Insira o CNPJ ou CPF"
+                error={touched.CNPJorCPF && errors.CNPJorCPF ? errors.CNPJorCPF : null}
+                onBlur={(e) => handleDocumentBlur(e, setFieldValue)}
+                onChange={(e) => {
+                  setFieldValue(
+                    'CNPJorCPF',
+                    applyMask({
+                      mask: e.target.value.length > 14 ? 'CNPJ' : 'CPF',
+                      value: e.target.value,
+                    }).value,
+                  );
+                }}
               />
               <FormikInput
                 label="Endereço"
@@ -289,16 +352,22 @@ export const ClientRegistrationPage = () => {
                   />
                 </>
               )}
-              <FormikInput
-                label="Dia de vencimento *"
+              <FormikSelect
+                label="Dia de vencimento da mensalidade *"
                 name="dueDay"
-                type="number"
                 error={touched.dueDay && errors.dueDay ? errors.dueDay : null}
-              />
+              >
+                <option value="">Selecione um dia</option>
+                <option value={5}>Dia 05</option>
+                <option value={10}>Dia 10</option>
+                <option value={15}>Dia 15</option>
+                <option value={20}>Dia 20</option>
+              </FormikSelect>
               <FormikInput
-                label="Nome do responsável financeiro *"
-                name="financialName"
-                error={touched.financialName && errors.financialName ? errors.financialName : null}
+                label="E-mail para receber as cobranças *"
+                name="billingEmail"
+                type="email"
+                error={touched.billingEmail && errors.billingEmail ? errors.billingEmail : null}
               />
               <FormikInput
                 label="Telefone do financeiro"

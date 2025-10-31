@@ -63,3 +63,82 @@ export const PlanSummary = styled.section`
     color: ${({ theme }) => theme.color.gray5};
   }
 `;
+
+export const SuccessContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: ${({ theme }) => theme.size.sm};
+
+  h2 {
+    color: ${({ theme }) => theme.color.primary};
+    margin-bottom: ${({ theme }) => theme.size.xsm};
+  }
+
+  p {
+    color: ${({ theme }) => theme.color.gray5};
+    line-height: 1.6;
+  }
+`;
+
+export const InfoCard = styled.div`
+  background-color: ${({ theme }) => theme.color.gray0};
+  border: 1px solid ${({ theme }) => theme.color.gray1};
+  border-radius: ${({ theme }) => theme.size.xsm};
+  padding: ${({ theme }) => theme.size.md};
+  margin-top: ${({ theme }) => theme.size.md};
+  text-align: left;
+
+  h3 {
+    margin: 0;
+    border: none;
+    padding: 0;
+    font-size: ${({ theme }) => theme.size.md};
+  }
+
+  small {
+    display: block;
+    margin-top: ${({ theme }) => theme.size.sm};
+    color: ${({ theme }) => theme.color.gray4};
+  }
+`;
+
+export const SectionTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.size.sm};
+  margin-bottom: ${({ theme }) => theme.size.sm};
+
+  span {
+    font-size: ${({ theme }) => theme.size.lg};
+  }
+`;
+
+export const CalendlyButton = styled.a`
+  display: inline-block;
+  background-color: ${({ theme }) => theme.color.primary};
+  color: ${({ theme }) => theme.color.white};
+  padding: ${({ theme }) => theme.size.sm} ${({ theme }) => theme.size.md};
+  border-radius: ${({ theme }) => theme.size.xsm};
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: ${({ theme }) => theme.size.xsm};
+  transition: background-color 0.2s;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.primary};
+  }
+`;
+
+export const RequirementList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin-top: ${({ theme }) => theme.size.md};
+  color: ${({ theme }) => theme.color.gray5};
+
+  li {
+    margin-bottom: ${({ theme }) => theme.size.xsm};
+  }
+`;

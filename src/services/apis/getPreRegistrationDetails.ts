@@ -23,7 +23,7 @@ export interface IInternalData {
 export interface IClientFormData {
   logo?: File | string;
   clientName: string;
-  cnpj: string;
+  CNPJorCPF: string;
   address: string;
   loginEmail: string;
   password?: string;
@@ -34,7 +34,8 @@ export interface IClientFormData {
   cardHolder?: string;
   cardExpiration?: string;
   cardCVV?: string;
-  dueDay: string;
+  dueDay: number | '';
+  billingEmail: string;
   financialName: string;
   financialPhone?: string;
   financialEmail?: string;
@@ -50,7 +51,13 @@ export interface IFinalizeRegistration {
 
 export const schemaClientValidation = Yup.object().shape({
   clientName: Yup.string().required('O nome é obrigatório'),
-  cnpj: Yup.string().required('O CNPJ é obrigatório'),
+  CNPJorCPF: Yup.string()
+    .required('Um CNPJ ou um CPF deve ser preenchido.')
+    .test('len', 'Informe um CNPJ ou um CPF válido.', (val) => {
+      if (!val) return false;
+      const digits = val.replace(/[^\d]/g, '');
+      return digits.length === 11 || digits.length === 14;
+    }),
   loginEmail: Yup.string().email('E-mail inválido').required('O e-mail de login é obrigatório'),
   password: Yup.string()
     .min(8, 'A senha deve ter no mínimo 8 caracteres')
@@ -79,8 +86,12 @@ export const schemaClientValidation = Yup.object().shape({
     is: 'cartao',
     then: (schema) => schema.required('O CVV é obrigatório').matches(/^\d{3,4}$/, 'CVV inválido'),
   }),
-  dueDay: Yup.number().required('O dia de vencimento é obrigatório').min(1).max(31),
-  financialName: Yup.string().required('O nome do responsável financeiro é obrigatório'),
+  dueDay: Yup.number()
+    .required('O dia de vencimento é obrigatório')
+    .oneOf([5, 10, 15, 20], 'O dia de vencimento deve ser 5, 10, 15 ou 20'),
+  billingEmail: Yup.string()
+    .email('E-mail inválido')
+    .required('O e-mail para receber as cobranças é obrigatório'),
   acceptTerms: Yup.boolean().oneOf([true], 'Você deve aceitar os termos de uso'),
 });
 
