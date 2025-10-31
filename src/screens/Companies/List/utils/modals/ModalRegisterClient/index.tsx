@@ -80,7 +80,7 @@ export const ModalRegisterClient = ({ setModal }: IModalPreRegistrationClient) =
                   error={touched.plan && errors.plan ? errors.plan : null}
                 >
                   <option value="">Selecione o plano</option>
-                  <option value="monthly">Mensal</option>
+                  <option value="semester">Semestral</option>
                   <option value="annual">Anual</option>
                 </FormikSelect>
 
