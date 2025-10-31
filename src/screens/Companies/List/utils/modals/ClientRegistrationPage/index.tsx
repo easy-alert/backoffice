@@ -235,7 +235,6 @@ export const ClientRegistrationPage = () => {
             billingEmail: '',
             financialName: '',
             financialPhone: '',
-            financialEmail: '',
             acceptTerms: false,
           }}
           validationSchema={schemaClientValidation}
@@ -370,7 +369,7 @@ export const ClientRegistrationPage = () => {
                 error={touched.billingEmail && errors.billingEmail ? errors.billingEmail : null}
               />
               <FormikInput
-                label="Telefone do financeiro"
+                label="Telefone do financeiro *"
                 name="financialPhone"
                 onChange={(e) =>
                   setFieldValue(
@@ -378,8 +377,10 @@ export const ClientRegistrationPage = () => {
                     applyMask({ value: e.target.value, mask: 'TEL' }).value,
                   )
                 }
+                error={
+                  touched.financialPhone && errors.financialPhone ? errors.financialPhone : null
+                }
               />
-              <FormikInput label="E-mail do financeiro" name="financialEmail" type="email" />
 
               <FormikCheckbox
                 label="Li e aceito os termos de uso do sistema."

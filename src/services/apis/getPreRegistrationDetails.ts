@@ -38,7 +38,6 @@ export interface IClientFormData {
   billingEmail: string;
   financialName: string;
   financialPhone?: string;
-  financialEmail?: string;
   acceptTerms: boolean;
 }
 
@@ -93,6 +92,8 @@ export const schemaClientValidation = Yup.object().shape({
     .email('E-mail inválido')
     .required('O e-mail para receber as cobranças é obrigatório'),
   acceptTerms: Yup.boolean().oneOf([true], 'Você deve aceitar os termos de uso'),
+
+  financialPhone: Yup.string().required('O telefone do financeiro é obrigatório'),
 });
 
 export async function getPreRegistrationDetails(token: string) {
